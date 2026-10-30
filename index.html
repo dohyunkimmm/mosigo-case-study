@@ -80,6 +80,19 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 .job-proof p{font-size:13px;line-height:1.75;margin-top:8px}
 .job-proof a{font-size:12px;font-weight:750}
 @media(max-width:800px){.market-steps,.job-proof{grid-template-columns:1fr}.role-note{display:block}.role-note strong{display:block;margin-bottom:5px}}
+
+/* Decision-ready project evidence and requirements, not recruitment notes */
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.before-after article{padding:21px 23px;border-radius:13px;border:1px solid var(--line);background:#f7faf6}
+.before-after article:last-child{background:#e8f3e7;border-color:#9ebfa3}
+.before-after article small{font-weight:850;color:#4d8260;letter-spacing:.06em}
+.before-after article strong{display:block;color:var(--forest);font-size:18px;margin:7px 0}
+.before-after article p{font-size:13px;line-height:1.72}
+.fin-bridge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.fin-bridge article{background:#f4f8f2;border:1px solid var(--line);padding:17px 18px;border-radius:12px}
+.fin-bridge small{display:block;font-size:12px;color:#536e5d}.fin-bridge strong{display:block;margin-top:7px;font-size:clamp(18px,1.9vw,27px);font-weight:800;color:#164a34;line-height:1.3}
+.fin-bridge em{display:block;color:#63786a;font-size:11px;font-style:normal;margin-top:5px}
+@media(max-width:800px){.before-after{grid-template-columns:1fr}.fin-bridge{grid-template-columns:1fr}}
 </style></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
@@ -164,13 +177,20 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <div class="pathway">
 <article><b>01</b><strong>가족 등록</strong><span>예약자·대상자 분리</span></article><article><b>02</b><strong>병원 탐색</strong><span>지역·진료과</span></article><article><b>03</b><strong>매니저 선택</strong><span>경력·정보 비교</span></article><article><b>04</b><strong>신청·동의</strong><span>정보·비용 확인</span></article><article><b>05</b><strong>진행 공유</strong><span>출발~귀가 상태</span></article><article><b>06</b><strong>리포트</strong><span>시연용 요약</span></article><article><b>07</b><strong>재예약</strong><span>이력 활용</span></article>
 </div>
+<h3 class="subhead">AS-IS → TO-BE · 고객 경험의 전환</h3>
+<div class="before-after">
+<article><small>AS-IS · 문제 가설</small><strong>예약 이후 정보가 분절된 경험</strong><p>보호자가 공급 조건을 따로 확인하고, 부모가 이용할 서비스 정보를 전달하며, 동행 진행은 개별 연락으로 파악하는 상황을 가정했습니다.</p></article>
+<article><small>TO-BE · MOSIGO 설계 방향</small><strong>하나의 흐름으로 연결되는 대리 예약</strong><p>예약자·이용자 정보 분리 → 매니저·요금 비교 → 동의 → 예약 → 권한에 맞는 진행 확인 → 재예약으로 여정을 통합합니다.</p></article>
+</div>
+<p class="table-foot">AS-IS는 인터뷰로 실증된 기존 업무 프로세스가 아니라 시장·사용자 조사에 기반한 개선 가설입니다. TO-BE는 목표 서비스 흐름입니다.</p>
 <h3 class="subhead">요구사항과 인수 기준</h3>
-<div class="tablewrap"><table class="tbl"><thead><tr><th>기능/정책</th><th>원본 확인 범위</th><th>추가 인수 기준 · 제안</th></tr></thead><tbody>
-<tr><th>예약 소유권</th><td>계정 세션·본인 예약 조회·복구 키 구현</td><td>타 계정 접근 거부, 복구 후 소유권 유지, 충돌 시 안내</td></tr>
-<tr><th>예약 공유</th><td>공유 발급·만료·폐기와 서버 검증 구현</td><td>공유 역할별 조회/변경 권한 정의, 만료·폐기 후 거부 테스트</td></tr>
-<tr><th>상태 전환</th><td>예약 상태·동행 타임라인 프로토타입</td><td>중복 요청·취소·연결 끊김·잘못된 순서의 전환 통제</td></tr>
-<tr><th>운영 화면</th><td>계정 소유 예약 조회 및 읽기 전용 샘플 화면</td><td>운영자 배정·감사이력은 별도 권한/제품 범위 합의 후 추진</td></tr>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>요구사항</th><th>핵심 정책</th><th>인수 기준 · 후속 검증안</th></tr></thead><tbody>
+<tr><th>FR-01 · 대리 예약</th><td>예약자와 대상자 정보를 분리하고, 동의 범위·유효성을 확인</td><td>동의 대상·필수 정보가 빠지면 신청 완료를 차단하고 사유를 설명</td></tr>
+<tr><th>FR-02 · 공유 권한</th><td>조회·변경을 권한별로 구분. 기존 사례는 기본 edit, read-only 선택 가능</td><td>읽기 전용 상태에서 변경 시 서버가 거부하며, 만료·폐기 이후 접근이 차단되는지 확인</td></tr>
+<tr><th>FR-03 · 상태·복구</th><td>전환 순서·중복 요청·예약 소유권 변경 시나리오 정의</td><td>연결 재진입 후 최신 상태 복구, 중복 요청·이전 버전 갱신은 충돌 안내</td></tr>
+<tr><th>FR-04 · 운영 예외</th><td>배정 변경, 취소·환불, 사고·연락 실패의 책임자와 처리 규칙 정의</td><td>원인·담당자·고객 안내·종결 기록까지 시나리오별 확인</td></tr>
 </tbody></table></div>
+<p class="table-foot">위 FR·인수 기준은 이 보고서에서 정리한 개인 기획안입니다. MOSIGO의 기존 예약·공유 구현에서 참고한 요소와 향후 실제 운영에서 검증할 정책을 구분합니다.</p>
 
 <h3 class="subhead">요구사항을 정책으로 번역</h3>
 <div class="job-proof">
@@ -218,6 +238,13 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 </div>
 <p class="table-foot">MOSIGO 사업기획서의 가격 가정입니다. 실제 판매가·계약 요금·매출 실적이 아니며, 아래 거래액 계산기의 평균 가격 4만 원과 별도로 해석합니다.</p>
 
+<h3 class="subhead">손익분기점(BEP) · 고정비 민감도 예시</h3>
+<div class="fin-bridge">
+<article><small>기준 객단가 − 건당 변동비</small><strong>10,000원/건</strong><em>40,000원 − 30,000원</em></article>
+<article><small>예시 연간 고정비</small><strong>1억 원</strong><em>검토용 가정 · 실측 비용 아님</em></article>
+<article><small>필요 연간 이용 건수</small><strong>10,000건</strong><em>1억 원 ÷ 10,000원/건</em></article>
+</div>
+<p class="table-foot">이 시나리오에서 손익분기 고객 수는 1인 연 1.5회 이용 시 약 6,667명입니다. 실제 고정비·인건비·보험·고객 획득·환불 비용을 확인해 재산정해야 합니다. 건당 공헌이익이 0 이하라면 주문량 증가만으로 손익분기점을 달성할 수 없습니다. 위 계산은 상단 계산기의 기본 입력값에만 해당합니다.</p>
 <h3 class="subhead">같은 거래액, 다른 수익모델</h3>
 <div class="model-grid">
 <article><span class="micro">DIRECT OPERATION</span><strong>직접 제공형</strong><p>고객에게 동행을 제공하는 운영 주체를 가정합니다. 계약과 책임 구조에 따라 총액 매출 인식 여부를 판단하며, 매니저 공급·취소·보험 비용을 부담할 수 있습니다.</p><small>비교 기준 · 고객 지불금액, 건당 변동비, 고정 운영비</small></article>
@@ -226,9 +253,9 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 </section>
 <section id="execution"><div class="section-title"><span class="eyebrow">07 / PRIORITIZATION &amp; DELIVERY</span><h2>어떤 순서로 검증하고 실행할 것인가</h2><p class="lead">고객 수요·공급·권한 검증을 먼저 배치하고, 검증 결과에 따라 MVP와 확장 범위를 결정하도록 실행안을 구성했습니다.</p></div>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>우선순위</th><th>할 일</th><th>결정 기준</th></tr></thead><tbody>
-<tr><th>P0 · 필수</th><td>고객 문제 인터뷰, 공급·원가 확인, 예약 주체·공유 권한 정리</td><td>수요 근거와 안전한 최소 운영 가능 여부</td></tr>
-<tr><th>P1 · 검증</th><td>핵심 예약 흐름 과업 테스트, 오류·취소·복구 QA, 실제 원가 기록</td><td>과업 완료율·예외 대응·운영 부담</td></tr>
-<tr><th>P2 · 확장</th><td>재예약, B2B/B2G 제휴, AI 기능의 범위 검토</td><td>수익성·운영 안정성 검증 결과에 따라</td></tr>
+<tr><th>P0 · 기반 검증</th><td>자녀 대리 예약 수요·부모 동의, 매니저 공급/원가, 예약·공유 권한의 필수 규칙</td><td>실제 고객 가치와 안전·공급 조건이 확인돼야 P1 진입</td></tr>
+<tr><th>P1 · 제한 운영 검증</th><td>예약 완료 과업, 공유·복구·취소 UAT, 배정 예외 및 고객지원 비용 측정</td><td>핵심 과업과 비용·책임 처리 기준 충족 여부</td></tr>
+<tr><th>P2 · 확대 검토</th><td>재예약·지역 확대·기업 제휴, AI 기반 매니저 비교 보조 기능 검토</td><td>반복 수요·단위경제성 확인 뒤 규모·범위 결정</td></tr>
 </tbody></table></div>
 <h3 class="subhead">검증 게이트 · 책임과 판단</h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>단계</th><th>핵심 산출물</th><th>확대 여부 판단</th></tr></thead><tbody>
@@ -237,11 +264,16 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <tr><th>G2 · 제품</th><td>예약·공유·복구 시나리오, QA·UAT 결과</td><td>핵심 여정 완수 및 접근 정책 검증</td></tr>
 <tr><th>G3 · 사업</th><td>재예약·CS 비용·단위경제성 지표</td><td>제휴·지역 확장 또는 모델 조정</td></tr>
 </tbody></table></div>
-<p class="table-foot">개인 PM 실행 설계안이며 실제 출시 일정·운영 성과가 아닙니다. 정량 목표는 파일럿 자료로 결정합니다.</p>
+<p class="table-foot">우선순위는 고객 영향, 안전·권한 위험, 선행 의존성, 검증 비용을 기준으로 정했습니다. 실제 출시 일정·성과가 아닌 개인 PM 설계안이며, 정량 목표는 파일럿 자료로 설정합니다.</p>
+<h3 class="subhead">AI 도입의 우선순위 판단</h3>
+<div class="tradeoff-grid">
+<article><strong>후속 검토 · 매니저 비교 보조</strong><p>선호 지역·동행 가능 시간 등 비의료 조건에 한해 추천 근거를 제시하고, 사용자가 직접 선택·수정할 수 있도록 설계합니다.</p></article>
+<article><strong>별도 검증 · 진료 정보 자동 요약</strong><p>건강정보 동의·정확성·오류 책임과 전문가 검토가 선행돼야 합니다. AI 요약 결과를 의료 판단이나 확정된 운영 기능으로 소개하지 않습니다.</p></article>
+</div>
 </section>
 <section id="measurement"><div class="section-title"><span class="eyebrow">08 / METRICS &amp; VALIDATION</span><h2>성과를 측정하는 기준 설계</h2><p class="lead">예약 퍼널과 사용성·재이용을 각각 구분해 측정하도록 설계했습니다. 실제 지표 수치는 파일럿 운영 단계에서 확보합니다.</p></div>
 <div class="grid g2">
-<div class="kpi"><span class="label">퍼널</span><h3>예약 완료율</h3><span class="formula">예약 완료 세션 ÷ 예약 시작 세션</span><p>이벤트: start → manager_selected → submit_success. QA·중복 세션 필터 기준 설계.</p></div>
+<div class="kpi"><span class="label">퍼널</span><h3>예약 완료율</h3><span class="formula">예약 완료 세션 ÷ 예약 시작 세션</span><p>계획 이벤트: booking_started → manager_selected → booking_submitted → booking_confirmed. 취소/중복·테스트 세션은 분모·분자 정의에 맞춰 필터링합니다.</p></div>
 <div class="kpi"><span class="label">사용성</span><h3>매니저 선택 성공률</h3><span class="formula">조건에 맞는 선택을 완료한 참가자 ÷ 과업 참가자</span><p>선택 근거 설명 여부와 이탈 단계를 기록.</p></div>
 <div class="kpi"><span class="label">정보 이해</span><h3>상태 이해도</h3><span class="formula">현재·다음 단계를 정확히 설명한 참가자 ÷ 응답자</span><p>보호자 진행 화면 과업 기반 측정.</p></div>
 <div class="kpi"><span class="label">리텐션</span><h3>90일 내 재예약률</h3><span class="formula">90일 내 재예약 고객 ÷ 추적 가능한 완료 고객</span><p>90일은 초기 검증을 위해 제안한 관찰기간입니다.</p></div></div>
@@ -267,21 +299,21 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 </section>
 <section id="decision"><div class="section-title"><span class="eyebrow">09 / DECISION MEMO</span><h2>MOSIGO 사업화 전략·최종 판단</h2><p class="lead">개인 전략 검토의 결론은 단계적 검증을 통한 진입 방식 선택입니다. 수요·원가·운영 책임이 확인되는 순서대로 사업 모델을 비교합니다.</p></div>
 <div class="memo"><span class="eyebrow">RECOMMENDATION</span><h3 class="memo-lead">자녀 대리 예약형 병원동행의<br>사업화 조건을 검증합니다.</h3>
-<div class="grid g2"><div><h3>선택 가능한 방식</h3><p>제한 지역 직접 제공 또는 기존 사업자 협업·중개. 수익 인식, 공급 원가, 책임 범위를 비교합니다.</p></div><div><h3>결정 전 확보 자료</h3><p>고객 인터뷰, 매니저 공급 단가, 실제 이용 흐름, 개인정보·안전 검토, 계약 조건.</p></div></div>
+<div class="grid g2"><div><h3>우선 검증할 방식</h3><p>기존 동행 사업자와의 협업을 가설로 우선 검토합니다. 공급·계약·고객정보 책임이 성립하는지 확인한 뒤 직접 제공형과 비교합니다.</p></div><div><h3>결정 전 확보 자료</h3><p>고객 인터뷰, 매니저 공급 단가, 실제 이용 흐름, 개인정보·안전 검토, 계약 조건.</p></div></div>
 <div class="verdict">G0~G2 검증 결과를 바탕으로 사업화·지역 확대 여부를 판단합니다.</div></div>
 
 <h3 class="subhead">실행 모델 선택 기준</h3>
 <div class="grid g3">
 <article class="panel"><span class="micro">OPTION 01 · DIRECT</span><h3>제한 지역 직접 제공</h3><p>서비스 품질 관리가 핵심인 경우 검토. 매니저 수급, 건당 원가, 사고 대응 역량 확인이 우선입니다.</p></article>
-<article class="panel"><span class="micro">OPTION 02 · PARTNER</span><h3>기존 사업자 협업</h3><p>공급 안정성이 핵심인 경우 검토. 수수료, 데이터·고객 책임, 예약 상태 연동 조건을 비교합니다.</p></article>
+<article class="panel dark"><span class="micro">OPTION 02 · 우선 검증</span><h3>기존 사업자 협업</h3><p>매니저 공급을 직접 구축하기 전에 수수료·가용 인력·책임·예약 상태 연동 조건을 검증하는 우선 가설입니다.</p></article>
 <article class="panel"><span class="micro">OPTION 03 · EXPAND</span><h3>기업·공공 제휴 확장</h3><p>반복 수요와 운영 경제성이 확인되면 검토. 도입 주체별 구매·운영 절차가 추가로 필요합니다.</p></article>
 </div>
 <p class="table-foot">세 방식은 실제 계약 체결이나 출시 경험이 아닌 후속 전략 선택지입니다.</p>
 <h3 class="subhead">전략적 결론</h3>
 <div class="grid g3">
-<article class="panel"><span class="micro">01 · CUSTOMER</span><h3>자녀를 우선 고객으로</h3><p>예약자와 서비스 이용자의 역할을 분리하고, 매니저 비교·진행 확인이 함께 필요한 상황부터 검증합니다.</p></article>
-<article class="panel"><span class="micro">02 · BUSINESS</span><h3>거래액보다 단위경제성</h3><p>고객 수와 가격만으로 사업성을 판단하지 않고, 지역별 공급 능력과 건당 원가·책임 구조를 함께 검토합니다.</p></article>
-<article class="panel"><span class="micro">03 · EXECUTION</span><h3>검증 결과로 확장 판단</h3><p>고객·공급·제품 검증을 거쳐 직접 제공과 제휴 방식을 비교하고, 재이용·지원 비용을 확인한 뒤 확대를 결정합니다.</p></article>
+<article class="panel"><span class="micro">01 · CUSTOMER</span><h3>자녀를 우선 고객으로</h3><p>예약자와 이용자가 다른 상황을 핵심 과제로 보고, 비교·진행 확인 경험의 필요성을 검증합니다.</p></article>
+<article class="panel"><span class="micro">02 · BUSINESS</span><h3>손익 구조 먼저 검증</h3><p>거래액 증가보다 건당 공헌이익과 고정비·공급능력을 먼저 확인해 사업화 조건을 판단합니다.</p></article>
+<article class="panel"><span class="micro">03 · EXECUTION</span><h3>제휴형 제한 검증 우선</h3><p>기존 공급자 협업의 계약·운영 가능성을 먼저 확인하고, 수요·공급·권한 검증 뒤 직접 제공 또는 확대 여부를 판단합니다.</p></article>
 </div>
 
 </section>
