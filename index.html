@@ -119,9 +119,30 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
  .tbl tbody tr>*:last-child,.blueprint tbody tr>*:last-child{border-bottom:0}
  .tbl tbody th::before,.tbl tbody td::before,.blueprint tbody td::before{content:attr(data-label);font-size:11px;font-weight:800;color:#365e44;line-height:1.55}
 }
+
+/* Structured, readable chapter navigation for the individual strategy report */
+@media(min-width:801px){
+ aside{background:#fbfcfa;border-right:1px solid #e1eae1}
+ .brand{padding:29px 22px 24px;border-bottom:0}
+ .toc-label{display:flex;align-items:center;justify-content:space-between;padding:17px 23px 8px;border-top:1px solid #edf1eb;color:#526958;font-size:11px;letter-spacing:.1em;font-weight:800}
+ .toc-label small{font-size:10px;letter-spacing:0;color:#4b6655}
+ .navigation{display:flex;flex-direction:column;gap:5px;flex:1;padding:10px 12px 18px;overflow-y:auto}
+ .nav-link{display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:11px;padding:9px 10px;min-height:51px;font-size:13px;line-height:1.45;font-weight:650;border:1px solid transparent;border-radius:11px;transition:background-color .15s,border-color .15s}
+ .nav-link b{display:grid;place-items:center;font-weight:800;font-size:11px;color:#365944;width:27px;height:27px;border-radius:8px;background:#edf2ec}
+ .nav-link.active{background:#e8f2e9;border:1px solid #cee2d2;color:#174d39;box-shadow:inset 3px 0 #327958;font-weight:800}
+ .nav-link.active b{background:#286246;color:#fff}
+ .nav-link:hover:not(.active){background:#eef4ed;color:#244e3b}
+}
+@media(max-width:800px){
+ .toc-label{display:none}
+ .nav-link b{background:#eef3ed;color:#365b44;border-radius:6px;padding:4px 5px}
+ .nav-link.active b{background:#286246;color:#fff}
+ .nav-link.active{box-shadow:none;background:#e8f2e9}
+}
 </style></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
+<div class="toc-label" aria-hidden="true"><span>CONTENTS</span><small>01 — 09</small></div>
 <nav class="navigation" aria-label="목차">
 <a class="nav-link active" href="#overview" aria-current="location"><b>01</b>프로젝트 개요</a>
 <a class="nav-link" href="#market"><b>02</b>문제·시장 근거</a>
