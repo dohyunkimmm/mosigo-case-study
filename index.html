@@ -350,7 +350,7 @@ function updateDataScrollAccess(){
   const overflows=region.scrollWidth>region.clientWidth+2;
   if(overflows){
    region.setAttribute('tabindex','0');
-   region.setAttribute('role','region');
+   region.setAttribute('role','group');
    const title=region.closest('section')?.querySelector('h2')?.textContent.trim()||'분석 자료';
    region.setAttribute('aria-label',title+' · 좌우 스크롤 표');
   }else{
