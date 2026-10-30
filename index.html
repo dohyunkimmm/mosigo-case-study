@@ -1,578 +1,98 @@
-<!DOCTYPE html><html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
-
-:root { --forest: #123f34; --deep: #0c302a; --leaf: #285d4b; --lime: #d6f279; --mint: #e5f0e9; --ink: #182a25; --body: #3d4b46; --mute: #697870; --line: #dbe5dd; --panel: #f5f8f4; --white: #fff; --aside: 258px; }
-
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; scroll-padding-top: 95px; }
-
-body { margin: 0px; background: rgb(255, 255, 255); color: var(--body); font-family: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; font-size: 15px; line-height: 1.85; word-break: keep-all; }
-
-a { color: var(--leaf); text-underline-offset: 4px; }
-
-a:hover { color: rgb(10, 73, 57); }
-
-button, input { font: inherit; }
-
-button, a, input { outline-offset: 3px; }
-
-button:focus-visible, a:focus-visible, input:focus-visible { outline: rgb(133, 183, 145) solid 3px; }
-
-h1, h2, h3, h4 { line-height: 1.45; color: var(--ink); letter-spacing: -0.045em; margin: 0px; }
-
-h1 { font-size: clamp(38px, 4.5vw, 70px); line-height: 1.23; font-weight: 800; }
-
-h2 { font-size: clamp(27px, 2.8vw, 37px); font-weight: 800; }
-
-h3 { font-size: 19px; }
-
-p { margin: 12px 0px 0px; }
-
-small, .small { font-size: 12px; color: var(--mute); }
-
-[hidden] { display: none !important; }
-
-.skip { position: fixed; top: -120px; left: 12px; padding: 10px 14px; background: rgb(255, 255, 255); z-index: 120; }
-
-.skip:focus { top: 12px; }
-
-aside { position: fixed; left: 0px; top: 0px; bottom: 0px; width: var(--aside); background: rgb(255, 255, 255); border-right: 1px solid var(--line); z-index: 30; display: flex; flex-direction: column; }
-
-.brand { padding: 30px 26px 22px; border-bottom: 1px solid var(--line); }
-
-.logo { font-weight: 900; font-size: 25px; letter-spacing: -0.07em; color: var(--forest); text-decoration: none; }
-
-.logo span { color: rgb(134, 173, 74); }
-
-.brand-sub { font-size: 10px; letter-spacing: 0.16em; color: var(--mute); margin-top: 5px; }
-
-.navigation { overflow: auto; flex: 1 1 0%; padding: 14px 0px; }
-
-.nav-link { display: flex; gap: 13px; padding: 13px 23px; min-height: 61px; text-decoration: none; color: var(--body); border-left: 3px solid transparent; transition: background 0.2s; }
-
-.nav-link:hover { background: var(--panel); }
-
-.nav-link.active { background: rgb(234, 243, 233); border-left-color: var(--leaf); }
-
-.nav-link b { min-width: 22px; font-size: 11px; color: rgb(98, 133, 117); padding-top: 3px; }
-
-.nav-link span { font-size: 12px; font-weight: 700; line-height: 1.55; }
-
-.nav-link em { font-size: 10px; font-weight: 400; font-style: normal; display: block; color: var(--mute); margin-top: 4px; }
-
-.nav-bottom { padding: 20px 26px; border-top: 1px solid var(--line); display: grid; gap: 8px; font-size: 11px; }
-
-.nav-bottom a { font-weight: 700; }
-
-.content { margin-left: var(--aside); }
-
-.top { height: 66px; position: sticky; top: 0px; z-index: 20; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(20px); border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 max(36px,calc((100vw - var(--aside) - 1110px)/2)); }
-
-.top-l { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--forest); }
-
-.top-r { display: flex; align-items: center; gap: 12px; }
-
-.top-r a { font-size: 11px; text-decoration: none; font-weight: 700; }
-
-.tag { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(199, 216, 203); border-radius: 99px; font-size: 10px; font-weight: 800; letter-spacing: 0.055em; padding: 6px 12px; color: var(--leaf); background: rgb(255, 255, 255); }
-
-.tag.dark { border-color: rgb(69, 109, 95); color: rgb(211, 233, 216); background: rgb(30, 83, 67); }
-
-.tag.lime { background: var(--lime); border-color: var(--lime); color: rgb(32, 58, 36); }
-
-.hero { background: var(--deep); color: rgb(226, 238, 230); position: relative; overflow: hidden; }
-
-.hero::before { content: ""; position: absolute; width: 580px; height: 580px; border: 1px solid rgba(215, 244, 191, 0.18); border-radius: 50%; right: -180px; top: -160px; box-shadow: rgba(229, 245, 226, 0.035) 0px 0px 0px 90px, rgba(229, 245, 226, 0.024) 0px 0px 0px 200px; }
-
-.hero-inner { max-width: 1130px; margin: auto; padding: 90px 36px 66px; position: relative; }
-
-.hero h1 { color: white; max-width: 840px; margin: 22px 0px 0px; }
-
-.hero h1 i { font-style: normal; color: var(--lime); }
-
-.hero .intro { font-size: 17px; line-height: 2; max-width: 700px; margin-top: 26px; color: rgb(209, 226, 214); }
-
-.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-
-.btn { padding: 12px 21px; border-radius: 999px; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; gap: 11px; text-decoration: none; cursor: pointer; border: 1px solid rgb(189, 213, 197); background: white; color: var(--forest); }
-
-.btn.primary { background: var(--lime); color: rgb(22, 56, 43); border-color: var(--lime); }
-
-.btn.ghost { background: transparent; border-color: rgb(99, 132, 115); color: rgb(232, 245, 229); }
-
-.metrics { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 70px; border-top: 1px solid rgba(255, 255, 255, 0.19); border-bottom: 1px solid rgba(255, 255, 255, 0.19); }
-
-.metrics > div { padding: 24px 18px; border-right: 1px solid rgba(255, 255, 255, 0.19); }
-
-.metrics > div:first-child { padding-left: 0px; }
-
-.metrics > div:last-child { border-right: 0px; }
-
-.metrics strong { display: block; font-size: 31px; color: white; line-height: 1.45; letter-spacing: -0.035em; }
-
-.metrics span { font-size: 11px; color: rgb(184, 209, 195); }
-
-.hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 21px; color: rgb(179, 202, 186); font-size: 11px; }
-
-section { max-width: 1130px; margin: 0px auto; padding: 94px 36px 98px; border-bottom: 1px solid var(--line); }
-
-.section-title { max-width: 880px; margin-bottom: 34px; }
-
-.eyebrow { font-weight: 800; font-size: 11px; letter-spacing: 0.14em; color: rgb(61, 119, 91); text-transform: uppercase; }
-
-.section-title h2 { margin-top: 15px; }
-
-.lead { font-size: 16px; color: var(--mute); max-width: 780px; line-height: 1.95; margin-top: 17px; }
-
-.grid { display: grid; gap: 17px; }
-
-.g2 { grid-template-columns: repeat(2, minmax(0px, 1fr)); }
-
-.g3 { grid-template-columns: repeat(3, minmax(0px, 1fr)); }
-
-.g4 { grid-template-columns: repeat(4, minmax(0px, 1fr)); }
-
-.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 25px; }
-
-.panel.white { background: rgb(255, 255, 255); }
-
-.panel.dark { background: var(--forest); color: rgb(231, 241, 233); border-color: var(--forest); }
-
-.panel.dark h3, .panel.dark h4 { color: white; }
-
-.panel small, .panel .micro { display: block; font-size: 11px; letter-spacing: 0.04em; color: rgb(99, 129, 109); margin-bottom: 8px; }
-
-.panel.dark .micro { color: rgb(193, 213, 201); }
-
-.panel h3 { font-size: 19px; }
-
-.panel p { font-size: 13px; line-height: 1.95; }
-
-.point { font-size: 42px; font-weight: 800; line-height: 1.25; letter-spacing: -0.04em; color: var(--forest); }
-
-.num { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; color: rgb(71, 120, 92); }
-
-.muted { color: var(--mute); }
-
-.label { display: inline-block; padding: 4px 9px; border-radius: 5px; background: rgb(224, 234, 223); color: rgb(52, 108, 77); font-size: 10px; font-weight: 800; }
-
-.label.orange { background: rgb(255, 240, 210); color: rgb(151, 98, 30); }
-
-.label.gray { background: rgb(232, 238, 235); color: rgb(102, 119, 107); }
-
-.callout { margin-top: 25px; padding: 22px 25px; background: rgb(232, 241, 233); border-left: 4px solid rgb(73, 127, 94); border-radius: 0px 14px 14px 0px; font-size: 13px; line-height: 1.9; }
-
-.callout.warning { background: rgb(249, 243, 232); border-left-color: rgb(200, 150, 70); }
-
-.callout strong { color: var(--ink); }
-
-.divider { height: 1px; background: var(--line); margin: 33px 0px; }
-
-.subhead { margin: 37px 0px 19px; font-size: 20px; }
-
-.tablewrap { border: 1px solid var(--line); border-radius: 15px; overflow: auto; background: rgb(255, 255, 255); }
-
-.tbl { border-collapse: collapse; width: 100%; min-width: 700px; text-align: left; }
-
-.tbl th, .tbl td { border-bottom: 1px solid var(--line); padding: 16px 17px; font-size: 12px; line-height: 1.8; vertical-align: top; }
-
-.tbl thead th { background: rgb(237, 243, 239); color: rgb(39, 75, 59); white-space: nowrap; font-size: 11px; }
-
-.tbl tbody th { font-size: 12px; color: var(--ink); font-weight: 700; }
-
-.tbl tbody tr:last-child > * { border-bottom: 0px; }
-
-.table-foot { font-size: 11px; color: var(--mute); margin-top: 12px; }
-
-.pathway { display: grid; grid-template-columns: repeat(7, minmax(0px, 1fr)); gap: 7px; }
-
-.pathway article { border: 1px solid var(--line); border-radius: 12px; padding: 16px 12px; background: rgb(247, 250, 247); position: relative; }
-
-.pathway article:not(:last-child)::after { content: "›"; position: absolute; right: -8px; top: 43%; color: var(--leaf); z-index: 2; font-size: 22px; font-weight: 900; }
-
-.pathway b { display: block; font-size: 10px; color: rgb(95, 146, 113); }
-
-.pathway strong { display: block; font-size: 12px; margin-top: 10px; line-height: 1.55; color: var(--ink); }
-
-.pathway span { display: block; font-size: 10px; color: var(--mute); margin-top: 9px; line-height: 1.55; }
-
-.journey { position: relative; margin-top: 10px; padding: 22px; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(140deg, rgb(243, 248, 242), rgb(255, 255, 255)); }
-
-.journey-graphic { display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-
-.journey-box { flex: 1 1 0%; min-width: 140px; max-width: 235px; background: white; border: 1px solid rgb(203, 222, 208); border-radius: 13px; padding: 17px; }
-
-.journey-box strong { display: block; font-size: 13px; color: var(--forest); }
-
-.journey-box span { display: block; font-size: 11px; color: var(--mute); }
-
-.journey-arrow { font-weight: 900; color: var(--leaf); }
-
-.pill { display: inline-flex; border-radius: 5px; background: rgb(217, 239, 177); color: rgb(40, 80, 59); padding: 2px 8px; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; }
-
-.steps { display: grid; gap: 0px; border: 1px solid var(--line); border-radius: 15px; overflow: hidden; }
-
-.step { padding: 21px 24px; display: grid; grid-template-columns: 60px 1fr 1.25fr; gap: 18px; border-bottom: 1px solid var(--line); align-items: start; }
-
-.step:last-child { border-bottom: 0px; }
-
-.step:nth-child(2n) { background: rgb(248, 250, 248); }
-
-.step-index { font-size: 13px; color: rgb(75, 118, 92); font-weight: 800; }
-
-.step h3 { font-size: 16px; }
-
-.step p { font-size: 12px; margin: 0px; }
-
-.risk { border-left: 4px solid rgb(196, 154, 83); }
-
-.success { border-left: 4px solid rgb(73, 150, 107); }
-
-.sim { border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
-
-.sim-head { padding: 26px 27px; background: var(--forest); color: white; }
-
-.sim-head h3 { color: white; }
-
-.sim-head p { font-size: 12px; color: rgb(199, 224, 208); }
-
-.sim-body { padding: 29px; background: rgb(248, 250, 248); display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-
-.control { margin-bottom: 22px; }
-
-.control label { display: flex; justify-content: space-between; gap: 15px; font-size: 13px; font-weight: 700; color: var(--ink); }
-
-.control output { color: var(--forest); font-weight: 800; }
-
-.control input[type="range"] { width: 100%; accent-color: rgb(35, 99, 75); margin: 12px 0px 0px; }
-
-.control small { display: block; }
-
-.result { background: rgb(255, 255, 255); border: 1px solid var(--line); border-radius: 13px; padding: 22px; display: grid; gap: 17px; }
-
-.result-line { display: flex; justify-content: space-between; gap: 14px; align-items: start; padding-bottom: 15px; border-bottom: 1px solid var(--line); }
-
-.result-line:last-child { padding: 0px; border: 0px; }
-
-.result-line span { font-size: 12px; color: var(--mute); }
-
-.result-line strong { display: block; font-size: 20px; color: var(--forest); }
-
-.result-line small { font-size: 10px; }
-
-.scenario { display: flex; gap: 3px; align-items: end; height: 160px; margin: 20px 0px; }
-
-.scenario .bar { flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 7px; height: 100%; }
-
-.scenario .bar span { width: 65%; min-height: 3px; border-radius: 5px 5px 0px 0px; background: rgb(52, 108, 82); }
-
-.scenario .bar:nth-child(1) span { background: rgb(160, 186, 167); }
-
-.scenario .bar:nth-child(3) span { background: rgb(166, 215, 106); }
-
-.scenario .bar b { font-size: 10px; }
-
-.scenario .bar small { font-size: 10px; }
-
-.gate { display: grid; grid-template-columns: 85px 1.1fr 1.45fr 1.2fr; gap: 13px; align-items: start; padding: 20px 13px; border-top: 1px solid var(--line); font-size: 12px; }
-
-.gate:first-of-type { border-top: 0px; }
-
-.gate strong { color: var(--forest); }
-
-.gate span { font-size: 11px; }
-
-.gate .gate-n { font-size: 13px; font-weight: 800; color: rgb(57, 115, 76); }
-
-.kpi { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
-
-.kpi h3 { font-size: 16px; }
-
-.kpi p { font-size: 12px; }
-
-.formula { display: block; font-size: 12px; font-weight: 700; color: var(--forest); padding: 14px; background: var(--panel); margin-top: 13px; border-radius: 8px; min-height: 75px; }
-
-.memo { background: var(--deep); color: rgb(230, 240, 232); padding: 38px; border-radius: 19px; }
-
-.memo h3, .memo h2 { color: white; }
-
-.memo .eyebrow { color: var(--lime); }
-
-.memo .memo-lead { font-size: 22px; color: white; line-height: 1.6; margin: 22px 0px; }
-
-.memo ul { padding-left: 21px; }
-
-.memo li { font-size: 13px; margin: 11px 0px; }
-
-.memo .verdict { margin-top: 25px; border-top: 1px solid rgb(83, 118, 101); padding-top: 20px; color: var(--lime); font-size: 17px; font-weight: 800; }
-
-.source-grid { display: grid; grid-template-columns: repeat(2, minmax(0px, 1fr)); gap: 12px; }
-
-.source-grid a { display: block; border: 1px solid var(--line); padding: 15px; border-radius: 10px; font-size: 12px; text-decoration: none; }
-
-.source-grid a:hover { background: var(--panel); }
-
-.footer { padding: 36px max(36px,calc((100vw - var(--aside) - 1110px)/2)); background: rgb(243, 247, 243); color: var(--mute); font-size: 11px; }
-
-.bottom-progress { position: fixed; left: var(--aside); right: 0px; bottom: 0px; height: 3px; background: rgb(238, 242, 237); z-index: 35; }
-
-.bottom-progress i { display: block; background: rgb(136, 184, 121); height: 100%; width: 0px; }
-
-.mobile-nav { display: none; }
-
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-
-@media (max-width: 1180px) {
-  :root { --aside: 226px; }
-  .hero-inner { padding: 68px 27px 56px; }
-  section { padding: 73px 28px; }
-  .top { padding: 0px 28px; }
-  .g4 { grid-template-columns: repeat(2, 1fr); }
-  .pathway { grid-template-columns: repeat(4, 1fr); }
-}
-
-@media (max-width: 800px) {
-  :root { --aside: 0px; }
-  aside { position: relative; width: 100%; height: auto; border-right: 0px; border-bottom: 1px solid var(--line); }
-  .brand { padding: 16px 20px 11px; display: flex; justify-content: space-between; align-items: center; }
-  .brand-sub { margin: 0px; }
-  .navigation { display: flex; overflow: auto; padding: 7px 12px 13px; gap: 6px; scrollbar-width: thin; }
-  .nav-link { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; min-height: 0px; white-space: nowrap; gap: 7px; }
-  .nav-link.active { border-color: var(--forest); color: var(--forest); }
-  .nav-link span { font-size: 11px; }
-  .nav-link em { display: none; }
-  .nav-bottom { display: none; }
-  .content { margin-left: 0px; }
-  .top { height: 54px; padding: 0px 19px; }
-  .top-r .tag { display: none; }
-  .hero-inner { padding: 58px 22px 38px; }
-  .hero .intro { font-size: 14px; }
-  .hero-actions { margin-top: 26px; }
-  .metrics { grid-template-columns: 1fr 1fr; margin-top: 42px; }
-  .metrics > div { border-bottom: 1px solid rgba(255, 255, 255, 0.18); padding: 17px !important; }
-  .metrics > div:nth-child(2) { border-right: 0px; }
-  .metrics strong { font-size: 25px; }
-  .hero-meta { font-size: 10px; }
-  section { padding: 60px 21px 68px; }
-  .section-title { margin-bottom: 24px; }
-  .lead { font-size: 14px; }
-  .g2, .g3, .g4 { grid-template-columns: 1fr; }
-  .grid { gap: 12px; }
-  .panel { padding: 22px; }
-  .pathway { grid-template-columns: repeat(2, 1fr); }
-  .journey-graphic { flex-direction: column; align-items: stretch; }
-  .journey-box { max-width: none; }
-  .journey-arrow { align-self: center; transform: rotate(90deg); }
-  .step { grid-template-columns: 35px 1fr; gap: 10px; }
-  .step p { grid-column: 2; }
-  .sim-body { grid-template-columns: 1fr; padding: 21px; }
-  .gate { grid-template-columns: 57px 1fr; gap: 9px; }
-  .gate > div:nth-child(3), .gate > div:nth-child(4) { grid-column: 2; }
-  .source-grid { grid-template-columns: 1fr; }
-  .memo { padding: 25px; }
-  .memo .memo-lead { font-size: 19px; }
-  .footer { padding: 28px 22px; }
-  .bottom-progress { left: 0px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  * { transition: none !important; }
-}
-
-@media print {
-  aside, .top, .bottom-progress, .hero-actions { display: none !important; }
-  .content { margin: 0px; }
-  .hero { background: rgb(255, 255, 255); color: rgb(34, 34, 34); }
-  .hero h1 { color: rgb(18, 63, 52); }
-  .hero h1 i { color: rgb(57, 108, 75); }
-  .hero .intro, .hero-meta { color: rgb(68, 68, 68); }
-  .hero::before { display: none; }
-  .metrics { border: 1px solid rgb(221, 221, 221); }
-  .metrics strong { color: rgb(18, 63, 52); }
-  .metrics span { color: rgb(85, 85, 85); }
-  section { break-inside: avoid; padding: 28px 18px; }
-  .memo { background: rgb(233, 241, 236); color: rgb(34, 34, 34); }
-  .memo h2, .memo h3, .memo .memo-lead { color: rgb(18, 63, 52); }
-}
-/* Case Study design QA: one Korean type system, readable scale, consistent density. */
-:root { --aside: 246px; --body:#33443c; --mute:#5f7066; --line:#dbe5dd; }
-body { font-family:"Pretendard Variable","Pretendard",-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; font-size:16px; line-height:1.72; letter-spacing:-.012em; overflow-wrap:break-word; }
-h1,h2,h3,h4 { letter-spacing:-.038em; line-height:1.38; text-wrap:pretty; }
-h1 { font-size:clamp(36px,4.5vw,64px); line-height:1.2; letter-spacing:-.05em; }
-h2 { font-size:clamp(27px,2.75vw,36px); }
-h3 { font-size:19px; }
-section[id] { scroll-margin-top:74px; }
-.section-title { max-width:850px; }
-.section-title h2 { max-width:800px; }
-.lead { font-size:16px; line-height:1.82; color:var(--body); }
-.eyebrow {font-size:12px;letter-spacing:.08em;}
-.nav-link {gap:12px;padding:12px 20px;min-height:57px;}
-.nav-link span {font-size:13px;line-height:1.55;}
-.nav-link b,.nav-link em {font-size:12px;}
-.nav-link.active {background:#edf5ee;}
-.tag {font-size:12px;letter-spacing:0;padding:6px 12px;}
-.hero .intro {font-size:18px;line-height:1.8;max-width:730px;}
-.hero-meta {font-size:12px;gap:9px;}
-.metrics strong {font-size:30px;}
-.metrics span {font-size:12px;}
-.panel,.kpi {min-width:0;}
-.panel p,.kpi p,.step p,.memo li,.sim-head p {font-size:14px;line-height:1.75;}
-.panel small,.panel .micro,.small,small,.num,.label,.tbl thead th,.table-foot,.gate span {font-size:12px;}
-.tbl th,.tbl td {font-size:13px;line-height:1.7;}
-.callout {font-size:14px;line-height:1.8;}
-.subhead {font-size:20px;line-height:1.4;}
-.btn {font-size:14px;min-height:44px;padding:11px 20px;transition:transform .16s ease,background .16s ease;}
-.btn:hover {transform:translateY(-1px);}
-.btn:focus-visible,.view-switch button:focus-visible {outline:3px solid #72b389;outline-offset:3px;}
-.panel {padding:25px;}
-.panel h3 {font-size:19px;}
-.hero-inner {max-width:1130px;}
-.tossface {font-family:"Tossface","Apple Color Emoji","Segoe UI Emoji",sans-serif; font-size:1.13em;font-weight:400;line-height:1;display:inline-block;vertical-align:-.06em;letter-spacing:0;}
-.nav-live {background:#f0f6e8;}
-.nav-live.active {background:#e3f0d8;}
-.live-section {padding-top:80px;padding-bottom:90px;}
-.live-section .section-title {margin-bottom:26px;}
-.live-summary {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:24px;}
-.live-summary article {border:1px solid var(--line);border-radius:14px;background:#f8faf7;padding:20px;min-width:0;}
-.live-summary .live-icon {display:inline-flex;width:40px;height:40px;align-items:center;justify-content:center;border-radius:12px;background:#e6efe5;margin-bottom:11px;font-size:21px;}
-.live-summary strong {display:block;color:var(--forest);font-size:15px;line-height:1.5;}
-.live-summary p {font-size:13px;line-height:1.7;margin-top:7px;}
-.source-status {display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:16px 19px;margin-bottom:20px;border:1px solid #d2e2d5;border-radius:14px;background:#edf6ee;}
-.source-status strong {color:var(--forest);font-size:15px;}
-.source-status p {margin:2px 0 0;font-size:13px;line-height:1.65;}
-.source-status a {font-weight:700;font-size:13px;white-space:nowrap;}
-.preview-shell {overflow:hidden;border:1px solid #d4e1d7;border-radius:20px;background:#e9f0eb;box-shadow:0 16px 44px rgba(16,63,44,.065);}
-.preview-toolbar {padding:15px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--forest);color:#fff;}
-.preview-toolbar .preview-name {font-size:14px;font-weight:750;display:flex;align-items:center;gap:9px;}
-.preview-toolbar .preview-name small {font-size:12px;color:#d6e6d9;font-weight:400;}
-.view-switch {display:flex;gap:4px;padding:4px;border:1px solid #547866;border-radius:10px;}
-.view-switch button {border:0;border-radius:7px;background:transparent;color:#eef5ed;min-height:35px;padding:6px 12px;cursor:pointer;font-size:13px;font-weight:650;}
-.view-switch button[aria-pressed="true"] {background:#fff;color:var(--forest);}
-.preview-stage {display:flex;justify-content:center;align-items:flex-start;min-height:620px;padding:20px;transition:padding .2s ease;}
-.preview-stage iframe {display:block;width:100%;height:620px;border:0;background:#fff;border-radius:10px;box-shadow:0 6px 22px rgba(14,52,37,.08);transition:width .25s ease;}
-.preview-stage.is-mobile iframe {width:min(100%,390px);border-radius:22px;}
-.preview-caption {font-size:12px;line-height:1.65;color:var(--mute);margin-top:13px;}
-.preview-actions {display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:19px;}
-.preview-actions p {font-size:13px;color:var(--mute);margin:0;}
-@media(max-width:1180px) { :root {--aside:226px;} }
-@media(max-width:800px) {
- body{font-size:15px;}
- .hero .intro,.lead{font-size:15px;line-height:1.78;}
- .nav-link span{font-size:12px;}
- .nav-link em{display:none;}
- .panel p,.kpi p,.step p{font-size:14px;}
- .live-section{padding-top:60px;padding-bottom:68px;}
- .live-summary{grid-template-columns:1fr;}
- .live-summary article{padding:17px 19px;}
- .preview-stage{padding:12px;min-height:550px;}
- .preview-stage iframe{height:550px;}
- .preview-toolbar{padding:12px 14px;}
- .view-switch button{font-size:12px;}
- .tablewrap{overscroll-behavior-x:contain;}
- .hero-inner{padding-top:54px;}
-}
-@media(max-width:450px){
- .preview-stage{padding:7px;}
- .preview-stage iframe{border-radius:8px;}
- .preview-stage.is-mobile iframe{border-radius:12px;}
- .view-switch{width:100%;justify-content:center;}
- .view-switch button{flex:1;}
- .preview-toolbar .preview-name{width:100%;}
- .top-l{letter-spacing:0;font-size:10px;}
- .top-r a{font-size:11px;}
-}
-@media(prefers-reduced-motion:reduce){.btn,.preview-stage iframe{transition:none;}}
-@media print{.preview-shell,.preview-actions,.view-switch{display:none!important;}.live-summary{grid-template-columns:repeat(3,1fr);}}
-
-
-.source-features {border:1px solid var(--line);border-radius:18px;padding:23px 25px;margin-bottom:22px;background:#fff;}
-.source-features-head {display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-.source-features-head h3 {font-size:21px;margin-top:6px;}
-.source-features-head a {font-size:13px;font-weight:700;}
-.source-features-note {font-size:13px;color:var(--mute);margin:7px 0 13px;}
-.source-feature-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px;list-style:none;padding:0;margin:0;}
-.source-feature-list li {border-top:1px solid #e2eae1;padding:13px 0 3px;min-width:0;}
-.source-feature-list strong {display:block;color:var(--forest);font-size:14px;line-height:1.5;}
-.source-feature-list span {display:block;font-size:13px;line-height:1.7;margin-top:4px;}
-@media(max-width:800px){.source-feature-list{grid-template-columns:1fr;}.source-features{padding:20px;}}
-
-
-/* Finish legibility pass for dense data and process diagrams. */
-.pathway{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
-.pathway article{padding:17px;}
-.pathway b,.pathway span,.journey-box span,.scenario .bar b,.scenario .bar small,.result-line small,.result-line span,.step-index,.top-r a,.top-l,.footer,.nav-bottom,.brand-sub{font-size:12px;line-height:1.65;}
-.pathway strong,.journey-box strong{font-size:14px;}
-.result-line strong{font-size:21px;}
-.control small,.control label,.formula,.gate,.gate strong{font-size:13px;}
-.source-grid a{font-size:13px;min-height:44px;}
-@media(max-width:800px){.pathway{grid-template-columns:repeat(2,minmax(0,1fr));}.pathway strong{font-size:13px;}}
-@media(max-width:420px){.pathway{grid-template-columns:1fr;}.pathway article:not(:last-child)::after{display:none;}}
-
-</style>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="MOSIGO 전략기획 사례. 문제 정의, 시장 근거, 서비스 설계, 사업성 가정과 검증 계획.">
-<meta name="theme-color" content="#123f34">
-<title>MOSIGO | Strategy Case Study</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/gh/toss/tossface/dist/tossface.css" rel="stylesheet">
-
-</head><body>
-<a class="skip" href="#live">본문으로 건너뛰기</a>
-<aside aria-label="케이스 스터디 탐색">
- <div class="brand"><a href="#top" class="logo">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
- <nav class="navigation" aria-label="목차">
-<a class="nav-link active" href="#live" aria-current="location"><b>01</b><span>최신 데모</span></a>
-<a class="nav-link" href="#overview"><b>02</b><span>문제 정의</span></a>
-<a class="nav-link" href="#market"><b>03</b><span>시장 근거</span></a>
-<a class="nav-link" href="#experience"><b>04</b><span>서비스 설계</span></a>
-<a class="nav-link" href="#business"><b>05</b><span>사업성 검토</span></a>
-<a class="nav-link" href="#validation"><b>06</b><span>검증 계획</span></a>
-<a class="nav-link" href="#decision"><b>07</b><span>최종 판단</span></a>
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123e33"><meta name="description" content="MOSIGO 전략기획 케이스 스터디. 병원동행 대리 예약 문제 정의부터 고객·시장 조사, PRD와 IA, 사업성 가정, PM 실행 계획, KPI·의사결정까지."><title>MOSIGO | Strategy Case Study</title><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet"><link href="https://cdn.jsdelivr.net/gh/toss/tossface/dist/tossface.css" rel="stylesheet"><style>
+:root{--ink:#192c25;--body:#34453d;--muted:#5c7064;--forest:#123e33;--dark:#0d3028;--lime:#d6ef8a;--line:#dce7df;--panel:#f5f8f4;--white:#fff;--aside:244px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:85px}body{margin:0;background:#fff;color:var(--body);font-family:"Pretendard Variable","Pretendard",-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo",sans-serif;font-size:16px;line-height:1.78;letter-spacing:-.017em;word-break:keep-all}
+a{color:#235c48;text-underline-offset:4px}a:hover{color:#143d32}button,input{font:inherit}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #65ad7a;outline-offset:3px}h1,h2,h3,h4{margin:0;color:var(--ink);line-height:1.35;letter-spacing:-.043em}h1{font-size:clamp(35px,4.4vw,65px);line-height:1.17;letter-spacing:-.055em}h2{font-size:clamp(27px,2.8vw,39px)}h3{font-size:18px}p{margin:10px 0 0}small,.small{font-size:12px;color:var(--muted)}[hidden]{display:none!important}
+.skip{position:fixed;top:-140px;left:16px;z-index:100;padding:11px 18px;background:#fff;border:2px solid var(--forest);border-radius:10px}.skip:focus{top:15px}
+aside{position:fixed;inset:0 auto 0 0;width:var(--aside);background:#fff;border-right:1px solid var(--line);z-index:30;display:flex;flex-direction:column}
+.brand{padding:29px 24px 20px;border-bottom:1px solid var(--line)}.logo{font-weight:900;font-size:26px;letter-spacing:-.06em;color:var(--forest);text-decoration:none}.logo span{color:#91b66b}.brand-sub{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.075em}
+.navigation{flex:1;overflow-y:auto;padding:13px 0}.nav-link{display:flex;gap:12px;align-items:center;padding:12px 21px;min-height:50px;text-decoration:none;border-left:3px solid transparent;color:var(--body);font-weight:650;font-size:13px}.nav-link b{color:#59816c;font-size:12px;font-variant-numeric:tabular-nums}.nav-link:hover{background:#f4f8f3}.nav-link.active{border-left-color:#347957;background:#eaf4eb;color:#174d39}.nav-bottom{padding:19px 23px;border-top:1px solid var(--line);display:grid;gap:8px;font-size:12px}
+.content{margin-left:var(--aside)}.top{height:64px;position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 max(32px,calc((100vw - var(--aside) - 1110px)/2));background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}.top-l{font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--forest)}.top-r{font-size:12px;font-weight:700;text-decoration:none}
+.hero{background:var(--dark);color:#e8f4e8;position:relative;overflow:hidden}.hero:after{content:"";pointer-events:none;position:absolute;right:-190px;top:-205px;width:590px;height:590px;border:1px solid rgba(218,245,201,.2);border-radius:50%;box-shadow:0 0 0 85px rgba(218,245,201,.03),0 0 0 185px rgba(218,245,201,.02)}.hero-inner{max-width:1130px;margin:auto;padding:90px 36px 66px;position:relative;z-index:1}.hero h1{color:#fff;max-width:900px;margin-top:19px}.hero h1 i{font-style:normal;color:var(--lime)}.hero .intro{max-width:760px;font-size:18px;line-height:1.8;color:#dbeadf;margin-top:24px}.hero-meta{font-size:12px;color:#c1d6c9;margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:29px}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid #d2dfd3;border-radius:99px;padding:5px 12px;font-size:12px;font-weight:750;letter-spacing:.01em;color:#27614a;background:#fff}.tag.dark{border-color:#567c6b;background:#245344;color:#e4f4e2}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;min-height:44px;border:1px solid #b6caba;border-radius:99px;padding:10px 20px;font-size:14px;font-weight:750;background:#fff;color:var(--forest)}.btn.primary{background:var(--lime);color:#213d2a;border-color:var(--lime)}.btn.ghost{background:transparent;border-color:#83a48c;color:#fff}.btn:hover{transform:translateY(-1px)}.btn svg{width:16px;height:16px}.tossface{font-family:Tossface,"Apple Color Emoji","Segoe UI Emoji",sans-serif;font-weight:400;line-height:1;letter-spacing:0}
+section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px solid var(--line);scroll-margin-top:66px}.section-title{max-width:830px;margin-bottom:28px}.eyebrow{display:block;color:#327252;font-size:12px;font-weight:850;letter-spacing:.09em}.section-title h2{margin-top:13px}.lead{font-size:16px;line-height:1.84;max-width:760px;margin-top:13px}
+.grid{display:grid;gap:15px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.panel{border:1px solid var(--line);background:var(--panel);border-radius:17px;padding:24px;min-width:0}.panel.white{background:white}.panel.dark{background:var(--forest);color:#e8f3e9;border-color:var(--forest)}.panel.dark h3{color:white}.panel.dark .label{background:#d0ecce;color:#1a4935}.panel .micro{font-size:12px;font-weight:700;color:#54755d;display:block;margin-bottom:7px}.panel.dark .micro{color:#d2e5d8}.panel h3{font-size:18px}.panel p{font-size:14px;line-height:1.75}.num{font-size:12px;color:#4a8861;letter-spacing:.045em;font-weight:800;display:block;margin-bottom:8px}.point{font-size:37px;font-weight:850;color:var(--forest);line-height:1.3;letter-spacing:-.035em}.panel.dark .point{color:var(--lime)}.label{display:inline-block;padding:3px 10px;border-radius:6px;background:#e2eee1;color:#296b4b;font-size:12px;font-weight:800}.label.orange{background:#fff0d8;color:#80561f}.label.gray{background:#e9eeeb;color:#50675a}
+.callout{border-left:3px solid #528b68;border-radius:0 13px 13px 0;padding:19px 23px;background:#ecf5ed;font-size:14px;line-height:1.78;margin-top:22px}.callout.warning{border-left-color:#b98742;background:#faf4e9}.callout strong{color:var(--ink)}.subhead{font-size:20px;margin:37px 0 18px}.divider{border:0;border-top:1px solid var(--line);margin:27px 0}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px;overscroll-behavior-x:contain}.tbl{border-collapse:collapse;width:100%;min-width:670px;text-align:left}.tbl th,.tbl td{padding:15px 15px;border-bottom:1px solid var(--line);font-size:13px;line-height:1.7;vertical-align:top}.tbl thead th{background:#edf4ee;color:#244c36;white-space:nowrap;font-weight:800}.tbl tbody th{color:var(--ink);font-weight:780}.tbl tbody tr:last-child>*{border:0}.table-foot{font-size:12px;color:var(--muted);margin-top:11px}
+.pathway{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.pathway article{border:1px solid var(--line);background:#f8faf7;border-radius:13px;padding:18px;min-width:0}.pathway b{font-size:12px;color:#4b8b64;display:block;margin-bottom:10px}.pathway strong{font-size:14px;color:var(--ink);display:block}.pathway span{font-size:12px;color:var(--muted);display:block;margin-top:6px}
+.steps{border:1px solid var(--line);border-radius:14px;overflow:hidden}.step{display:grid;grid-template-columns:70px 1fr 1.7fr;gap:16px;padding:19px 23px;align-items:start;border-bottom:1px solid var(--line)}.step:last-child{border:0}.step:nth-child(even){background:#f8faf8}.step-index{font-size:12px;color:#45765b;font-weight:850}.step h3{font-size:16px}.step p{font-size:13px;margin:0}
+.kpi{border:1px solid var(--line);border-radius:14px;background:white;padding:20px;min-width:0}.kpi h3{font-size:16px}.kpi p{font-size:13px;line-height:1.7}.formula{display:block;background:#f2f7f1;border-radius:8px;padding:12px;font-size:13px;color:#2d6149;font-weight:720;margin-top:12px;min-height:54px}
+.sim{border:1px solid var(--line);border-radius:18px;overflow:hidden}.sim-head{padding:23px 25px;background:var(--forest);color:#fff}.sim-head h3{color:#fff}.sim-head p{font-size:13px;color:#d2e6d6}.sim-body{padding:25px;background:#f8faf8;display:grid;grid-template-columns:1fr 1fr;gap:23px}.control{margin-bottom:17px}.control label{display:flex;justify-content:space-between;gap:12px;color:var(--ink);font-size:13px;font-weight:750}.control output{color:#215a3f;font-weight:850}.control input[type=range]{width:100%;accent-color:#28664b;margin-top:10px}.control small{display:block;font-size:12px}.result{display:grid;gap:14px;background:white;border:1px solid var(--line);border-radius:13px;padding:21px}.result-line{display:flex;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}.result-line:last-child{border:0;padding-bottom:0}.result-line span{font-size:12px}.result-line strong{font-size:19px;color:var(--forest);display:block}.result-line small{display:block}.scenario{display:flex;align-items:end;gap:7px;height:150px;padding:20px 0}.scenario .bar{flex:1;display:flex;height:100%;align-items:center;justify-content:end;flex-direction:column;gap:6px}.scenario .bar span{width:60%;min-height:3px;background:#3a7254;border-radius:5px 5px 0 0}.scenario .bar:nth-child(1) span{background:#9bb8a0}.scenario .bar:nth-child(3) span{background:#b5db84}.scenario .bar b,.scenario .bar small{font-size:12px}
+.memo{background:var(--dark);color:#e2f0e5;border-radius:19px;padding:34px}.memo h3,.memo h2{color:white}.memo .eyebrow{color:var(--lime)}.memo-lead{font-size:clamp(21px,2.25vw,27px);line-height:1.52;color:#fff}.memo .grid{margin-top:25px}.memo .grid p{font-size:14px;line-height:1.7}.memo .verdict{color:var(--lime);font-size:17px;font-weight:850;margin-top:22px;padding-top:17px;border-top:1px solid #5c7967}
+.source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.source-grid a{border:1px solid var(--line);padding:14px 16px;border-radius:10px;font-size:13px;font-weight:700;display:block;text-decoration:none;min-height:44px}.source-grid a:hover{background:var(--panel)}.footer{background:#f2f7f2;color:var(--muted);padding:27px max(32px,calc((100vw - var(--aside) - 1110px)/2));font-size:12px}.bottom-progress{position:fixed;bottom:0;left:var(--aside);right:0;height:3px;background:#e6eee6;z-index:35}.bottom-progress i{display:block;height:100%;width:0;background:#8eb77b}
+.capability{display:flex;gap:10px;align-items:start}.capability .tossface{font-size:23px;line-height:1.4}.capability h3{margin:0}.capability p{margin-top:6px}.timeline{counter-reset:seq;display:grid;gap:11px}.timeline article{display:grid;grid-template-columns:98px 1fr;gap:18px;align-items:start;padding:17px 19px;border:1px solid var(--line);border-radius:12px}.timeline b{color:var(--forest);font-size:13px}.timeline strong{color:var(--ink);font-size:15px;display:block}.timeline p{font-size:13px;margin-top:5px}.evidence{display:inline-flex;align-items:center;gap:5px;font-size:11px;border-radius:5px;padding:2px 8px;font-weight:800;background:#e8f2e6;color:#24603f}.evidence.proposed{background:#fff1da;color:#815a22}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:23px}
+@media(max-width:1180px){:root{--aside:220px}.hero-inner{padding:74px 28px 58px}section{padding:72px 28px}.top{padding:0 27px}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){:root{--aside:0px}aside{position:relative;width:100%;height:auto;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:15px 20px 11px;display:flex;align-items:center;justify-content:space-between}.brand-sub{margin-top:0}.navigation{display:flex;gap:6px;overflow:auto;flex:none;padding:7px 10px 12px}.nav-link{border:1px solid var(--line);border-radius:8px;padding:9px 12px;white-space:nowrap;min-height:40px}.nav-link.active{border-color:#337857}.nav-bottom{display:none}.content{margin-left:0}.top{height:53px;padding:0 19px}.hero-inner{padding:57px 22px 46px}.hero .intro{font-size:16px}.hero:after{opacity:.4}section{padding:57px 21px 65px}.g2,.g3{grid-template-columns:1fr}.panel{padding:21px}.step{grid-template-columns:42px 1fr;gap:7px 12px;padding:18px}.step p{grid-column:2}.pathway{grid-template-columns:repeat(2,minmax(0,1fr))}.sim-body{grid-template-columns:1fr;padding:20px}.source-grid{grid-template-columns:1fr}.memo{padding:25px}.timeline article{grid-template-columns:1fr;gap:5px}.bottom-progress{left:0}.footer{padding:26px 22px}.lead{font-size:15px}.top-l{font-size:10px}}
+@media(max-width:440px){.pathway{grid-template-columns:1fr}.hero-meta{gap:5px}.top-r{font-size:11px}.hero h1{font-size:36px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{aside,.top,.bottom-progress,.hero-actions,.actions{display:none!important}.content{margin:0}section{break-inside:avoid;padding:28px 12px}.hero{background:white;color:#192c25}.hero h1,.hero h1 i{color:#123e33}.hero .intro,.hero-meta{color:#34453d}}
+</style></head>
+<body><a class="skip" href="#overview">본문으로 건너뛰기</a>
+<aside aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
+<nav class="navigation" aria-label="목차">
+<a class="nav-link active" href="#overview" aria-current="location"><b>01</b>프로젝트 개요</a>
+<a class="nav-link" href="#market"><b>02</b>문제·시장 근거</a>
+<a class="nav-link" href="#customer"><b>03</b>고객·가치 가설</a>
+<a class="nav-link" href="#product"><b>04</b>제품 전략·요구사항</a>
+<a class="nav-link" href="#business"><b>05</b>사업성 검토</a>
+<a class="nav-link" href="#execution"><b>06</b>우선순위·실행</a>
+<a class="nav-link" href="#measurement"><b>07</b>지표·검증</a>
+<a class="nav-link" href="#decision"><b>08</b>의사결정</a>
 </nav>
- 
-</aside>
-<main class="content" id="top">
-<div class="top"><div class="top-l">MOSIGO / CASE STUDY</div><div class="top-r"><span class="tag">2026 · 팀 프로젝트</span><a href="#decision">결론 →</a></div></div>
-<header class="hero"><div class="hero-inner"><span class="tag dark">MOSIGO · STRATEGY CASE</span><h1>부모의 병원동행,<br><i>예약은 자녀가 맡는다면?</i></h1><p class="intro">대리 예약의 불편에서 출발해 서비스 흐름과 사업성, 검증 기준을 설계했습니다.</p><div class="hero-actions"><a class="btn primary" href="#overview">사례 읽기 →</a><a class="btn ghost" href="#live">데모 보기 ↗</a></div><div class="hero-meta"><span>팀 조사·프로토타입 기반</span><span>·</span><span>이후 개인 전략 분석 보완</span></div></div></header>
-
-
-<section id="live" class="live-section" aria-labelledby="liveTitle">
-<div class="section-title"><span class="eyebrow">01 / LIVE DEMO</span><h2 id="liveTitle">최신 MOSIGO 데모</h2></div>
-<div class="source-status" aria-live="polite"><div><strong>원본 업데이트</strong><p id="sourceMeta">버전 확인 중</p></div><a id="sourceCommit" href="https://github.com/dohyunkimmm/mosigo/commits/main" target="_blank" rel="noopener noreferrer">변경 이력 ↗</a></div>
-<div class="source-features" aria-labelledby="sourceFeaturesTitle"><div class="source-features-head"><h3 id="sourceFeaturesTitle">주요 기능</h3><a href="https://github.com/dohyunkimmm/mosigo#주요-기능" target="_blank" rel="noopener noreferrer">원본 README ↗</a></div><p id="sourceFeaturesNote" class="source-features-note">기능 불러오는 중</p><ul class="source-feature-list" id="sourceFeatureList">
-<li><strong>병원·매니저 탐색</strong><span>조건 탐색과 매칭</span></li><li><strong>예약·동행</strong><span>진행 확인과 재예약</span></li><li><strong>예약 복원·공유</strong><span>복구 키와 공유 권한</span></li><li><strong>Operations</strong><span>예약 현황과 샘플 화면</span></li>
-</ul></div>
-<div class="preview-shell"><div class="preview-toolbar"><div class="preview-name"><span class="tossface" aria-hidden="true">📱</span><div>MOSIGO <small>서비스 데모</small></div></div><div class="view-switch" role="group" aria-label="화면 너비"><button type="button" id="viewWide" aria-pressed="true">넓게</button><button type="button" id="viewNarrow" aria-pressed="false">모바일</button></div></div>
-<div class="preview-stage" id="previewStage"><iframe src="https://mosigo-nine.vercel.app/" title="MOSIGO 서비스 데모" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></div>
-<div class="preview-actions"><a class="btn primary" href="https://mosigo-nine.vercel.app/" target="_blank" rel="noopener noreferrer">데모 새 창에서 열기 ↗</a><p>미리보기가 차단되면 새 창으로 여세요.</p></div>
-</section>
-<section id="overview"><div class="section-title"><span class="eyebrow">02 / PROBLEM</span><h2>예약자와 이용자가 다르다</h2><p class="lead">부모가 서비스를 이용하지만, 자녀가 선택·예약·확인을 맡는 상황에 집중했습니다.</p></div>
+<div class="nav-bottom"><a href="https://mosigo-nine.vercel.app/" target="_blank" rel="noopener noreferrer">서비스 데모 ↗</a><a href="https://github.com/dohyunkimmm/mosigo" target="_blank" rel="noopener noreferrer">원본 소스 ↗</a></div></aside>
+<main class="content" id="top"><div class="top"><div class="top-l">MOSIGO / STRATEGY CASE STUDY</div><a class="top-r" href="#decision">최종 판단 보기 ↗</a></div>
+<header class="hero"><div class="hero-inner"><span class="tag dark">NEW BUSINESS · PRODUCT STRATEGY · PM</span>
+<h1>부모의 병원동행을<br><i>자녀가 예약한다면?</i></h1>
+<p class="intro">예약자와 이용자가 다른 문제를 시장 조사에서 발견하고, 서비스 구조·사업성·실행 조건으로 연결했습니다.</p>
+<div class="hero-actions"><a href="#overview" class="btn primary">사례 살펴보기 →</a><a href="https://mosigo-nine.vercel.app/" class="btn ghost" target="_blank" rel="noopener noreferrer"><span class="tossface" aria-hidden="true">📱</span> 서비스 데모 ↗</a></div>
+<div class="hero-meta"><span>2026 · 5인 팀 PBL 기반</span><span>·</span><span>시장·서비스 기획 및 프로토타입</span><span>·</span><span>후속 개인 전략 검토</span></div></div></header>
+<section id="overview"><div class="section-title"><span class="eyebrow">01 / PROJECT BRIEF</span><h2>문제에서 사업 판단까지</h2><p class="lead">MOSIGO는 부모의 병원동행을 자녀가 준비하는 상황을 중심으로 설계한 서비스 프로토타입입니다.</p></div>
 <div class="grid g3">
-<article class="panel"><span class="num">01 / 발견</span><h3>대리 예약</h3><p>가족 정보를 대신 입력하고 예약을 관리해야 합니다.</p></article>
-<article class="panel"><span class="num">02 / 선택</span><h3>매니저 비교</h3><p>자격·경력·비용을 비교할 정보가 필요합니다.</p></article>
-<article class="panel"><span class="num">03 / 확인</span><h3>진행 상황</h3><p>동행 진행 상태를 확인할 수 있어야 합니다.</p></article></div>
-<div class="callout"><strong>전략 가설</strong> · 예약부터 진행 확인, 재예약까지 연결하면 자녀의 선택 부담을 줄일 수 있습니다. 실제 수요는 검증 전입니다.</div></section>
-<section id="market"><div class="section-title"><span class="eyebrow">03 / RESEARCH</span><h2>시장 조사에서 찾은 단서</h2><p class="lead">경쟁 앱 7종·사용자 리뷰 118건의 팀 조사에서 요구사항을 정리했습니다.</p></div>
-<div class="grid g3"><article class="panel white"><span class="micro">팀 조사 범위</span><span class="point">7종</span><h3>경쟁 서비스</h3></article><article class="panel white"><span class="micro">팀 조사 범위</span><span class="point">118건</span><h3>사용자 리뷰</h3></article><article class="panel dark"><span class="micro">설계 시사점</span><h3>대리 예약 경험</h3><p>예약자와 이용자를 구분합니다.</p></article></div>
-<h3 class="subhead">공개 서비스 비교</h3><div class="tablewrap"><table class="tbl"><thead><tr><th>비교 대상</th><th>확인한 공개 정보</th><th>전략적 시사점</th><th>자료</th></tr></thead><tbody>
-<tr><th>동행돌봄인</th><td>기본 2시간 44,000원, 30분 연장 11,000원, 교통비 별도·후불 정산(공식 안내 기준)</td><td>기본·추가요금 표시, 매니저 신뢰정보와 예약 주체 구분 검토</td><td><a href="https://donghengin.com/booking/price" target="_blank" rel="noopener noreferrer">가격 안내 ↗</a></td></tr>
-<tr><th>고위드유</th><td>일반·지정매칭 2시간 48,000원, 추천매칭 60,000원(공식 FAQ 기준)</td><td>매칭 방식별 가격 차등, 비교·추천 근거 검토</td><td><a href="https://www.gowithu.co.kr/bbs/faq.php?fm_id=8" target="_blank" rel="noopener noreferrer">공식 FAQ ↗</a></td></tr>
-<tr><th>서울시 병원안심동행</th><td>시간당 5,000원, 이용 자격과 지원 조건이 있는 공공 서비스(안내 기준)</td><td>지역·자격·비용 조건을 고려한 비가격 경쟁 방향 검토</td><td><a href="https://www.seoul.go.kr/policy/view.do?id=65&amp;lan=EN" target="_blank" rel="noopener noreferrer">정책 안내 ↗</a></td></tr>
-</tbody></table></div><p class="table-foot">벤치마크 3곳은 팀 조사 7종과 별도입니다. 요금·조건은 변경될 수 있습니다.</p>
-<div class="callout warning"><strong>자료 한계</strong> · 리뷰 원문과 문제별 건수는 재확인이 필요합니다.</div></section>
-<section id="experience"><div class="section-title"><span class="eyebrow">04 / SERVICE DESIGN</span><h2>자녀 중심의 예약·동행 경험</h2><p class="lead">부모의 동행과 자녀의 예약·확인 흐름을 함께 설계했습니다.</p></div>
-<div class="grid g2"><article class="panel dark"><span class="micro">우선 고객 가설</span><h3>평일 동행이 어려운 자녀</h3><p>부모를 대신해 매니저를 선택하고 진행 상황을 확인합니다.</p></article><article class="panel"><span class="micro">차별화 가설</span><h3>선택부터 사후 관리까지</h3><p>비교·대리 예약·상태 공유·재예약을 연결합니다.</p></article></div>
-<h3 class="subhead">서비스 흐름</h3>
+<article class="panel"><span class="micro">문제</span><h3>예약자와 이용자 분리</h3><p>부모는 서비스를 이용하고 자녀는 검색·선택·예약·확인을 담당합니다.</p></article>
+<article class="panel"><span class="micro">핵심 선택</span><h3>자녀 중심 여정</h3><p>가족 등록, 매니저 비교, 진행 확인, 재예약을 하나로 연결합니다.</p></article>
+<article class="panel dark"><span class="micro">판단</span><h3>사업화 전 조건부 검증</h3><p>수요·공급·원가·안전을 확인한 뒤 확대 여부를 결정합니다.</p></article></div>
+<h3 class="subhead">프로젝트 범위</h3>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>구분</th><th>내용</th><th>상태</th></tr></thead><tbody>
+<tr><th>기간·참여</th><td>2026.06.08~08.13 교육 프로젝트 · 5인 팀 내 시장·데이터 분석, 서비스 기획, 프로토타입 참여</td><td><span class="evidence">원본 기록 기준</span></td></tr>
+<tr><th>구현</th><td>가입~재예약 사용자 흐름, 예약 저장·복구·공유, Operations 조회</td><td><span class="evidence">원본 저장소 확인</span></td></tr>
+<tr><th>후속 보완</th><td>고객 가설·사업성 계산·기능 우선순위·KPI·검증 게이트의 전략적 구조화</td><td><span class="evidence proposed">분석·제안</span></td></tr>
+<tr><th>미검증</th><td>실제 이용자 수요, 매출, 지불 의향, 원가, 실서비스 운영 성과</td><td><span class="evidence proposed">측정 전</span></td></tr>
+</tbody></table></div>
+</section>
+<section id="market"><div class="section-title"><span class="eyebrow">02 / RESEARCH &amp; PROBLEM</span><h2>경쟁 조사를 서비스 요구사항으로</h2><p class="lead">팀이 검토한 경쟁 앱 7종·사용자 리뷰 118건을 출발점으로 삼았습니다. 원문별 출처·문제 빈도는 별도 재확인이 필요합니다.</p></div>
+<div class="grid g3"><article class="panel white"><span class="micro">당시 조사 범위</span><span class="point">7종</span><h3>경쟁 서비스</h3></article><article class="panel white"><span class="micro">당시 조사 범위</span><span class="point">118건</span><h3>사용자 리뷰</h3></article><article class="panel dark"><span class="micro">핵심 관찰</span><h3>예약자 ≠ 이용자</h3><p>자녀가 검색·비교·확인을 맡을 수 있다는 관점으로 요구사항을 다시 묶었습니다.</p></article></div>
+<h3 class="subhead">관찰 → 요구사항 → 검증</h3>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>문제 가설</th><th>제품 요구사항</th><th>다음 확인</th></tr></thead><tbody>
+<tr><th>접근성</th><td>지역·시간 조건의 공급 가능 여부 표시</td><td>지역별 공급과 예약 실패 원인</td></tr>
+<tr><th>대리 예약</th><td>예약자·동행 대상자 구분, 동의·권한 관리</td><td>부모·자녀 과업 테스트</td></tr>
+<tr><th>신뢰·정보</th><td>매니저 비교 기준, 요금·변경 조건, 진행 공유</td><td>선택 이유·지불 의향·상태 이해</td></tr>
+</tbody></table></div>
+<div class="callout"><strong>외부 벤치마크</strong> · <a href="https://donghengin.com/booking/price" target="_blank" rel="noopener noreferrer">동행돌봄인</a> · <a href="https://www.gowithu.co.kr/bbs/faq.php?fm_id=8" target="_blank" rel="noopener noreferrer">고위드유</a> · <a href="https://www.seoul.go.kr/policy/view.do?id=65&amp;lan=EN" target="_blank" rel="noopener noreferrer">서울시 병원안심동행</a>. 공개 자료 비교용이며 기존 팀 조사 7종과 같은 표본이라고 단정하지 않습니다.</div>
+</section>
+<section id="customer"><div class="section-title"><span class="eyebrow">03 / CUSTOMER &amp; VALUE</span><h2>누가 결정하고 누가 이용하는가</h2><p class="lead">고객의 역할이 다른 점을 제품과 정책에 반영했습니다.</p></div>
+<div class="grid g3">
+<article class="panel dark"><span class="micro">우선 고객 가설</span><h3>자녀 · 예약자</h3><p>평일 동행이 어렵거나 부모와 떨어져 거주합니다. 매니저 선택과 진행 확인에 가치를 느낄 수 있습니다.</p></article>
+<article class="panel"><span class="micro">이용자</span><h3>부모 · 동행 대상자</h3><p>서비스 수용, 개인정보 동의, 이동 안전과 현장 경험이 중요합니다.</p></article>
+<article class="panel"><span class="micro">공급·운영</span><h3>매니저 · 운영자</h3><p>배정 가능 시간, 취소·예외, 계정·공유 권한과 원가를 관리합니다.</p></article></div>
+<h3 class="subhead">핵심 Job Story <span class="label orange">검증 전 가설</span></h3>
+<div class="memo"><h3 class="memo-lead">“직접 동행할 수 없을 때, 믿을 수 있는 사람을 선택하고 부모의 진행 상황을 확인하고 싶다.”</h3>
+<div class="grid g2"><div><h3>기능적 가치</h3><p>비교 → 대리 예약 → 동행 상태 → 재예약을 연결합니다.</p></div><div><h3>신뢰 조건</h3><p>대상자 동의, 정보 최소 수집, 공유 권한, 사고 대응이 전제입니다.</p></div></div></div>
+</section>
+<section id="product"><div class="section-title"><span class="eyebrow">04 / PRODUCT PLANNING</span><h2>요구사항을 화면과 상태로 설계</h2><p class="lead">채용공고가 강조하는 IA, User Flow, 정책·예외조건을 실제 MOSIGO의 예약 여정으로 정리했습니다. 아래 인수 기준은 추가 제안입니다.</p></div>
+<h3 class="subhead">정보구조·핵심 여정</h3>
 <div class="pathway">
-<article><b>01</b><strong>가족 등록</strong><span>예약 주체 구분</span></article><article><b>02</b><strong>병원 탐색</strong><span>지역·진료과</span></article>
-<article><b>03</b><strong>매니저 선택</strong><span>경력·비용 비교</span></article><article><b>04</b><strong>신청·동의</strong><span>요청 정보</span></article>
-<article><b>05</b><strong>진행 공유</strong><span>출발·진료·귀가</span></article><article><b>06</b><strong>리포트</strong><span>시연용 요약</span></article><article><b>07</b><strong>재예약</strong><span>기존 기록 활용</span></article></div>
-<div class="grid g2" style="margin-top:18px"><article class="panel white"><span class="label">데모 구현</span><h3>예약·복구·공유</h3><p>예약 저장, 복구 키, 예약 소유권 확인, 공유 링크와 Operations 화면.</p></article>
-<article class="panel white"><span class="label orange">시연·검토 단계</span><h3>의료정보·결제·안전</h3><p>의료정보 연동·결제·AI 요약은 시연용입니다. 실제 운영과 개인정보 처리는 별도 검증이 필요합니다.</p></article></div></section>
-<section id="business"><div class="section-title"><span class="eyebrow">05 / BUSINESS MODEL</span><h2>사업성은 가정부터 검증한다</h2><p class="lead">기준 거래액 9억 원은 실적이 아닙니다. 고객 수 × 이용 횟수 × 평균 가격으로 계산한 시나리오입니다.</p></div>
-<div class="sim"><div class="sim-head"><h3>사업성 계산기</h3><p>입력값으로 수익구조를 비교하세요.</p></div><div class="sim-body"><div>
+<article><b>01</b><strong>가족 등록</strong><span>예약자·대상자 분리</span></article><article><b>02</b><strong>병원 탐색</strong><span>지역·진료과</span></article><article><b>03</b><strong>매니저 선택</strong><span>경력·정보 비교</span></article><article><b>04</b><strong>신청·동의</strong><span>정보·비용 확인</span></article><article><b>05</b><strong>진행 공유</strong><span>출발~귀가 상태</span></article><article><b>06</b><strong>리포트</strong><span>시연용 요약</span></article><article><b>07</b><strong>재예약</strong><span>이력 활용</span></article>
+</div>
+<h3 class="subhead">요구사항과 인수 기준</h3>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>기능/정책</th><th>원본 확인 범위</th><th>추가 인수 기준 · 제안</th></tr></thead><tbody>
+<tr><th>예약 소유권</th><td>계정 세션·본인 예약 조회·복구 키 구현</td><td>타 계정 접근 거부, 복구 후 소유권 유지, 충돌 시 안내</td></tr>
+<tr><th>예약 공유</th><td>공유 발급·만료·폐기와 서버 검증 구현</td><td>공유 역할별 조회/변경 권한 정의, 만료·폐기 후 거부 테스트</td></tr>
+<tr><th>상태 전환</th><td>예약 상태·동행 타임라인 프로토타입</td><td>중복 요청·취소·연결 끊김·잘못된 순서의 전환 통제</td></tr>
+<tr><th>운영 화면</th><td>계정 소유 예약 조회 및 읽기 전용 샘플 화면</td><td>운영자 배정·감사이력은 별도 권한/제품 범위 합의 후 추진</td></tr>
+</tbody></table></div>
+<div class="callout warning"><strong>구현 경계</strong> · 원본은 실병원 예약·실결제·의료 판단을 제공하지 않습니다. 특히 공유 토큰의 예약 변경 권한은 운영 정책 결정이 남아 있어 “열람 전용”으로 단정하지 않습니다.</div>
+</section>
+<section id="business"><div class="section-title"><span class="eyebrow">05 / BUSINESS CASE</span><h2>거래액과 이익을 구분한다</h2><p class="lead">기준 거래액 9억 원은 실적이 아닌 가정입니다. 직접 제공형과 중개형은 매출 인식·원가·책임 구조가 다릅니다.</p></div>
+<div class="sim"><div class="sim-head"><h3>거래액·공헌이익 민감도</h3><p>이용자 수·빈도·가격·비용·수수료를 직접 조정합니다.</p></div><div class="sim-body"><div>
 <div class="control"><label for="users">이용 고객 수 <output id="uOut">15,000명</output></label><input id="users" type="range" min="5000" max="30000" value="15000" step="1000"><small>5,000~30,000명 · 가정</small></div>
 <div class="control"><label for="freq">연간 1인당 이용 횟수 <output id="fOut">1.5회</output></label><input id="freq" type="range" min="1" max="3" value="1.5" step="0.25"><small>1~3회 · 가정</small></div>
 <div class="control"><label for="price">건당 평균 가격 <output id="pOut">40,000원</output></label><input id="price" type="range" min="30000" max="60000" value="40000" step="1000"><small>3만~6만 원 · 가정</small></div>
@@ -586,113 +106,96 @@ section[id] { scroll-margin-top:74px; }
 <div class="result-line"><div><span>중개형 · 수수료 인식 매출 가정</span><strong id="broker">1.80억 원</strong><small>중개 관련 비용 별도</small></div><span class="label gray">수수료형</span></div>
 </div></div></div>
 
-<h3 class="subhead">시나리오 비교</h3><div class="tablewrap"><table class="tbl"><thead><tr><th>가정 시나리오</th><th>인원 × 빈도 × 가격</th><th>건수</th><th>거래액</th><th>고정비 차감 전 공헌이익*</th></tr></thead><tbody><tr><th>보수</th><td>8,000명 × 1회 × 35,000원</td><td>8,000</td><td>2.8억 원</td><td>0.4억 원</td></tr><tr><th>기준</th><td>15,000명 × 1.5회 × 40,000원</td><td>22,500</td><td>9.0억 원</td><td>2.25억 원</td></tr><tr><th>확대</th><td>20,000명 × 2회 × 45,000원</td><td>40,000</td><td>18.0억 원</td><td>6.0억 원</td></tr></tbody></table></div>
 
-<p class="table-foot">건당 변동비 30,000원 가정. 고정비·고객 획득비·보험·환불 비용 제외. 실제 매출 인식은 계약 구조에 따라 달라집니다.</p></section>
-<section id="validation"><div class="section-title"><span class="eyebrow">06 / VALIDATION</span><h2>출시 전에 검증할 것</h2><p class="lead">실제 수요·원가·운영 안전성은 아직 실측하지 않았습니다.</p></div>
+<h3 class="subhead">시나리오 비교 <span class="label orange">실적 아님</span></h3>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>가정 시나리오</th><th>인원 × 빈도 × 가격</th><th>건수</th><th>거래액</th><th>고정비 차감 전 공헌이익*</th></tr></thead><tbody><tr><th>보수</th><td>8,000명 × 1회 × 35,000원</td><td>8,000</td><td>2.8억 원</td><td>0.4억 원</td></tr><tr><th>기준</th><td>15,000명 × 1.5회 × 40,000원</td><td>22,500</td><td>9.0억 원</td><td>2.25억 원</td></tr><tr><th>확대</th><td>20,000명 × 2회 × 45,000원</td><td>40,000</td><td>18.0억 원</td><td>6.0억 원</td></tr></tbody></table></div>
+
+
+<p class="table-foot">변동비 30,000원/건이라는 가정. 고객 획득·보험·개발·고정 운영·환불 비용을 제외한 고정비 차감 전 공헌이익으로, 영업이익이 아닙니다.</p>
+<h3 class="subhead">사업화 전 확보할 근거</h3>
+<div class="grid g3"><article class="panel"><h3>수요·가격</h3><p>지역별 고객 규모, 이용 빈도, 지불 의향, 예약 전환</p></article><article class="panel"><h3>공급·원가</h3><p>매니저 확보·가동률, 이동·인건비, 취소·보험</p></article><article class="panel"><h3>계약·책임</h3><p>직접 제공/중개 구분, 정산, 안전·개인정보 책임</p></article></div>
+</section>
+<section id="execution"><div class="section-title"><span class="eyebrow">06 / PRIORITIZATION &amp; DELIVERY</span><h2>무엇부터 만들고 어디서 멈출 것인가</h2><p class="lead">기능의 양보다 수요·공급·권한이 성립하는지 먼저 판단합니다. 단계와 순서는 후속 제안이며 실제 운영 일정이나 팀 공식 승인 이력은 아닙니다.</p></div>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>우선순위</th><th>할 일</th><th>결정 기준</th></tr></thead><tbody>
+<tr><th>P0 · 필수</th><td>고객 문제 인터뷰, 공급·원가 확인, 예약 주체·공유 권한 정리</td><td>수요 근거와 안전한 최소 운영 가능 여부</td></tr>
+<tr><th>P1 · 검증</th><td>핵심 예약 흐름 과업 테스트, 오류·취소·복구 QA, 실제 원가 기록</td><td>과업 완료·오류 재현 및 운영 부담</td></tr>
+<tr><th>P2 · 확장</th><td>재예약, B2B/B2G 제휴, AI 기능의 범위 검토</td><td>수익성·운영 안정성 입증 이후</td></tr>
+</tbody></table></div>
+<h3 class="subhead">실행 게이트</h3>
 <div class="steps">
-<div class="step"><span class="step-index">01</span><h3>고객 문제</h3><p>자녀·부모 인터뷰와 예약 과업으로 문제 빈도·지불 의향을 확인합니다.</p></div>
-<div class="step"><span class="step-index">02</span><h3>공급과 안전</h3><p>매니저 수급, 원가, 취소·사고 책임, 정보 접근 권한을 확인합니다.</p></div>
-<div class="step"><span class="step-index">03</span><h3>이용 경험</h3><p>예약 완료, 상태 이해, 공유 접근 제어, 재예약 과업을 테스트합니다.</p></div></div>
-<h3 class="subhead">핵심 지표 <span class="label gray">측정 전</span></h3>
+<div class="step"><span class="step-index">G0</span><h3>문제 확인</h3><p>자녀·부모 과업, 지불 의향, 대체재와 선택 이유를 확인합니다.</p></div>
+<div class="step"><span class="step-index">G1</span><h3>공급·운영</h3><p>매니저 수급, 원가, 취소·사고 책임, 민감정보 처리 검토.</p></div>
+<div class="step"><span class="step-index">G2</span><h3>제한 검증</h3><p>예약·공유·복구 예외를 테스트하고 관찰 결과로 다음 배포를 결정.</p></div>
+<div class="step"><span class="step-index">G3</span><h3>확장 판단</h3><p>재예약·지원 비용·공헌이익 검증 후 지역·제휴 확대 여부 결정.</p></div></div>
+<div class="callout"><strong>QA 근거 구분</strong> · 원본에는 자동 테스트·Chromium QA·읽기 전용 Production Smoke 기록이 있습니다. 실제 iPhone/Android 셀룰러 QA와 일부 운영 보안 조치는 미완료입니다. <a href="https://github.com/dohyunkimmm/mosigo/blob/main/docs/DEVICE-QA-RUNBOOK.md" target="_blank" rel="noopener noreferrer">실기기 QA 계획 ↗</a></div>
+</section>
+<section id="measurement"><div class="section-title"><span class="eyebrow">07 / METRICS &amp; VALIDATION</span><h2>완료를 선언하기 전에 측정한다</h2><p class="lead">실제 전환 성과는 아직 집계하지 않았습니다. 이벤트·분모·과업 성공 기준을 먼저 정의합니다.</p></div>
 <div class="grid g2">
-<div class="kpi"><h3>예약 완료율</h3><span class="formula">완료 세션 ÷ 시작 세션</span></div>
-<div class="kpi"><h3>동행 상태 이해도</h3><span class="formula">정확히 설명한 참가자 ÷ 응답자</span></div>
-<div class="kpi"><h3>90일 내 재예약률</h3><span class="formula">재예약 고객 ÷ 추적 가능한 완료 고객</span></div>
-<div class="kpi"><h3>건당 공헌이익</h3><span class="formula">건당 인식 매출 − 건당 변동비</span></div></div>
-<div class="callout warning"><strong>중단 기준</strong> · 공급 불가, 원가 미확인, 민감정보 처리 오류·비인가 접근이 확인되면 수정·검증을 우선합니다.</div></section>
-<section id="decision"><div class="section-title"><span class="eyebrow">07 / DECISION</span><h2>지금은 출시보다 검증이 먼저</h2></div>
-<div class="memo"><span class="eyebrow">RECOMMENDATION</span><h3 class="memo-lead">제한된 지역·고객군에서<br>조건부 검증을 진행합니다.</h3>
-<div class="grid g2"><div><h3>확인할 근거</h3><p>대리 예약 수요, 매니저 공급, 원가, 안전·권한 정책.</p></div>
-<div><h3>사업화 선택지</h3><p>직접 제공 또는 사업자 협업·중개. 비용과 책임 구조를 비교합니다.</p></div></div>
-<div class="verdict">검증 후 사업화 여부를 결정합니다.</div></div>
-<h3 class="subhead">원본 자료</h3><div class="source-grid">
-<a href="https://app.notion.com/p/40821460c934818581dcfa22dfc3cbef" target="_blank" rel="noopener noreferrer">전략기획 자료 ↗</a>
-<a href="https://github.com/dohyunkimmm/mosigo" target="_blank" rel="noopener noreferrer">MOSIGO 소스 ↗</a>
-<a href="https://mosigo-nine.vercel.app/" target="_blank" rel="noopener noreferrer">서비스 데모 ↗</a></div></section>
-<footer class="footer"><strong>MOSIGO / STRATEGY CASE STUDY</strong> · 팀 프로젝트 기반, 이후 개인 분석 보완</footer>
-</main>
-<div class="bottom-progress" aria-hidden="true"><i id="progress" style="width: 0%;"></i></div>
+<div class="kpi"><span class="label">퍼널</span><h3>예약 완료율</h3><span class="formula">예약 완료 세션 ÷ 예약 시작 세션</span><p>이벤트: start → manager_selected → submit_success. QA·중복 세션 제외 규칙 필요.</p></div>
+<div class="kpi"><span class="label">사용성</span><h3>매니저 선택 성공률</h3><span class="formula">조건에 맞는 선택을 완료한 참가자 ÷ 과업 참가자</span><p>선택 근거 설명 여부와 이탈 단계를 기록.</p></div>
+<div class="kpi"><span class="label">정보 이해</span><h3>상태 이해도</h3><span class="formula">현재·다음 단계를 정확히 설명한 참가자 ÷ 응답자</span><p>보호자 진행 화면 과업 기반 측정.</p></div>
+<div class="kpi"><span class="label">리텐션</span><h3>90일 내 재예약률</h3><span class="formula">90일 내 재예약 고객 ÷ 추적 가능한 완료 고객</span><p>관찰기간 90일은 제안 값으로, 실제 운영 기준이 아닙니다.</p></div></div>
+<h3 class="subhead">QA·UAT 예시 <span class="label orange">실행 계획</span></h3>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>과업</th><th>통과 기준</th><th>실패·예외</th></tr></thead><tbody>
+<tr><th>부모 예약</th><td>자녀가 도움 없이 요청 완료</td><td>예약자·대상자 혼동, 재진입 시 상태 유실</td></tr>
+<tr><th>매니저 비교</th><td>가격·조건을 설명하고 적합한 선택 완료</td><td>정보 부족, 조건 불일치</td></tr>
+<tr><th>상태·공유</th><td>보호자가 현재 상태를 설명, 정책에 맞는 권한 확인</td><td>만료 링크 접근, 권한 범위 오류, 상태 전환 누락</td></tr>
+</tbody></table></div>
+<p class="table-foot">GA4/Amplitude 운영, 실제 사용자 인터뷰, UAT 실시 결과를 보유한 것으로 주장하지 않습니다. 분석 이벤트에는 의료정보·개인정보를 넣지 않습니다.</p>
+</section>
+<section id="decision"><div class="section-title"><span class="eyebrow">08 / DECISION MEMO</span><h2>출시보다 조건부 검증</h2><p class="lead">지금 가능한 결정은 사업화 승인이 아니라 핵심 불확실성을 좁히는 제한적 검증입니다.</p></div>
+<div class="memo"><span class="eyebrow">RECOMMENDATION</span><h3 class="memo-lead">자녀 대리 예약형 병원동행은<br>검증 후 사업화 여부를 결정합니다.</h3>
+<div class="grid g2"><div><h3>선택 가능한 방식</h3><p>제한 지역 직접 제공 또는 기존 사업자 협업·중개. 수익 인식, 공급 원가, 책임 범위를 비교합니다.</p></div><div><h3>결정 전 확보 자료</h3><p>고객 인터뷰, 매니저 공급 단가, 실제 이용 흐름, 개인정보·안전 검토, 계약 조건.</p></div></div>
+<div class="verdict">G0~G2 검증 기준을 충족하지 않으면 확대하지 않습니다.</div></div>
+<h3 class="subhead">IT기획 · 전략기획 · PM 채용 요구 역량과의 연결</h3>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>요구 역량</th><th>이 사례에서 제시한 근거</th><th>증빙 수준</th></tr></thead><tbody>
+<tr><th>시장·문제 정의</th><td>경쟁 앱·리뷰 조사, 예약자·이용자 역할 분리</td><td>팀 조사 범위 확인 · 원자료 재검증 필요</td></tr>
+<tr><th>IA·PRD·정책</th><td>사용자 여정, 기능·권한·예외와 인수 기준 정리</td><td>프로토타입 구현 + 후속 기획안</td></tr>
+<tr><th>BM·재무</th><td>거래액·수수료 매출·공헌이익 모델과 민감도</td><td>가정 기반 · 실측 손익 미확보</td></tr>
+<tr><th>PM·품질·데이터</th><td>우선순위, 게이트, QA 과업, 퍼널·KPI 정의</td><td>원본 자동 테스트 일부 확인 · 일정/실사용 지표는 제안</td></tr>
+</tbody></table></div>
+<h3 class="subhead">참고한 최근 사람인 공고 <span class="label gray">2026.07.30~10.30</span></h3>
+<div class="source-grid">
+<a href="https://www.saramin.co.kr/api/jobs/job/content?rec_idx=55321685" target="_blank" rel="noopener noreferrer">비트컴퓨터 · 신사업 기획/PM (10.18) ↗</a>
+<a href="https://www.saramin.co.kr/zf_user/jobs/view?rec_idx=54715612" target="_blank" rel="noopener noreferrer">가디언에이아이 · PM/PO (08.11) ↗</a>
+<a href="https://www.saramin.co.kr/zf_user/jobs/view?rec_idx=54856049" target="_blank" rel="noopener noreferrer">엑스커머스 · 서비스기획 (08.26) ↗</a>
+<a href="https://www.saramin.co.kr/zf_user/jobs/view?rec_idx=54856895" target="_blank" rel="noopener noreferrer">에이치알그룹 · 서비스기획 PM (08.26) ↗</a>
+<a href="https://www.saramin.co.kr/zf_user/jobs/view?rec_idx=54633762" target="_blank" rel="noopener noreferrer">씨엠티엑스 · 전략기획 (08.03) ↗</a>
+<a href="https://m.saramin.co.kr/job-search/view?rec_idx=54747109" target="_blank" rel="noopener noreferrer">에이치이엠파마 · 전략기획 (08.14) ↗</a>
+</div>
+<p class="table-foot">공고는 최근 사례의 표본이며 전체 채용시장 통계가 아닙니다. 채용 우대사항에 있는 Figma·Excel·PPT 숙련, 실무 PM 리드, 실운영 개선 성과는 해당 산출물·경력이 확인되지 않아 보유 역량으로 적지 않았습니다.</p>
+<div class="actions"><a class="btn primary" href="https://mosigo-nine.vercel.app/" target="_blank" rel="noopener noreferrer">MOSIGO 데모 ↗</a><a class="btn" href="https://github.com/dohyunkimmm/mosigo" target="_blank" rel="noopener noreferrer">원본 GitHub ↗</a><a class="btn" href="https://app.notion.com/p/40821460c934818581dcfa22dfc3cbef" target="_blank" rel="noopener noreferrer">전략기획 원본 ↗</a></div>
+</section>
+<footer class="footer"><strong>MOSIGO / STRATEGY CASE STUDY</strong> · 팀 프로젝트 기반 전략기획 사례 · 후속 분석은 가설과 구분 표기</footer>
+</main><div class="bottom-progress" aria-hidden="true"><i id="progress"></i></div>
 <script>
 (function(){
 'use strict';
-var sections=[].slice.call(document.querySelectorAll('main section[id]'));
-var nav=[].slice.call(document.querySelectorAll('.nav-link'));
-var progress=document.getElementById('progress');
+const sections=Array.from(document.querySelectorAll('main section[id]'));
+const links=Array.from(document.querySelectorAll('.nav-link'));
+const progress=document.getElementById('progress');
 function onScroll(){
- var y=window.scrollY+160;var current=sections[0]?sections[0].id:'overview';
- sections.forEach(function(s){if(s.offsetTop<=y)current=s.id;});
- nav.forEach(function(a){var active=a.getAttribute('href')==='#'+current;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')});
- var max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);progress.style.width=Math.min(100,Math.max(0,window.scrollY/max*100))+'%';
+ const currentY=window.scrollY+145;let current=sections[0]?sections[0].id:'overview';
+ sections.forEach(s=>{if(s.offsetTop<=currentY)current=s.id;});
+ links.forEach(a=>{const active=a.getAttribute('href')==='#'+current;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
+ const max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+ progress.style.width=Math.max(0,Math.min(100,window.scrollY/max*100))+'%';
 }
 window.addEventListener('scroll',onScroll,{passive:true});onScroll();
-var ids=['users','freq','price','cost','rate'];var defaults=[15000,1.5,40000,30000,20];var KR=new Intl.NumberFormat('ko-KR');
-function won(v){if(Math.abs(v)>=100000000)return (v/100000000).toFixed(v%100000000===0?1:2)+'억 원';if(Math.abs(v)>=10000)return (v/10000).toFixed(1)+'만 원';return KR.format(v)+'원'}
+const ids=['users','freq','price','cost','rate'];const defaults=[15000,1.5,40000,30000,20];const fmt=new Intl.NumberFormat('ko-KR');
+function won(v){if(Math.abs(v)>=100000000)return (v/100000000).toFixed(v%100000000===0?1:2)+'억 원';if(Math.abs(v)>=10000)return (v/10000).toFixed(1)+'만 원';return fmt.format(v)+'원';}
 function update(){
- var a=ids.map(function(id){return Number(document.getElementById(id).value)}),users=a[0],freq=a[1],price=a[2],cost=a[3],rate=a[4],count=users*freq,gmv=count*price;
- document.getElementById('uOut').textContent=KR.format(users)+'명';document.getElementById('fOut').textContent=freq+'회';document.getElementById('pOut').textContent=KR.format(price)+'원';document.getElementById('cOut').textContent=KR.format(cost)+'원';document.getElementById('rOut').textContent=rate+'%';
- document.getElementById('gmv').textContent=won(gmv);document.getElementById('orderCount').textContent='연간 '+KR.format(count)+'건 가정';
- document.getElementById('direct').textContent=won(gmv);document.getElementById('margin').textContent=won(count*(price-cost));document.getElementById('broker').textContent=won(gmv*rate/100);
+ const a=ids.map(id=>Number(document.getElementById(id).value));
+ const [users,freq,price,cost,rate]=a;const count=users*freq,gmv=count*price;
+ document.getElementById('uOut').textContent=fmt.format(users)+'명';document.getElementById('fOut').textContent=freq+'회';
+ document.getElementById('pOut').textContent=fmt.format(price)+'원';document.getElementById('cOut').textContent=fmt.format(cost)+'원';document.getElementById('rOut').textContent=rate+'%';
+ document.getElementById('gmv').textContent=won(gmv);document.getElementById('orderCount').textContent='연간 '+fmt.format(count)+'건 가정';
+ document.getElementById('direct').textContent=won(gmv);
+ document.getElementById('margin').textContent=won(count*(price-cost));
+ document.getElementById('broker').textContent=won(gmv*rate/100);
 }
-ids.forEach(function(id){document.getElementById(id).addEventListener('input',update)});
-document.getElementById('reset').addEventListener('click',function(){ids.forEach(function(id,i){document.getElementById(id).value=defaults[i]});update()});update();
+ids.forEach(id=>document.getElementById(id).addEventListener('input',update));
+document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update();});
+update();
 })();
-
-/* MOSIGO source version + latest source commit are read only; no tokens/secrets. */
-(function(){
- var source=document.getElementById('sourceMeta');
- var commitLink=document.getElementById('sourceCommit');
- var preview=document.getElementById('previewStage');
- var wide=document.getElementById('viewWide'),narrow=document.getElementById('viewNarrow');
- function view(mobile){
-  preview.classList.toggle('is-mobile',mobile);
-  wide.setAttribute('aria-pressed',String(!mobile));
-  narrow.setAttribute('aria-pressed',String(mobile));
- }
- if(wide&&narrow&&preview){
-  wide.addEventListener('click',function(){view(false)});
-  narrow.addEventListener('click',function(){view(true)});
-  if(window.matchMedia&&window.matchMedia('(max-width: 800px)').matches)view(true);
- }
- var origin='https://api.github.com/repos/dohyunkimmm/mosigo/commits/main';
- var version='https://raw.githubusercontent.com/dohyunkimmm/mosigo/main/VERSION';
- Promise.allSettled([
-  fetch(origin,{cache:'no-store',headers:{'Accept':'application/vnd.github+json'}}).then(function(r){if(!r.ok)throw Error('commit '+r.status);return r.json()}),
-  fetch(version,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error('version '+r.status);return r.text()})
- ]).then(function(results){
-  var info=[],c=results[0],v=results[1];
-  if(v.status==='fulfilled'&&/^[\w.-]{1,24}$/.test(v.value.trim())) info.push('소스 버전 v'+v.value.trim().replace(/^v/,''));
-  if(c.status==='fulfilled'&&c.value.sha&&c.value.commit){
-   var date=c.value.commit.committer&&c.value.commit.committer.date;
-   if(date){var d=new Date(date);if(!Number.isNaN(d.valueOf()))info.push('main 최근 커밋 '+new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(d));}
-   info.push(c.value.sha.slice(0,7));
-   commitLink.href='https://github.com/dohyunkimmm/mosigo/commit/'+encodeURIComponent(c.value.sha);
-  }
-  source.textContent=info.length?info.join(' · ')+' · 원본 저장소 기준':'업데이트 정보를 불러올 수 없습니다. 원본 변경 이력에서 확인하세요.';
- }).catch(function(){source.textContent='업데이트 정보를 불러올 수 없습니다. 원본 변경 이력에서 확인하세요.';});
-})();
-
-/* Reflect curated feature labels from the original public README without executing markup. */
-(function(){
- var list=document.getElementById('sourceFeatureList'),note=document.getElementById('sourceFeaturesNote');
- if(!list||!note)return;
- fetch('https://raw.githubusercontent.com/dohyunkimmm/mosigo/main/README.md',{cache:'no-store'})
-  .then(function(r){if(!r.ok)throw Error('README '+r.status);return r.text()})
-  .then(function(markdown){
-   var block=markdown.match(/(?:^|\n)## 주요 기능\s*\n([\s\S]*?)(?=\n## |\s*$)/);
-   if(!block)throw Error('feature heading missing');
-   var entries=block[1].split(/\r?\n/).map(function(line){return line.match(/^\s*[-*]\s+\*\*(.+?)\*\*\s*:?\s*(.+)\s*$/)}).filter(Boolean).slice(0,6);
-   if(!entries.length)throw Error('features not found');
-   list.replaceChildren();
-   entries.forEach(function(parts){
-    var item=document.createElement('li'),heading=document.createElement('strong'),desc=document.createElement('span');
-    heading.textContent=parts[1].replace(/[*_]/g,'').replace(/[:：]$/,'').trim();
-    desc.textContent=parts[2].replace(/[*_]/g,'').trim();
-    item.appendChild(heading);item.appendChild(desc);list.appendChild(item);
-   });
-   note.textContent='원본 README 기준';
-  })
-  .catch(function(){note.textContent='기본 요약 표시 중 · 원본 README 확인';});
-})();
-
 </script></body></html>
