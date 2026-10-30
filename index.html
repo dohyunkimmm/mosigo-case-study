@@ -25,6 +25,40 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 @media(max-width:440px){.pathway{grid-template-columns:1fr}.hero-meta{gap:5px}.top-r{font-size:11px}.hero h1{font-size:36px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 @media print{aside,.top,.bottom-progress,.hero-actions,.actions{display:none!important}.content{margin:0}section{break-inside:avoid;padding:28px 12px}.hero{background:white;color:#192c25}.hero h1,.hero h1 i{color:#123e33}.hero .intro,.hero-meta{color:#34453d}}
+
+/* Strategy-specific narrative and comparative visuals: no demo replication. */
+.decision-chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:28px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:white}
+.decision-chain article{padding:21px 19px;border-right:1px solid var(--line);position:relative;min-width:0}.decision-chain article:last-child{border-right:0}.decision-chain article+article:before{content:"›";position:absolute;left:-7px;top:43%;font-size:24px;font-weight:800;color:#427d5a;background:white;line-height:1}
+.decision-chain small{font-size:11px;font-weight:800;color:#59836a;letter-spacing:.065em;display:block}.decision-chain strong{display:block;font-size:15px;color:var(--forest);margin-top:7px;line-height:1.5}.decision-chain p{font-size:13px;line-height:1.65;margin-top:6px}
+.source-note{display:flex;gap:12px;align-items:flex-start;background:#f4f7f2;border:1px solid var(--line);border-radius:12px;padding:16px 19px;margin-top:22px;font-size:13px;line-height:1.7}.source-note strong{color:var(--forest);min-width:78px}.source-note a{font-weight:750}
+.strategy-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.strategy-option{background:#f7faf6;border:1px solid var(--line);border-radius:17px;padding:22px 21px;min-width:0}
+.strategy-option.recommended{background:#eaf4e9;border-color:#71a37f}
+.strategy-option .option-mark{display:block;font-size:11px;font-weight:800;color:#50805e;margin-bottom:12px;letter-spacing:.065em}
+.strategy-option h3{font-size:19px}.strategy-option p{font-size:14px;line-height:1.75;margin-top:10px}.strategy-option dl{padding-top:15px;margin:16px 0 0;border-top:1px solid #dce7da}
+.strategy-option dt{font-size:12px;color:#52705d;font-weight:850;margin-top:9px}.strategy-option dd{margin:4px 0 0;font-size:13px;line-height:1.6}
+.strategy-result{background:var(--forest);color:#e9f4e8;border-radius:15px;padding:23px 25px;margin-top:18px}
+.strategy-result strong{color:var(--lime);display:block;font-size:15px}.strategy-result p{margin-top:8px;color:#eaf4e8;font-size:15px;line-height:1.75}
+.evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.evidence-item{border:1px solid var(--line);background:#fff;border-radius:15px;padding:20px 21px;min-width:0}
+.evidence-item .evidence-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px}.evidence-item h3{font-size:17px}
+.evidence-item p{font-size:13px;line-height:1.75;margin:9px 0 0}.evidence-item a{font-size:12px;font-weight:800;display:inline-block;margin-top:12px}
+.tradeoff-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.tradeoff-grid article{border-left:3px solid #76a37c;background:#f4f8f3;padding:17px 20px;border-radius:0 12px 12px 0}
+.tradeoff-grid strong{display:block;font-size:14px;color:var(--ink)}.tradeoff-grid p{font-size:13px;line-height:1.7;margin-top:5px}
+.model-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.model-grid article{border:1px solid var(--line);background:#fafcf9;padding:22px;border-radius:14px;min-width:0}
+.model-grid article strong{display:block;font-size:17px;color:var(--forest)}
+.model-grid article p{font-size:13px;line-height:1.75;margin-top:8px}.model-grid article small{display:block;margin-top:10px}
+.funnel-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:19px 0 15px}
+.funnel-track span{display:grid;place-items:center;min-height:62px;background:#e7f1e5;border-radius:10px;font-size:13px;font-weight:750;color:#26553e;position:relative;text-align:center;padding:9px}
+.funnel-track span:nth-child(2){background:#d7e8d2}.funnel-track span:nth-child(3){background:#c7dfbf}.funnel-track span:nth-child(4){background:#b3d5aa}
+.funnel-track span:after{content:"›";position:absolute;right:-7px;z-index:1;font-size:21px;color:#215941}.funnel-track span:last-child:after{display:none}
+.source-label{display:inline-flex;gap:7px;align-items:center;font-size:12px;color:#527466;font-weight:700}
+@media(max-width:1000px){.decision-chain{grid-template-columns:repeat(2,minmax(0,1fr))}.decision-chain article:nth-child(2){border-right:0}.decision-chain article:nth-child(-n+2){border-bottom:1px solid var(--line)}.decision-chain article:nth-child(3):before{display:none}}
+@media(max-width:800px){.strategy-options{grid-template-columns:1fr}.evidence-grid,.tradeoff-grid,.model-grid{grid-template-columns:1fr}.decision-chain{grid-template-columns:repeat(2,minmax(0,1fr))}.strategy-option{padding:20px}.funnel-track span{font-size:12px}}
+@media(max-width:420px){.decision-chain{grid-template-columns:1fr}.decision-chain article{border-right:0;border-bottom:1px solid var(--line)}.decision-chain article:last-child{border-bottom:0}.decision-chain article+article:before{display:none}.decision-chain article:nth-child(3){border-bottom:1px solid var(--line)}.funnel-track{grid-template-columns:repeat(2,minmax(0,1fr))}.funnel-track span:nth-child(2):after{display:none}.source-note{display:block}.source-note strong{display:block;margin-bottom:5px}}
+@media print{.strategy-option,.evidence-item,.model-grid article,.decision-chain article{break-inside:avoid}}
 </style></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
@@ -32,25 +66,31 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <a class="nav-link active" href="#overview" aria-current="location"><b>01</b>프로젝트 개요</a>
 <a class="nav-link" href="#market"><b>02</b>문제·시장 근거</a>
 <a class="nav-link" href="#customer"><b>03</b>고객·가치 가설</a>
-<a class="nav-link" href="#product"><b>04</b>제품 전략·요구사항</a>
-<a class="nav-link" href="#business"><b>05</b>사업성 검토</a>
-<a class="nav-link" href="#execution"><b>06</b>우선순위·실행</a>
-<a class="nav-link" href="#measurement"><b>07</b>지표·검증</a>
-<a class="nav-link" href="#decision"><b>08</b>의사결정</a>
+<a class="nav-link" href="#strategy"><b>04</b>전략 선택</a>
+<a class="nav-link" href="#product"><b>05</b>제품 전략·요구사항</a>
+<a class="nav-link" href="#business"><b>06</b>사업성 검토</a>
+<a class="nav-link" href="#execution"><b>07</b>우선순위·실행</a>
+<a class="nav-link" href="#measurement"><b>08</b>지표·검증</a>
+<a class="nav-link" href="#decision"><b>09</b>의사결정</a>
 </nav>
 </aside>
 <main class="content" id="top"><div class="top"><div class="top-l">MOSIGO / STRATEGY CASE STUDY</div><a class="top-r" href="#decision">최종 판단 보기 ↗</a></div>
 <header class="hero"><div class="hero-inner"><span class="tag dark">NEW BUSINESS · PRODUCT STRATEGY · PM</span>
 <h1>부모의 병원동행을<br><i>자녀가 예약한다면?</i></h1>
-<p class="intro">예약자와 이용자가 다른 문제를 시장 조사에서 발견하고, 서비스 구조·사업성·실행 조건으로 연결했습니다.</p>
+<p class="intro">누가 부모의 진료를 준비하는가. 이 질문에서 출발해 고객·서비스 전략을 선택하고 사업화 검증 조건까지 설계했습니다.</p>
 <div class="hero-actions"><a href="#overview" class="btn primary">사례 살펴보기 →</a><a href="https://mosigo-nine.vercel.app/" class="btn ghost" target="_blank" rel="noopener noreferrer"><span class="tossface" aria-hidden="true">📱</span> 서비스 데모 ↗</a></div>
 <div class="hero-meta"><span>2026 · 5인 팀 PBL 기반</span><span>·</span><span>시장·서비스 기획 및 프로토타입</span><span>·</span><span>후속 개인 전략 검토</span></div></div></header>
 <section id="overview"><div class="section-title"><span class="eyebrow">01 / PROJECT BRIEF</span><h2>문제에서 사업 판단까지</h2><p class="lead">MOSIGO는 부모의 병원동행을 자녀가 준비하는 상황을 중심으로 설계한 서비스 프로토타입입니다.</p></div>
 <div class="grid g3">
 <article class="panel"><span class="micro">문제</span><h3>예약자와 이용자 분리</h3><p>부모는 서비스를 이용하고 자녀는 검색·선택·예약·확인을 담당합니다.</p></article>
-<article class="panel"><span class="micro">핵심 선택</span><h3>자녀 중심 여정</h3><p>가족 등록, 매니저 비교, 진행 확인, 재예약을 하나로 연결합니다.</p></article>
+<article class="panel"><span class="micro">전략 선택</span><h3>자녀 중심 여정</h3><p>가족 대리 예약을 중심으로 매니저 비교·진행 공유·재예약을 연결합니다.</p></article>
 <article class="panel dark"><span class="micro">판단</span><h3>단계별 사업성 검증</h3><p>수요·공급·원가·안전을 검증하고 확대 여부를 판단합니다.</p></article></div>
-<h3 class="subhead">프로젝트 범위</h3>
+<div class="decision-chain" aria-label="전략적 의사결정 흐름">
+<article><small>01 · OBSERVE</small><strong>문제 발견</strong><p>이용자와 예약자의 역할이 다름</p></article>
+<article><small>02 · FRAME</small><strong>고객 정의</strong><p>자녀를 우선 예약 고객으로 설정</p></article>
+<article><small>03 · DESIGN</small><strong>제품 선택</strong><p>대리 예약과 동행 확인 연결</p></article>
+<article><small>04 · TEST</small><strong>사업 판단</strong><p>수요·원가·권한 검증 후 확장</p></article>
+</div><h3 class="subhead">프로젝트 범위</h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>구분</th><th>내용</th><th>상태</th></tr></thead><tbody>
 <tr><th>기간·참여</th><td>2026.06.08~08.13 교육 프로젝트 · 5인 팀 내 시장·데이터 분석, 서비스 기획, 프로토타입 참여</td><td><span class="evidence">원본 기록 기준</span></td></tr>
 <tr><th>구현</th><td>가입~재예약 사용자 흐름, 예약 저장·복구·공유, Operations 조회</td><td><span class="evidence">원본 저장소 확인</span></td></tr>
@@ -58,7 +98,7 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <tr><th>다음 검증</th><td>이용 수요·지불 의향, 실제 원가, 운영 지표와 수익성</td><td><span class="evidence proposed">검증 계획</span></td></tr>
 </tbody></table></div>
 </section>
-<section id="market"><div class="section-title"><span class="eyebrow">02 / RESEARCH &amp; PROBLEM</span><h2>경쟁 조사를 서비스 요구사항으로</h2><p class="lead">팀의 경쟁 앱 7종·사용자 리뷰 118건 조사에서 제품 요구사항을 도출했습니다. 리뷰 출처·분류·문제별 빈도는 후속 검증 항목입니다.</p></div>
+<section id="market"><div class="section-title"><span class="eyebrow">02 / RESEARCH &amp; PROBLEM</span><h2>경쟁 조사를 서비스 요구사항으로</h2><p class="lead">팀의 경쟁 앱 7종·리뷰 118건 조사에서 접근성, 대리 신청, 매니저 정보라는 세 가지 검토 축을 정리했습니다. 해당 숫자는 조사 범위이며, 각 문제의 발생 비율을 뜻하지 않습니다.</p></div>
 <div class="grid g3"><article class="panel white"><span class="micro">당시 조사 범위</span><span class="point">7종</span><h3>경쟁 서비스</h3></article><article class="panel white"><span class="micro">당시 조사 범위</span><span class="point">118건</span><h3>사용자 리뷰</h3></article><article class="panel dark"><span class="micro">핵심 관찰</span><h3>예약자 ≠ 이용자</h3><p>자녀가 검색·비교·확인을 맡을 수 있다는 관점으로 요구사항을 다시 묶었습니다.</p></article></div>
 <h3 class="subhead">관찰 → 요구사항 → 검증</h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>문제 가설</th><th>제품 요구사항</th><th>다음 확인</th></tr></thead><tbody>
@@ -67,6 +107,7 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <tr><th>신뢰·정보</th><td>매니저 비교 기준, 요금·변경 조건, 진행 공유</td><td>선택 이유·지불 의향·상태 이해</td></tr>
 </tbody></table></div>
 <div class="callout"><strong>외부 벤치마크</strong> · <a href="https://donghengin.com/booking/price" target="_blank" rel="noopener noreferrer">동행돌봄인</a> · <a href="https://www.gowithu.co.kr/bbs/faq.php?fm_id=8" target="_blank" rel="noopener noreferrer">고위드유</a> · <a href="https://www.seoul.go.kr/policy/view.do?id=65&amp;lan=EN" target="_blank" rel="noopener noreferrer">서울시 병원안심동행</a>. 공개 자료를 활용한 별도 벤치마크이며, 팀 조사 7종과 구분합니다.</div>
+<div class="source-note"><strong>근거와 해석</strong><span>조사 규모·기존 프로토타입은 <a href="https://github.com/dohyunkimmm/mosigo/blob/main/README.md" target="_blank" rel="noopener noreferrer">원본 README</a> 기준입니다. 각 문제를 제품 전략으로 연결한 비교·우선순위 판단은 후속 분석이며, 리뷰 원문별 재분류가 필요합니다.</span></div>
 </section>
 <section id="customer"><div class="section-title"><span class="eyebrow">03 / CUSTOMER &amp; VALUE</span><h2>누가 결정하고 누가 이용하는가</h2><p class="lead">고객의 역할이 다른 점을 제품과 정책에 반영했습니다.</p></div>
 <div class="grid g3">
@@ -77,7 +118,19 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <div class="memo"><h3 class="memo-lead">“부모의 병원 방문에 함께하기 어려울 때, 신뢰할 수 있는 매니저를 선택하고 진행 상황을 확인하고 싶다.”</h3>
 <div class="grid g2"><div><h3>기능적 가치</h3><p>비교 → 대리 예약 → 동행 상태 → 재예약을 연결합니다.</p></div><div><h3>신뢰 조건</h3><p>대상자 동의, 정보 최소 수집, 공유 권한, 사고 대응이 전제입니다.</p></div></div></div>
 </section>
-<section id="product"><div class="section-title"><span class="eyebrow">04 / PRODUCT PLANNING</span><h2>요구사항을 화면과 상태로 설계</h2><p class="lead">MOSIGO의 예약 여정을 IA·사용자 흐름·권한 정책으로 구체화했습니다. 인수 기준은 후속 설계안입니다.</p></div>
+
+<section id="strategy"><div class="section-title"><span class="eyebrow">04 / STRATEGY &amp; TRADE-OFFS</span><h2>왜 자녀 중심의 대리 예약인가</h2><p class="lead">같은 병원동행 문제라도 예약 주체와 운영 방식에 따라 제품의 구조가 달라집니다. 세 가지 경험 설계 대안을 비교한 후속 전략 검토입니다.</p></div>
+<div class="strategy-options" aria-label="예약 경험 설계 대안 비교">
+<article class="strategy-option"><span class="option-mark">OPTION A · SELF SERVICE</span><h3>부모 직접 신청</h3><p>이용자가 직접 병원과 매니저를 찾고 예약합니다.</p><dl><dt>장점</dt><dd>예약자·이용자 관계가 단순함</dd><dt>고려할 점</dt><dd>자녀의 원격 지원·진행 확인 과업을 별도로 해결해야 함</dd></dl></article>
+<article class="strategy-option"><span class="option-mark">OPTION B · ASSISTED</span><h3>상담 지원 중심</h3><p>상담 또는 운영 인력이 대리 신청과 변경을 돕습니다.</p><dl><dt>장점</dt><dd>복잡한 예외 상황에 대응하기 쉬움</dd><dt>고려할 점</dt><dd>운영 인력·응대 비용에 따른 확장성 검토 필요</dd></dl></article>
+<article class="strategy-option recommended"><span class="option-mark">SELECTED HYPOTHESIS · FAMILY FIRST</span><h3>자녀 직접 예약</h3><p>자녀가 비교·예약·진행 확인을 한 흐름에서 관리합니다.</p><dl><dt>기대 가치</dt><dd>대리 예약과 보호자 정보 요구를 동시에 연결</dd><dt>설계 조건</dt><dd>부모 동의, 예약 소유권, 공유 권한의 분리</dd></dl></article>
+</div>
+<div class="strategy-result"><strong>선택한 전략 방향 · 후속 분석</strong><p>우선 고객은 ‘부모의 진료를 준비하는 자녀’로 가정합니다. 서비스 전체에서 매니저 비교 → 대상자 동의 → 예약 → 진행 확인이 이어지도록 설계하되, 실제 고객 선호와 운영 비용으로 타당성을 검증합니다.</p></div>
+<div class="tradeoff-grid" style="margin-top:18px">
+<article><strong>가치와 복잡성의 교환</strong><p>자녀의 정보 확인 부담을 낮추는 대신, 대상자 동의와 제3자 접근 권한을 명확히 설계해야 합니다.</p></article>
+<article><strong>제품과 운영의 경계</strong><p>예약·공유 흐름은 프로토타입으로 보여주고, 현장 매니저 배정·실제 병원 예약은 별도 운영 타당성 검토로 둡니다.</p></article>
+</div></section>
+<section id="product"><div class="section-title"><span class="eyebrow">05 / PRODUCT PLANNING</span><h2>요구사항을 화면과 상태로 설계</h2><p class="lead">예약 주체·상태·공유 권한을 기준으로 요구사항을 구조화했습니다. 실제 코드·테스트 근거와 향후 인수 기준을 구분합니다.</p></div>
 <h3 class="subhead">정보구조·핵심 여정</h3>
 <div class="pathway">
 <article><b>01</b><strong>가족 등록</strong><span>예약자·대상자 분리</span></article><article><b>02</b><strong>병원 탐색</strong><span>지역·진료과</span></article><article><b>03</b><strong>매니저 선택</strong><span>경력·정보 비교</span></article><article><b>04</b><strong>신청·동의</strong><span>정보·비용 확인</span></article><article><b>05</b><strong>진행 공유</strong><span>출발~귀가 상태</span></article><article><b>06</b><strong>리포트</strong><span>시연용 요약</span></article><article><b>07</b><strong>재예약</strong><span>이력 활용</span></article>
@@ -89,9 +142,17 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <tr><th>상태 전환</th><td>예약 상태·동행 타임라인 프로토타입</td><td>중복 요청·취소·연결 끊김·잘못된 순서의 전환 통제</td></tr>
 <tr><th>운영 화면</th><td>계정 소유 예약 조회 및 읽기 전용 샘플 화면</td><td>운영자 배정·감사이력은 별도 권한/제품 범위 합의 후 추진</td></tr>
 </tbody></table></div>
+
+<h3 class="subhead">구현과 테스트로 연결한 근거</h3>
+<div class="evidence-grid">
+<article class="evidence-item"><div class="evidence-head"><h3>예약 데이터·소유권</h3><span class="evidence">코드 확인</span></div><p>서버 검증 예약 API와 계정 소유 예약 조회, 복구·충돌 처리 로직을 구분했습니다.</p><a href="https://github.com/dohyunkimmm/mosigo/blob/main/src/api/bookings.js" target="_blank" rel="noopener noreferrer">예약 API 소스 ↗</a></article>
+<article class="evidence-item"><div class="evidence-head"><h3>공유 정책·권한</h3><span class="evidence">코드 + 테스트</span></div><p>공유 변경 권한은 기본 <code>edit</code>이며, 환경 설정에 따라 <code>read-only</code>를 적용합니다. 설정 선택과 실제 운영 전환은 구분합니다.</p><a href="https://github.com/dohyunkimmm/mosigo/blob/main/tests/share-write-policy.test.js" target="_blank" rel="noopener noreferrer">공유 정책 테스트 ↗</a></article>
+<article class="evidence-item"><div class="evidence-head"><h3>Operations 정보구조</h3><span class="evidence">코드 + 테스트</span></div><p>계정 소유 예약 조회용 운영 화면과 가상 데이터만 사용하는 읽기 전용 샘플을 분리했습니다.</p><a href="https://github.com/dohyunkimmm/mosigo/blob/main/tests/operations.test.js" target="_blank" rel="noopener noreferrer">운영 화면 테스트 ↗</a></article>
+<article class="evidence-item"><div class="evidence-head"><h3>검증 범위</h3><span class="evidence proposed">후속 계획</span></div><p>자동 테스트·브라우저 QA 기록은 코드 검증 근거이며, 실제 이용자 전환율이나 현장 운영 성과와 구분합니다.</p><a href="https://github.com/dohyunkimmm/mosigo/blob/main/docs/DEVICE-QA-RUNBOOK.md" target="_blank" rel="noopener noreferrer">실기기 QA 기준 ↗</a></article>
+</div>
 <div class="callout warning"><strong>프로토타입 범위</strong> · 병원 예약·결제·의료 판단은 시연 범위 밖입니다. 현행 공유 토큰의 예약 상태 변경 권한을 기준으로 역할별 접근 정책을 검토합니다.</div>
 </section>
-<section id="business"><div class="section-title"><span class="eyebrow">05 / BUSINESS CASE</span><h2>거래액과 이익을 구분한다</h2><p class="lead">기준 시나리오는 연간 거래액 9억 원을 가정합니다. 직접 제공형과 중개형의 매출 인식·원가·책임 구조를 나눠 비교합니다.</p></div>
+<section id="business"><div class="section-title"><span class="eyebrow">06 / BUSINESS CASE</span><h2>거래액과 이익을 구분한다</h2><p class="lead">기준 시나리오 1만 5,000명 × 연 1.5회 × 4만 원은 연간 거래액 9억 원입니다. 직접 제공형과 중개형의 수익 인식 방식을 분리해 검토합니다.</p></div>
 <div class="sim"><div class="sim-head"><h3>거래액·공헌이익 민감도</h3><p>이용자 수·빈도·가격·비용·수수료를 직접 조정합니다.</p></div><div class="sim-body"><div>
 <div class="control"><label for="users">이용 고객 수 <output id="uOut">15,000명</output></label><input id="users" type="range" min="5000" max="30000" value="15000" step="1000"><small>5,000~30,000명 · 가정</small></div>
 <div class="control"><label for="freq">연간 1인당 이용 횟수 <output id="fOut">1.5회</output></label><input id="freq" type="range" min="1" max="3" value="1.5" step="0.25"><small>1~3회 · 가정</small></div>
@@ -112,10 +173,16 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 
 
 <p class="table-foot">변동비 30,000원/건 가정. 공헌이익은 고객 획득·보험·개발·고정 운영·환불 비용을 반영하기 전 금액으로 영업이익과 구분합니다.</p>
+
+<h3 class="subhead">같은 거래액, 다른 수익모델</h3>
+<div class="model-grid">
+<article><span class="micro">DIRECT OPERATION</span><strong>직접 제공형</strong><p>고객에게 동행을 제공하는 운영 주체를 가정합니다. 계약과 책임 구조에 따라 총액 매출 인식 여부를 판단하며, 매니저 공급·취소·보험 비용을 부담할 수 있습니다.</p><small>비교 기준 · 고객 지불금액, 건당 변동비, 고정 운영비</small></article>
+<article><span class="micro">MARKETPLACE</span><strong>중개·제휴형</strong><p>동행 공급자와 고객을 연결하는 역할을 가정합니다. 중개 수수료 매출 인식과 공급자 계약·고객지원·책임 범위를 별도로 검토합니다.</p><small>비교 기준 · 실수수료율, 계약 방식, 중개 관련 비용</small></article>
+</div>
 <h3 class="subhead">사업화 전 확보할 근거</h3>
 <div class="grid g3"><article class="panel"><h3>수요·가격</h3><p>지역별 고객 규모, 이용 빈도, 지불 의향, 예약 전환</p></article><article class="panel"><h3>공급·원가</h3><p>매니저 확보·가동률, 이동·인건비, 취소·보험</p></article><article class="panel"><h3>계약·책임</h3><p>직접 제공/중개 구분, 정산, 안전·개인정보 책임</p></article></div>
 </section>
-<section id="execution"><div class="section-title"><span class="eyebrow">06 / PRIORITIZATION &amp; DELIVERY</span><h2>어떤 순서로 검증하고 실행할 것인가</h2><p class="lead">고객 수요·공급·권한 검증을 기준으로 기능 우선순위와 단계별 실행안을 제안했습니다.</p></div>
+<section id="execution"><div class="section-title"><span class="eyebrow">07 / PRIORITIZATION &amp; DELIVERY</span><h2>어떤 순서로 검증하고 실행할 것인가</h2><p class="lead">고객 수요·공급·권한 검증을 먼저 배치하고, 검증 결과에 따라 MVP와 확장 범위를 결정하도록 실행안을 구성했습니다.</p></div>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>우선순위</th><th>할 일</th><th>결정 기준</th></tr></thead><tbody>
 <tr><th>P0 · 필수</th><td>고객 문제 인터뷰, 공급·원가 확인, 예약 주체·공유 권한 정리</td><td>수요 근거와 안전한 최소 운영 가능 여부</td></tr>
 <tr><th>P1 · 검증</th><td>핵심 예약 흐름 과업 테스트, 오류·취소·복구 QA, 실제 원가 기록</td><td>과업 완료율·예외 대응·운영 부담</td></tr>
@@ -127,14 +194,34 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <div class="step"><span class="step-index">G1</span><h3>공급·운영</h3><p>매니저 수급, 원가, 취소·사고 책임, 민감정보 처리 검토.</p></div>
 <div class="step"><span class="step-index">G2</span><h3>제한 검증</h3><p>예약·공유·복구 예외를 테스트하고 관찰 결과로 다음 배포를 결정.</p></div>
 <div class="step"><span class="step-index">G3</span><h3>확장 판단</h3><p>재예약·지원 비용·공헌이익 검증 후 지역·제휴 확대 여부 결정.</p></div></div>
+
+<h3 class="subhead">단계별 의사결정 산출물</h3>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>단계</th><th>필요한 증거</th><th>다음 단계로 넘어갈 판단</th></tr></thead><tbody>
+<tr><th>G0 / 고객</th><td>인터뷰 메모, 문제·대안 선택 이유, 과업 관찰 기록</td><td>대리 예약의 필요성과 우선 고객이 확인되는가</td></tr>
+<tr><th>G1 / 운영</th><td>공급 가능 시간, 실제 원가, 동의·취소·책임 정책</td><td>제한 지역에서 안전하게 운영할 조건을 갖췄는가</td></tr>
+<tr><th>G2 / 제품</th><td>예약·공유·복구 QA, 사용자 과업 결과, 수정 내역</td><td>핵심 여정과 접근 권한이 검증 기준을 충족하는가</td></tr>
+<tr><th>G3 / 사업</th><td>재예약·지원 비용·실제 단위경제성 데이터</td><td>확장 또는 모델 변경을 결정할 근거가 있는가</td></tr>
+</tbody></table></div>
+<p class="table-foot">위 통과 기준은 수치 목표를 임의로 채우지 않은 의사결정 프레임입니다. 정량 기준은 기초 조사와 파일럿 운영으로 설정합니다.</p>
 <div class="callout"><strong>QA 현황</strong> · 원본 저장소에 자동 테스트·Chromium QA·읽기 전용 Production Smoke 기록이 있습니다. 실기기 QA와 운영 보안 점검은 후속 검증 항목입니다. <a href="https://github.com/dohyunkimmm/mosigo/blob/main/docs/DEVICE-QA-RUNBOOK.md" target="_blank" rel="noopener noreferrer">실기기 QA 계획 ↗</a></div>
 </section>
-<section id="measurement"><div class="section-title"><span class="eyebrow">07 / METRICS &amp; VALIDATION</span><h2>성과를 측정하는 기준 설계</h2><p class="lead">예약 전환과 사용성을 확인할 이벤트·분모·과업 성공 기준을 설계했습니다. 운영 성과는 실제 서비스 검증 단계에서 측정합니다.</p></div>
+<section id="measurement"><div class="section-title"><span class="eyebrow">08 / METRICS &amp; VALIDATION</span><h2>성과를 측정하는 기준 설계</h2><p class="lead">예약 퍼널과 사용성·재이용을 각각 구분해 측정하도록 설계했습니다. 실제 지표 수치는 파일럿 운영 단계에서 확보합니다.</p></div>
 <div class="grid g2">
 <div class="kpi"><span class="label">퍼널</span><h3>예약 완료율</h3><span class="formula">예약 완료 세션 ÷ 예약 시작 세션</span><p>이벤트: start → manager_selected → submit_success. QA·중복 세션 필터 기준 설계.</p></div>
 <div class="kpi"><span class="label">사용성</span><h3>매니저 선택 성공률</h3><span class="formula">조건에 맞는 선택을 완료한 참가자 ÷ 과업 참가자</span><p>선택 근거 설명 여부와 이탈 단계를 기록.</p></div>
 <div class="kpi"><span class="label">정보 이해</span><h3>상태 이해도</h3><span class="formula">현재·다음 단계를 정확히 설명한 참가자 ÷ 응답자</span><p>보호자 진행 화면 과업 기반 측정.</p></div>
 <div class="kpi"><span class="label">리텐션</span><h3>90일 내 재예약률</h3><span class="formula">90일 내 재예약 고객 ÷ 추적 가능한 완료 고객</span><p>90일은 초기 검증을 위해 제안한 관찰기간입니다.</p></div></div>
+
+<h3 class="subhead">측정 이벤트 설계 <span class="label orange">계획</span></h3>
+<div class="funnel-track" aria-label="가설 기반 예약 전환 퍼널">
+<span>예약 시작</span><span>매니저 선택</span><span>신청 제출</span><span>완료 확인</span>
+</div>
+<div class="tablewrap"><table class="tbl"><thead><tr><th>관찰 지점</th><th>기록할 정보</th><th>해석할 질문</th></tr></thead><tbody>
+<tr><th>시작 → 비교</th><td>조건 검색·매니저 선택 단계, 이탈 시점</td><td>필수 정보가 충분한가</td></tr>
+<tr><th>비교 → 신청</th><td>입력 단계·동의 확인·신청 완료</td><td>대리 예약 과정에서 막히는가</td></tr>
+<tr><th>동행 → 재예약</th><td>상태 이해 과업·재이용 여부</td><td>진행 공유가 반복 이용 가치로 이어지는가</td></tr>
+</tbody></table></div>
+<p class="table-foot">위 이벤트 흐름은 분석 설계안이며 실제 서비스에서 수집된 GA4·Amplitude 로그가 아닙니다. 민감정보는 이벤트에서 제외합니다.</p>
 <h3 class="subhead">QA·UAT 예시 <span class="label orange">실행 계획</span></h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>과업</th><th>통과 기준</th><th>점검할 예외</th></tr></thead><tbody>
 <tr><th>부모 예약</th><td>자녀가 도움 없이 요청 완료</td><td>예약자·대상자 혼동, 재진입 시 상태 유실</td></tr>
@@ -143,16 +230,24 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 </tbody></table></div>
 <p class="table-foot">현재 단계는 퍼널 측정과 과업 테스트 설계입니다. 운영 지표·사용자 테스트 결과는 실제 검증 과정에서 기록하며 분석 이벤트에서 민감정보를 제외합니다.</p>
 </section>
-<section id="decision"><div class="section-title"><span class="eyebrow">08 / DECISION MEMO</span><h2>단계적 사업화 검증</h2><p class="lead">고객 수요, 공급·원가, 안전 기준을 확인하는 제한 지역 검증을 우선 제안합니다.</p></div>
+<section id="decision"><div class="section-title"><span class="eyebrow">09 / DECISION MEMO</span><h2>단계적 사업화 검증</h2><p class="lead">핵심 고객·공급 조건·수익성을 차례로 검증하고, 그 결과로 출시·제휴·확장 방식을 선택하는 전략을 제안합니다.</p></div>
 <div class="memo"><span class="eyebrow">RECOMMENDATION</span><h3 class="memo-lead">자녀 대리 예약형 병원동행의<br>사업화 조건을 검증합니다.</h3>
 <div class="grid g2"><div><h3>선택 가능한 방식</h3><p>제한 지역 직접 제공 또는 기존 사업자 협업·중개. 수익 인식, 공급 원가, 책임 범위를 비교합니다.</p></div><div><h3>결정 전 확보 자료</h3><p>고객 인터뷰, 매니저 공급 단가, 실제 이용 흐름, 개인정보·안전 검토, 계약 조건.</p></div></div>
 <div class="verdict">G0~G2 검증 결과를 바탕으로 사업화·지역 확대 여부를 판단합니다.</div></div>
+
+<h3 class="subhead">실행 모델 선택 기준</h3>
+<div class="grid g3">
+<article class="panel"><span class="micro">OPTION 01 · DIRECT</span><h3>제한 지역 직접 제공</h3><p>서비스 품질 관리가 핵심인 경우 검토. 매니저 수급, 건당 원가, 사고 대응 역량 확인이 우선입니다.</p></article>
+<article class="panel"><span class="micro">OPTION 02 · PARTNER</span><h3>기존 사업자 협업</h3><p>공급 안정성이 핵심인 경우 검토. 수수료, 데이터·고객 책임, 예약 상태 연동 조건을 비교합니다.</p></article>
+<article class="panel"><span class="micro">OPTION 03 · EXPAND</span><h3>기업·공공 제휴 확장</h3><p>반복 수요와 운영 경제성이 확인되면 검토. 도입 주체별 구매·운영 절차가 추가로 필요합니다.</p></article>
+</div>
+<p class="table-foot">세 방식은 실제 계약 체결이나 출시 경험이 아닌 후속 전략 선택지입니다.</p>
 <h3 class="subhead">IT기획 · 전략기획 · PM 채용 요구 역량과의 연결</h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>요구 역량</th><th>이 사례에서 제시한 근거</th><th>증빙 수준</th></tr></thead><tbody>
 <tr><th>시장·문제 정의</th><td>경쟁 앱·리뷰 조사, 예약자·이용자 역할 분리</td><td>팀 조사 기반 · 원문 재분류 계획</td></tr>
-<tr><th>IA·PRD·정책</th><td>사용자 여정, 기능·권한·예외와 인수 기준 정리</td><td>프로토타입 구현 + 후속 기획안</td></tr>
+<tr><th>IA·PRD·정책</th><td>사용자 여정, 기능·권한·예외와 인수 기준 정리, 원본 코드·테스트 연결</td><td>프로토타입 증거 + 후속 기획안</td></tr>
 <tr><th>BM·재무</th><td>거래액·수수료 매출·공헌이익 모델과 민감도</td><td>사업성 시나리오 · 실제 원가 검증 계획</td></tr>
-<tr><th>PM·품질·데이터</th><td>우선순위, 게이트, QA 과업, 퍼널·KPI 정의</td><td>원본 테스트 기록 + 실행·측정 체계 설계</td></tr>
+<tr><th>PM·품질·데이터</th><td>우선순위, 게이트별 산출물, QA 과업, 퍼널·KPI 정의</td><td>원본 테스트 기록 + 실행·측정 설계</td></tr>
 </tbody></table></div>
 <h3 class="subhead">참고한 최근 사람인 공고 <span class="label gray">2026.07.30~10.30</span></h3>
 <div class="source-grid">
