@@ -783,12 +783,12 @@ document.getElementById('reset').addEventListener('click',function(){ids.forEach
   .then(function(markdown){
    var block=markdown.match(/(?:^|\n)## 주요 기능\s*\n([\s\S]*?)(?=\n## |\s*$)/);
    if(!block)throw Error('feature heading missing');
-   var entries=block[1].split(/\r?\n/).map(function(line){return line.match(/^\s*[-*]\s+\*\*(.+?)\*\*\s*:\s*(.+)\s*$/)}).filter(Boolean).slice(0,6);
+   var entries=block[1].split(/\r?\n/).map(function(line){return line.match(/^\s*[-*]\s+\*\*(.+?)\*\*\s*:?\s*(.+)\s*$/)}).filter(Boolean).slice(0,6);
    if(!entries.length)throw Error('features not found');
    list.replaceChildren();
    entries.forEach(function(parts){
     var item=document.createElement('li'),heading=document.createElement('strong'),desc=document.createElement('span');
-    heading.textContent=parts[1].replace(/[*_]/g,'').trim();
+    heading.textContent=parts[1].replace(/[*_]/g,'').replace(/[:：]$/,'').trim();
     desc.textContent=parts[2].replace(/[*_]/g,'').trim();
     item.appendChild(heading);item.appendChild(desc);list.appendChild(item);
    });
