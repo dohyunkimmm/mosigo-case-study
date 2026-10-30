@@ -4,16 +4,18 @@ https://mosigo-case-study.vercel.app/
 
 병원동행 서비스 MOSIGO를 기반으로 작성한 **전략기획·IT 서비스 기획·PM 케이스 스터디**입니다. 서비스 데모를 복제하거나 화면을 삽입하지 않습니다. 원본은 [별도 링크](https://mosigo-nine.vercel.app/)로만 제공합니다.
 
-## 내용
+## 핵심 구성
 
-- 프로젝트 개요와 본인·팀 작업 범위
-- 고객 문제·시장 조사와 관찰 → 요구사항의 연결
-- 예약자/이용자 분리 및 핵심 JTBD
-- IA·사용자 흐름·기능·권한·예외·인수 기준
-- 거래액·매출 인식·공헌이익 가정 시뮬레이터
-- 우선순위·PM 실행 게이트·QA 근거와 미완료 범위
-- KPI·퍼널 이벤트 및 과업형 검증 계획
-- 경영 판단과 최근 채용 요구 역량 대비 증빙
+- 프로젝트 근거와 시장 조사 범위
+- 고객 역할·Job Story, 예약 방식별 전략 대안 비교
+- 사용자 여정·IA·권한/예외 정책·인수 기준과 실제 코드·테스트 근거
+- 직접 제공형·중개형의 사업성 시나리오와 민감도 계산기
+- 실행 우선순위, 단계별 산출물·통과 조건, QA·KPI·퍼널 측정 설계
+- 사업화 의사결정과 최근 IT기획·전략기획·PM 공고 역량 대응
+
+**판단 자료의 구분:** ‘원본 구현·테스트’, ‘팀 조사’, ‘후속 전략 분석’, ‘검증 계획’을 나눠 표현합니다. 전략 대안 비교와 게이트 통과 기준은 당시 팀의 공식 의사결정·실행 결과가 아닌 후속 검토안입니다.
+
+**원본 증거:** 공개 [예약 API](https://github.com/dohyunkimmm/mosigo/blob/main/src/api/bookings.js), [공유 권한 테스트](https://github.com/dohyunkimmm/mosigo/blob/main/tests/share-write-policy.test.js), [운영 화면 테스트](https://github.com/dohyunkimmm/mosigo/blob/main/tests/operations.test.js), [실기기 QA 계획](https://github.com/dohyunkimmm/mosigo/blob/main/docs/DEVICE-QA-RUNBOOK.md)을 연결합니다.
 
 콘텐츠 구성은 필요에 따라 조정합니다. 본문 섹션 수를 목표치로 고정하지 않습니다.
 
