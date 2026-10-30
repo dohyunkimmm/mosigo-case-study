@@ -93,6 +93,16 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 .fin-bridge small{display:block;font-size:12px;color:#536e5d}.fin-bridge strong{display:block;margin-top:7px;font-size:clamp(18px,1.9vw,27px);font-weight:800;color:#164a34;line-height:1.3}
 .fin-bridge em{display:block;color:#63786a;font-size:11px;font-style:normal;margin-top:5px}
 @media(max-width:800px){.before-after{grid-template-columns:1fr}.fin-bridge{grid-template-columns:1fr}}
+
+/* Accessibility QA: WCAG 2.2 AA text contrast and focusable horizontal data regions */
+.nav-link b{color:#336447}
+.decision-chain small{color:#3b6c4e}
+.market-steps small{color:#35654a}
+.strategy-option .option-mark{color:#355f43}
+.pathway article b{color:#2e6840}
+.before-after article small{color:#345b40}
+.fin-bridge em{color:#435f4e}
+.tablewrap:focus-visible,.blueprint:focus-visible{outline:3px solid #267248;outline-offset:3px}
 </style></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
@@ -119,7 +129,7 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <article class="panel"><span class="micro">문제</span><h3>예약자와 이용자 분리</h3><p>부모는 서비스를 이용하고 자녀는 검색·선택·예약·확인을 담당합니다.</p></article>
 <article class="panel"><span class="micro">전략 선택</span><h3>자녀 중심 여정</h3><p>가족 대리 예약을 중심으로 매니저 비교·진행 공유·재예약을 연결합니다.</p></article>
 <article class="panel dark"><span class="micro">판단</span><h3>단계별 사업성 검증</h3><p>수요·공급·원가·안전을 검증하고 확대 여부를 판단합니다.</p></article></div>
-<div class="decision-chain" aria-label="전략적 의사결정 흐름">
+<div class="decision-chain" role="group" aria-label="전략적 의사결정 흐름">
 <article><small>01 · OBSERVE</small><strong>문제 발견</strong><p>이용자와 예약자의 역할이 다름</p></article>
 <article><small>02 · FRAME</small><strong>고객 정의</strong><p>자녀를 우선 예약 고객으로 설정</p></article>
 <article><small>03 · DESIGN</small><strong>제품 선택</strong><p>대리 예약과 동행 확인 연결</p></article>
@@ -162,7 +172,7 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 </section>
 
 <section id="strategy"><div class="section-title"><span class="eyebrow">04 / STRATEGY &amp; TRADE-OFFS</span><h2>왜 자녀 중심의 대리 예약인가</h2><p class="lead">동일한 고객 문제에 대한 세 가지 해결 방식을 비교했습니다. 선택은 개인 전략 가설이며 실제 사용자 반응으로 판단합니다.</p></div>
-<div class="strategy-options" aria-label="예약 경험 설계 대안 비교">
+<div class="strategy-options" role="group" aria-label="예약 경험 설계 대안 비교">
 <article class="strategy-option"><span class="option-mark">OPTION A · SELF SERVICE</span><h3>부모 직접 신청</h3><p>이용자가 직접 병원과 매니저를 찾고 예약합니다.</p><dl><dt>장점</dt><dd>예약자·이용자 관계가 단순함</dd><dt>고려할 점</dt><dd>자녀의 원격 지원·진행 확인 과업을 별도로 해결해야 함</dd></dl></article>
 <article class="strategy-option"><span class="option-mark">OPTION B · ASSISTED</span><h3>상담 지원 중심</h3><p>상담 또는 운영 인력이 대리 신청과 변경을 돕습니다.</p><dl><dt>장점</dt><dd>복잡한 예외 상황에 대응하기 쉬움</dd><dt>고려할 점</dt><dd>운영 인력·응대 비용에 따른 확장성 검토 필요</dd></dl></article>
 <article class="strategy-option recommended"><span class="option-mark">SELECTED HYPOTHESIS · FAMILY FIRST</span><h3>자녀 직접 예약</h3><p>자녀가 비교·예약·진행 확인을 한 흐름에서 관리합니다.</p><dl><dt>기대 가치</dt><dd>대리 예약과 보호자 정보 요구를 동시에 연결</dd><dt>설계 조건</dt><dd>부모 동의, 예약 소유권, 공유 권한의 분리</dd></dl></article>
@@ -279,7 +289,7 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <div class="kpi"><span class="label">리텐션</span><h3>90일 내 재예약률</h3><span class="formula">90일 내 재예약 고객 ÷ 추적 가능한 완료 고객</span><p>90일은 초기 검증을 위해 제안한 관찰기간입니다.</p></div></div>
 
 <h3 class="subhead">측정 이벤트 설계 <span class="label orange">계획</span></h3>
-<div class="funnel-track" aria-label="가설 기반 예약 전환 퍼널">
+<div class="funnel-track" role="group" aria-label="가설 기반 예약 전환 퍼널">
 <span>예약 시작</span><span>매니저 선택</span><span>신청 제출</span><span>완료 확인</span>
 </div>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>관찰 지점</th><th>기록할 정보</th><th>해석할 질문</th></tr></thead><tbody>
@@ -333,6 +343,25 @@ function onScroll(){
  progress.style.width=Math.max(0,Math.min(100,window.scrollY/max*100))+'%';
 }
 window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+// Give overflow-only data tables a keyboard-accessible scroll region.
+const dataScrollAreas=Array.from(document.querySelectorAll('.tablewrap,.blueprint'));
+function updateDataScrollAccess(){
+ dataScrollAreas.forEach((region)=>{
+  const overflows=region.scrollWidth>region.clientWidth+2;
+  if(overflows){
+   region.setAttribute('tabindex','0');
+   region.setAttribute('role','region');
+   const title=region.closest('section')?.querySelector('h2')?.textContent.trim()||'분석 자료';
+   region.setAttribute('aria-label',title+' · 좌우 스크롤 표');
+  }else{
+   region.removeAttribute('tabindex');
+   region.removeAttribute('role');
+   region.removeAttribute('aria-label');
+  }
+ });
+}
+window.addEventListener('resize',updateDataScrollAccess,{passive:true});
+updateDataScrollAccess();
 const ids=['users','freq','price','cost','rate'];const defaults=[15000,1.5,40000,30000,20];const fmt=new Intl.NumberFormat('ko-KR');
 function won(v){if(Math.abs(v)>=100000000)return (v/100000000).toFixed(v%100000000===0?1:2)+'억 원';if(Math.abs(v)>=10000)return (v/10000).toFixed(1)+'만 원';return fmt.format(v)+'원';}
 function update(){
