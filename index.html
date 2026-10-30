@@ -103,6 +103,22 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 .before-after article small{color:#345b40}
 .fin-bridge em{color:#435f4e}
 .tablewrap:focus-visible,.blueprint:focus-visible{outline:3px solid #267248;outline-offset:3px}
+
+/* Accessible keyboard focus and concise announcements for financial simulator */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3px solid #2d7950;outline-offset:4px}
+.hero a:focus-visible{outline-color:#dcf7a1}
+/* Portfolio tables become readable comparison cards rather than wide mobile sheets */
+@media(max-width:600px){
+ .tablewrap,.blueprint{overflow:visible;border:0;background:transparent}
+ .tbl,.blueprint table{display:block;min-width:0;width:100%}
+ .tbl thead,.blueprint thead{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .tbl tbody,.blueprint tbody{display:block}
+ .tbl tbody tr,.blueprint tbody tr{display:block;border:1px solid var(--line);border-radius:12px;margin-bottom:11px;overflow:hidden;background:white}
+ .tbl tbody th,.tbl tbody td,.blueprint tbody td{display:grid;grid-template-columns:minmax(82px,34%) minmax(0,1fr);gap:8px;align-items:start;min-width:0;width:100%;border:0;border-bottom:1px solid #e5ede7;white-space:normal;overflow-wrap:anywhere;padding:12px 13px;line-height:1.5}
+ .tbl tbody tr>*:last-child,.blueprint tbody tr>*:last-child{border-bottom:0}
+ .tbl tbody th::before,.tbl tbody td::before,.blueprint tbody td::before{content:attr(data-label);font-size:11px;font-weight:800;color:#365e44;line-height:1.55}
+}
 </style></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
@@ -219,6 +235,7 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <p class="table-foot">개인 전략 분석에서 정의한 역할별 목표 운영 흐름이며, 실제 매니저 운영 조직이나 서비스 정산 시스템을 구축했다는 의미는 아닙니다.</p>
 </section>
 <section id="business"><div class="section-title"><span class="eyebrow">06 / BUSINESS CASE</span><h2>거래액과 이익을 구분한다</h2><p class="lead">기준 시나리오 1만 5,000명 × 연 1.5회 × 4만 원은 연간 거래액 9억 원입니다. 직접 제공형과 중개형의 수익 인식 방식을 분리해 검토합니다.</p></div>
+<p id="sim-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 <div class="sim"><div class="sim-head"><h3>거래액·공헌이익 민감도</h3><p>이용자 수·빈도·가격·비용·수수료를 직접 조정합니다.</p></div><div class="sim-body"><div>
 <div class="control"><label for="users">이용 고객 수 <output id="uOut">15,000명</output></label><input id="users" type="range" min="5000" max="30000" value="15000" step="1000"><small>5,000~30,000명 · 가정</small></div>
 <div class="control"><label for="freq">연간 1인당 이용 횟수 <output id="fOut">1.5회</output></label><input id="freq" type="range" min="1" max="3" value="1.5" step="0.25"><small>1~3회 · 가정</small></div>
@@ -226,7 +243,7 @@ section{max-width:1130px;margin:auto;padding:81px 36px 88px;border-bottom:1px so
 <div class="control"><label for="cost">건당 변동비 <output id="cOut">30,000원</output></label><input id="cost" type="range" min="15000" max="50000" value="30000" step="1000"><small>인건비·이동 등을 가정한 변동비</small></div>
 <div class="control"><label for="rate">중개 수수료율 <output id="rOut">20%</output></label><input id="rate" type="range" min="5" max="30" value="20" step="1"><small>계약 구조 검토용 수수료 가정</small></div>
 <button class="btn" id="reset" type="button">기준 가정으로 초기화 ↺</button>
-</div><div class="result" aria-live="polite" aria-atomic="true">
+</div><div class="result">
 <div><span class="eyebrow">ANNUAL TRANSACTION VOLUME · 연간 거래액</span><div class="point" id="gmv" style="margin-top:8px">9.0억 원</div><small id="orderCount">연간 22,500건 가정</small></div>
 <div class="result-line"><div><span>직접 제공형 · 총액 매출 인식 가정</span><strong id="direct">9.0억 원</strong><small>계약 구조에 따른 매출 인식 검토</small></div><span class="label">거래액 전체</span></div>
 <div class="result-line"><div><span>직접 제공형 · 고정비 차감 전 공헌이익</span><strong id="margin">2.25억 원</strong><small>건당 변동비 반영 · 고정비 제외</small></div><span class="label orange">고정비 전</span></div>
@@ -344,6 +361,15 @@ function onScroll(){
 }
 window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 // Give overflow-only data tables a keyboard-accessible scroll region.
+// For mobile stacked-table cards, retain readable labels next to every data value.
+document.querySelectorAll('.tbl,.blueprint table').forEach((table)=>{
+ const headings=Array.from(table.querySelectorAll('thead th')).map(th=>th.textContent.trim());
+ table.querySelectorAll('tbody tr').forEach((row)=>{
+  Array.from(row.children).forEach((cell,i)=>{
+   cell.setAttribute('data-label',headings[i]||'항목');
+  });
+ });
+});
 const dataScrollAreas=Array.from(document.querySelectorAll('.tablewrap,.blueprint'));
 function updateDataScrollAccess(){
  dataScrollAreas.forEach((region)=>{
@@ -364,7 +390,7 @@ window.addEventListener('resize',updateDataScrollAccess,{passive:true});
 updateDataScrollAccess();
 const ids=['users','freq','price','cost','rate'];const defaults=[15000,1.5,40000,30000,20];const fmt=new Intl.NumberFormat('ko-KR');
 function won(v){if(Math.abs(v)>=100000000)return (v/100000000).toFixed(v%100000000===0?1:2)+'억 원';if(Math.abs(v)>=10000)return (v/10000).toFixed(1)+'만 원';return fmt.format(v)+'원';}
-function update(){
+function update(announce=false){
  const a=ids.map(id=>Number(document.getElementById(id).value));
  const [users,freq,price,cost,rate]=a;const count=users*freq,gmv=count*price;
  document.getElementById('uOut').textContent=fmt.format(users)+'명';document.getElementById('fOut').textContent=freq+'회';
@@ -373,9 +399,10 @@ function update(){
  document.getElementById('direct').textContent=won(gmv);
  document.getElementById('margin').textContent=won(count*(price-cost));
  document.getElementById('broker').textContent=won(gmv*rate/100);
+ if(announce){document.getElementById('sim-announcement').textContent='연간 거래액 '+won(gmv)+', 고정비 차감 전 공헌이익 '+won(count*(price-cost))+', 중개형 수수료 매출 '+won(gmv*rate/100);}
 }
-ids.forEach(id=>document.getElementById(id).addEventListener('input',update));
-document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update();});
+ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>update(true)));
+document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update(true);});
 update();
 })();
 </script></body></html>
