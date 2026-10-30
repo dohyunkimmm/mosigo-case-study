@@ -497,6 +497,18 @@ section[id] { scroll-margin-top:74px; }
 .source-feature-list span {display:block;font-size:13px;line-height:1.7;margin-top:4px;}
 @media(max-width:800px){.source-feature-list{grid-template-columns:1fr;}.source-features{padding:20px;}}
 
+
+/* Finish legibility pass for dense data and process diagrams. */
+.pathway{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+.pathway article{padding:17px;}
+.pathway b,.pathway span,.journey-box span,.scenario .bar b,.scenario .bar small,.result-line small,.result-line span,.step-index,.top-r a,.top-l,.footer,.nav-bottom,.brand-sub{font-size:12px;line-height:1.65;}
+.pathway strong,.journey-box strong{font-size:14px;}
+.result-line strong{font-size:21px;}
+.control small,.control label,.formula,.gate,.gate strong{font-size:13px;}
+.source-grid a{font-size:13px;min-height:44px;}
+@media(max-width:800px){.pathway{grid-template-columns:repeat(2,minmax(0,1fr));}.pathway strong{font-size:13px;}}
+@media(max-width:420px){.pathway{grid-template-columns:1fr;}.pathway article:not(:last-child)::after{display:none;}}
+
 </style>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="MOSIGO 전략기획 사례. 자녀 중심 병원동행 서비스의 문제 정의, 시장 분석, 사업성 가정, 검증 계획을 정리하고 최신 서비스 데모를 연결합니다.">
