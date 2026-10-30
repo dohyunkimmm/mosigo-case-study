@@ -139,9 +139,34 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
  .nav-link.active b{background:#286246;color:#fff}
  .nav-link.active{box-shadow:none;background:#e8f2e9}
 }
+/* Mobile chapter access and consistent simulator amounts */
+.mobile-toc{display:none}
+@media(max-width:800px){
+ .mobile-toc{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 17px;border:1px solid #83a48c;border-radius:99px;background:var(--forest);color:#fff;font-size:13px;font-weight:750;text-decoration:none;box-shadow:0 3px 12px #0d302826}
+ .mobile-toc:hover{color:#fff;background:var(--dark)}
+ .mobile-toc:focus-visible{outline-color:#65ad7a}
+ .footer{padding-bottom:90px}
+}
+@media print{.mobile-toc{display:none!important}}
+/* Desktop report readability and balanced comparison blocks */
+.result-line{align-items:flex-start}
+.result-line>.label{flex-shrink:0}
+@media(min-width:801px){
+ .tbl th,.tbl td,.blueprint table{font-size:14px;line-height:1.75}
+ .panel p,.strategy-option p,.strategy-option dd,.tradeoff-grid p,.before-after article p,.model-grid article p,.kpi p,.memo .grid p{font-size:15px;line-height:1.8}
+ .table-foot,.result-line small,.control small,.pathway span{font-size:13px;line-height:1.75}
+ .control label,.result-line span,.formula,.pathway strong{font-size:14px}
+ .navigation{grid-template-rows:repeat(9,56px);gap:5px;align-content:start}
+ .nav-link{font-size:14px}
+ .memo .grid{align-items:start}
+}
+@media(min-width:1200px){
+ .pathway{grid-template-columns:repeat(7,minmax(0,1fr));gap:9px}
+ .pathway article{padding:17px 12px}
+}
 </style></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
-<aside aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
+<aside id="contents" tabindex="-1" aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
 <div class="toc-label" aria-hidden="true"><span>CONTENTS</span><small>01 — 09</small></div>
 <nav class="navigation" aria-label="목차">
 <a class="nav-link active" href="#overview" aria-current="location"><b>01</b>프로젝트 개요</a>
@@ -265,8 +290,8 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <div class="control"><label for="rate">중개 수수료율 <output id="rOut">20%</output></label><input id="rate" type="range" min="5" max="30" value="20" step="1"><small>계약 구조 검토용 수수료 가정</small></div>
 <button class="btn" id="reset" type="button">기준 가정으로 초기화 ↺</button>
 </div><div class="result">
-<div><span class="eyebrow">ANNUAL TRANSACTION VOLUME · 연간 거래액</span><div class="point" id="gmv" style="margin-top:8px">9.0억 원</div><small id="orderCount">연간 22,500건 가정</small></div>
-<div class="result-line"><div><span>직접 제공형 · 총액 매출 인식 가정</span><strong id="direct">9.0억 원</strong><small>계약 구조에 따른 매출 인식 검토</small></div><span class="label">거래액 전체</span></div>
+<div><span class="eyebrow">ANNUAL TRANSACTION VOLUME · 연간 거래액</span><div class="point" id="gmv" style="margin-top:8px">9.00억 원</div><small id="orderCount">연간 22,500건 가정</small></div>
+<div class="result-line"><div><span>직접 제공형 · 총액 매출 인식 가정</span><strong id="direct">9.00억 원</strong><small>계약 구조에 따른 매출 인식 검토</small></div><span class="label">거래액 전체</span></div>
 <div class="result-line"><div><span>직접 제공형 · 고정비 차감 전 공헌이익</span><strong id="margin">2.25억 원</strong><small>건당 변동비 반영 · 고정비 제외</small></div><span class="label orange">고정비 전</span></div>
 <div class="result-line"><div><span>중개형 · 수수료 인식 매출 가정</span><strong id="broker">1.80억 원</strong><small>중개 관련 비용 별도</small></div><span class="label gray">수수료형</span></div>
 </div></div></div>
@@ -322,8 +347,8 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <section id="measurement"><div class="section-title"><span class="eyebrow">08 / METRICS &amp; VALIDATION</span><h2>성과를 측정하는 기준 설계</h2><p class="lead">예약 퍼널과 사용성·재이용을 각각 구분해 측정하도록 설계했습니다. 실제 지표 수치는 파일럿 운영 단계에서 확보합니다.</p></div>
 <div class="grid g2">
 <div class="kpi"><span class="label">퍼널</span><h3>예약 완료율</h3><span class="formula">예약 완료 세션 ÷ 예약 시작 세션</span><p>계획 이벤트: booking_started → manager_selected → booking_submitted → booking_confirmed. 취소/중복·테스트 세션은 분모·분자 정의에 맞춰 필터링합니다.</p></div>
-<div class="kpi"><span class="label">사용성</span><h3>매니저 선택 성공률</h3><span class="formula">조건에 맞는 선택을 완료한 참가자 ÷ 과업 참가자</span><p>선택 근거 설명 여부와 이탈 단계를 기록.</p></div>
-<div class="kpi"><span class="label">정보 이해</span><h3>상태 이해도</h3><span class="formula">현재·다음 단계를 정확히 설명한 참가자 ÷ 응답자</span><p>보호자 진행 화면 과업 기반 측정.</p></div>
+<div class="kpi"><span class="label">사용성</span><h3>매니저 선택 성공률</h3><span class="formula">조건에 맞는 선택을 완료한 참가자 ÷ 과업 참가자</span><p>선택 근거를 설명할 수 있는지 확인하고 이탈 단계를 기록합니다.</p></div>
+<div class="kpi"><span class="label">정보 이해</span><h3>상태 이해도</h3><span class="formula">현재·다음 단계를 정확히 설명한 참가자 ÷ 응답자</span><p>보호자의 진행 화면 과업을 통해 측정합니다.</p></div>
 <div class="kpi"><span class="label">리텐션</span><h3>90일 내 재예약률</h3><span class="formula">90일 내 재예약 고객 ÷ 추적 가능한 완료 고객</span><p>90일은 초기 검증을 위해 제안한 관찰기간입니다.</p></div></div>
 
 <h3 class="subhead">측정 이벤트 설계 <span class="label orange">계획</span></h3>
@@ -342,12 +367,12 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <tr><th>매니저 비교</th><td>가격·조건을 설명하고 적합한 선택 완료</td><td>비교 정보 누락, 조건 불일치</td></tr>
 <tr><th>상태·공유</th><td>보호자가 현재 상태를 설명, 정책에 맞는 권한 확인</td><td>만료 링크 접근, 권한 범위 오류, 상태 전환 누락</td></tr>
 </tbody></table></div>
-<p class="table-foot">운영 지표·사용자 과업 결과는 실제 검증 단계에서 기록합니다. 민감정보는 분석 이벤트에서 제외합니다.</p>
+<p class="table-foot">운영 지표와 사용자 과업 결과는 실제 검증 단계에서 기록합니다.</p>
 
 </section>
 <section id="decision"><div class="section-title"><span class="eyebrow">09 / DECISION MEMO</span><h2>MOSIGO 사업화 전략·최종 판단</h2><p class="lead">개인 전략 검토의 결론은 단계적 검증을 통한 진입 방식 선택입니다. 수요·원가·운영 책임이 확인되는 순서대로 사업 모델을 비교합니다.</p></div>
 <div class="memo"><span class="eyebrow">RECOMMENDATION</span><h3 class="memo-lead">자녀 대리 예약형 병원동행의<br>사업화 조건을 검증합니다.</h3>
-<div class="grid g2"><div><h3>우선 검증할 방식</h3><p>기존 동행 사업자와의 협업을 가설로 우선 검토합니다. 공급·계약·고객정보 책임이 성립하는지 확인한 뒤 직접 제공형과 비교합니다.</p></div><div><h3>결정 전 확보 자료</h3><p>고객 인터뷰, 매니저 공급 단가, 실제 이용 흐름, 개인정보·안전 검토, 계약 조건.</p></div></div>
+<div class="grid g2"><div><h3>우선 검증할 방식</h3><p>기존 동행 사업자와의 협업을 가설로 우선 검토합니다. 공급·계약·고객정보 책임이 성립하는지 확인한 뒤 직접 제공형과 비교합니다.</p></div><div><h3>결정 전 확보 자료</h3><p>고객 인터뷰, 매니저 공급 단가, 실제 이용 흐름, 개인정보·안전 검토, 계약 조건을 확보합니다.</p></div></div>
 <div class="verdict">G0~G3 단계별 검증 결과를 바탕으로 사업화·지역 확대 여부를 판단합니다.</div></div>
 
 <h3 class="subhead">실행 모델 선택 기준</h3>
@@ -366,7 +391,7 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 
 </section>
 <footer class="footer"><strong>MOSIGO · STRATEGY CASE STUDY</strong> · 개인 단독 작성 전략기획 보고서 · 프로젝트 근거와 개인 전략 판단을 구분</footer>
-</main><div class="bottom-progress" aria-hidden="true"><i id="progress"></i></div>
+</main><a class="mobile-toc" href="#contents" aria-label="목차로 돌아가기">목차로 ↑</a><div class="bottom-progress" aria-hidden="true"><i id="progress"></i></div>
 <script>
 (function(){
 'use strict';
@@ -419,7 +444,7 @@ function updateDataScrollAccess(){
 window.addEventListener('resize',updateDataScrollAccess,{passive:true});
 updateDataScrollAccess();
 const ids=['users','freq','price','cost','rate'];const defaults=[15000,1.5,40000,30000,20];const fmt=new Intl.NumberFormat('ko-KR');
-function won(v){if(Math.abs(v)>=100000000)return (v/100000000).toFixed(v%100000000===0?1:2)+'억 원';if(Math.abs(v)>=10000)return (v/10000).toFixed(1)+'만 원';return fmt.format(v)+'원';}
+function won(v){if(Math.abs(v)>=100000000)return (v/100000000).toFixed(2)+'억 원';if(Math.abs(v)>=10000)return (v/10000).toFixed(2)+'만 원';return fmt.format(v)+'원';}
 function update(announce=false){
  const a=ids.map(id=>Number(document.getElementById(id).value));
  const [users,freq,price,cost,rate]=a;const count=users*freq,gmv=count*price;
