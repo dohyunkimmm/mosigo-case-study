@@ -349,6 +349,15 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <script>
 (function(){
 'use strict';
+// Remove ChatGPT referral decoration from the address bar without navigation.
+// Preserve all unrelated query parameters and the current section hash.
+const visibleUrl = new URL(window.location.href);
+if (visibleUrl.searchParams.getAll('utm_source').includes('chatgpt.com')) {
+ const entries = Array.from(visibleUrl.searchParams.entries()).filter(([key,value]) => !(key === 'utm_source' && value === 'chatgpt.com'));
+ visibleUrl.search = '';
+ entries.forEach(([key,value]) => visibleUrl.searchParams.append(key,value));
+ window.history.replaceState(window.history.state, '', visibleUrl.pathname + visibleUrl.search + visibleUrl.hash);
+}
 const sections=Array.from(document.querySelectorAll('main section[id]'));
 const links=Array.from(document.querySelectorAll('.nav-link'));
 const progress=document.getElementById('progress');
