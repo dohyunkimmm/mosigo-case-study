@@ -126,8 +126,8 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
  .brand{padding:29px 22px 24px;border-bottom:0}
  .toc-label{display:flex;align-items:center;justify-content:space-between;padding:17px 23px 8px;border-top:1px solid #edf1eb;color:#526958;font-size:11px;letter-spacing:.1em;font-weight:800}
  .toc-label small{font-size:10px;letter-spacing:0;color:#4b6655}
- .navigation{display:flex;flex-direction:column;gap:5px;flex:1;padding:10px 12px 18px;overflow-y:auto}
- .nav-link{display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:11px;padding:9px 10px;min-height:51px;font-size:13px;line-height:1.45;font-weight:650;border:1px solid transparent;border-radius:11px;transition:background-color .15s,border-color .15s}
+ .navigation{display:grid;grid-template-rows:repeat(9,minmax(51px,1fr));gap:5px;flex:1;min-height:0;padding:12px 12px 16px;align-content:stretch;overflow-y:auto}
+ .nav-link{display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:11px;padding:9px 10px;height:100%;min-height:51px;font-size:13px;line-height:1.45;font-weight:650;border:1px solid transparent;border-radius:11px;transition:background-color .15s,border-color .15s}
  .nav-link b{display:grid;place-items:center;font-weight:800;font-size:11px;color:#365944;width:27px;height:27px;border-radius:8px;background:#edf2ec}
  .nav-link.active{background:#e8f2e9;border:1px solid #cee2d2;color:#174d39;box-shadow:inset 3px 0 #327958;font-weight:800}
  .nav-link.active b{background:#286246;color:#fff}
