@@ -75,7 +75,7 @@ for (const { name, engine, device } of cases) {
       };
       return {
         overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
-        fontFamily: getComputedStyle(document.querySelector('.emoji-icon')).fontFamily,
+        iconWidth: document.querySelector('.emoji-icon').naturalWidth,
         tabs: tabs.map(r), fallback: r(fallback), image: r(image), viewer: r(doc),
         navPointerEvents: getComputedStyle(nav).pointerEvents,
         viewerVisible: r(doc).bottom > 0 && r(doc).top < innerHeight
@@ -85,25 +85,21 @@ for (const { name, engine, device } of cases) {
     assert.ok(layout.tabs.every(t => t.h >= 44), name + ' tab touch targets');
     assert.ok(layout.fallback.h >= 44, name + ' open-PDF touch target');
     assert.ok(layout.image.h >= 140 && layout.image.w > 240, name + ' visible mobile document image');
-    assert.ok(layout.fontFamily.includes('Tossface'), name + ' emoji family CSS');
+    assert.ok(layout.iconWidth>=100,name+' Tossface visual asset');
     assert.equal(layout.navPointerEvents,'none',name + ' nav not blocking document');
     const imageInfo=await page.locator('#doc-page-img').evaluate(el=>({ready:el.complete,w:el.naturalWidth,h:el.naturalHeight}));
     assert.ok(imageInfo.ready&&imageInfo.w>=700&&imageInfo.h>=350,name+' decoded WebP preview');
     console.log('PASS visible mobile PDF preview',name,imageInfo);
-    const cssLink = page.locator('link[href*="tossface"]').first();
-    assert.ok(await cssLink.count(), name + ' Tossface CSS link');
-    const css = await context.request.get(await cssLink.getAttribute('href'), {timeout:25000});
-    assert.equal(css.status(), 200, name + ' Tossface CSS available');
-    assert.ok((await css.text()).includes('font-family: "Tossface"'), name + ' CSS declares Tossface');
-    const fontResult = await page.evaluate(async () => {
-      await document.fonts.ready;
-      try {
-        const faces = await document.fonts.load('24px "Tossface"', '📱');
-        return { count: faces.length, loaded: faces.filter(f=>f.status==='loaded').length,
-                 errors: [], check: document.fonts.check('24px "Tossface"', '📱') };
-      } catch (e) { return { count: 0, loaded: 0, errors: [String(e)], check: false }; }
-    });
-    assert.ok(fontResult.loaded > 0 && fontResult.check, name + ' Tossface glyph loaded '+JSON.stringify(fontResult));
+    const icon=page.locator('img.emoji-icon');
+    assert.equal(await icon.count(),1,name+' renders original Tossface icon');
+    const iconData=await icon.evaluate(el=>({loaded:el.complete,w:el.naturalWidth,h:el.naturalHeight}));
+    assert.ok(iconData.loaded&&iconData.w>=100&&iconData.h>=100,name+' Tossface icon decoded '+JSON.stringify(iconData));
+    const png=await context.request.get(new URL('/assets/tossface-phone.png',base).href);
+    assert.equal(png.status(),200,name+' Tossface PNG status');
+    const bytes=await png.body();
+    assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a',name+' PNG signature');
+    assert.ok(bytes.length<20000,name+' optimized icon size');
+    const fontResult={type:'official Tossface glyph, static PNG',bytes:bytes.length};
     assert.deepEqual(pageErrors, [], name + ' uncaught JS errors');
     console.log('PASS',name,JSON.stringify({layout,fontResult,documents:'PDF header and EOF verified, both tabs and fallback links verified'}));
     runs++;

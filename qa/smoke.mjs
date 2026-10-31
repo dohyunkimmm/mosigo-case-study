@@ -35,8 +35,8 @@ try {
     assert.equal(check.mobileSummary, true, 'summary shown at every width');
     assert.equal(check.missingAnchors, 0, 'internal anchors');
     assert.ok(await page.locator('link[href*="pretendardvariable"]').count() > 0, 'Pretendard stylesheet');
-    assert.ok(await page.locator('link[href*="tossface"]').count() > 0, 'Tossface stylesheet');
-    assert.ok((await page.locator('.emoji-icon').first().evaluate(el=>getComputedStyle(el).fontFamily)).includes('Tossface'), 'Tossface specified for emoji');
+    assert.equal(await page.locator('img.emoji-icon[src="/assets/tossface-phone.png"]').count(), 1, 'official Tossface static icon');
+    assert.ok(await page.locator('.emoji-icon').first().evaluate(el=>el.complete && el.naturalWidth>60), 'Tossface icon loads on screen');
     if (width === 390 || width === 1440) {
       await page.screenshot({ path: 'qa-artifacts/' + reportPrefix + 'site-' + width + '.png', fullPage: false });
     }
