@@ -6,6 +6,7 @@ on:
       - '.github/workflows/retire-audited-branches.yml'
 permissions:
   contents: write
+  pull-requests: read
 jobs:
   archive-and-retire:
     if: github.repository == 'dohyunkimmm/mosigo-case-study' && github.ref == 'refs/heads/main'
@@ -66,7 +67,7 @@ jobs:
             echo "- \`$branch\` -> \`$tag\` (\`$expected\`)" >> "$GITHUB_STEP_SUMMARY"
           done <<< "$entries"
           # Also retire the source branch of this merged maintenance PR.
-          source_branch="chore/retire-audited-branches-20261031"
+          for source_branch in "chore/retire-audited-branches-20261031" "fix/branch-retirement-permissions-20261031"; do
           merged_pr="$(gh api "repos/$GH_REPO/pulls?state=closed&per_page=100" | jq --arg branch "$source_branch" '[.[] | select(.head.ref == $branch and .base.ref == "main" and .merged_at != null)] | sort_by(.merged_at) | last')"
           source_sha="$(jq -r '.head.sha // empty' <<< "$merged_pr")"
           if [[ -z "$source_sha" ]]; then
@@ -85,3 +86,4 @@ jobs:
             gh api --method DELETE "repos/$GH_REPO/git/refs/heads/$source_branch"
             echo "Archived and retired $source_branch -> $tag ($source_sha)" >> "$GITHUB_STEP_SUMMARY"
           fi
+          done
