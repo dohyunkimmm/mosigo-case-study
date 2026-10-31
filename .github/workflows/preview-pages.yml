@@ -47,9 +47,11 @@ jobs:
               padded="$(printf '%02d' "$number")"
               pdftoppm -f "$number" -l "$number" -scale-to 1400 -png -singlefile "$pdf" /tmp/mosigo-mobile-preview/page
               cwebp -quiet -q 84 -m 6 /tmp/mosigo-mobile-preview/page.png -o "downloads/previews/$kind-$padded.webp"
+              cwebp -quiet -q 82 -m 6 -resize 800 0 /tmp/mosigo-mobile-preview/page.png -o "downloads/previews/$kind-$padded-sm.webp"
               test "$(stat -c%s "downloads/previews/$kind-$padded.webp")" -gt 1000
+              test "$(stat -c%s "downloads/previews/$kind-$padded-sm.webp")" -gt 1000
             done
-            test "$(find downloads/previews -maxdepth 1 -name "$kind-*.webp" | wc -l)" -eq "$expected"
+            test "$(find downloads/previews -maxdepth 1 -name "$kind-*.webp" | wc -l)" -eq "$((expected * 2))"
             echo "PASS $kind $pages accessible mobile preview pages"
           done
       - name: Commit browser-independent mobile previews
