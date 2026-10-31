@@ -34,6 +34,12 @@ try {
     assert.equal(check.open, 0, width + 'px concise chapter mode');
     assert.equal(check.mobileSummary, true, 'summary shown at every width');
     assert.equal(check.missingAnchors, 0, 'internal anchors');
+    const demoLink = page.locator('a[href="https://mosigo-nine.vercel.app/"]');
+    assert.equal(await demoLink.count(), 1, width + 'px exactly one demo link');
+    assert.equal(await page.locator('.hero a[href="https://mosigo-nine.vercel.app/"]').count(), 0, width + 'px hero stays focused on case study');
+    assert.equal(await page.locator('#product > .prototype-reference a[href="https://mosigo-nine.vercel.app/"]').count(), 1, width + 'px demo is a product-planning reference');
+    assert.equal(await demoLink.getAttribute('target'), '_blank', 'demo opens separate tab');
+    assert.ok((await demoLink.getAttribute('rel')).includes('noopener'), 'demo target is protected');
     assert.ok(await page.locator('link[href*="pretendardvariable"]').count() > 0, 'Pretendard stylesheet');
     assert.equal(await page.locator('img.emoji-icon[src="/assets/tossface-phone.png"]').count(), 1, 'official Tossface static icon');
     assert.ok(await page.locator('.emoji-icon').first().evaluate(el=>el.complete && el.naturalWidth>60), 'Tossface icon loads on screen');
