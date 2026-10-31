@@ -35,10 +35,15 @@ print('PASS price hypothesis/model separation in source and published PDF')
 site_html=Path('index.html').read_text(encoding='utf-8')
 assert '<h2>MOSIGO · 고객·시장 분석에서 사업화 전략 결정까지</h2>' in site_html, 'M-01 heading drifted'
 assert '<h2>수요·공급·손익 격차로 사업화 가능성을 판단한다</h2>' in site_html, 'M-02 heading drifted'
-assert '월 완료 199건과 손익분기 1,082건의 격차를 고려해' in site_html, 'M-03 quantitative reasoning missing'
-assert '고객 획득비·운영비·공급 조건 검증 전 확대를 보류' in site_html, 'M-03 expansion gate missing'
-assert '<h2>제휴형 우선 검토 · 월 완료 199건 대비 손익분기 1,082건 · 확대 보류</h2>' in plan_html, 'Decision page and website disagree'
-assert '월완료199건대비손익분기1,082건' in compact_plan, 'Published plan PDF decision does not contain comparison'
+assert '월 완료 199건(가정)과 손익분기 1,082건' in site_html, 'M-03 quantitative reasoning missing'
+assert '획득비·운영비·공급 조건 개선을 확대 기준으로 설정' in site_html, 'M-03 expansion criteria missing'
+assert '<h2>제휴형 우선 검토 · 월 완료 199건(가정) / 손익분기 1,082건 · 단계적 확대 기준</h2>' in plan_html, 'Decision page and website disagree'
+assert '월완료199건(가정)' in compact_plan and '손익분기1,082건' in compact_plan, 'Published plan PDF decision does not contain scenario comparison'
+assert '팀 조사 기록을 바탕으로 작성한 개인 전략 보고서입니다.' not in site_html, 'Duplicated homepage disclaimer returned'
+assert '개인 사업기획서 · 가정·계획과 실제 성과 구분' not in plan_html, 'Repeated defensive footer returned'
+assert plan_html.count('MOSIGO · 전략기획 보고서') >= 17, 'Neutral document footer should appear on all pages'
+assert '사업성 검토 시나리오' in plan_html, 'Scenario basis must remain explicit'
+print('PASS concise evidence labeling without repeated disclaimers')
 print('PASS M-01/M-02/M-03 website-to-plan strategic copy')
 
 
@@ -86,9 +91,9 @@ with ZipFile(PPTX) as z:
     decision=ET.fromstring(z.read('ppt/slides/slide11.xml'))
     first=''.join((t.text or '') for t in title.findall('.//a:t',ns))
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
-    assert '제휴형 우선 검토, 획득비·운영비·공급 조건 검증 전 확대 보류' in first, 'Slide 1 decision not synchronized'
-    assert '제휴형 우선 검토 · 월 199건 대비 손익분기 1,082건' in last, 'Slide 11 quantified recommendation missing'
-    assert '획득비·운영비·공급 조건 검증 전 확대 보류' in last, 'Slide 11 expansion gate missing'
+    assert '제휴형 우선 · 획득비·운영비·공급 조건을 확대 기준으로 설정' in first, 'Slide 1 decision not synchronized'
+    assert '제휴형 우선 · 월 199건(가정) / 손익분기 1,082건' in last, 'Slide 11 quantified recommendation missing'
+    assert '획득비·운영비·공급 조건을 확대 기준으로 설정' in last, 'Slide 11 expansion criteria missing'
 print('PASS PPT cover and decision wording synchronized with case study')
 
 print('PASS PPTX',len(slides),'editable slides',east_asian,'consistent text runs')
