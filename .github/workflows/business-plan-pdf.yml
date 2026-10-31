@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
           node qa/generate-business-plan.mjs
           sudo apt-get update -qq
-          sudo apt-get install -y -qq poppler-utils
+          sudo apt-get install -y -qq poppler-utils webp
           test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "17"
           pdffonts downloads/mosigo_business_plan_20261031.pdf | grep -qi Pretendard
           pdftotext downloads/mosigo_business_plan_20261031.pdf /tmp/business-plan-text.txt
@@ -52,12 +52,26 @@ jobs:
             echo "::error::Document publication date remains in the rendered PDF"
             exit 1
           fi
+      - name: Render 17 mobile PDF preview pages
+        run: |
+          set -euo pipefail
+          mkdir -p downloads/previews /tmp/mosigo-plan-preview
+          test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "17"
+          for page in $(seq 1 17); do
+            padded="$(printf '%02d' "$page")"
+            pdftoppm -f "$page" -l "$page" -scale-to 1400 -png -singlefile downloads/mosigo_business_plan_20261031.pdf /tmp/mosigo-plan-preview/page
+            cwebp -quiet -q 84 -m 6 /tmp/mosigo-plan-preview/page.png -o "downloads/previews/plan-$padded.webp"
+            cwebp -quiet -q 82 -m 6 -resize 800 0 /tmp/mosigo-plan-preview/page.png -o "downloads/previews/plan-$padded-sm.webp"
+            test "$(stat -c%s "downloads/previews/plan-$padded.webp")" -gt 1000
+            test "$(stat -c%s "downloads/previews/plan-$padded-sm.webp")" -gt 1000
+          done
+          test "$(find downloads/previews -maxdepth 1 -name 'plan-*.webp' | wc -l)" -eq 34
       - name: Publish regenerated PDF
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add downloads/mosigo_business_plan_20261031.pdf
+          git add downloads/mosigo_business_plan_20261031.pdf downloads/previews/plan-*.webp
           if git diff --cached --quiet; then
             echo "PDF is already up to date"
           else
@@ -70,6 +84,8 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: mosigo-business-plan-pdf
-          path: downloads/mosigo_business_plan_20261031.pdf
+          path: |
+            downloads/mosigo_business_plan_20261031.pdf
+            downloads/previews/plan-*.webp
           if-no-files-found: ignore
           retention-days: 14
