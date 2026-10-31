@@ -234,6 +234,21 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 .mobile-toc.viewer-active{opacity:0;pointer-events:none;transform:translateY(8px)}
  .quick-head .doc-open{font-size:12px;min-height:44px;padding:7px 13px;white-space:nowrap}
 @media(max-width:800px){.quick-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}}
+
+/* Browser-independent pages for mobile PDF readers */
+.mobile-document-viewer{display:none}
+@media(max-width:800px){
+ .quick-documents .document-preview-frame{display:none}
+ .mobile-document-viewer{display:block;width:100%}
+ .mobile-page-open{display:block;border:1px solid #d6e5da;border-radius:10px;background:white;overflow:hidden}
+ .mobile-page-image{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain}
+ .mobile-page-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:11px 0 0}
+ .mobile-page-controls button{min-width:72px;min-height:44px;padding:8px 13px;border:1px solid #b8ccbd;border-radius:10px;background:white;color:var(--forest);font:inherit;font-weight:750;font-size:14px;cursor:pointer}
+ .mobile-page-controls button:disabled{opacity:.42;cursor:default}
+ .mobile-page-controls button:not(:disabled):hover{border-color:#377a5c;background:#eef6ed}
+ .mobile-page-controls button:focus-visible,.mobile-page-open:focus-visible{outline:3px solid #267248;outline-offset:3px}
+ #doc-page-count{font-size:13px;color:var(--body);font-weight:750;font-variant-numeric:tabular-nums}
+}
 </style><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}</script></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside id="contents" tabindex="-1" aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
@@ -262,6 +277,9 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>17쪽</small></button>
 <button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">발표자료 <small>11장</small></button></div>
 <iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
+<div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="모바일 문서 페이지 보기">
+<a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 문서 쪽 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01.webp" alt="사업기획서 1쪽 미리보기" decoding="async" loading="lazy"></a>
+<div class="mobile-page-controls"><button id="doc-prev" type="button" disabled>이전</button><span id="doc-page-count" aria-live="polite" aria-atomic="true">1 / 17</span><button id="doc-next" type="button">다음</button></div></div>
 <div class="doc-links">
 <a class="btn" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">PDF 저장</a>
 <a class="btn" href="/downloads/mosigo_report.pptx" download="mosigo_report.pptx">PPT 저장</a>
@@ -496,14 +514,33 @@ if(docArea && mobileToc && 'IntersectionObserver' in window){
  docObserver.observe(docArea);
 }
 const docFrame=document.getElementById('doc-frame'),docOpen=document.getElementById('doc-open');
-const docConfigs={plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF'},presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 11장 미리보기'}};
+const docImage=document.getElementById('doc-page-img'),docImageLink=document.getElementById('doc-page-open');
+const docPrev=document.getElementById('doc-prev'),docNext=document.getElementById('doc-next'),docPageCount=document.getElementById('doc-page-count');
+const docConfigs={
+ plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:17,images:'plan'},
+ presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 11장 미리보기',label:'발표자료',pages:11,images:'slides'}
+};
+let currentDocument='plan',currentDocumentPage=1;
+function renderMobileDocumentPage(){
+ const doc=docConfigs[currentDocument],number=String(currentDocumentPage).padStart(2,'0');
+ const path='/downloads/previews/'+doc.images+'-'+number+'.webp';
+ docImage.src=path;docImage.alt=doc.label+' '+currentDocumentPage+'쪽 미리보기';
+ docImageLink.href=path;
+ docPageCount.textContent=currentDocumentPage+' / '+doc.pages;
+ docPrev.disabled=currentDocumentPage<=1;docNext.disabled=currentDocumentPage>=doc.pages;
+}
+docPrev.addEventListener('click',()=>{if(currentDocumentPage>1){currentDocumentPage--;renderMobileDocumentPage();}});
+docNext.addEventListener('click',()=>{if(currentDocumentPage<docConfigs[currentDocument].pages){currentDocumentPage++;renderMobileDocumentPage();}});
 const docButtons=Array.from(document.querySelectorAll('[data-doc-preview]'));
 docButtons.forEach(button=>button.addEventListener('click',()=>{
- const doc=docConfigs[button.getAttribute('data-doc-preview')];if(!doc)return;
+ const key=button.getAttribute('data-doc-preview'),doc=docConfigs[key];if(!doc)return;
  const next=doc.path+'#toolbar=1&view=FitH';if(docFrame.getAttribute('src')!==next)docFrame.src=next;
  docFrame.title=doc.title;docOpen.href=doc.path;
+ currentDocument=key;currentDocumentPage=1;renderMobileDocumentPage();
  docButtons.forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
 }));
+renderMobileDocumentPage();
+
 const ids=['users','freq','price','cost','rate'];const defaults=[15000,1.5,40000,30000,20];const fmt=new Intl.NumberFormat('ko-KR');
 function fixedAmount(v,unit){const scaled=Math.abs(v)*100/unit;const rounded=Math.floor(scaled+0.5+Number.EPSILON*scaled*4);return (Math.sign(v)*rounded/100).toFixed(2);}function won(v){if(Math.abs(v)>=100000000)return fixedAmount(v,100000000)+'억 원';if(Math.abs(v)>=10000)return fixedAmount(v,10000)+'만 원';return fmt.format(v)+'원';}
 function update(announce=false){
