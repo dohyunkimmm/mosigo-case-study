@@ -30,6 +30,23 @@ slides_text=cmd('pdftotext','-layout',str(SLIDES),'-')
 compact_slides=re.sub(r'\s+','',slides_text)
 assert 'MOSIGO' in compact_slides and '사업화의사결정' in compact_slides
 assert '\ufffd' not in plan_text+slides_text
+assert '사업기획서3쪽' in compact_slides, 'Slide 2 source citation must point to current plan p3'
+assert '11~12쪽' not in slides_text, 'Obsolete source page reference remains'
+with ZipFile(ROOT/'mosigo_model.xlsx') as model:
+    assert model.testzip() is None, 'Excel archive damaged'
+    sheet = ET.fromstring(model.read('xl/worksheets/sheet5.xml'))
+    xn = {'x':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+    def cell(address, tag='v'):
+        node=sheet.find(".//x:c[@r='"+address+"']/x:"+tag,xn)
+        assert node is not None, (address, tag)
+        return node.text
+    assert cell('A14') == '경유율 20%p 하락', 'Excel scenario label'
+    assert cell('B14') == '기준 80% → 60% (−20%p)', 'Excel scenario definition'
+    assert "('가정'!B22-20%)" in cell('D14','f'), 'Excel scenario formula'
+    assert cell('D14') == '149', 'Excel completed count'
+    assert cell('E14') == '-3448700', 'Excel monthly economic profit'
+print('PASS cross-document scenarios: 80% to 60%, 149, -3,448,700, PPT p3 reference')
+
 ns={'a':'http://schemas.openxmlformats.org/drawingml/2006/main'}
 with ZipFile(PPTX) as z:
     assert z.testzip() is None,'PPTX archive corrupt'
