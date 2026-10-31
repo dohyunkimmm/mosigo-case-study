@@ -28,3 +28,13 @@
 - 복원할 때는 `archive/20261031/<기존 브랜치>` 태그에서 새 브랜치를 만들 수 있습니다.
 - 태그로 보존했다고 해서 미병합 코드를 현재 `main`에 적용하는 것은 아닙니다.
 - 작업 로그는 GitHub Actions **Retire audited branches (one time)**에서 확인합니다.
+
+## 확인된 완료 상태 (2026-10-31)
+
+- 기존 브랜치 12개와 정리 작업용 브랜치 2개를 삭제해, 원격 브랜치는 `main` 하나만 남았습니다.
+- `archive/20261031/` 아래 보관 태그 14개가 원본 SHA를 가리키는 것을 GitHub API로 확인했습니다.
+- 정리 워크플로 실행은 성공했고, 일회성 워크플로 파일도 후속 커밋에서 제거했습니다.
+
+## `main` 보호 설정의 제한
+
+이 저장소는 비공개 상태입니다. 현재 GitHub API의 rulesets 요청은 `403 Upgrade to GitHub Pro or make this repository public to enable this feature`를 반환합니다. 해당 기능은 지금 요금제 조건에서 적용되지 않았으며, 연결된 GitHub 앱도 보호 설정을 변경할 관리 권한이 없습니다. 따라서 **PR 단계 Site QA가 자동 실행되더라도 직접 `main`에 푸시하는 작업을 기술적으로 막지는 못합니다.** 비공개 유지가 우선이므로 공개 전환은 하지 않았습니다. 요금제·관리 권한을 확보하면 PR 필수 및 `browser-and-lighthouse` 검사를 필수 통과 조건으로 설정해야 합니다.
