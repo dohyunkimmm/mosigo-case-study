@@ -213,12 +213,12 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 .chapter-detail>summary::-webkit-details-marker{display:none}.chapter-detail>summary:after{content:"＋";font-size:19px}.chapter-detail[open]>summary:after{content:"−"}.chapter-detail>summary:focus-visible{outline:3px solid #267248;outline-offset:3px}.chapter-content{padding-top:14px}
 .concise-source{font-size:13px;color:var(--muted);margin:12px 0}
 .quick-documents{max-width:1058px;margin:28px auto 0;padding:24px 28px 27px;border:1px solid var(--line);border-radius:18px;background:#f8faf7;scroll-margin-top:80px}
-.quick-head{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:18px}.quick-head h2{font-size:24px;margin-top:5px}
+.quick-head{display:flex;justify-content:flex-end;gap:18px;align-items:end;margin-bottom:18px}
 .doc-tabs{display:flex;gap:8px;margin-bottom:12px}.doc-tab{border:1px solid #b8ccbd;background:white;color:var(--forest);border-radius:10px;padding:11px 18px;cursor:pointer;font-size:14px;font-weight:800;min-width:132px;min-height:46px}
 .doc-tab small{font-size:12px;font-weight:600;color:var(--muted);margin-left:4px}.doc-tab.active{background:var(--forest);border-color:var(--forest);color:white}.doc-tab.active small{color:#d0ebda}.doc-tab:hover{border-color:#377a5c}
 .doc-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.doc-links .btn{min-height:44px;padding:9px 14px;font-size:13px}.quick-documents .document-preview-frame{height:min(54vh,510px);min-height:360px;background:white}
 @media(max-width:800px){.quick-documents{margin:16px 17px 0;padding:16px;border-radius:14px}.quick-documents .document-preview-frame{height:60vh;min-height:390px}}
-@media(max-width:600px){section{padding:31px 21px 32px}.quick-documents{margin:14px 12px 0;padding:13px}.quick-head h2{font-size:22px}.doc-tabs{display:grid;grid-template-columns:1fr 1fr}.doc-tab{min-width:0;padding:10px 8px}.quick-documents .document-preview-frame{height:59vh;min-height:330px}}
+@media(max-width:600px){section{padding:31px 21px 32px}.quick-documents{margin:14px 12px 0;padding:13px}.doc-tabs{display:grid;grid-template-columns:1fr 1fr}.doc-tab{min-width:0;padding:10px 8px}.quick-documents .document-preview-frame{height:59vh;min-height:330px}}
 @media print{.quick-documents{display:none!important}.chapter-detail>summary{display:none!important}.chapter-detail>.chapter-content{display:block!important}}
 .quick-summary{margin:0 0 11px;font-size:13.5px;line-height:1.55;color:var(--body)}
 .quick-summary strong{color:var(--forest);font-weight:800;margin-right:8px}
@@ -239,7 +239,7 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 }
 .mobile-toc.viewer-active{opacity:0;pointer-events:none;transform:translateY(8px)}
  .quick-head .doc-open{font-size:12px;min-height:44px;padding:7px 13px;white-space:nowrap}
-@media(max-width:800px){.quick-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}}
+@media(max-width:800px){.quick-head{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:12px}}
 
 /* Skip offscreen case-study chapters until scrolled into view. */
 @media(max-width:800px){
@@ -280,9 +280,9 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <h1>MOSIGO<br><i>전략기획 보고서</i></h1>
 <p class="intro">자녀가 부모의 병원동행을 대신 예약하는 MOSIGO를 대상으로, 고객 문제부터 시장·제품·수익모델 분석과 사업화 판단까지 정리한 개인 전략기획 보고서입니다.</p>
 <div class="hero-actions"><a href="#attachments" class="btn primary">사업기획서·PPT 보기 ↓</a></div>
-<div class="hero-meta"><span>개인 전략기획 보고서</span><span>·</span><span>시장·고객 · 사업모델 · 제품·운영</span></div></div></header>
-<div id="attachments" class="quick-documents" aria-label="자료 바로보기">
-<div class="quick-head"><div><h2>자료 바로보기</h2></div><a class="btn doc-open" id="doc-open" href="/downloads/mosigo_business_plan_20261031.pdf" target="_blank" rel="noopener noreferrer">새 탭에서 보기</a></div>
+</div></header>
+<div id="attachments" class="quick-documents" aria-label="사업기획서·발표자료">
+<div class="quick-head"><a class="btn doc-open" id="doc-open" href="/downloads/mosigo_business_plan_20261031.pdf" target="_blank" rel="noopener noreferrer">PDF 열기</a></div>
 <p class="quick-summary"><strong>핵심 판단</strong> 기존 사업자 제휴 우선 검토 · 고객 획득비와 운영 원가 확인 후 확대 결정</p>
 <div class="doc-tabs" role="group" aria-label="문서 선택">
 <button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>17쪽</small></button>
@@ -307,16 +307,16 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <article><small>03 · DESIGN</small><strong>제품 선택</strong><p>대리 예약과 동행 확인 연결</p></article>
 <article><small>04 · TEST</small><strong>사업 판단</strong><p>수요·원가·권한 검증 후 확장</p></article>
 </div><div class="callout"><strong>핵심 판단 · 제휴형 제한 검증 우선</strong><p>자녀 대리 예약·진행 확인에 집중합니다. 초기 공급 가정은 월 199건, 손익분기는 월 1,082건입니다.</p><a href="#business">손익과 공급 비교 보기 →</a></div></div></details></section>
-<section id="market"><div class="section-title"><span class="eyebrow">02 / RESEARCH &amp; PROBLEM</span><h2>경쟁 조사를 서비스 요구사항으로</h2></div><div class="mobile-skim"><p>접근성·대리 예약·매니저 정보 문제를 제품 요구사항으로 연결</p><ul><li>분석 자료 · 경쟁 앱 7종·리뷰 118건</li><li>확장 분석 · 지역별 수요·공급 조건과 조사 범위</li></ul></div><details class="chapter-detail" open><summary>시장 근거·산출 가정 보기</summary><div class="chapter-content">
-<div class="grid g3"><article class="panel white"><span class="micro">당시 조사 범위</span><span class="point">7종</span><h3>경쟁 서비스</h3></article><article class="panel white"><span class="micro">당시 조사 범위</span><span class="point">118건</span><h3>사용자 리뷰</h3></article><article class="panel dark"><span class="micro">핵심 관찰</span><h3>예약자 ≠ 이용자</h3><p>자녀가 검색·비교·확인을 맡을 수 있다는 관점으로 요구사항을 다시 정리</p></article></div>
+<section id="market"><div class="section-title"><span class="eyebrow">02 / RESEARCH &amp; PROBLEM</span><h2>경쟁 조사를 서비스 요구사항으로</h2></div><div class="mobile-skim"><p>접근성·대리 예약·매니저 정보 문제를 제품 요구사항으로 연결</p><ul><li>분석 자료 · 경쟁 앱 7종·리뷰 118건(기존 팀 조사)</li><li>확장 분석 · 지역별 수요·공급 조건과 조사 범위</li></ul></div><details class="chapter-detail" open><summary>시장 근거·산출 가정 보기</summary><div class="chapter-content">
+<div class="grid g3"><article class="panel white"><span class="point">7종</span><h3>경쟁 서비스</h3></article><article class="panel white"><span class="point">118건</span><h3>사용자 리뷰</h3></article><article class="panel dark"><span class="micro">핵심 관찰</span><h3>예약자 ≠ 이용자</h3><p>자녀가 검색·비교·확인을 맡을 수 있다는 관점으로 요구사항을 다시 정리</p></article></div>
 <h3 class="subhead">관찰 → 요구사항 → 검증</h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>문제 가설</th><th>제품 요구사항</th><th>다음 확인</th></tr></thead><tbody>
 <tr><th data-label="문제 가설">접근성</th><td data-label="제품 요구사항">지역·시간 조건의 공급 가능 여부 표시</td><td data-label="다음 확인">지역별 공급 가능성과 예약 이탈 지점</td></tr>
 <tr><th data-label="문제 가설">대리 예약</th><td data-label="제품 요구사항">예약자·동행 대상자 구분, 동의·권한 관리</td><td data-label="다음 확인">부모·자녀 과업 테스트</td></tr>
 <tr><th data-label="문제 가설">신뢰·정보</th><td data-label="제품 요구사항">매니저 비교 기준, 요금·변경 조건, 진행 공유</td><td data-label="다음 확인">선택 이유·지불 의향·상태 이해</td></tr>
 </tbody></table></div>
-<div class="callout"><strong>외부 벤치마크</strong> · <a href="https://donghengin.com/booking/price" target="_blank" rel="noopener noreferrer">동행돌봄인</a> · <a href="https://www.gowithu.co.kr/bbs/faq.php?fm_id=6" target="_blank" rel="noopener noreferrer">고위드유</a> · <a href="https://www.seoul.go.kr/policy/view.do?id=65&amp;lan=EN" target="_blank" rel="noopener noreferrer">서울시 병원안심동행</a> / 공개 자료를 활용한 별도 벤치마크이며, 팀 조사 7종과 구분</div>
-<p class="concise-source">분석 자료 · 경쟁 앱 7종·리뷰 118건(기존 팀 조사).</p>
+<div class="callout"><strong>외부 벤치마크</strong> · <a href="https://donghengin.com/booking/price" target="_blank" rel="noopener noreferrer">동행돌봄인</a> · <a href="https://www.gowithu.co.kr/bbs/faq.php?fm_id=6" target="_blank" rel="noopener noreferrer">고위드유</a> · <a href="https://www.seoul.go.kr/policy/view.do?id=65&amp;lan=EN" target="_blank" rel="noopener noreferrer">서울시 병원안심동행</a></div>
+
 <h3 class="subhead">TAM → SAM → SOM, 숫자보다 산출 논리</h3>
 <div class="market-steps">
 <article><small>01 · TAM</small><strong>잠재 전체 수요</strong><p>병원동행 필요 인구 × 연간 이용 횟수로 전체 수요 정의</p><small>필요 자료 · 인구·동행 수요·방문 빈도</small></article>
@@ -466,7 +466,7 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <div class="verdict">현재 결정 · 제휴 조건과 예약 과업 검증 우선 / 확대 조건 · 안전·권한 기준 충족과 노동비용 포함 손익 개선</div></div>
 
 <h3 class="subhead">진입 방식 비교 · 같은 기준으로 판단</h3><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">판단 기준</th><th scope="col">직접 제공형</th><th scope="col">기존 사업자 제휴형</th><th scope="col">기업·공공 제휴 확장</th></tr></thead><tbody><tr><th scope="row" data-label="판단 기준">공급 확보</th><td data-label="직접 제공형">매니저 모집·배정 체계 직접 준비</td><td data-label="기존 사업자 제휴형">파트너의 가용 시간·지역·수락 조건 확인</td><td data-label="기업·공공 제휴 확장">조직 단위 수요와 공급 계약 연계</td></tr><tr><th scope="row" data-label="판단 기준">초기 비용 확인</th><td data-label="직접 제공형">인력·배정·보험·현장 대응 비용</td><td data-label="기존 사업자 제휴형">연동·고객지원·계약 관리 비용</td><td data-label="기업·공공 제휴 확장">영업·도입·기관별 운영 비용</td></tr><tr><th scope="row" data-label="판단 기준">품질·책임</th><td data-label="직접 제공형">현장 관리와 사고 대응 역량 확보</td><td data-label="기존 사업자 제휴형">파트너 품질 기준·책임 분담 합의</td><td data-label="기업·공공 제휴 확장">기관·공급자·플랫폼 역할 합의</td></tr><tr><th scope="row" data-label="판단 기준">선택 조건</th><td data-label="직접 제공형">직접 운영 역량과 원가 확인 후 비교</td><td data-label="기존 사업자 제휴형">기존 공급으로 고객 과업을 검증하는 우선안</td><td data-label="기업·공공 제휴 확장">반복 수요와 단위경제성 확인 후 검토</td></tr></tbody></table></div></div></details></section>
-<footer class="footer"><strong>MOSIGO · STRATEGY CASE STUDY</strong> · 개인 단독 작성 전략기획 보고서 · 프로젝트 근거와 개인 전략 판단을 구분</footer>
+<footer class="footer">MOSIGO · 전략기획 보고서</footer>
 </main><a class="mobile-toc" href="#contents" aria-label="목차로 돌아가기">목차로 ↑</a><div class="bottom-progress" aria-hidden="true"><i id="progress"></i></div>
 <script>
 (function(){
