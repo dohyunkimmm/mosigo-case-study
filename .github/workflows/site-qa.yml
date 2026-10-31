@@ -1,0 +1,56 @@
+name: Site QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'favicon.svg'
+      - 'downloads/**'
+      - 'qa/**'
+      - '.github/workflows/site-qa.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1' # Monday 09:00 Asia/Seoul
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mosigo-site-qa-main
+  cancel-in-progress: true
+
+jobs:
+  browser-and-lighthouse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Install browser and Lighthouse
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1 lighthouse@13.6.0
+          npx --no-install playwright install --with-deps chromium
+      - name: Test exact repository build
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/mosigo-qa-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          sleep 2
+          node qa/smoke.mjs
+          export CHROME_PATH="$(node -p "require('playwright').chromium.executablePath()")"
+          npx --no-install lighthouse http://127.0.0.1:8765/ --only-categories=performance,accessibility,best-practices,seo --form-factor=mobile --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/lighthouse-mobile.json --quiet
+          npx --no-install lighthouse http://127.0.0.1:8765/ --only-categories=performance,accessibility,best-practices,seo --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/lighthouse-desktop.json --quiet
+          node qa/check-lighthouse.mjs
+      - name: Save QA reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mosigo-site-qa
+          path: qa-artifacts/
+          if-no-files-found: ignore
+          retention-days: 14
