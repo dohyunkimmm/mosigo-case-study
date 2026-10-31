@@ -1,0 +1,42 @@
+name: Retire merged QA readiness branch (one time)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/retire-qa-readiness-branch.yml'
+permissions:
+  contents: write
+  pull-requests: read
+jobs:
+  archive-and-retire:
+    if: github.repository == 'dohyunkimmm/mosigo-case-study' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Preserve exact merged PR branch HEAD, then delete the ref
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          branch='ci/required-site-qa-readiness-20261031'
+          expected='7c839f27afb9cae678c26c97b9e93847ac90bf0d'
+          tag='archive/20261101/ci/required-site-qa-readiness-20261031'
+          pr="$(gh api "repos/$GH_REPO/pulls/16")"
+          [[ "$(jq -r '.merged' <<< "$pr")" == "true" ]] || { echo "::error::PR #16 is not merged"; exit 1; }
+          [[ "$(jq -r '.head.sha' <<< "$pr")" == "$expected" ]] || { echo "::error::PR #16 source head mismatch"; exit 1; }
+          actual="$(gh api "repos/$GH_REPO/git/ref/heads/$branch" --jq '.object.sha')"
+          [[ "$actual" == "$expected" ]] || { echo "::error::Branch moved; not deleting"; exit 1; }
+          open_prs="$(gh api "repos/$GH_REPO/pulls?state=open&per_page=100" | jq --arg branch "$branch" '[.[] | select(.head.ref == $branch)] | length')"
+          [[ "$open_prs" == "0" ]] || { echo "::error::Open PR still uses the branch"; exit 1; }
+          if saved="$(gh api "repos/$GH_REPO/git/ref/tags/$tag" --jq '.object.sha' 2>/dev/null)"; then
+            [[ "$saved" == "$expected" ]] || { echo "::error::Archive tag points elsewhere"; exit 1; }
+          else
+            gh api --method POST "repos/$GH_REPO/git/refs" -f ref="refs/tags/$tag" -f sha="$expected" >/dev/null
+          fi
+          [[ "$(gh api "repos/$GH_REPO/git/ref/tags/$tag" --jq '.object.sha')" == "$expected" ]] || { echo "::error::Tag mismatch"; exit 1; }
+          [[ "$(gh api "repos/$GH_REPO/git/ref/heads/$branch" --jq '.object.sha')" == "$expected" ]] || { echo "::error::Branch moved after validation"; exit 1; }
+          gh api --method DELETE "repos/$GH_REPO/git/refs/heads/$branch"
+          echo "Archived and deleted $branch at $expected"
+          echo "Archived branch `$branch` as `$tag` (`$expected`)" >> "$GITHUB_STEP_SUMMARY"
