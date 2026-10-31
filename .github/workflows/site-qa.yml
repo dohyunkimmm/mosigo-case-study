@@ -1,6 +1,14 @@
 name: Site QA
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'favicon.svg'
+      - 'downloads/**'
+      - 'qa/**'
+      - '.github/workflows/site-qa.yml'
   push:
     branches: [main]
     paths:
@@ -17,7 +25,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: mosigo-site-qa-main
+  group: mosigo-site-qa-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -47,6 +55,7 @@ jobs:
           npx --no-install lighthouse http://127.0.0.1:8765/ --only-categories=performance,accessibility,best-practices,seo --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/lighthouse-desktop.json --quiet
           node qa/check-lighthouse.mjs
       - name: Wait for the exact production HTML
+        if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
           url="https://mosigo-case-study.vercel.app/"
@@ -61,6 +70,7 @@ jobs:
           echo "::error::Production HTML did not match the repository version"
           exit 1
       - name: Test deployed site and synthetic Lighthouse
+        if: github.event_name != 'pull_request'
         env:
           SITE_QA_URL: https://mosigo-case-study.vercel.app/
           SITE_QA_MODE: live

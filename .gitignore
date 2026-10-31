@@ -1,0 +1,25 @@
+# Local dependencies and package-manager output
+node_modules/
+npm-debug.log*
+*.log
+
+# Generated QA artifacts and browser reports
+qa-artifacts/
+playwright-report/
+test-results/
+coverage/
+
+# Python / local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local secrets and editor/OS files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
