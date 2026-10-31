@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 
 const base = process.env.SITE_QA_URL || 'http://127.0.0.1:8765/';
+const reportPrefix = process.env.SITE_QA_MODE === 'live' ? 'live-' : '';
 const widths = [320, 390, 600, 601, 768, 1024, 1440];
 await mkdir('qa-artifacts', { recursive: true });
 const browser = await chromium.launch({ headless: true });
@@ -34,7 +35,7 @@ try {
     assert.equal(check.mobileSummary, width <= 600, 'mobile summary mode');
     assert.equal(check.missingAnchors, 0, 'internal anchors');
     if (width === 390 || width === 1440) {
-      await page.screenshot({ path: 'qa-artifacts/site-' + width + '.png', fullPage: false });
+      await page.screenshot({ path: 'qa-artifacts/' + reportPrefix + 'site-' + width + '.png', fullPage: false });
     }
     if (width === 390) {
       const details = page.locator('details.chapter-detail').first();
@@ -48,10 +49,30 @@ try {
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.23억 원', 'rounding');
       await page.locator('#reset').click();
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.00억 원', 'reset');
-      for (const path of ['/favicon.svg', '/downloads/mosigo_model.xlsx', '/downloads/mosigo_report.pptx']) {
-        const file = await page.request.get(new URL(path, base).href);
-        assert.equal(file.status(), 200, path + ' HTTP status');
-        assert.ok((await file.body()).length > 200, path + ' file length');
+      const assets = [
+        { path: '/favicon.svg', kind: 'svg', minBytes: 200 },
+        { path: '/downloads/mosigo_business_plan_20261031.pdf', kind: 'pdf', minBytes: 1000 },
+        { path: '/downloads/mosigo_model.xlsx', kind: 'zip', minBytes: 200 },
+        { path: '/downloads/mosigo_report.pptx', kind: 'zip', minBytes: 200 },
+      ];
+      for (const { path, kind, minBytes } of assets) {
+        if (path.startsWith('/downloads/')) {
+          assert.equal(await page.locator('a[href$="' + path + '"]').count(), 1, path + ' download link');
+        }
+        const response = await page.request.get(new URL(path, base).href);
+        assert.equal(response.status(), 200, path + ' HTTP status');
+        assert.ok(!/text\/html/i.test(response.headers()['content-type'] || ''), path + ' is not an HTML error page');
+        const bytes = await response.body();
+        assert.ok(bytes.length > minBytes, path + ' minimum file length');
+        if (kind === 'pdf') {
+          assert.equal(bytes.subarray(0, 5).toString('ascii'), '%PDF-', path + ' PDF header');
+          assert.ok(bytes.subarray(-4096).includes(Buffer.from('%%EOF')), path + ' PDF trailer');
+        } else if (kind === 'zip') {
+          assert.equal(bytes.subarray(0, 4).toString('hex'), '504b0304', path + ' Office ZIP signature');
+        } else if (kind === 'svg') {
+          assert.ok(bytes.toString('utf8').includes('<svg'), path + ' SVG content');
+        }
+        console.log('PASS asset', path, bytes.length + ' bytes');
       }
       await page.locator('a[href="#decision"]').first().click();
       assert.equal(new URL(page.url()).hash, '#decision', 'decision anchor');

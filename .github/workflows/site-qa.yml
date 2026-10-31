@@ -23,7 +23,7 @@ concurrency:
 jobs:
   browser-and-lighthouse:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -45,6 +45,30 @@ jobs:
           export CHROME_PATH="$(node -p "require('playwright').chromium.executablePath()")"
           npx --no-install lighthouse http://127.0.0.1:8765/ --only-categories=performance,accessibility,best-practices,seo --form-factor=mobile --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/lighthouse-mobile.json --quiet
           npx --no-install lighthouse http://127.0.0.1:8765/ --only-categories=performance,accessibility,best-practices,seo --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/lighthouse-desktop.json --quiet
+          node qa/check-lighthouse.mjs
+      - name: Wait for the exact production HTML
+        run: |
+          set -euo pipefail
+          url="https://mosigo-case-study.vercel.app/"
+          for attempt in $(seq 1 18); do
+            if curl --fail --silent --show-error --location --compressed --max-time 20 "$url" -o /tmp/mosigo-live-index.html && cmp -s index.html /tmp/mosigo-live-index.html; then
+              echo "Production HTML matches this commit (attempt $attempt)"
+              exit 0
+            fi
+            echo "Production has not served this commit yet (attempt $attempt/18)"
+            sleep 10
+          done
+          echo "::error::Production HTML did not match the repository version"
+          exit 1
+      - name: Test deployed site and synthetic Lighthouse
+        env:
+          SITE_QA_URL: https://mosigo-case-study.vercel.app/
+          SITE_QA_MODE: live
+        run: |
+          node qa/smoke.mjs
+          export CHROME_PATH="$(node -p "require('playwright').chromium.executablePath()")"
+          npx --no-install lighthouse "$SITE_QA_URL" --only-categories=performance,accessibility,best-practices,seo --form-factor=mobile --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/live-lighthouse-mobile.json --quiet
+          npx --no-install lighthouse "$SITE_QA_URL" --only-categories=performance,accessibility,best-practices,seo --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/live-lighthouse-desktop.json --quiet
           node qa/check-lighthouse.mjs
       - name: Save QA reports
         if: always()
