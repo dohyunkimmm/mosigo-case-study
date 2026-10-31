@@ -222,10 +222,10 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 @media print{.quick-documents{display:none!important}.chapter-detail>summary{display:none!important}.chapter-detail>.chapter-content{display:block!important}}
 .quick-summary{margin:0 0 11px;font-size:13.5px;line-height:1.55;color:var(--body)}
 .quick-summary strong{color:var(--forest);font-weight:800;margin-right:8px}
-.prototype-reference{display:inline-flex;max-width:100%;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0 4px;padding:12px 15px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:13px;color:var(--muted)}
 .prototype-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:8px 12px;border:1px solid #a0b7a6;border-radius:9px;background:#fff;color:var(--forest);font-size:13px;font-weight:750;text-decoration:none}
 .prototype-link:hover{border-color:var(--forest);background:#eaf2e8}
 .prototype-link:focus-visible{outline:3px solid #65ad7a;outline-offset:3px}
+.footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.footer .footer-demo{border:0;background:transparent;min-height:44px;padding:6px 0;font-size:12px;color:var(--forest)}
 /* Mobile-first document access and restrained type/color hierarchy */
 @media(max-width:600px){
  .hero-inner{padding:21px 20px 24px}
@@ -364,7 +364,7 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <article><strong>가치와 복잡성의 교환</strong><p>자녀의 정보 확인 부담을 낮추는 대신, 대상자 동의와 제3자 접근 권한의 명확한 설계 필요</p></article>
 <article><strong>제품과 운영의 경계</strong><p>예약·공유 흐름은 프로토타입으로 보여주고, 현장 매니저 배정·실제 병원 예약은 별도 운영 타당성 검토로 구분</p></article>
 </div></div></details></section>
-<section id="product"><div class="section-title"><span class="eyebrow">05 / PRODUCT PLANNING</span><h2>요구사항을 화면과 상태로 설계</h2></div><div class="mobile-skim"><p>예약자·이용자 정보를 분리하고 동의와 진행 공유를 연결</p><ol class="skim-journey"><li>가족 등록</li><li>병원 탐색</li><li>매니저 선택</li><li>신청·동의</li><li>진행 공유</li><li>결과 요약</li><li>재예약</li></ol></div><div class="prototype-reference"><span>제품 흐름 참고 · 선택 자료</span><a href="https://mosigo-nine.vercel.app/" class="prototype-link" target="_blank" rel="noopener noreferrer" aria-label="MOSIGO 서비스 데모 새 창에서 열기"><img class="emoji-icon" src="/assets/tossface-phone.png" alt="" aria-hidden="true" width="18" height="18"> 서비스 데모 ↗</a></div><details class="chapter-detail" open><summary>요구사항·운영 정책 보기</summary><div class="chapter-content">
+<section id="product"><div class="section-title"><span class="eyebrow">05 / PRODUCT PLANNING</span><h2>요구사항을 화면과 상태로 설계</h2></div><div class="mobile-skim"><p>예약자·이용자 정보를 분리하고 동의와 진행 공유를 연결</p><ol class="skim-journey"><li>가족 등록</li><li>병원 탐색</li><li>매니저 선택</li><li>신청·동의</li><li>진행 공유</li><li>결과 요약</li><li>재예약</li></ol></div><details class="chapter-detail" open><summary>요구사항·운영 정책 보기</summary><div class="chapter-content">
 <h3 class="subhead">정보구조·핵심 여정</h3>
 <div class="pathway">
 <article><b>01</b><strong>가족 등록</strong><span>예약자·대상자 분리</span></article><article><b>02</b><strong>병원 탐색</strong><span>지역·진료과</span></article><article><b>03</b><strong>매니저 선택</strong><span>경력·정보 비교</span></article><article><b>04</b><strong>신청·동의</strong><span>정보·비용 확인</span></article><article><b>05</b><strong>진행 공유</strong><span>출발~귀가 상태</span></article><article><b>06</b><strong>리포트</strong><span>시연용 요약</span></article><article><b>07</b><strong>재예약</strong><span>이력 활용</span></article>
@@ -483,7 +483,7 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <div class="verdict">현재 결정 · 제휴 조건과 예약 과업 검증 우선 / 확대 조건 · 안전·권한 기준 충족과 노동비용 포함 손익 개선</div></div>
 
 <h3 class="subhead">진입 방식 비교 · 같은 기준으로 판단</h3><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">판단 기준</th><th scope="col">직접 제공형</th><th scope="col">기존 사업자 제휴형</th><th scope="col">기업·공공 제휴 확장</th></tr></thead><tbody><tr><th scope="row" data-label="판단 기준">공급 확보</th><td data-label="직접 제공형">매니저 모집·배정 체계 직접 준비</td><td data-label="기존 사업자 제휴형">파트너의 가용 시간·지역·수락 조건 확인</td><td data-label="기업·공공 제휴 확장">조직 단위 수요와 공급 계약 연계</td></tr><tr><th scope="row" data-label="판단 기준">초기 비용 확인</th><td data-label="직접 제공형">인력·배정·보험·현장 대응 비용</td><td data-label="기존 사업자 제휴형">연동·고객지원·계약 관리 비용</td><td data-label="기업·공공 제휴 확장">영업·도입·기관별 운영 비용</td></tr><tr><th scope="row" data-label="판단 기준">품질·책임</th><td data-label="직접 제공형">현장 관리와 사고 대응 역량 확보</td><td data-label="기존 사업자 제휴형">파트너 품질 기준·책임 분담 합의</td><td data-label="기업·공공 제휴 확장">기관·공급자·플랫폼 역할 합의</td></tr><tr><th scope="row" data-label="판단 기준">선택 조건</th><td data-label="직접 제공형">직접 운영 역량과 원가 확인 후 비교</td><td data-label="기존 사업자 제휴형">기존 공급으로 고객 과업을 검증하는 우선안</td><td data-label="기업·공공 제휴 확장">반복 수요와 단위경제성 확인 후 검토</td></tr></tbody></table></div></div></details></section>
-<footer class="footer">MOSIGO · 전략기획 보고서</footer>
+<footer class="footer"><span>MOSIGO · 전략기획 보고서</span><a href="https://mosigo-nine.vercel.app/" class="prototype-link footer-demo" target="_blank" rel="noopener noreferrer" aria-label="MOSIGO 서비스 데모 새 창에서 열기"><img class="emoji-icon" src="/assets/tossface-phone.png" alt="" aria-hidden="true" width="18" height="18"> 서비스 데모 ↗</a></footer>
 </main><a class="mobile-toc" href="#contents" aria-label="목차로 돌아가기">목차로 ↑</a><div class="bottom-progress" aria-hidden="true"><i id="progress"></i></div>
 <script>
 (function(){
