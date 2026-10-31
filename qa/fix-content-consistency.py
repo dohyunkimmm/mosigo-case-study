@@ -75,17 +75,19 @@ slides = Path("downloads/mosigo_report.pptx")
 prs = Presentation(slides)
 assert len(prs.slides)==11
 count=0
+slides_changed=False
 for shape in prs.slides[1].shapes:
     if not shape.has_text_frame: continue
     for paragraph in shape.text_frame.paragraphs:
         for run in paragraph.runs:
             if "MOSIGO 사업기획서 11~12쪽" in run.text:
                 run.text=run.text.replace("MOSIGO 사업기획서 11~12쪽","MOSIGO 사업기획서 3쪽")
+                slides_changed=True
                 count += 1
             elif "MOSIGO 사업기획서 3쪽" in run.text:
                 count += 1
 assert count==1, "Expected precisely one source reference on slide 2"
-if "11~12쪽" not in "\n".join(sh.text for sh in prs.slides[1].shapes if sh.has_text_frame):
+if slides_changed:
     prs.save(slides)
 assert "MOSIGO 사업기획서 3쪽" in "\n".join(sh.text for sh in Presentation(slides).slides[1].shapes if sh.has_text_frame)
 print("PASS PowerPoint slide 2 now references current business plan p3; 11 slides retained")
