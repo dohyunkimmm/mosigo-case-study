@@ -3,12 +3,6 @@ name: Site QA
 on:
   pull_request:
     branches: [main]
-    paths:
-      - 'index.html'
-      - 'favicon.svg'
-      - 'downloads/**'
-      - 'qa/**'
-      - '.github/workflows/site-qa.yml'
   push:
     branches: [main]
     paths:
