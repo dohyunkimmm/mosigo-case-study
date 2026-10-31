@@ -241,6 +241,24 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
  .quick-head .doc-open{font-size:12px;min-height:44px;padding:7px 13px;white-space:nowrap}
 @media(max-width:800px){.quick-head{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:12px}}
 
+/* 06 · Keep the business summary dense without changing its analysis. */
+@media(min-width:601px){
+ #business{padding-top:30px;padding-bottom:30px}
+ #business .section-title{margin-bottom:10px}
+ #business .mobile-skim>p:first-child{margin:0 0 9px}
+ #business .skim-numbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0}
+ #business .skim-numbers>div{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+ #business .skim-numbers dt{font-size:13px;line-height:1.4;color:var(--muted)}
+ #business .skim-numbers dd{margin:0;font-size:19px;line-height:1.3;font-weight:800;color:var(--forest);font-variant-numeric:tabular-nums;white-space:nowrap}
+ #business .mobile-skim .skim-note{margin:5px 0 0}
+ #business .chapter-detail{margin-top:7px}
+}
+@media(max-width:600px){
+ #business{padding-top:24px;padding-bottom:24px}
+ #business .skim-numbers{margin-top:8px}
+ #business .skim-numbers>div{padding:8px 0}
+ #business .chapter-detail{margin-top:6px}
+}
 /* Skip offscreen case-study chapters until scrolled into view. */
 @media(max-width:800px){
  main>section{content-visibility:auto;contain-intrinsic-size:auto 300px}
