@@ -23,10 +23,12 @@ assert PLAN.stat().st_size>25000 and SLIDES.stat().st_size>25000
 for f in [PLAN,SLIDES]:
     print('PASS PDF',str(f),'pages',pages(f),'embedded fonts',fonts(f))
 plan_text=cmd('pdftotext','-layout',str(PLAN),'-')
-assert 'MOSIGO' in plan_text and '기획 기준과 참고 자료' in plan_text
+compact_plan=re.sub(r'\\s+','',plan_text)
+assert 'MOSIGO' in compact_plan and '기획기준과참고자료' in compact_plan
 assert '2026.10.31' not in plan_text and 'BUSINESS PLAN 2026' not in plan_text
 slides_text=cmd('pdftotext','-layout',str(SLIDES),'-')
-assert 'MOSIGO' in slides_text and '사업화 의사결정' in slides_text
+compact_slides=re.sub(r'\\s+','',slides_text)
+assert 'MOSIGO' in compact_slides and '사업화의사결정' in compact_slides
 assert '\ufffd' not in plan_text+slides_text
 ns={'a':'http://schemas.openxmlformats.org/drawingml/2006/main'}
 with ZipFile(PPTX) as z:
