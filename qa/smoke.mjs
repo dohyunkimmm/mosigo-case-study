@@ -38,6 +38,7 @@ try {
       await page.screenshot({ path: 'qa-artifacts/' + reportPrefix + 'site-' + width + '.png', fullPage: false });
     }
     if (width === 390) {
+      assert.equal(await page.locator('#business-plan-preview').isVisible(), true, 'mobile document preview visible');
       const details = page.locator('details.chapter-detail').first();
       await details.locator('summary').click();
       assert.equal(await details.evaluate(el => el.open), true, 'mobile detail opens');
@@ -49,15 +50,29 @@ try {
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.23억 원', 'rounding');
       await page.locator('#reset').click();
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.00억 원', 'reset');
+      assert.equal(await page.locator('details.document-preview').count(), 2, 'inline document preview count');
+      for (const [id, source] of [
+        ['business-plan-preview', '/downloads/mosigo_business_plan_20261031.pdf'],
+        ['presentation-preview', '/downloads/mosigo_report_preview.pdf']
+      ]) {
+        const preview = page.locator('#' + id);
+        await preview.locator('summary').click();
+        assert.equal(await preview.evaluate(el => el.open), true, id + ' expands');
+        const frame = preview.locator('iframe');
+        assert.ok((await frame.getAttribute('src')).startsWith(source + '#'), id + ' frame source');
+        await preview.locator('summary').click();
+        assert.equal(await preview.evaluate(el => el.open), false, id + ' closes');
+      }
       const assets = [
         { path: '/favicon.svg', kind: 'svg', minBytes: 200 },
         { path: '/downloads/mosigo_business_plan_20261031.pdf', kind: 'pdf', minBytes: 1000 },
+        { path: '/downloads/mosigo_report_preview.pdf', kind: 'pdf', minBytes: 1000 },
         { path: '/downloads/mosigo_model.xlsx', kind: 'zip', minBytes: 200 },
         { path: '/downloads/mosigo_report.pptx', kind: 'zip', minBytes: 200 },
       ];
       for (const { path, kind, minBytes } of assets) {
         if (path.startsWith('/downloads/')) {
-          assert.equal(await page.locator('a[href$="' + path + '"]').count(), 1, path + ' download link');
+          assert.ok(await page.locator('a[href$="' + path + '"]').count() >= 1, path + ' document link');
         }
         const response = await page.request.get(new URL(path, base).href);
         assert.equal(response.status(), 200, path + ' HTTP status');
