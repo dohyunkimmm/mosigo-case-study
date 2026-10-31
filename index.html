@@ -212,13 +212,13 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 .chapter-detail{margin-top:12px}.chapter-detail>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid var(--line);list-style:none;cursor:pointer;font-size:14px;font-weight:750;color:#235c48}
 .chapter-detail>summary::-webkit-details-marker{display:none}.chapter-detail>summary:after{content:"＋";font-size:19px}.chapter-detail[open]>summary:after{content:"−"}.chapter-detail>summary:focus-visible{outline:3px solid #267248;outline-offset:3px}.chapter-content{padding-top:14px}
 .concise-source{font-size:13px;color:var(--muted);margin:12px 0}
-.quick-documents{max-width:1058px;margin:12px auto 0;padding:24px 28px 27px;border:1px solid var(--line);border-radius:18px;background:#f8faf7;scroll-margin-top:80px}
-.quick-head{display:flex;justify-content:flex-end;gap:18px;align-items:end;margin-bottom:18px}
+.quick-documents{max-width:1058px;margin:28px auto 0;padding:10px 28px 27px;border:1px solid var(--line);border-radius:18px;background:#f8faf7;scroll-margin-top:80px}
+.quick-head{display:flex;justify-content:flex-end;gap:18px;align-items:end;margin-bottom:6px}
 .doc-tabs{display:flex;gap:8px;margin-bottom:12px}.doc-tab{border:1px solid #b8ccbd;background:white;color:var(--forest);border-radius:10px;padding:11px 18px;cursor:pointer;font-size:14px;font-weight:800;min-width:132px;min-height:46px}
 .doc-tab small{font-size:12px;font-weight:600;color:var(--muted);margin-left:4px}.doc-tab.active{background:var(--forest);border-color:var(--forest);color:white}.doc-tab.active small{color:#d0ebda}.doc-tab:hover{border-color:#377a5c}
 .doc-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.doc-links .btn{min-height:44px;padding:9px 14px;font-size:13px}.quick-documents .document-preview-frame{height:min(54vh,510px);min-height:360px;background:white}
-@media(max-width:800px){.quick-documents{margin:16px 17px 0;padding:16px;border-radius:14px}.quick-documents .document-preview-frame{height:60vh;min-height:390px}}
-@media(max-width:600px){section{padding:31px 21px 32px}.quick-documents{margin:14px 12px 0;padding:13px}.doc-tabs{display:grid;grid-template-columns:1fr 1fr}.doc-tab{min-width:0;padding:10px 8px}.quick-documents .document-preview-frame{height:59vh;min-height:330px}}
+@media(max-width:800px){.quick-documents{margin:16px 17px 0;padding:10px 16px 16px;border-radius:14px}.quick-documents .document-preview-frame{height:60vh;min-height:390px}}
+@media(max-width:600px){section{padding:31px 21px 32px}.quick-documents{margin:14px 12px 0;padding:8px 13px 13px}.doc-tabs{display:grid;grid-template-columns:1fr 1fr}.doc-tab{min-width:0;padding:10px 8px}.quick-documents .document-preview-frame{height:59vh;min-height:330px}}
 @media print{.quick-documents{display:none!important}.chapter-detail>summary{display:none!important}.chapter-detail>.chapter-content{display:block!important}}
 .quick-summary{margin:0 0 11px;font-size:13.5px;line-height:1.55;color:var(--body)}
 .quick-summary strong{color:var(--forest);font-weight:800;margin-right:8px}
@@ -235,11 +235,11 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
  .hero-actions{margin-top:15px;gap:7px}
  .hero-actions .btn{padding:8px 13px;min-height:40px;font-size:13px}
  .tag.dark{font-size:10.5px;padding:4px 10px}
- .quick-documents{margin-top:6px}
+ .quick-documents{margin-top:10px}
 }
 .mobile-toc.viewer-active{opacity:0;pointer-events:none;transform:translateY(8px)}
  .quick-head .doc-open{font-size:12px;min-height:44px;padding:7px 13px;white-space:nowrap}
-@media(max-width:800px){.quick-head{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:12px}}
+@media(max-width:800px){.quick-head{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:6px}}
 
 /* 06 · Keep the business summary dense without changing its analysis. */
 @media(min-width:601px){
@@ -277,11 +277,6 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
  .mobile-page-controls button:focus-visible,.mobile-page-open:focus-visible{outline:3px solid #267248;outline-offset:3px}
  #doc-page-count{font-size:13px;color:var(--body);font-weight:750;font-variant-numeric:tabular-nums}
 }
-/* Tighten the transition from the green hero to the PDF open control. */
-.hero-inner{padding-bottom:30px}
-.quick-documents{margin-top:0;padding-top:14px}
-@media(max-width:800px){.hero-inner{padding-bottom:20px}.quick-documents{margin-top:0;padding-top:12px}}
-@media(max-width:600px){.hero-inner{padding-bottom:12px}.quick-documents{margin-top:0;padding-top:9px}}
 </style><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}</script></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside id="contents" tabindex="-1" aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a></div>
