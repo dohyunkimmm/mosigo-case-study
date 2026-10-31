@@ -70,6 +70,11 @@ jobs:
           npx --no-install lighthouse "$SITE_QA_URL" --only-categories=performance,accessibility,best-practices,seo --form-factor=mobile --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/live-lighthouse-mobile.json --quiet
           npx --no-install lighthouse "$SITE_QA_URL" --only-categories=performance,accessibility,best-practices,seo --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/live-lighthouse-desktop.json --quiet
           node qa/check-lighthouse.mjs
+      - name: Verify PDF, PPTX, embedded fonts and color contrast
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          python3 qa/check-document-design.py
       - name: Save QA reports
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
