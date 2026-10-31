@@ -26,6 +26,13 @@ plan_text=cmd('pdftotext','-layout',str(PLAN),'-')
 compact_plan=re.sub(r'\s+','',plan_text)
 assert 'MOSIGO' in compact_plan and '기획기준과참고자료' in compact_plan
 assert '2026.10.31' not in plan_text and 'BUSINESS PLAN 2026' not in plan_text
+plan_html=(ROOT/'mosigo_business_plan_20261031.html').read_text(encoding='utf-8')
+assert '기본 동행 3만 원대(상품 가정) / 평균 40,000원(손익 비교용)' in plan_html, 'Product price vs model-average distinction missing'
+assert '<td>손익 비교용 평균 이용가</td>' in plan_html, 'Unit-economics price label is ambiguous'
+assert '기본동행3만원대' in compact_plan, 'Published PDF does not show the 30k-range product hypothesis'
+assert '손익비교용평균이용가' in compact_plan, 'Published PDF does not distinguish 40k model average'
+print('PASS price hypothesis/model separation in source and published PDF')
+
 slides_text=cmd('pdftotext','-layout',str(SLIDES),'-')
 compact_slides=re.sub(r'\s+','',slides_text)
 assert 'MOSIGO' in compact_slides and '사업화의사결정' in compact_slides
