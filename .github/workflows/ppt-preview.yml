@@ -6,6 +6,7 @@ on:
     paths:
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
+      - 'qa/sync-strategy-copy.py'
       - '.github/workflows/ppt-preview.yml'
   workflow_dispatch:
 
@@ -39,6 +40,8 @@ jobs:
           python3 -m venv /tmp/mosigo-ppt-venv
           /tmp/mosigo-ppt-venv/bin/pip install --quiet python-pptx==1.0.2
           /tmp/mosigo-ppt-venv/bin/python qa/style-presentation.py
+      - name: Synchronize editable strategic decisions with quantified gap
+        run: /tmp/mosigo-ppt-venv/bin/python qa/sync-strategy-copy.py
       - name: Convert existing presentation for inline viewing
         run: |
           set -euo pipefail
