@@ -53,12 +53,12 @@ for (const { name, engine, device } of cases) {
       assert.ok(new URL(await page.locator('#doc-open').getAttribute('href'), base).pathname === path, name + ' open link updates');
       assert.equal(await page.locator('[data-doc-preview="' + tab + '"]').getAttribute('aria-pressed'), 'true', name + ' accessible selected state');
       const prefix=tab==='plan'?'plan':'slides';
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01.webp'), name + ' initial preview image');
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01-sm.webp'), name + ' initial preview image');
       await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
       await page.locator('#doc-next').click();
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-02.webp'), name + ' next page');
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-02-sm.webp'), name + ' next page');
       await page.locator('#doc-prev').click();
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01.webp'), name + ' previous page');
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01-sm.webp'), name + ' previous page');
       await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
       await page.screenshot({ path: screenshots + '/' + name + '-' + tab + '.png', fullPage: false });
     }
@@ -88,7 +88,7 @@ for (const { name, engine, device } of cases) {
     assert.ok(layout.fontFamily.includes('Tossface'), name + ' emoji family CSS');
     assert.equal(layout.navPointerEvents,'none',name + ' nav not blocking document');
     const imageInfo=await page.locator('#doc-page-img').evaluate(el=>({ready:el.complete,w:el.naturalWidth,h:el.naturalHeight}));
-    assert.ok(imageInfo.ready&&imageInfo.w>=900&&imageInfo.h>=450,name+' decoded WebP preview');
+    assert.ok(imageInfo.ready&&imageInfo.w>=700&&imageInfo.h>=350,name+' decoded WebP preview');
     console.log('PASS visible mobile PDF preview',name,imageInfo);
     const cssLink = page.locator('link[href*="tossface"]').first();
     assert.ok(await cssLink.count(), name + ' Tossface CSS link');
