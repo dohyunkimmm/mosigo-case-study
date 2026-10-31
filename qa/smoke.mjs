@@ -41,7 +41,13 @@ try {
       await page.screenshot({ path: 'qa-artifacts/' + reportPrefix + 'site-' + width + '.png', fullPage: false });
     }
     if (width === 390) {
-      assert.equal(await page.locator('#doc-frame').isVisible(), true, 'mobile document preview visible');
+      assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), true, 'mobile static preview visible');
+      assert.equal(await page.locator('#doc-frame').isVisible(), false, 'mobile blank PDF iframe hidden');
+      await page.locator('#doc-next').click();
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-02.webp'), 'mobile next page');
+      await page.locator('#doc-prev').click();
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-01.webp'), 'mobile previous page');
+      await page.waitForFunction(() => {const img=document.getElementById('doc-page-img');return img.complete&&img.naturalWidth>0;});
       const details = page.locator('details.chapter-detail').first();
       await details.locator('summary').click();
       assert.equal(await details.evaluate(el => el.open), true, 'mobile detail opens');
@@ -54,7 +60,8 @@ try {
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.23억 원', 'rounding');
       await page.locator('#reset').click();
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.00억 원', 'reset');
-      assert.equal(await page.locator('#doc-frame').isVisible(), true, 'document viewer immediately visible');
+      assert.equal(await page.locator('#doc-frame').isVisible(), true, 'desktop PDF viewer visible');
+      assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), false, 'mobile image viewer hidden on desktop');
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_business_plan_20261031.pdf#'), 'PDF initial tab');
       await page.locator('[data-doc-preview="presentation"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_report_preview.pdf#'), 'PPT tab changes viewer');
@@ -86,6 +93,18 @@ try {
           assert.ok(bytes.toString('utf8').includes('<svg'), path + ' SVG content');
         }
         console.log('PASS asset', path, bytes.length + ' bytes');
+      }
+      for(const [kind,count] of [['plan',17],['slides',11]]){
+        for(let i=1;i<=count;i++){
+          const imagePath='/downloads/previews/'+kind+'-'+String(i).padStart(2,'0')+'.webp';
+          const response=await page.request.get(new URL(imagePath,base).href);
+          assert.equal(response.status(),200,imagePath+' HTTP');
+          const bytes=await response.body();
+          assert.ok(bytes.length>1000,imagePath+' size');
+          assert.equal(bytes.subarray(0,4).toString('ascii'),'RIFF',imagePath+' header');
+          assert.equal(bytes.subarray(8,12).toString('ascii'),'WEBP',imagePath+' format');
+        }
+        console.log('PASS static document preview pages',kind,count);
       }
       await page.locator('a[href="#decision"]').first().click();
       assert.equal(new URL(page.url()).hash, '#decision', 'decision anchor');
