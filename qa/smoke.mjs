@@ -34,6 +34,15 @@ try {
     assert.equal(check.open, 0, width + 'px concise chapter mode');
     assert.equal(check.mobileSummary, true, 'summary shown at every width');
     assert.equal(check.missingAnchors, 0, 'internal anchors');
+    // Prevent repeated English report labels in the sidebar, sticky header and hero.
+    assert.equal(await page.locator('aside .brand-sub, .top .top-l, .hero .tag.dark').count(), 0, width + 'px no duplicate report badges');
+    assert.equal(await page.locator('.hero h1').count(), 1, width + 'px one main report heading');
+    const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
+    assert.equal(heading, 'MOSIGO전략기획보고서', width + 'px single Korean report title');
+    const visibleLabels = await page.locator('aside, .top, .hero').allTextContents();
+    assert.ok(!visibleLabels.join(' ').includes('STRATEGY CASE STUDY'), width + 'px no repeated case-study slogan');
+    assert.ok(!visibleLabels.join(' ').includes('STRATEGY REPORT'), width + 'px no competing report slogan');
+
     assert.equal(await page.locator('.docs-note').count(), 0, width + 'px no redundant disclaimer beneath documents');
     const decisionSummary = await page.locator('#decision .skim-verdict').textContent();
     assert.ok(decisionSummary.includes('월 완료 199건(가정)'), width + 'px scenario label retained');
