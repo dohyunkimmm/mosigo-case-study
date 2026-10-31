@@ -1,0 +1,59 @@
+name: Approved MOSIGO business plan PDF QA
+on:
+  push:
+    branches:
+      - 'qa/mosigo-business-plan-approved-fixes-20261031'
+    paths:
+      - 'downloads/mosigo_business_plan_20261031.html'
+      - '.github/workflows/qa-regenerate-business-plan-20261031.yml'
+permissions:
+  contents: write
+jobs:
+  pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install fonts and PDF tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk poppler-utils
+          python3 -m pip install --user --quiet pymupdf==1.26.4
+      - name: Install Playwright
+        run: |
+          npm install --no-save --ignore-scripts --no-package-lock playwright@1.64.1
+          npx playwright install chromium
+      - name: Render and inspect all pages
+        run: |
+          node qa/generate-business-plan.mjs
+          test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "17"
+          python3 - <<'PY'
+          import fitz,sys
+          pdf='downloads/mosigo_business_plan_20261031.pdf'
+          doc=fitz.open(pdf)
+          assert doc.page_count == 17
+          assert '결과 요약' in doc[6].get_text() and '재예약' in doc[6].get_text()
+          assert '평균 이용가' in doc[8].get_text()
+          links=[a.get('uri') for a in doc[-1].get_links() if a.get('uri')]
+          assert 'https://mosigo-case-study.vercel.app/' in links,links
+          for index,page in enumerate(doc):
+            t=page.get_text()
+            assert (f'{index+1:02d} / 17' in t),(index,'page number')
+            assert '\ufffd' not in t,(index,'replacement character')
+            assert 'M OSIGO' not in t,(index,'word break')
+            for b in page.get_text('dict')['blocks']:
+              for l in b.get('lines',[]):
+                for s in l['spans']:
+                  x0,y0,x1,y1=s['bbox']
+                  assert x0>=-0.2 and y0>=-0.2 and x1<=page.rect.width+0.2 and y1<=page.rect.height+0.2, (index,s['text'][:30])
+          print('PDF QA PASS 17 pages, journey 7 steps, price, URI, text and bounds')
+          PY
+      - name: Commit updated PDF only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloads/mosigo_business_plan_20261031.pdf
+          git commit -m 'docs(business-plan): update verified PDF for approved QA fixes'
+          git push origin HEAD:refs/heads/qa/mosigo-business-plan-approved-fixes-20261031
