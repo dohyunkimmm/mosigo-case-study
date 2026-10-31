@@ -35,7 +35,7 @@ try {
     assert.equal(check.mobileSummary, true, 'summary shown at every width');
     assert.equal(check.missingAnchors, 0, 'internal anchors');
     assert.equal(await page.locator('.docs-note').count(), 0, width + 'px no redundant disclaimer beneath documents');
-    const decisionSummary = await page.locator('#decision .skim-verdict').innerText();
+    const decisionSummary = await page.locator('#decision .skim-verdict').textContent();
     assert.ok(decisionSummary.includes('월 완료 199건(가정)'), width + 'px scenario label retained');
     assert.ok(decisionSummary.includes('손익분기 1,082건'), width + 'px break-even count retained');
     assert.ok(decisionSummary.includes('확대 기준으로 설정'), width + 'px decision described by action criteria');
