@@ -29,16 +29,16 @@ try {
     assert.equal(check.overflow, false, width + 'px horizontal overflow');
     assert.equal(check.sections, 9, 'section count');
     assert.equal(check.details, 9, 'details count');
-    assert.equal(check.tables, 19, 'table count');
+    assert.equal(check.tables, 13, 'table count');
     assert.ok(check.labels > 0 && check.unlabeled === 0, 'static table labels');
-    assert.equal(check.open, width <= 600 ? 0 : 9, width + 'px details mode');
-    assert.equal(check.mobileSummary, width <= 600, 'mobile summary mode');
+    assert.equal(check.open, 0, width + 'px concise chapter mode');
+    assert.equal(check.mobileSummary, true, 'summary shown at every width');
     assert.equal(check.missingAnchors, 0, 'internal anchors');
     if (width === 390 || width === 1440) {
       await page.screenshot({ path: 'qa-artifacts/' + reportPrefix + 'site-' + width + '.png', fullPage: false });
     }
     if (width === 390) {
-      assert.equal(await page.locator('#business-plan-preview').isVisible(), true, 'mobile document preview visible');
+      assert.equal(await page.locator('#doc-frame').isVisible(), true, 'mobile document preview visible');
       const details = page.locator('details.chapter-detail').first();
       await details.locator('summary').click();
       assert.equal(await details.evaluate(el => el.open), true, 'mobile detail opens');
@@ -46,23 +46,18 @@ try {
       assert.equal(await details.evaluate(el => el.open), false, 'mobile detail closes');
     }
     if (width === 1440) {
+      await page.locator('#business .chapter-detail summary').click();
       await page.locator('#price').evaluate(el => { el.value = '41000'; el.dispatchEvent(new Event('input', { bubbles: true })); });
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.23억 원', 'rounding');
       await page.locator('#reset').click();
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.00억 원', 'reset');
-      assert.equal(await page.locator('details.document-preview').count(), 2, 'inline document preview count');
-      for (const [id, source] of [
-        ['business-plan-preview', '/downloads/mosigo_business_plan_20261031.pdf'],
-        ['presentation-preview', '/downloads/mosigo_report_preview.pdf']
-      ]) {
-        const preview = page.locator('#' + id);
-        await preview.locator('summary').click();
-        assert.equal(await preview.evaluate(el => el.open), true, id + ' expands');
-        const frame = preview.locator('iframe');
-        assert.ok((await frame.getAttribute('src')).startsWith(source + '#'), id + ' frame source');
-        await preview.locator('summary').click();
-        assert.equal(await preview.evaluate(el => el.open), false, id + ' closes');
-      }
+      assert.equal(await page.locator('#doc-frame').isVisible(), true, 'document viewer immediately visible');
+      assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_business_plan_20261031.pdf#'), 'PDF initial tab');
+      await page.locator('[data-doc-preview="presentation"]').click();
+      assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_report_preview.pdf#'), 'PPT tab changes viewer');
+      assert.equal(await page.locator('[data-doc-preview="presentation"]').getAttribute('aria-pressed'), 'true', 'PPT selected');
+      await page.locator('[data-doc-preview="plan"]').click();
+      assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_business_plan_20261031.pdf#'), 'PDF tab restored');
       const assets = [
         { path: '/favicon.svg', kind: 'svg', minBytes: 200 },
         { path: '/downloads/mosigo_business_plan_20261031.pdf', kind: 'pdf', minBytes: 1000 },
@@ -71,7 +66,7 @@ try {
         { path: '/downloads/mosigo_report.pptx', kind: 'zip', minBytes: 200 },
       ];
       for (const { path, kind, minBytes } of assets) {
-        if (path.startsWith('/downloads/')) {
+        if (path.startsWith('/downloads/') && !path.endsWith('/mosigo_report_preview.pdf')) {
           assert.ok(await page.locator('a[href$="' + path + '"]').count() >= 1, path + ' document link');
         }
         const response = await page.request.get(new URL(path, base).href);
