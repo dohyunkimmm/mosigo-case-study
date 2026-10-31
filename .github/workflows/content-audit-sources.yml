@@ -1,0 +1,44 @@
+name: Gather original MOSIGO files for content QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/content-audit-sources.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gather:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Verify canonical source files
+        run: |
+          set -euo pipefail
+          test -s downloads/mosigo_model.xlsx
+          test -s downloads/mosigo_report.pptx
+          test -s downloads/mosigo_report_preview.pdf
+          test -s downloads/mosigo_business_plan_20261031.pdf
+          test -s downloads/mosigo_business_plan_20261031.html
+          test -s index.html
+          echo "SOURCE COMMIT $(git rev-parse HEAD)"
+          sha256sum downloads/mosigo_model.xlsx downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf downloads/mosigo_business_plan_20261031.pdf index.html
+      - name: Upload original files for detailed independent audit
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mosigo-content-audit-sources
+          path: |
+            downloads/mosigo_model.xlsx
+            downloads/mosigo_report.pptx
+            downloads/mosigo_report_preview.pdf
+            downloads/mosigo_business_plan_20261031.pdf
+            downloads/mosigo_business_plan_20261031.html
+            index.html
+          if-no-files-found: error
+          retention-days: 7
