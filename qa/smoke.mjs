@@ -52,7 +52,9 @@ try {
     const demoLink = page.locator('a[href="https://mosigo-nine.vercel.app/"]');
     assert.equal(await demoLink.count(), 1, width + 'px exactly one demo link');
     assert.equal(await page.locator('.hero a[href="https://mosigo-nine.vercel.app/"]').count(), 0, width + 'px hero stays focused on case study');
-    assert.equal(await page.locator('#product > .prototype-reference a[href="https://mosigo-nine.vercel.app/"]').count(), 1, width + 'px demo is a product-planning reference');
+    assert.equal(await page.locator('#product a[href="https://mosigo-nine.vercel.app/"]').count(), 0, width + 'px product chapter focuses on strategy');
+    assert.equal(await page.locator('footer.footer a[href="https://mosigo-nine.vercel.app/"]').count(), 1, width + 'px optional demo link belongs in footer');
+    assert.equal(await page.locator('.prototype-reference').count(), 0, width + 'px redundant demo strip removed');
     assert.equal(await demoLink.getAttribute('target'), '_blank', 'demo opens separate tab');
     assert.ok((await demoLink.getAttribute('rel')).includes('noopener'), 'demo target is protected');
     assert.ok(await page.locator('link[href*="pretendardvariable"]').count() > 0, 'Pretendard stylesheet');
