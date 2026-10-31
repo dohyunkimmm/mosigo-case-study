@@ -44,9 +44,9 @@ try {
       assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), true, 'mobile static preview visible');
       assert.equal(await page.locator('#doc-frame').isVisible(), false, 'mobile blank PDF iframe hidden');
       await page.locator('#doc-next').click();
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-02.webp'), 'mobile next page');
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-02-sm.webp'), 'mobile next page');
       await page.locator('#doc-prev').click();
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-01.webp'), 'mobile previous page');
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-01-sm.webp'), 'mobile previous page');
       await page.waitForFunction(() => {const img=document.getElementById('doc-page-img');return img.complete&&img.naturalWidth>0;});
       const details = page.locator('details.chapter-detail').first();
       await details.locator('summary').click();
@@ -103,6 +103,12 @@ try {
           assert.ok(bytes.length>1000,imagePath+' size');
           assert.equal(bytes.subarray(0,4).toString('ascii'),'RIFF',imagePath+' header');
           assert.equal(bytes.subarray(8,12).toString('ascii'),'WEBP',imagePath+' format');
+          const smallPath=imagePath.replace('.webp','-sm.webp');
+          const small=await page.request.get(new URL(smallPath,base).href);
+          assert.equal(small.status(),200,smallPath+' HTTP');
+          const smallBytes=await small.body();
+          assert.equal(smallBytes.subarray(8,12).toString('ascii'),'WEBP',smallPath+' format');
+          assert.ok(smallBytes.length<bytes.length,smallPath+' optimized size');
         }
         console.log('PASS static document preview pages',kind,count);
       }
