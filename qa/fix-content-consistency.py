@@ -42,6 +42,8 @@ with ZipFile(model) as archive:
             continue
         assert before in old_cell, (coordinate, old_cell)
         new_cell = old_cell.replace(before, after)
+        if coordinate == "D14":
+            new_cell = new_cell.replace("<x:v>159</x:v>", "<x:v>149</x:v>")
         assert new_cell != old_cell
         replaced = replaced.replace(old_cell, new_cell, 1)
     ns = {"x": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
