@@ -27,7 +27,7 @@ jobs:
       - name: Install document renderer
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq libreoffice-impress poppler-utils fonts-noto-cjk fonts-nanum python3-venv
+          sudo apt-get install -y -qq libreoffice-impress poppler-utils fonts-noto-cjk fonts-nanum python3-venv webp
       - name: Install Pretendard and normalize editable slides
         run: |
           set -euo pipefail
@@ -52,12 +52,27 @@ jobs:
           pdfinfo downloads/mosigo_report_preview.pdf | grep -E 'Pages:|Page size:|File size:'
           test "$pages" = "11"
           pdffonts downloads/mosigo_report_preview.pdf | grep -qi Pretendard
+      - name: Render all 11 browser-independent presentation pages
+        run: |
+          set -euo pipefail
+          mkdir -p downloads/previews /tmp/mosigo-ppt-pages
+          for page in $(seq 1 11); do
+            padded="$(printf '%02d' "$page")"
+            pdftoppm -f "$page" -l "$page" -scale-to 1400 -png -singlefile downloads/mosigo_report_preview.pdf /tmp/mosigo-ppt-pages/page
+            cwebp -quiet -q 84 -m 6 /tmp/mosigo-ppt-pages/page.png -o "downloads/previews/slides-$padded.webp"
+            cwebp -quiet -q 82 -m 6 -resize 800 0 /tmp/mosigo-ppt-pages/page.png -o "downloads/previews/slides-$padded-sm.webp"
+            test "$(stat -c%s "downloads/previews/slides-$padded.webp")" -gt 1000
+          done
+          test "$(find downloads/previews -maxdepth 1 -name 'slides-*.webp' | wc -l)" -eq 22
+          pdftotext downloads/mosigo_report_preview.pdf /tmp/mosigo-ppt-text.txt
+          if grep -q '11~12쪽' /tmp/mosigo-ppt-text.txt; then echo "::error::Stale PPT source citation"; exit 1; fi
+          grep -q '사업기획서 3쪽' /tmp/mosigo-ppt-text.txt
       - name: Commit static preview
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf
+          git add downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf downloads/previews/slides-*.webp
           if git diff --cached --quiet; then
             echo "PPT preview already up to date"
           else
@@ -72,5 +87,6 @@ jobs:
           path: |
             downloads/mosigo_report_preview.pdf
             downloads/mosigo_report.pptx
+            downloads/previews/slides-*.webp
           if-no-files-found: error
           retention-days: 14
