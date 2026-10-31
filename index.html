@@ -634,13 +634,16 @@ function onScroll(){
 }
 let scrollQueued=false;
 function queueScrollUpdate(){if(scrollQueued)return;scrollQueued=true;requestAnimationFrame(()=>{scrollQueued=false;onScroll();});}
-window.addEventListener('scroll',queueScrollUpdate,{passive:true});onScroll();
+window.addEventListener('scroll',queueScrollUpdate,{passive:true});queueScrollUpdate();
 // Table cell labels are part of the HTML for no-JavaScript mobile reading.
 const dataScrollAreas=Array.from(document.querySelectorAll('.tablewrap,.blueprint'));
+// All tables live inside closed chapters on initial render. Avoid forcing
+// layout for hidden tables or repeatedly measuring nine chapter toggles.
 function updateDataScrollAccess(){
- const overflowStates=dataScrollAreas.map(region=>region.scrollWidth>region.clientWidth+2);
- dataScrollAreas.forEach((region,i)=>{
-  if(overflowStates[i]){
+ dataScrollAreas.forEach(region=>{
+  const detail=region.closest('.chapter-detail');
+  const overflow=detail?.open && region.scrollWidth>region.clientWidth+2;
+  if(overflow){
    region.setAttribute('tabindex','0');
    region.setAttribute('role','group');
    const title=region.closest('section')?.querySelector('h2')?.textContent.trim()||'분석 자료';
@@ -652,12 +655,17 @@ function updateDataScrollAccess(){
   }
  });
 }
-window.addEventListener('resize',updateDataScrollAccess,{passive:true});
-updateDataScrollAccess();
+let dataScrollQueued=false;
+function queueDataScrollAccess(){
+ if(dataScrollQueued)return;
+ dataScrollQueued=true;
+ requestAnimationFrame(()=>{dataScrollQueued=false;updateDataScrollAccess();});
+}
+window.addEventListener('resize',queueDataScrollAccess,{passive:true});
 
 // Details follow the viewport mode only when crossing the mobile breakpoint.
-function setChapterMode(){document.documentElement.classList.remove('mobile-skim-prep');updateDataScrollAccess();}
-document.querySelectorAll('.chapter-detail').forEach(detail=>{detail.open=false;detail.addEventListener('toggle',updateDataScrollAccess);});setChapterMode();
+function setChapterMode(){document.documentElement.classList.remove('mobile-skim-prep');queueDataScrollAccess();}
+document.querySelectorAll('.chapter-detail').forEach(detail=>{detail.open=false;detail.addEventListener('toggle',queueDataScrollAccess);});setChapterMode();
 window.addEventListener('beforeprint',()=>document.querySelectorAll('.chapter-detail').forEach(detail=>{detail.open=true;}));
 window.addEventListener('afterprint',()=>{document.querySelectorAll('.chapter-detail').forEach(detail=>{detail.open=false;});setChapterMode();});
 
