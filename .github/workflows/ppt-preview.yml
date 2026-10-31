@@ -66,7 +66,7 @@ jobs:
           test "$(find downloads/previews -maxdepth 1 -name 'slides-*.webp' | wc -l)" -eq 22
           pdftotext downloads/mosigo_report_preview.pdf /tmp/mosigo-ppt-text.txt
           if grep -q '11~12쪽' /tmp/mosigo-ppt-text.txt; then echo "::error::Stale PPT source citation"; exit 1; fi
-          grep -q '사업기획서 3쪽' /tmp/mosigo-ppt-text.txt
+          grep -Eq '사업기획서[[:space:]]*3[[:space:]]*쪽' /tmp/mosigo-ppt-text.txt
       - name: Commit static preview
         run: |
           set -euo pipefail
