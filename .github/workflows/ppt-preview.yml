@@ -1,0 +1,59 @@
+name: Build PPT preview PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'downloads/mosigo_report.pptx'
+      - '.github/workflows/ppt-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mosigo-ppt-preview
+  cancel-in-progress: false
+
+jobs:
+  convert:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Install document renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libreoffice-impress poppler-utils fonts-noto-cjk fonts-nanum
+      - name: Convert existing presentation for inline viewing
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/mosigo-slides
+          libreoffice -env:UserInstallation=file:///tmp/lo-mosigo-ppt-preview --headless --convert-to pdf --outdir /tmp/mosigo-slides downloads/mosigo_report.pptx
+          test -s /tmp/mosigo-slides/mosigo_report.pdf
+          pages="$(pdfinfo /tmp/mosigo-slides/mosigo_report.pdf | awk '/^Pages:/ {print $2}')"
+          test "$pages" -gt 0
+          cp /tmp/mosigo-slides/mosigo_report.pdf downloads/mosigo_report_preview.pdf
+          echo "Generated preview PDF: $pages slides"
+          pdfinfo downloads/mosigo_report_preview.pdf | grep -E 'Pages:|Page size:|File size:'
+      - name: Commit static preview
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add downloads/mosigo_report_preview.pdf
+          if git diff --cached --quiet; then
+            echo "PPT preview already up to date"
+          else
+            git commit -m "docs: render PowerPoint as browser-viewable PDF"
+            git push origin HEAD:main
+          fi
+      - name: Upload preview for inspection
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mosigo-ppt-preview
+          path: downloads/mosigo_report_preview.pdf
+          if-no-files-found: error
+          retention-days: 14
