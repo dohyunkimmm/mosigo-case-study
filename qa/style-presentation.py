@@ -4,11 +4,35 @@ from pptx.util import Inches, Pt
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.dml.color import RGBColor
+from pptx.oxml.xmlchemy import OxmlElement
+from pptx.oxml.ns import qn
 import sys
 src=sys.argv[1] if len(sys.argv)>1 else "downloads/mosigo_report.pptx"
 p=Presentation(src)
-if "mosigo-design-v1" in (p.core_properties.keywords or ""):
+def eastern_fonts():
+    for slide in p.slides:
+        for sh in slide.shapes:
+            frames=([sh.text_frame] if sh.has_text_frame else [])
+            if sh.has_table:frames.extend(cell.text_frame for row in sh.table.rows for cell in row.cells)
+            for tf in frames:
+                for paragraph in tf.paragraphs:
+                    for run in paragraph.runs:
+                        if not run.text.strip():continue
+                        props=run._r.get_or_add_rPr()
+                        for key in ("ea","cs"):
+                            node=props.find(qn("a:"+key))
+                            if node is None:
+                                node=OxmlElement("a:"+key);props.append(node)
+                            node.set("typeface","Pretendard")
+                        run.font.name="Pretendard"
+if "mosigo-design-v2" in (p.core_properties.keywords or ""):
     print("Presentation already normalized");sys.exit(0)
+if "mosigo-design-v1" in (p.core_properties.keywords or ""):
+    eastern_fonts()
+    p.core_properties.keywords=(p.core_properties.keywords or "").replace("mosigo-design-v1","mosigo-design-v2")
+    p.save(src)
+    print("Normalized East Asian Pretendard fonts",len(p.slides),"slides")
+    sys.exit(0)
 C=lambda x:RGBColor.from_string(x)
 forest=C("123E33");dark=C("0D3028");ivory=C("FBFCF8");lime=C("D6EF8A")
 pale=C("E9F4EB");white=C("FFFFFF");ink=C("192C25");muted=C("4F6958")
@@ -89,6 +113,7 @@ for idx,slide in enumerate(p.slides,1):
                             run.font.color.rgb=white if ri==0 else (forest if ci==0 else ink)
     label(slide,11.82,7.04,.65,.29,f"{idx:02d} / {len(p.slides):02d}",10.5,C("C2DFCC") if darkpage else muted,True,PP_ALIGN.RIGHT)
     if not darkpage:label(slide,10.35,.27,2.12,.25,"STRATEGY CASE STUDY",9.5,muted,True,PP_ALIGN.RIGHT)
-p.core_properties.keywords=((p.core_properties.keywords or "")+" mosigo-design-v1").strip()
+eastern_fonts()
+p.core_properties.keywords=((p.core_properties.keywords or "")+" mosigo-design-v2").strip()
 p.save(src)
 print("Normalized Pretendard presentation",len(p.slides),"slides")
