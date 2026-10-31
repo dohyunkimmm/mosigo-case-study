@@ -232,6 +232,8 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
  .quick-documents{margin-top:10px}
 }
 .mobile-toc.viewer-active{opacity:0;pointer-events:none;transform:translateY(8px)}
+.quick-head .doc-open{font-size:12px;min-height:38px;padding:7px 13px;white-space:nowrap}
+@media(max-width:800px){.quick-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}}
 </style><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}</script></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside id="contents" tabindex="-1" aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a><div class="brand-sub">STRATEGY CASE STUDY</div></div>
@@ -255,12 +257,12 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 <div class="hero-actions"><a href="#attachments" class="btn primary">사업기획서·PPT 보기 ↓</a><a href="https://mosigo-nine.vercel.app/" class="btn ghost" target="_blank" rel="noopener noreferrer" aria-label="MOSIGO 서비스 데모 새 창에서 열기"><span class="emoji-icon" aria-hidden="true">📱</span> 서비스 데모 ↗</a></div>
 <div class="hero-meta"><span>개인 전략기획 보고서</span><span>·</span><span>시장·고객 · 사업모델 · 제품·운영</span></div></div></header>
 <div id="attachments" class="quick-documents" aria-label="자료 바로보기">
-<div class="quick-head"><div><h2>자료 바로보기</h2></div></div>
+<div class="quick-head"><div><h2>자료 바로보기</h2></div><a class="btn doc-open" id="doc-open" href="/downloads/mosigo_business_plan_20261031.pdf" target="_blank" rel="noopener noreferrer">새 탭에서 보기</a></div>
 <div class="doc-tabs" role="group" aria-label="문서 선택">
 <button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>17쪽</small></button>
 <button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">발표자료 <small>11장</small></button></div>
 <iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
-<div class="doc-links"><a class="btn" id="doc-open" href="/downloads/mosigo_business_plan_20261031.pdf" target="_blank" rel="noopener noreferrer">새 탭에서 보기</a>
+<div class="doc-links">
 <a class="btn" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">PDF 저장</a>
 <a class="btn" href="/downloads/mosigo_report.pptx" download="mosigo_report.pptx">PPT 저장</a>
 <a class="btn" href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx">Excel 저장</a></div>
