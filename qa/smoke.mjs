@@ -34,6 +34,9 @@ try {
     assert.equal(check.open, 0, width + 'px concise chapter mode');
     assert.equal(check.mobileSummary, true, 'summary shown at every width');
     assert.equal(check.missingAnchors, 0, 'internal anchors');
+    assert.ok(await page.locator('link[href*="pretendardvariable"]').count() > 0, 'Pretendard stylesheet');
+    assert.ok(await page.locator('link[href*="tossface"]').count() > 0, 'Tossface stylesheet');
+    assert.ok((await page.locator('.emoji-icon').first().evaluate(el=>getComputedStyle(el).fontFamily)).includes('Tossface'), 'Tossface specified for emoji');
     if (width === 390 || width === 1440) {
       await page.screenshot({ path: 'qa-artifacts/' + reportPrefix + 'site-' + width + '.png', fullPage: false });
     }

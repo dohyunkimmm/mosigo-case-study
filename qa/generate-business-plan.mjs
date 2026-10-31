@@ -1,13 +1,21 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
+import assert from 'node:assert/strict';
 const source = path.resolve('downloads/mosigo_business_plan_20261031.html');
 const output = path.resolve('downloads/mosigo_business_plan_20261031.pdf');
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 try{
  const page=await browser.newPage({viewport:{width:1280,height:720},deviceScaleFactor:1});
  await page.goto('file://'+source,{waitUntil:'load'});
- await page.evaluate(()=>document.fonts.ready);
+ // Embed the official OTF files into the PDF even if the CDN is unreachable.
+ const regular=fs.readFileSync('qa-fonts/Pretendard-Regular.otf').toString('base64');
+ const bold=fs.readFileSync('qa-fonts/Pretendard-Bold.otf').toString('base64');
+ await page.addStyleTag({content:`@font-face{font-family:"Pretendard PDF";src:url(data:font/otf;base64,${regular}) format("opentype");font-weight:400} @font-face{font-family:"Pretendard PDF";src:url(data:font/otf;base64,${bold}) format("opentype");font-weight:700} body{font-family:"Pretendard PDF",sans-serif!important}`});
+ await page.evaluate(async()=>{await document.fonts.load('400 16px "Pretendard PDF"');await document.fonts.load('700 16px "Pretendard PDF"');await document.fonts.ready;});
+ const fontCheck=await page.evaluate(()=>[...document.fonts].filter(f=>f.family==='Pretendard PDF' && f.status==='loaded').map(f=>f.weight));
+ assert.ok(fontCheck.includes('400') && fontCheck.includes('700'), 'Pretendard PDF fonts must be loaded');
+ console.log('Font QA:',fontCheck.join(','));
  const check=await page.evaluate(()=>{
    const slides=[...document.querySelectorAll('section')];
    const issues=[];

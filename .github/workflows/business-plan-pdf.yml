@@ -31,6 +31,14 @@ jobs:
         run: |
           npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1
           npx --no-install playwright install --with-deps chromium
+      - name: Install original Pretendard fonts
+        run: |
+          set -euo pipefail
+          mkdir -p qa-fonts
+          curl -fSL --retry 3 https://raw.githubusercontent.com/orioncactus/pretendard/main/packages/pretendard/dist/public/static/Pretendard-Regular.otf -o qa-fonts/Pretendard-Regular.otf
+          curl -fSL --retry 3 https://raw.githubusercontent.com/orioncactus/pretendard/main/packages/pretendard/dist/public/static/Pretendard-Bold.otf -o qa-fonts/Pretendard-Bold.otf
+          test "$(stat -c%s qa-fonts/Pretendard-Regular.otf)" -gt 1000000
+          test "$(stat -c%s qa-fonts/Pretendard-Bold.otf)" -gt 1000000
       - name: Rebuild business plan PDF and check its pages
         run: |
           set -euo pipefail
@@ -38,6 +46,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq poppler-utils
           test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "17"
+          pdffonts downloads/mosigo_business_plan_20261031.pdf | grep -qi Pretendard
           pdftotext downloads/mosigo_business_plan_20261031.pdf /tmp/business-plan-text.txt
           if grep -E '2026\.10\.31|2026\.10\.07|BUSINESS PLAN 2026' /tmp/business-plan-text.txt; then
             echo "::error::Document publication date remains in the rendered PDF"
