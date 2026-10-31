@@ -28,7 +28,7 @@ try {
     assert.equal(check.overflow, false, width + 'px horizontal overflow');
     assert.equal(check.sections, 9, 'section count');
     assert.equal(check.details, 9, 'details count');
-    assert.equal(check.tables, 16, 'table count');
+    assert.equal(check.tables, 19, 'table count');
     assert.ok(check.labels > 0 && check.unlabeled === 0, 'static table labels');
     assert.equal(check.open, width <= 600 ? 0 : 9, width + 'px details mode');
     assert.equal(check.mobileSummary, width <= 600, 'mobile summary mode');
