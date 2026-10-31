@@ -1,0 +1,75 @@
+name: Build mobile document previews
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'downloads/mosigo_business_plan_20261031.pdf'
+      - 'downloads/mosigo_report_preview.pdf'
+      - '.github/workflows/preview-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mosigo-mobile-preview-images
+  cancel-in-progress: false
+
+jobs:
+  render-pages:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Install PDF rasterizer and WebP encoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils webp
+      - name: Render every PDF page for mobile Safari
+        run: |
+          set -euo pipefail
+          mkdir -p downloads/previews /tmp/mosigo-mobile-preview
+          for kind in plan slides; do
+            if [ "$kind" = plan ]; then
+              pdf=downloads/mosigo_business_plan_20261031.pdf
+              expected=17
+            else
+              pdf=downloads/mosigo_report_preview.pdf
+              expected=11
+            fi
+            pages="$(pdfinfo "$pdf" | awk '/^Pages:/ {print $2}')"
+            test "$pages" = "$expected"
+            rm -f "downloads/previews/$kind"-*.webp
+            for number in $(seq 1 "$pages"); do
+              padded="$(printf '%02d' "$number")"
+              pdftoppm -f "$number" -l "$number" -scale-to 1400 -png -singlefile "$pdf" /tmp/mosigo-mobile-preview/page
+              cwebp -quiet -q 84 -m 6 /tmp/mosigo-mobile-preview/page.png -o "downloads/previews/$kind-$padded.webp"
+              test "$(stat -c%s "downloads/previews/$kind-$padded.webp")" -gt 1000
+            done
+            test "$(find downloads/previews -maxdepth 1 -name "$kind-*.webp" | wc -l)" -eq "$expected"
+            echo "PASS $kind $pages accessible mobile preview pages"
+          done
+      - name: Commit browser-independent mobile previews
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A downloads/previews
+          if git diff --cached --quiet; then
+            echo "Mobile preview pages unchanged"
+          else
+            git commit -m "assets: render PDF pages for mobile inline viewing"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Save preview images
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mosigo-mobile-preview-pages
+          path: downloads/previews/
+          if-no-files-found: error
+          retention-days: 14
