@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/ios-safari-simulator.yml'
+      - 'assets/site-v3.css'
+      - 'assets/site-v3.js'
 
 permissions:
   contents: read
@@ -16,6 +18,14 @@ jobs:
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Verify deployed website matches checked-out release
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --compressed --max-time 30 https://mosigo-case-study.vercel.app/ -o /tmp/mosigo-native-live.html
+          cmp -s index.html /tmp/mosigo-native-live.html
+          echo "Production HTML matches the tested commit: ${GITHUB_SHA}"
+
       - name: Pick installed iPhone simulator
         shell: bash
         run: |
@@ -140,6 +150,19 @@ jobs:
                   planTab.tap()
                   let planCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "1 / 17")).firstMatch
                   XCTAssertTrue(planCounter.waitForExistence(timeout: 10), "Switching documents must reset page counter")
+                  // Exercise a new v3 navigation affordance with a native finger tap.
+                  let thumbnail = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "3쪽으로 이동")).firstMatch
+                  XCTAssertTrue(thumbnail.waitForExistence(timeout: 15), "Document thumbnails must be accessible in native Safari")
+                  thumbnail.tap()
+                  let thumbCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "3 / 17")).firstMatch
+                  XCTAssertTrue(thumbCounter.waitForExistence(timeout: 10), "Thumbnail selection must jump to page 3")
+                  let fullScreen = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "현재 쪽 전체화면 보기")).firstMatch
+                  XCTAssertTrue(fullScreen.waitForExistence(timeout: 15), "Full-screen document control must be accessible")
+                  fullScreen.tap()
+                  let close = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "닫기")).firstMatch
+                  XCTAssertTrue(close.waitForExistence(timeout: 10), "Full-screen dialog must expose an accessible close control")
+                  close.tap()
+                  XCTAssertTrue(fullScreen.waitForExistence(timeout: 10), "Closing the dialog must return to the page viewer")
               }
           }
           SWIFT
