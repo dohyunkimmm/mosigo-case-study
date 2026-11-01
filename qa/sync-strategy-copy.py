@@ -175,6 +175,11 @@ for old, new in (
 
 prs.save(file)
 check = Presentation(file)
+for slide_no in (2, 11):
+    print(f"DIAGNOSTIC slide {slide_no}")
+    for shape_no, shape in enumerate(check.slides[slide_no - 1].shapes):
+        if shape.has_text_frame and shape.text.strip():
+            print("SHAPE", shape_no, "XYWH", round(shape.left/914400,2), round(shape.top/914400,2), round(shape.width/914400,2), round(shape.height/914400,2), "TEXT", repr(shape.text[:260]))
 assert len(check.slides) == 11
 legacy_terms = ("노동비용","노동 기회비용","획득비","지원비","인수 기준","수용 기준","직접 잔여액","경유율","완료 예약","병원동행","퍼널","리텐션")
 for slide in check.slides:
