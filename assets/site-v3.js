@@ -1,6 +1,7 @@
 /* MOSIGO v3: progressive enhancement; baseline report, PDFs and calculations remain intact. */
 (() => {
 "use strict";
+document.documentElement.classList.add("v3-active");
 const $ = selector => document.querySelector(selector);
 const money = value => new Intl.NumberFormat("ko-KR").format(Math.round(value)) + "원";
 const values = ["users","freq","price","cost","rate"];
@@ -112,7 +113,7 @@ function setupDocuments(){
    const start=Math.max(1,Math.min(page-2,doc.total-4));
    for(let n=start;n<=Math.min(doc.total,start+4);n++){
       const button=document.createElement("button");button.type="button";
-      button.setAttribute("aria-label",doc.label+" "+n+(key==="plan"?"쪽":"장")+"로 이동");
+      button.setAttribute("aria-label",doc.label+" "+n+(key==="plan"?"쪽으로":"장으로")+" 이동");
       if(n===page)button.setAttribute("aria-current","page");
       const thumb=document.createElement("img");
       thumb.src="/downloads/previews/"+doc.prefix+"-"+String(n).padStart(2,"0")+"-sm.webp";
