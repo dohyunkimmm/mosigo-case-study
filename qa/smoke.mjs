@@ -117,6 +117,19 @@ try {
         }
         console.log('PASS asset', path, bytes.length + ' bytes');
       }
+      // Preserve the old public URLs that forward to sections of the consolidated report.
+      for (const [legacyPath, anchor] of [
+        ['/decision-memos.html', '#decision'],
+        ['/forecast.html', '#business'],
+        ['/materials.html', '#attachments'],
+      ]) {
+        const redirectResponse = await page.request.get(new URL(legacyPath, base).href);
+        assert.equal(redirectResponse.status(), 200, legacyPath + ' HTTP status');
+        const redirectHtml = await redirectResponse.text();
+        assert.match(redirectHtml, /<meta\s+http-equiv="refresh"/i, legacyPath + ' meta refresh');
+        assert.ok(redirectHtml.includes('content="0;url=/' + anchor + '"'), legacyPath + ' target');
+        assert.ok(redirectHtml.includes('href="/' + anchor + '"'), legacyPath + ' fallback link');
+      }
       for(const [kind,count] of [['plan',17],['slides',11]]){
         for(let i=1;i<=count;i++){
           const imagePath='/downloads/previews/'+kind+'-'+String(i).padStart(2,'0')+'.webp';
