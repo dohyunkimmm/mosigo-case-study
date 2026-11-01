@@ -44,7 +44,7 @@ assert '팀 조사 기록을 바탕으로 작성한 개인 전략 보고서입�
 assert '개인 사업기획서 · 가정·계획과 실제 성과 구분' not in plan_html, 'Repeated defensive footer returned'
 assert plan_html.count('MOSIGO · 전략기획 보고서') >= 17, 'Neutral document footer should appear on all pages'
 assert '사업성 검토 시나리오' in plan_html, 'Scenario basis must remain explicit'
-legacy_terms = ('노동비용','노동 기회비용','획득비','지원비','인수 기준','수용 기준','직접 잔여액','경유율','완료 예약','병원동행','퍼널','리텐션')
+legacy_terms = ('손익분기점점','노동비용','노동 기회비용','획득비','지원비','인수 기준','수용 기준','직접 잔여액','경유율','완료 예약','병원동행','퍼널','리텐션')
 for term in legacy_terms:
     assert term not in plan_html, f'Unreviewed wording remains in business plan: {term}'
     assert term not in site_html, f'Unreviewed wording remains on website: {term}'
@@ -115,9 +115,9 @@ with ZipFile(PPTX) as z:
     decision=ET.fromstring(z.read('ppt/slides/slide11.xml'))
     first=''.join((t.text or '') for t in title.findall('.//a:t',ns))
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
-    assert '기존 사업자 제휴 모델 우선 검토 · 고객 획득 비용·운영비·공급 조건을 확대 판단 기준으로 설정' in first, 'Slide 1 decision not synchronized'
+    assert '기존 사업자 제휴 모델 우선 검토 · 고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in first, 'Slide 1 decision not synchronized'
     assert '기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 199건(가정) / 손익분기점 1,082건' in last, 'Slide 11 quantified recommendation missing'
-    assert '고객 획득 비용·운영비·공급 조건을 확대 판단 기준으로 설정' in last, 'Slide 11 expansion criteria missing'
+    assert '고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in last, 'Slide 11 expansion criteria missing'
     assert '인력 투입 비용 반영 손익 개선' in last, 'Slide 11 staffing-cost condition missing'
 print('PASS PPT cover and decision wording synchronized with case study')
 
