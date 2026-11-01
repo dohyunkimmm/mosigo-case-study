@@ -114,7 +114,9 @@ updates = {
     8: {
         "수요·초기 공급·손익분기를 같은 기간으로 비교": "수요·초기 공급·손익분기점을 월 기준으로 비교",
         "노동비용 포함 손익분기": "인력 투입 비용 반영 손익분기점",
-        "초기 공급은 수요 가정의 약 10.6% / 손익분기에 완료 건수 약 5.4배 필요": "초기 공급은 예상 수요의 약 10.6% / 손익분기점 달성에는 현재 완료 건수의 약 5.4배 필요",
+        "초기 공급은 수요 가정의 약 10.6% / 손익분기에 완료 건수 약 5.4배 필요": "초기 공급은 예상 수요의 약 10.6%입니다. 손익분기점에 도달하려면 현재 완료 건수의 약 5.4배가 필요합니다.",
+        "기획서 수요 가정": "기획서의 수요 가정",
+        "초기 공급 모형": "초기 공급 가정",
         "현재 생산성이 유지된다고 가정하면 매니저 약 109명이 필요하므로, 공급 확대 전에 고객 획득 비용과 고객 지원 비용을 개선해야 함": "현재 생산성이 유지된다고 가정하면 매니저 약 109명이 필요합니다. 따라서 공급을 확대하기 전에 고객 획득 비용과 고객 지원 비용을 개선해야 합니다.",
     },
     9: {
@@ -164,6 +166,8 @@ for old, new in (
     ("손익분기점점", "손익분기점"),
     ("고객지원비", "고객 지원 비용"),
     ("고객지원", "고객 지원"),
+    ("취소비", "취소 관련 비용"),
+    ("지원 시간", "고객 지원 시간"),
     ("제휴 공헌이익", "제휴형 건당 공헌이익"),
     ("지원비", "고객 지원 비용"),
     ("고객 획득비", "고객 획득 비용"),
@@ -183,6 +187,14 @@ for old, new in (
 # Keep the source citation and assumptions in a dedicated, readable note area.
 # A separate text box prevents the compact source line from clipping in PDF export.
 qa_note = "가정 기반 시나리오 분석이며 실제 운영 실적이 아닙니다. 개인 분석 자료입니다. 계산 근거: mosigo_model.xlsx."
+
+# Remove legacy and prior generated notes so the slide contains exactly one disclaimer.
+for shape in list(prs.slides[1].shapes):
+    if shape.has_text_frame and (
+        "가정 기반 시나리오 분석" in shape.text
+        or "계산 근거: mosigo_model.xlsx." in shape.text
+    ):
+        shape._element.getparent().remove(shape._element)
 source_shape = next(
     (shape for shape in prs.slides[1].shapes
      if shape.has_text_frame and "사업기획서 3쪽" in shape.text),
