@@ -137,3 +137,5 @@ print('PASS full document QA')
 # Final QA marker: verify the synchronized PDF, PPTX, Excel, and preview downloads.
 
 # Full QA rerun after the synchronized presentation and preview were regenerated.
+
+# Re-run the complete suite against the latest generated PPTX and preview PDF.
