@@ -26,7 +26,7 @@ try{
   await page.locator('[data-v3-scenario="conservative"]').click();
   assert.equal(await page.locator('#users').inputValue(),'8000');
   assert.equal(await page.locator('#freq').inputValue(),'1');
-  assert.equal((await page.locator('#margin').textContent()).trim(),'0.40억 원');
+  assert.equal((await page.locator('#margin').textContent()).trim(),'4000.00만 원');
   assert.ok(new URL(page.url()).searchParams.get('v_users')==='8000');
   await page.locator('[data-v3-scenario="growth"]').click();
   assert.equal(await page.locator('#users').inputValue(),'20000');
