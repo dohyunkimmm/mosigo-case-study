@@ -27,7 +27,7 @@ compact_plan=re.sub(r'\s+','',plan_text)
 assert 'MOSIGO' in compact_plan and '기획기준과참고자료' in compact_plan
 assert '2026.10.31' not in plan_text and 'BUSINESS PLAN 2026' not in plan_text
 plan_html=(ROOT/'mosigo_business_plan_20261031.html').read_text(encoding='utf-8')
-assert '기본 동행 3만 원대(상품 가정) / 평균 40,000원(손익 비교용)' in plan_html, 'Product price vs model-average distinction missing'
+assert '기본 동행 3만 원대(상품 가정) / 손익 비교용 평균 이용가 40,000원' in plan_html, 'Product price vs model-average distinction missing'
 assert '<td>손익 비교용 평균 이용가</td>' in plan_html, 'Unit-economics price label is ambiguous'
 assert '기본동행3만원대' in compact_plan, 'Published PDF does not show the 30k-range product hypothesis'
 assert '손익비교용평균이용가' in compact_plan, 'Published PDF does not distinguish 40k model average'
@@ -35,14 +35,18 @@ print('PASS price hypothesis/model separation in source and published PDF')
 site_html=Path('index.html').read_text(encoding='utf-8')
 assert '<h2>MOSIGO · 고객·시장 분석에서 사업화 전략 결정까지</h2>' in site_html, 'M-01 heading drifted'
 assert '<h2>수요·공급·손익 격차로 사업화 가능성을 판단한다</h2>' in site_html, 'M-02 heading drifted'
-assert '월 완료 199건(가정)과 손익분기 1,082건' in site_html, 'M-03 quantitative reasoning missing'
-assert '획득비·운영비·공급 조건 개선을 확대 기준으로 설정' in site_html, 'M-03 expansion criteria missing'
-assert '<h2>제휴형 우선 검토 · 월 완료 199건(가정) / 손익분기 1,082건 · 단계적 확대 기준</h2>' in plan_html, 'Decision page and website disagree'
-assert '월완료199건(가정)' in compact_plan and '손익분기1,082건' in compact_plan, 'Published plan PDF decision does not contain scenario comparison'
+assert '월 서비스 완료 199건(가정)과 손익분기점 1,082건' in site_html, 'M-03 quantitative reasoning missing'
+assert '고객 획득 비용·운영비·공급 조건 개선을 확대 기준으로 설정' in site_html, 'M-03 expansion criteria missing'
+assert '<h2>기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 199건(가정) / 손익분기점 1,082건 · 단계적 확대 기준</h2>' in plan_html, 'Decision page and website disagree'
+assert '월서비스완료199건(가정)' in compact_plan and '손익분기점1,082건' in compact_plan, 'Published plan PDF decision does not contain scenario comparison'
 assert '팀 조사 기록을 바탕으로 작성한 개인 전략 보고서입니다.' not in site_html, 'Duplicated homepage disclaimer returned'
 assert '개인 사업기획서 · 가정·계획과 실제 성과 구분' not in plan_html, 'Repeated defensive footer returned'
 assert plan_html.count('MOSIGO · 전략기획 보고서') >= 17, 'Neutral document footer should appear on all pages'
 assert '사업성 검토 시나리오' in plan_html, 'Scenario basis must remain explicit'
+legacy_terms = ('노동비용','노동 기회비용','획득비','지원비','인수 기준','수용 기준','직접 잔여액','경유율','완료 예약','병원동행','퍼널','리텐션')
+for term in legacy_terms:
+    assert term not in plan_html, f'Unreviewed wording remains in business plan: {term}'
+    assert term not in site_html, f'Unreviewed wording remains on website: {term}'
 print('PASS concise evidence labeling without repeated disclaimers')
 print('PASS M-01/M-02/M-03 website-to-plan strategic copy')
 
@@ -61,8 +65,8 @@ with ZipFile(ROOT/'mosigo_model.xlsx') as model:
         node=sheet.find(".//x:c[@r='"+address+"']/x:"+tag,xn)
         assert node is not None, (address, tag)
         return node.text
-    assert cell('A14') == '경유율 20%p 하락', 'Excel scenario label'
-    assert cell('B14') == '기준 80% → 60% (−20%p)', 'Excel scenario definition'
+    assert cell('A14') == '플랫폼 이용 비율 20%p 하락', 'Excel scenario label'
+    assert cell('B14') == '플랫폼 이용 비율 80% → 60% (−20%p)', 'Excel scenario definition'
     assert "('가정'!B22-20%)" in cell('D14','f'), 'Excel scenario formula'
     assert cell('D14') == '149', 'Excel completed count'
     assert cell('E14') == '-3448700', 'Excel monthly economic profit'
@@ -91,9 +95,9 @@ with ZipFile(PPTX) as z:
     decision=ET.fromstring(z.read('ppt/slides/slide11.xml'))
     first=''.join((t.text or '') for t in title.findall('.//a:t',ns))
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
-    assert '제휴형 우선 · 획득비·운영비·공급 조건을 확대 기준으로 설정' in first, 'Slide 1 decision not synchronized'
-    assert '제휴형 우선 · 월 199건(가정) / 손익분기 1,082건' in last, 'Slide 11 quantified recommendation missing'
-    assert '획득비·운영비·공급 조건을 확대 기준으로 설정' in last, 'Slide 11 expansion criteria missing'
+    assert '기존 사업자 제휴 모델 우선 검토 · 고객 획득 비용·운영비·공급 조건을 확대 판단 기준으로 설정' in first, 'Slide 1 decision not synchronized'
+    assert '기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 199건(가정) / 손익분기점 1,082건' in last, 'Slide 11 quantified recommendation missing'
+    assert '고객 획득 비용·운영비·공급 조건을 확대 판단 기준으로 설정' in last, 'Slide 11 expansion criteria missing'
 print('PASS PPT cover and decision wording synchronized with case study')
 
 print('PASS PPTX',len(slides),'editable slides',east_asian,'consistent text runs')

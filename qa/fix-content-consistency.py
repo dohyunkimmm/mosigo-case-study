@@ -1,4 +1,4 @@
-"""Apply the four verified source-cell changes from the artifact_tool review.
+"""Apply the verified sensitivity-scenario labels and preserve the workbook package.
 
 The Excel source values and formula were first edited/recalculated with artifact_tool.
 This script transports those four corrected XML cells into the deployed Office package,
@@ -16,11 +16,11 @@ model = Path("downloads/mosigo_model.xlsx")
 cells = {
     "A14": (
         "경유 비중 20% 감소",
-        "경유율 20%p 하락",
+        "플랫폼 이용 비율 20%p 하락",
     ),
     "B14": (
         "현재 경유율 × 80%",
-        "기준 80% → 60% (−20%p)",
+        "플랫폼 이용 비율 80% → 60% (−20%p)",
     ),
     "D14": (
         "ROUND('공급사업성'!B9*'가정'!B21*'가정'!B22*0.8*(1-'가정'!B17)*'가정'!B18,0)",
@@ -49,8 +49,8 @@ with ZipFile(model) as archive:
     ns = {"x": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
     tree = ET.fromstring(replaced)
     find = lambda address: tree.find(".//x:c[@r='" + address + "']", ns)
-    assert find("A14").find("x:v",ns).text == "경유율 20%p 하락"
-    assert find("B14").find("x:v",ns).text == "기준 80% → 60% (−20%p)"
+    assert find("A14").find("x:v",ns).text == "플랫폼 이용 비율 20%p 하락"
+    assert find("B14").find("x:v",ns).text == "플랫폼 이용 비율 80% → 60% (−20%p)"
     assert "B22-20%" in find("D14").find("x:f",ns).text
     assert find("D14").find("x:v",ns).text == "149"
     assert find("E14").find("x:v",ns).text == "-3448700"
@@ -69,7 +69,7 @@ with ZipFile(model) as archive:
             os.replace(temp_name,model)
         finally:
             if os.path.exists(temp_name): os.remove(temp_name)
-print("PASS Excel 5-sheet sensitivity scenario: 80% to 60%, 149 completions, -3,448,700 KRW")
+print("PASS Excel 5-sheet sensitivity scenario: platform use ratio 80% to 60%, 149 completions, -3,448,700 KRW")
 
 slides = Path("downloads/mosigo_report.pptx")
 prs = Presentation(slides)
