@@ -124,8 +124,12 @@ jobs:
                   safari.activate()
                   let web = safari.webViews.firstMatch
                   XCTAssertTrue(web.waitForExistence(timeout: 30), "The actual iOS Safari app must expose the loaded case study")
+                  print("SAFARI_UI_TREE_BEGIN\\n" + safari.debugDescription + "\\nSAFARI_UI_TREE_END")
                   let documentTab = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "발표자료")).firstMatch
-                  XCTAssertTrue(documentTab.waitForExistence(timeout: 15), "Presentation document tab must be exposed to iOS accessibility")
+                  guard documentTab.waitForExistence(timeout: 15) else {
+                      XCTFail("Presentation tab not found in iOS Safari accessibility tree")
+                      return
+                  }
                   documentTab.tap()
                   let forward = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "다음")).firstMatch
                   XCTAssertTrue(forward.waitForExistence(timeout: 15), "Mobile document next-page control must be exposed")
@@ -146,8 +150,14 @@ jobs:
             -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
             -parallel-testing-enabled NO -resultBundlePath "$GITHUB_WORKSPACE/qa-artifacts/ios-safari/NativeSafariTests.xcresult" \
             CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$GITHUB_WORKSPACE/qa-artifacts/ios-safari/xcodebuild.log"
-          # Save the final on-device screen after the interaction test.
-          xcrun simctl io "$SIMULATOR_UDID" screenshot "$GITHUB_WORKSPACE/qa-artifacts/ios-safari/04-ui-test-final.png"
+          # The separate evidence step captures this even if the UI test fails.
+
+      - name: Capture final simulator screen after UI test
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p qa-artifacts/ios-safari
+          xcrun simctl io "$SIMULATOR_UDID" screenshot qa-artifacts/ios-safari/04-ui-test-final.png || true
 
       - name: Upload native iOS Safari simulator evidence
         if: always()
