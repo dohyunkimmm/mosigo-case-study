@@ -25,12 +25,34 @@ def eastern_fonts():
                                 node=OxmlElement("a:"+key);props.append(node)
                             node.set("typeface","Pretendard")
                         run.font.name="Pretendard"
+def normalize_theme_fonts(filename):
+    """Set PowerPoint theme/master defaults as well as visible text runs."""
+    import os, re, zipfile
+    tmp = filename + ".pretendard-tmp"
+    changed = 0
+    with zipfile.ZipFile(filename, "r") as source, zipfile.ZipFile(tmp, "w") as target:
+        for info in source.infolist():
+            data = source.read(info.filename)
+            if re.fullmatch(r"ppt/(?:theme|slideMasters|slideLayouts)/[^/]+\\.xml", info.filename):
+                data, count = re.subn(
+                    rb'(<a:(?:latin|ea|cs)\\b[^>]*?\\btypeface=")[^"]*(")',
+                    rb'\\1Pretendard\\2', data)
+                changed += count
+            target.writestr(info, data)
+    os.replace(tmp, filename)
+    print("Normalized PPT theme and master font references:", changed)
+
 if "mosigo-design-v2" in (p.core_properties.keywords or ""):
-    print("Presentation already normalized");sys.exit(0)
+    eastern_fonts()
+    p.save(src)
+    normalize_theme_fonts(src)
+    print("Presentation already styled; enforced Pretendard theme defaults")
+    sys.exit(0)
 if "mosigo-design-v1" in (p.core_properties.keywords or ""):
     eastern_fonts()
     p.core_properties.keywords=(p.core_properties.keywords or "").replace("mosigo-design-v1","mosigo-design-v2")
     p.save(src)
+    normalize_theme_fonts(src)
     print("Normalized East Asian Pretendard fonts",len(p.slides),"slides")
     sys.exit(0)
 C=lambda x:RGBColor.from_string(x)
@@ -116,4 +138,5 @@ for idx,slide in enumerate(p.slides,1):
 eastern_fonts()
 p.core_properties.keywords=((p.core_properties.keywords or "")+" mosigo-design-v2").strip()
 p.save(src)
+normalize_theme_fonts(src)
 print("Normalized Pretendard presentation",len(p.slides),"slides")
