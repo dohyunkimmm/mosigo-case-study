@@ -74,6 +74,10 @@ jobs:
           npx --no-install lighthouse "$SITE_QA_URL" --only-categories=performance,accessibility,best-practices,seo --form-factor=mobile --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/live-lighthouse-mobile.json --quiet
           npx --no-install lighthouse "$SITE_QA_URL" --only-categories=performance,accessibility,best-practices,seo --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/live-lighthouse-desktop.json --quiet
           node qa/check-lighthouse.mjs
+      - name: Extract final document text for editorial QA
+        run: |
+          python3 -m pip install --user python-pptx openpyxl
+          python3 qa/extract-editorial-text.py
       - name: Verify PDF, PPTX, embedded fonts and color contrast
         run: |
           sudo apt-get update -qq
