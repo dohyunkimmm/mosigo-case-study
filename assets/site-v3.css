@@ -1,5 +1,7 @@
 
 /* MOSIGO v3 enhancements: no changes to the verified report data. */
+html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-doc-thumbs,html:not(.v3-active) .v3-scenarios,html:not(.v3-active) .v3-share-shortcut{display:none!important}
+
 :root{--v3-outline:#c9dacb;--v3-paper:#f6f9f4}
 .v3-hero-overline{display:inline-flex;align-items:center;gap:9px;color:#d8eacb;font-size:12px;letter-spacing:.13em;font-weight:850;margin-bottom:20px}
 .v3-hero-overline:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px #c9edb420}
