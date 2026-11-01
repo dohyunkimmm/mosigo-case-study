@@ -1,8 +1,13 @@
 
 /* MOSIGO v3 enhancements: no changes to the verified report data. */
-/* Increase only the vertical breathing room of the mint decision highlight below the document panel. */
-#overview .mobile-skim>.skim-lead{padding-top:21px;padding-bottom:22px}
-@media(max-width:600px){#overview .mobile-skim>.skim-lead{padding-top:18px;padding-bottom:19px}}
+/* Show more of the business plan cover vertically inside the PDF preview.
+   Keep the cover artwork, document panel width and presentation viewer unchanged. */
+@media(min-width:801px){
+ .quick-documents:has(.doc-tab[data-doc-preview="plan"].active) .document-preview-frame{
+  height:min(78vh,640px);
+  min-height:565px;
+ }
+}
 
 html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-doc-thumbs,html:not(.v3-active) .v3-scenarios,html:not(.v3-active) .v3-share-shortcut{display:none!important}
 
