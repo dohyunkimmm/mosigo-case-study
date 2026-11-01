@@ -120,6 +120,7 @@ updates = {
     9: {
         "직접 잔여액은 지원·획득비 차감 전 / 구독 전 회차 사용 / 차량 원가 가정": "직접 운영 모델의 잔여 금액은 고객 지원 비용·고객 획득 비용 차감 전 / 구독은 월 3회 모두 이용하는 경우 / 차량 원가는 가정치",
         "직접 잔여액": "직접 운영 모델의 건당 잔여 금액",
+        "직접 운영 모델의 잔여 금액은 고객 지원 비용·고객 획득 비용 차감 전 / 구독은 월 3회 모두 이용하는 경우 / 차량 원가는 가정치": "직접 운영 모델의 잔여 금액은 고객 지원 비용과 고객 획득 비용을 차감하기 전 금액입니다. 구독은 월 3회 모두 이용한다고 가정했으며, 차량 원가는 추정치입니다.",
     },
     10: {
         "G3 사업": "G3 시범 운영",
@@ -163,6 +164,8 @@ for old, new in (
     ("노동비용", "인력 투입 비용"),
     ("손익분기점점", "손익분기점"),
     ("고객지원비", "고객 지원 비용"),
+    ("고객지원", "고객 지원"),
+    ("제휴 공헌이익", "제휴형 건당 공헌이익"),
     ("지원비", "고객 지원 비용"),
     ("고객 획득비", "고객 획득 비용"),
     ("획득비", "고객 획득 비용"),
@@ -180,7 +183,7 @@ for old, new in (
 
 # Keep the source citation and assumptions in a dedicated, readable note area.
 # A separate text box prevents the compact source line from clipping in PDF export.
-qa_note = "가정 기반 시나리오 분석입니다. 실제 운영 실적은 아닙니다. 개인 분석 자료. 계산 근거: mosigo_model.xlsx."
+qa_note = "가정 기반 시나리오 분석이며 실제 운영 실적이 아닙니다. 개인 분석 자료입니다. 계산 근거: mosigo_model.xlsx."
 source_shape = next(
     (shape for shape in prs.slides[1].shapes
      if shape.has_text_frame and "사업기획서 3쪽" in shape.text),
