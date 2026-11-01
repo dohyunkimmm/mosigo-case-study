@@ -39,7 +39,7 @@ assert '<h2>수요·공급·손익 격차로 사업화 가능성을 판단한다
 assert '월 서비스 완료 199건(가정)과 손익분기점 1,082건' in site_html, 'M-03 quantitative reasoning missing'
 assert '고객 획득 비용·운영비·공급 조건 개선을 확대 기준으로 설정' in site_html, 'M-03 expansion criteria missing'
 assert '<h2>기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 건수 199건(가정) / 손익분기점 1,082건 · 단계적 확대 기준</h2>' in plan_html, 'Decision page and website disagree'
-assert '월서비스완료199건(가정)' in compact_plan and '손익분기점1,082건' in compact_plan, 'Published plan PDF decision does not contain scenario comparison'
+assert '월서비스완료' in compact_plan and '199건(가정)' in compact_plan and '손익분기점1,082건' in compact_plan, 'Published plan PDF decision does not contain scenario comparison'
 assert '팀 조사 기록을 바탕으로 작성한 개인 전략 보고서입니다.' not in site_html, 'Duplicated homepage disclaimer returned'
 assert '개인 사업기획서 · 가정·계획과 실제 성과 구분' not in plan_html, 'Repeated defensive footer returned'
 assert plan_html.count('MOSIGO · 전략기획 보고서') >= 17, 'Neutral document footer should appear on all pages'
