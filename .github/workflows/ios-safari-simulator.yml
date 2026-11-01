@@ -1,0 +1,159 @@
+name: Native iOS Safari simulator QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ios-safari-simulator.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  safari-ios:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Pick installed iPhone simulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -d /Applications/Xcode_16.4.app ]; then sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer; fi
+          xcodebuild -version
+          xcrun simctl list devices available
+          python3 - <<'PY'
+          import json,subprocess,os
+          data=json.loads(subprocess.check_output(['xcrun','simctl','list','devices','available','-j']))
+          choices=[]
+          for runtime,devices in data.get('devices',{}).items():
+            if 'iOS' not in runtime: continue
+            for dev in devices:
+              if dev.get('isAvailable',True) and dev['name'] in ('iPhone 16','iPhone SE (3rd generation)'):
+                choices.append((dev['name']!='iPhone 16',runtime,dev['udid'],dev['name']))
+          assert choices, 'No installed iPhone simulator is available'
+          choices.sort()
+          _,runtime,udid,name=choices[0]
+          print('SELECTED SIMULATOR',name,runtime,udid)
+          with open(os.environ['GITHUB_ENV'],'a') as f:
+            f.write('SIMULATOR_UDID='+udid+'\n')
+            f.write('SIMULATOR_NAME='+name+'\n')
+          PY
+
+      - name: Open actual iOS Safari on simulator and capture rendered pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-artifacts/ios-safari
+          xcrun simctl boot "$SIMULATOR_UDID"
+          xcrun simctl bootstatus "$SIMULATOR_UDID" -b
+          xcrun simctl status_bar "$SIMULATOR_UDID" override --time 9:41 --dataNetwork wifi --wifiMode active --wifiBars 3 --batteryState charged --batteryLevel 100 || true
+          xcrun simctl openurl "$SIMULATOR_UDID" 'https://mosigo-case-study.vercel.app/#attachments'
+          sleep 12
+          xcrun simctl io "$SIMULATOR_UDID" screenshot qa-artifacts/ios-safari/01-case-study-attachments.png
+          xcrun simctl openurl "$SIMULATOR_UDID" 'https://mosigo-case-study.vercel.app/downloads/mosigo_business_plan_20261031.pdf'
+          sleep 9
+          xcrun simctl io "$SIMULATOR_UDID" screenshot qa-artifacts/ios-safari/02-business-plan-pdf.png
+          xcrun simctl openurl "$SIMULATOR_UDID" 'https://mosigo-case-study.vercel.app/downloads/mosigo_report_preview.pdf'
+          sleep 9
+          xcrun simctl io "$SIMULATOR_UDID" screenshot qa-artifacts/ios-safari/03-presentation-pdf.png
+          xcrun simctl openurl "$SIMULATOR_UDID" 'https://mosigo-case-study.vercel.app/#attachments'
+          sleep 7
+          for file in qa-artifacts/ios-safari/*.png; do
+            test "$(stat -f%z "$file")" -gt 25000
+            sips -g pixelWidth -g pixelHeight "$file"
+          done
+
+      - name: Run native Safari UI test on iOS simulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v xcodegen >/dev/null 2>&1; then brew install xcodegen; fi
+          mkdir -p /tmp/mosigo-safari-qa/Harness /tmp/mosigo-safari-qa/SafariUITests
+          cat > /tmp/mosigo-safari-qa/project.yml <<'YAML'
+          name: MosigoSafariQA
+          options:
+            deploymentTarget:
+              iOS: '18.0'
+          settings:
+            base:
+              CODE_SIGNING_ALLOWED: 'NO'
+              SWIFT_VERSION: '5.0'
+          targets:
+            Harness:
+              type: application
+              platform: iOS
+              sources: [Harness]
+              settings:
+                base:
+                  PRODUCT_BUNDLE_IDENTIFIER: com.mosigo.caseqa.harness
+                  GENERATE_INFOPLIST_FILE: 'YES'
+              scheme:
+                testTargets: [SafariUITests]
+            SafariUITests:
+              type: bundle.ui-testing
+              platform: iOS
+              sources: [SafariUITests]
+              dependencies:
+                - target: Harness
+              settings:
+                base:
+                  PRODUCT_BUNDLE_IDENTIFIER: com.mosigo.caseqa.uitests
+                  GENERATE_INFOPLIST_FILE: 'YES'
+          YAML
+          cat > /tmp/mosigo-safari-qa/Harness/App.swift <<'SWIFT'
+          import UIKit
+          @main
+          final class AppDelegate: UIResponder, UIApplicationDelegate {
+              var window: UIWindow?
+              func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+                  let window = UIWindow(frame: UIScreen.main.bounds)
+                  window.rootViewController = UIViewController()
+                  window.makeKeyAndVisible()
+                  self.window = window
+                  return true
+              }
+          }
+          SWIFT
+          cat > /tmp/mosigo-safari-qa/SafariUITests/MosigoSafariUITests.swift <<'SWIFT'
+          import XCTest
+          final class MosigoSafariUITests: XCTestCase {
+              func testRealSafariWebViewAndDocumentControls() throws {
+                  let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
+                  safari.activate()
+                  let web = safari.webViews.firstMatch
+                  XCTAssertTrue(web.waitForExistence(timeout: 30), "The actual iOS Safari app must expose the loaded case study")
+                  let documentTab = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "발표자료")).firstMatch
+                  XCTAssertTrue(documentTab.waitForExistence(timeout: 15), "Presentation document tab must be exposed to iOS accessibility")
+                  documentTab.tap()
+                  let forward = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "다음")).firstMatch
+                  XCTAssertTrue(forward.waitForExistence(timeout: 15), "Mobile document next-page control must be exposed")
+                  forward.tap()
+                  let pageCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "2 / 11")).firstMatch
+                  XCTAssertTrue(pageCounter.waitForExistence(timeout: 10), "Native Safari must update slide page number")
+                  let planTab = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "사업기획서")).firstMatch
+                  XCTAssertTrue(planTab.exists, "Business plan tab must exist")
+                  planTab.tap()
+                  let planCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "1 / 17")).firstMatch
+                  XCTAssertTrue(planCounter.waitForExistence(timeout: 10), "Switching documents must reset page counter")
+              }
+          }
+          SWIFT
+          cd /tmp/mosigo-safari-qa
+          xcodegen generate --spec project.yml
+          xcodebuild test -project MosigoSafariQA.xcodeproj -scheme Harness \
+            -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
+            -parallel-testing-enabled NO -resultBundlePath "$GITHUB_WORKSPACE/qa-artifacts/ios-safari/NativeSafariTests.xcresult" \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$GITHUB_WORKSPACE/qa-artifacts/ios-safari/xcodebuild.log"
+          # Save the final on-device screen after the interaction test.
+          xcrun simctl io "$SIMULATOR_UDID" screenshot "$GITHUB_WORKSPACE/qa-artifacts/ios-safari/04-ui-test-final.png"
+
+      - name: Upload native iOS Safari simulator evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mosigo-native-ios-safari-simulator-qa
+          path: qa-artifacts/ios-safari/
+          if-no-files-found: ignore
+          retention-days: 14
