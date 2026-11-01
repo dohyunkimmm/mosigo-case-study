@@ -1,5 +1,8 @@
 
 /* MOSIGO v3 enhancements: no changes to the verified report data. */
+/* Slightly widen only the mint decision highlight below the gray document panel. */
+@media (min-width:801px){#overview .mobile-skim>.skim-lead{width:calc(100% + 32px);margin-left:-16px}}
+
 html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-doc-thumbs,html:not(.v3-active) .v3-scenarios,html:not(.v3-active) .v3-share-shortcut{display:none!important}
 
 :root{--v3-outline:#c9dacb;--v3-paper:#f6f9f4}
