@@ -49,9 +49,21 @@ for term in legacy_terms:
     assert term not in plan_html, f'Unreviewed wording remains in business plan: {term}'
     assert term not in site_html, f'Unreviewed wording remains on website: {term}'
 duplicate_word = re.compile(r'([가-힣]{2,})\s+\1(?=[\s·,./)]|$)')
+
+def assert_no_repeated_sentences(text, label):
+    normalized = re.sub(r'\s+', ' ', text).strip()
+    sentences = re.split(r'(?<=[.!?])\s+', normalized)
+    seen = set()
+    for sentence in sentences:
+        key = sentence.strip()
+        if len(key) < 20:
+            continue
+        assert key not in seen, f'Repeated sentence in {label}: {key}'
+
 for page_number, page_text in enumerate(plan_text.split('\f'), 1):
     match = duplicate_word.search(page_text)
     assert not match, f'Adjacent repeated word on business-plan page {page_number}: {match.group(0) if match else ""}'
+    assert_no_repeated_sentences(page_text, f'business-plan page {page_number}')
 site_sections = re.findall(r'<section\b[^>]*>([\s\S]*?)</section>', site_html)
 for page_number, section in enumerate(site_sections, 1):
     section_text = re.sub(r'<[^>]+>', ' ', section)
@@ -59,6 +71,7 @@ for page_number, section in enumerate(site_sections, 1):
     section_text = re.sub(r'\s+', ' ', section_text)
     match = duplicate_word.search(section_text)
     assert not match, f'Adjacent repeated word on website section {page_number}: {match.group(0) if match else ""}'
+    assert_no_repeated_sentences(section_text, f'website section {page_number}')
 print('PASS page-level duplicate-word scan and concise evidence labeling')
 print('PASS M-01/M-02/M-03 website-to-plan strategic copy')
 
@@ -67,6 +80,8 @@ slides_text=cmd('pdftotext','-layout',str(SLIDES),'-')
 # Poppler may emit a gap before punctuation when PowerPoint text runs are separate.
 normalized_slides=re.sub(r'\s+([.,:;])',r'\1',slides_text)
 compact_slides=re.sub(r'\s+','',slides_text)
+for page_number, page_text in enumerate(slides_text.split('\f'), 1):
+    assert_no_repeated_sentences(page_text, f'presentation page {page_number}')
 assert 'MOSIGO' in compact_slides and '사업화의사결정' in compact_slides
 assert '\ufffd' not in plan_text+slides_text
 for term in legacy_terms:
