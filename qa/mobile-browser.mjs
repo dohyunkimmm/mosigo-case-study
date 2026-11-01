@@ -33,6 +33,9 @@ for (const { name, engine, device } of cases) {
     assert.equal(await page.locator('.doc-tab').count(), 2);
     assert.equal(await page.locator('#doc-frame').isVisible(), false, name + ' blank PDF iframe hidden');
     assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), true, name + ' preview image viewer visible');
+    const bodyFont = await page.locator('body').evaluate(el => getComputedStyle(el).fontFamily);
+    assert.match(bodyFont, /Pretendard/, name + ' site typography must declare Pretendard');
+
     await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
     assert.equal(await page.locator('#doc-open').isVisible(), true);
 
@@ -60,6 +63,27 @@ for (const { name, engine, device } of cases) {
       await page.locator('#doc-prev').click();
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01-sm.webp'), name + ' previous page');
       await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
+      // Walk every published mobile page rather than checking only the first two.
+      const total = tab === 'plan' ? 17 : 11;
+      for (let number = 2; number <= total; number++) {
+        await page.locator('#doc-next').click();
+        const padded = String(number).padStart(2, '0');
+        const preview = '/downloads/previews/' + prefix + '-' + padded + '-sm.webp';
+        assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith(preview), name + ' page ' + number + ' preview URL');
+        assert.ok((await page.locator('#doc-page-open').getAttribute('href')).endsWith('/' + prefix + '-' + padded + '.webp'), name + ' page ' + number + ' full-resolution link');
+        assert.equal(await page.locator('#doc-page-count').getAttribute('aria-label'),
+          '현재 ' + number + (tab === 'plan' ? '쪽' : '장') + ', 전체 ' + total + (tab === 'plan' ? '쪽' : '장'),
+          name + ' page ' + number + ' accessible page counter');
+        await page.waitForFunction(() => {
+          const image = document.querySelector('#doc-page-img');
+          return image.complete && image.naturalWidth >= 700;
+        }, { timeout: 20000 });
+      }
+      assert.equal(await page.locator('#doc-next').isDisabled(), true, name + ' last-page boundary');
+      assert.equal(await page.locator('#doc-prev').isEnabled(), true, name + ' previous-page control');
+      await page.screenshot({ path: screenshots + '/' + name + '-' + tab + '-last.png', fullPage: false });
+      await page.locator('[data-doc-preview="' + tab + '"]').click();
+      assert.equal(await page.locator('#doc-prev').isDisabled(), true, name + ' reset to first page');
       await page.screenshot({ path: screenshots + '/' + name + '-' + tab + '.png', fullPage: false });
     }
     await page.locator('#mobile-doc-viewer').scrollIntoViewIfNeeded();
@@ -100,6 +124,25 @@ for (const { name, engine, device } of cases) {
     assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a',name+' PNG signature');
     assert.ok(bytes.length<20000,name+' optimized icon size');
     const fontResult={type:'official Tossface glyph, static PNG',bytes:bytes.length};
+    // Test the full mobile preview manifest (both the 800px and 1400px variants).
+    // Execute once for the last device, because assets are common to every engine.
+    if (name === cases[cases.length - 1].name) {
+      for (const [prefix, count] of [['plan', 17], ['slides', 11]]) {
+        for (let number = 1; number <= count; number++) {
+          const numberText = String(number).padStart(2, '0');
+          for (const suffix of ['-sm.webp', '.webp']) {
+            const path = '/downloads/previews/' + prefix + '-' + numberText + suffix;
+            const response = await context.request.get(new URL(path, base).href, { timeout: 20000 });
+            assert.equal(response.status(), 200, path + ' HTTP status');
+            const buffer = await response.body();
+            assert.ok(buffer.length > 1000, path + ' nonempty');
+            assert.equal(buffer.subarray(0, 4).toString('ascii'), 'RIFF', path + ' RIFF header');
+            assert.equal(buffer.subarray(8, 12).toString('ascii'), 'WEBP', path + ' WebP format');
+          }
+        }
+      }
+      console.log('PASS 56 mobile preview WebP files: 17 plan pages and 11 slides at both sizes');
+    }
     assert.deepEqual(pageErrors, [], name + ' uncaught JS errors');
     console.log('PASS',name,JSON.stringify({layout,fontResult,documents:'PDF header and EOF verified, both tabs and fallback links verified'}));
     runs++;
