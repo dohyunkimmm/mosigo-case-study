@@ -47,15 +47,15 @@ legacy_terms = ('노동비용','노동 기회비용','획득비','지원비','�
 for term in legacy_terms:
     assert term not in plan_html, f'Unreviewed wording remains in business plan: {term}'
     assert term not in site_html, f'Unreviewed wording remains on website: {term}'
-duplicate_word = re.compile(r'([가-힣]{2,})\\s+\\1(?=[\\s·,./)]|$)')
-for page_number, page_text in enumerate(plan_text.split('\\f'), 1):
+duplicate_word = re.compile(r'([가-힣]{2,})\s+\1(?=[\s·,./)]|$)')
+for page_number, page_text in enumerate(plan_text.split('\f'), 1):
     match = duplicate_word.search(page_text)
     assert not match, f'Adjacent repeated word on business-plan page {page_number}: {match.group(0) if match else ""}'
-site_sections = re.findall(r'<section\\b[^>]*>([\\s\\S]*?)</section>', site_html)
+site_sections = re.findall(r'<section\b[^>]*>([\s\S]*?)</section>', site_html)
 for page_number, section in enumerate(site_sections, 1):
     section_text = re.sub(r'<[^>]+>', ' ', section)
     section_text = re.sub(r'&(?:nbsp|amp);', ' ', section_text)
-    section_text = re.sub(r'\\s+', ' ', section_text)
+    section_text = re.sub(r'\s+', ' ', section_text)
     match = duplicate_word.search(section_text)
     assert not match, f'Adjacent repeated word on website section {page_number}: {match.group(0) if match else ""}'
 print('PASS page-level duplicate-word scan and concise evidence labeling')
