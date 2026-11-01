@@ -135,3 +135,5 @@ for a,b in [('FFFFFF','123E33'),('192C25','FBFCF8'),('4F6958','FBFCF8'),('D6EF8A
 print('PASS full document QA')
 
 # Final QA marker: verify the synchronized PDF, PPTX, Excel, and preview downloads.
+
+# Full QA rerun after the synchronized presentation and preview were regenerated.
