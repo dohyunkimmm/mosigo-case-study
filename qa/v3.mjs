@@ -16,7 +16,7 @@ try{
   assert.equal(await page.locator('.v3-phase-link').count(),3,'three-phase navigation');
   assert.equal(await page.locator('.v3-hero-metric').count(),3,'hero metrics');
   assert.equal(await page.locator('.v3-product-card').count(),3,'three verified concept wireframes');
-  assert.ok((await page.locator('.v3-product-intro').innerText()).includes('검증 전 설계 시안'));
+  assert.match(await page.locator('.v3-product-intro').textContent(),/검증\s*전\s*설계\s*시안/,'concepts are labeled as unvalidated');
   assert.equal(await page.locator('.v3-scenario-picks button').count(),3);
   assert.equal(await page.locator('.v3-bar-col').count(),4,'three presets plus current assumptions');
   assert.equal(await page.locator('#v3-doc-thumbs button').count(),5);
