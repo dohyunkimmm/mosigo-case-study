@@ -171,3 +171,5 @@ for slide in check.slides:
     ):
         assert old_phrase not in text, f"Legacy repeated note remains: {old_phrase!r}"
 print(f"PASS Korean copy revision: {changes} slide edits, {disclaimer_changes} concise disclaimers, {source_note_changes} concise source notes; 11 editable slides retained")
+
+# Rebuild marker: regenerate the current reviewed MOSIGO document deliverables.

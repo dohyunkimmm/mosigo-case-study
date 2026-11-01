@@ -38,3 +38,5 @@ try{
  if(fs.statSync(output).size<25000)throw new Error('PDF unexpectedly small');
  console.log('Generated new PDF:',fs.statSync(output).size,'bytes');
 }finally{await browser.close();}
+
+// Rebuild marker: regenerate the current reviewed MOSIGO PDF deliverable.

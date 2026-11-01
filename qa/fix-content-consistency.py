@@ -71,3 +71,5 @@ with ZipFile(model) as archive:
 print("PASS Excel 5-sheet sensitivity scenario: platform use ratio 80% to 60%, 149 completions, -3,448,700 KRW")
 
 print("PASS Excel sensitivity scenario labels and recalculated values")
+
+# Rebuild marker: regenerate the current reviewed MOSIGO document deliverables.
