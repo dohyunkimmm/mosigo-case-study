@@ -153,9 +153,34 @@ source_note_changes = replace_everywhere(
     "시장·고객 근거의 출처와 한계는 원본 사례 자료에 표시.",
 )
 
+legacy_cleanup_changes = 0
+for old, new in (
+    ("노동 기회비용", "인력 투입 기회비용"),
+    ("노동비용", "인력 투입 비용"),
+    ("고객지원비", "고객 지원 비용"),
+    ("지원비", "고객 지원 비용"),
+    ("고객 획득비", "고객 획득 비용"),
+    ("획득비", "고객 획득 비용"),
+    ("플랫폼 경유율", "플랫폼 이용 비율"),
+    ("경유율", "플랫폼 이용 비율"),
+    ("완료 예약", "완료 건수"),
+    ("병원동행", "병원 동행"),
+    ("퍼널", "전환 단계"),
+    ("리텐션", "재예약"),
+    ("인수 기준", "검수 기준"),
+    ("수용 기준", "이용 수용성"),
+    ("직접 잔여액", "변동비 차감 후 금액"),
+):
+    legacy_cleanup_changes += replace_everywhere(old, new)
+
 prs.save(file)
 check = Presentation(file)
 assert len(check.slides) == 11
+legacy_terms = ("노동비용","노동 기회비용","획득비","지원비","인수 기준","수용 기준","직접 잔여액","경유율","완료 예약","병원동행","퍼널","리텐션")
+for slide in check.slides:
+    checked_text = "\\n".join(paragraph_text(p) for p in slide_paragraphs(slide))
+    for term in legacy_terms:
+        assert term not in checked_text, f"Legacy term remains in presentation: {term}"
 for slide_number, edits in updates.items():
     text = "\n".join(paragraph_text(p) for p in slide_paragraphs(check.slides[slide_number - 1]))
     for new in edits.values():
@@ -170,6 +195,6 @@ for slide in check.slides:
         "시장·고객 근거의 출처와 한계는 원본 케이스 스터디에 표시.",
     ):
         assert old_phrase not in text, f"Legacy repeated note remains: {old_phrase!r}"
-print(f"PASS Korean copy revision: {changes} slide edits, {disclaimer_changes} concise disclaimers, {source_note_changes} concise source notes; 11 editable slides retained")
+print(f"PASS Korean copy revision: {changes} mapped slide edits, {legacy_cleanup_changes} legacy term replacements, {disclaimer_changes} concise disclaimers, {source_note_changes} concise source notes; 11 editable slides retained")
 
 # Rebuild marker: regenerate the current reviewed MOSIGO document deliverables.
