@@ -126,7 +126,7 @@ try {
         const redirectResponse = await page.request.get(new URL(legacyPath, base).href);
         assert.equal(redirectResponse.status(), 200, legacyPath + ' HTTP status');
         const redirectHtml = await redirectResponse.text();
-        assert.match(redirectHtml, /<meta\\s+http-equiv="refresh"/i, legacyPath + ' meta refresh');
+        assert.match(redirectHtml, /<meta\s+http-equiv="refresh"/i, legacyPath + ' meta refresh');
         assert.ok(redirectHtml.includes('content="0;url=/' + anchor + '"'), legacyPath + ' target');
         assert.ok(redirectHtml.includes('href="/' + anchor + '"'), legacyPath + ' fallback link');
       }
