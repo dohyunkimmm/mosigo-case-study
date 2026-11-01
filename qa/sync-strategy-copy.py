@@ -7,6 +7,10 @@ into its first run so the replacement remains complete and readable.
 from pathlib import Path
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
+from pptx.util import Pt
+from pptx.dml.color import RGBColor
+from pptx.oxml.xmlchemy import OxmlElement
+from pptx.oxml.ns import qn
 
 file = Path("downloads/mosigo_report.pptx")
 prs = Presentation(file)
@@ -173,13 +177,35 @@ for old, new in (
 ):
     legacy_cleanup_changes += replace_everywhere(old, new)
 
+# Keep a concise source-and-assumptions note on the source slide.
+# This distinguishes the planning scenario from actual operating results.
+qa_note = "가정 기반 시나리오 분석입니다. 실제 운영 실적은 아닙니다. 개인 분석 자료. 계산 근거: mosigo_model.xlsx."
+source_shape = next(
+    (shape for shape in prs.slides[1].shapes
+     if shape.has_text_frame and "사업기획서 3쪽" in shape.text),
+    None,
+)
+assert source_shape is not None, "Slide 2 source citation box not found"
+source_text = "\\n".join(paragraph.text for paragraph in source_shape.text_frame.paragraphs)
+if qa_note not in source_text:
+    note = source_shape.text_frame.add_paragraph()
+    note.space_before = Pt(2)
+    note.space_after = Pt(0)
+    run = note.add_run()
+    run.text = qa_note
+    run.font.name = "Pretendard"
+    run.font.size = Pt(8.5)
+    run.font.color.rgb = RGBColor(79, 105, 88)
+    props = run._r.get_or_add_rPr()
+    for key in ("ea", "cs"):
+        node = props.find(qn("a:" + key))
+        if node is None:
+            node = OxmlElement("a:" + key)
+            props.append(node)
+        node.set("typeface", "Pretendard")
+
 prs.save(file)
 check = Presentation(file)
-for slide_no in (2, 11):
-    print(f"DIAGNOSTIC slide {slide_no}")
-    for shape_no, shape in enumerate(check.slides[slide_no - 1].shapes):
-        if shape.has_text_frame and shape.text.strip():
-            print("SHAPE", shape_no, "XYWH", round(shape.left/914400,2), round(shape.top/914400,2), round(shape.width/914400,2), round(shape.height/914400,2), "TEXT", repr(shape.text[:260]))
 assert len(check.slides) == 11
 legacy_terms = ("노동비용","노동 기회비용","획득비","지원비","인수 기준","수용 기준","직접 잔여액","경유율","완료 예약","병원동행","퍼널","리텐션")
 for slide in check.slides:
