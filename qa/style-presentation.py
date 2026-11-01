@@ -33,10 +33,10 @@ def normalize_theme_fonts(filename):
     with zipfile.ZipFile(filename, "r") as source, zipfile.ZipFile(tmp, "w") as target:
         for info in source.infolist():
             data = source.read(info.filename)
-            if re.fullmatch(r"ppt/(?:theme|slideMasters|slideLayouts)/[^/]+\\.xml", info.filename):
+            if re.fullmatch(r"ppt/(?:theme|slideMasters|slideLayouts)/[^/]+\.xml", info.filename):
                 data, count = re.subn(
-                    rb'(<a:(?:latin|ea|cs)\\b[^>]*?\\btypeface=")[^"]*(")',
-                    rb'\\1Pretendard\\2', data)
+                    rb'(<a:(?:latin|ea|cs)\b[^>]*?\btypeface=")[^"]*(")',
+                    rb'\1Pretendard\2', data)
                 changed += count
             target.writestr(info, data)
     os.replace(tmp, filename)
