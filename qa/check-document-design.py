@@ -150,7 +150,7 @@ with ZipFile(PPTX) as z:
                 assert nodes and all(n.get('typeface') == 'Pretendard' for n in nodes), (
                     f'{theme_file}: {branch}/{family} theme default is not Pretendard')
     for name in z.namelist():
-        if re.fullmatch(r'ppt/(?:slideMasters|slideLayouts)/.+\.xml', name):
+        if re.fullmatch(r'ppt/(?:slideMasters|slideLayouts|notesMasters|notesSlides|handoutMasters)/.+\.xml', name):
             raw = z.read(name)
             assert b'Aptos' not in raw, f'{name}: inherited Aptos font remains'
 print('PASS PPTX theme and master fonts: Pretendard')
