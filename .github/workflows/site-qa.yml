@@ -76,6 +76,8 @@ jobs:
           node qa/check-lighthouse.mjs
       - name: Extract final document text for editorial QA
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
           python3 -m venv /tmp/mosigo-editorial-venv
           /tmp/mosigo-editorial-venv/bin/pip install --quiet python-pptx openpyxl
           /tmp/mosigo-editorial-venv/bin/python qa/extract-editorial-text.py
