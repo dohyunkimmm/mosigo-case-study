@@ -1,0 +1,65 @@
+import { chromium } from 'playwright';
+import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
+
+const base=process.env.SITE_QA_URL||'http://127.0.0.1:8765/';
+const prefix=process.env.SITE_QA_MODE==='live'?'live-':'';
+await mkdir('qa-artifacts',{recursive:true});
+const browser=await chromium.launch({headless:true});
+try{
+ for(const width of [390,1440]){
+  const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
+  const failures=[];
+  page.on('pageerror',error=>failures.push(error.message));
+  const response=await page.goto(base,{waitUntil:'load',timeout:45000});
+  assert.equal(response.status(),200);
+  assert.equal(await page.locator('.v3-phase-link').count(),3,'three-phase navigation');
+  assert.equal(await page.locator('.v3-hero-metric').count(),3,'hero metrics');
+  assert.equal(await page.locator('.v3-product-card').count(),3,'three verified concept wireframes');
+  assert.ok((await page.locator('.v3-product-intro').innerText()).includes('검증 전 설계 시안'));
+  assert.equal(await page.locator('.v3-scenario-picks button').count(),3);
+  assert.equal(await page.locator('.v3-bar-col').count(),4,'three presets plus current assumptions');
+  assert.equal(await page.locator('#v3-doc-thumbs button').count(),5);
+  const start=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
+  assert.ok(start.x<=start.w+1,width+'px document fits viewport');
+  await page.locator('#business .chapter-detail summary').click();
+  await page.locator('[data-v3-scenario="conservative"]').click();
+  assert.equal(await page.locator('#users').inputValue(),'8000');
+  assert.equal(await page.locator('#freq').inputValue(),'1');
+  assert.equal((await page.locator('#margin').textContent()).trim(),'0.40억 원');
+  assert.ok(new URL(page.url()).searchParams.get('v_users')==='8000');
+  await page.locator('[data-v3-scenario="growth"]').click();
+  assert.equal(await page.locator('#users').inputValue(),'20000');
+  assert.equal(await page.locator('#price').inputValue(),'45000');
+  assert.equal((await page.locator('#margin').textContent()).trim(),'6.00억 원');
+  assert.equal(await page.locator('[data-v3-scenario="growth"]').getAttribute('aria-pressed'),'true');
+  await page.reload({waitUntil:'load'});
+  assert.equal(await page.locator('#users').inputValue(),'20000','shared URL restores slider state');
+  await page.locator('#business .chapter-detail summary').click();
+  await page.locator('#reset').click();
+  assert.equal(await page.locator('#users').inputValue(),'15000');
+  assert.equal(new URL(page.url()).searchParams.has('v_users'),false,'reset removes nondefault query');
+  await page.locator('#v3-doc-thumbs button[aria-label*="3쪽"]').click();
+  assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('plan-03-sm.webp'));
+  await page.locator('[data-doc-preview="presentation"]').click();
+  assert.equal(await page.locator('#v3-doc-thumbs button').count(),5);
+  assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('slides-01-sm.webp'));
+  await page.locator('#v3-view-full').click();
+  assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),true,'full-screen dialog opens');
+  await page.locator('#v3-full-close').click();
+  assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),false,'dialog closes');
+  assert.ok(await page.locator('#v3-page-share').isVisible());
+  const end=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
+  assert.ok(end.x<=end.w+1,width+'px no horizontal overflow after interactions');
+  assert.deepEqual(failures,[],width+'px no page JS errors');
+  await page.screenshot({path:'qa-artifacts/'+prefix+'v3-'+width+'.png',fullPage:true});
+  console.log('PASS v3 progressive interactions',width,{start,end});
+  await page.close();
+ }
+ const bad=await browser.newPage({viewport:{width:390,height:800}});
+ await bad.goto(new URL('?v_users=-1&v_price=NaN&v_freq=88',base).href,{waitUntil:'load'});
+ assert.equal(await bad.locator('#users').inputValue(),'15000','invalid shared values ignored');
+ assert.equal(await bad.locator('#price').inputValue(),'40000');
+ await bad.close();
+ console.log('PASS v3 share safety and controls');
+}finally{await browser.close();}
