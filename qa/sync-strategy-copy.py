@@ -164,6 +164,8 @@ for old, new in (
     ("노동 기회비용", "인력 투입 기회비용"),
     ("노동비용", "인력 투입 비용"),
     ("손익분기점점", "손익분기점"),
+    ("손익분기점와", "손익분기점과"),
+    ("기본 수정 가능 이며", "기본적으로 수정 권한을 부여하고 있으며"),
     ("고객지원비", "고객 지원 비용"),
     ("고객지원", "고객 지원"),
 
@@ -253,7 +255,7 @@ prs.save(file)
 check = Presentation(file)
 assert len(check.slides) == 11
 assert qa_note in "\\n".join(shape.text for shape in check.slides[1].shapes if shape.has_text_frame), "Slide 2 assumptions/source note missing after save"
-legacy_terms = ("노동비용","노동 기회비용","획득비","지원비","인수 기준","수용 기준","직접 잔여액","경유율","완료 예약","병원동행","퍼널","리텐션")
+legacy_terms = ("노동비용","노동 기회비용","획득비","지원비","인수 기준","수용 기준","직접 잔여액","경유율","완료 예약","병원동행","퍼널","리텐션","손익분기점점","손익분기점와","기본 수정 가능 이며")
 for slide in check.slides:
     checked_text = "\\n".join(paragraph_text(p) for p in slide_paragraphs(slide))
     for term in legacy_terms:

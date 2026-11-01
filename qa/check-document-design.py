@@ -158,3 +158,18 @@ print('PASS full document QA')
 # Full QA rerun after the synchronized presentation and preview were regenerated.
 
 # Re-run the complete suite against the latest generated PPTX and preview PDF.
+
+
+# Editorial regression checks for previously identified Korean copy defects.
+site_html = Path("index.html").read_text(encoding="utf-8")
+plan_html = Path("downloads/mosigo_business_plan_20261031.html").read_text(encoding="utf-8")
+for label, source, forbidden in (
+    ("website", site_html, ("손익분기점와", "손익분기점점", "수정 가능 이며",
+                           "<th data-label=\"문제 가설\">대리 예약</th>",
+                           "<strong>하나의 흐름으로 연결되는 대리 예약</strong>")),
+    ("business plan", plan_html, ("손익분기점와", "손익분기점점",
+                                  "동일한 처리 능력을 가정한 비교")),
+):
+    for phrase in forbidden:
+        assert phrase not in source, f"{label}: legacy wording remains: {phrase}"
+print("PASS editorial regression checks: website and business plan")
