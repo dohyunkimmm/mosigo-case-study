@@ -133,3 +133,5 @@ for a,b in [('FFFFFF','123E33'),('192C25','FBFCF8'),('4F6958','FBFCF8'),('D6EF8A
     assert score>=4.5, f'Brand contrast below AA: {a}/{b}={score:.2f}'
     print('PASS color contrast',a,b,round(score,2))
 print('PASS full document QA')
+
+# Final QA marker: verify the synchronized PDF, PPTX, Excel, and preview downloads.
