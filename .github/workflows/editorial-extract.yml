@@ -1,0 +1,44 @@
+name: Extract final document text for editorial QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'downloads/mosigo_business_plan_20261031.pdf'
+      - 'downloads/mosigo_report.pptx'
+      - 'downloads/mosigo_report_preview.pdf'
+      - 'downloads/mosigo_model.xlsx'
+      - 'qa/extract-editorial-text.py'
+      - '.github/workflows/editorial-extract.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mosigo-editorial-extract
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install document extractors
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils python3-venv
+          python3 -m venv /tmp/mosigo-editorial-venv
+          /tmp/mosigo-editorial-venv/bin/pip install --quiet python-pptx openpyxl
+      - name: Extract every page, slide and workbook cell
+        run: /tmp/mosigo-editorial-venv/bin/python qa/extract-editorial-text.py
+      - name: Upload extracted text for review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mosigo-editorial-source-text
+          path: qa-artifacts/*.txt
+          if-no-files-found: error
+          retention-days: 14
