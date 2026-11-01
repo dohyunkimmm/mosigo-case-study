@@ -27,6 +27,35 @@ cells = {
     ),
     "E14": ("-3411700", "-3448700"),
 }
+
+# Additional wording clarifications found during page-by-page review.
+label_patches["xl/worksheets/sheet1.xml"]["C8"] = (
+    "결제 수수료·고객 지원·시스템 이용·고객 획득 비용 차감",
+    "결제 수수료·고객 지원 비용·시스템 이용 비용·고객 획득 비용 차감",
+)
+label_patches["xl/worksheets/sheet2.xml"]["A19"] = ("초기 투자비", "초기 투자비(별도 가정)")
+label_patches["xl/worksheets/sheet2.xml"]["C26"] = (
+    "본문의 직접형 예시 연 고정비 1억 원과 별도 시나리오",
+    "초기 투자비 500만 원은 월 손익·손익분기 계산에서 제외하며, 직접 운영형 연 고정비 1억 원은 별도 비교 시나리오입니다.",
+)
+label_patches["xl/worksheets/sheet3.xml"]["A12"] = ("취소 제외 비율", "취소를 제외한 비율")
+label_patches["xl/worksheets/sheet3.xml"]["C23"] = (
+    "배정·교육·고객지원 비용 증가를 반영해 필요 인원 재산정",
+    "배정·교육·고객 지원 비용 증가를 반영해 필요 인원을 다시 산정",
+)
+label_patches["xl/worksheets/sheet4.xml"]["A11"] = (
+    "직접 운영형 금액은 고객 지원·고객 획득 비용 차감 전 / 구독은 월 3회 모두 이용하는 것으로 가정 / 차량 원가는 추정치",
+    "직접 운영형 잔여 금액은 고객 지원 비용과 고객 획득 비용을 차감하기 전 금액입니다. 구독은 월 3회 이용, 차량 원가는 추정치로 가정했습니다.",
+)
+label_patches["xl/worksheets/sheet5.xml"]["C9"] = (
+    "원문·수집 기준 추가 확인",
+    "원문과 수집 기준을 추가로 확인해야 함",
+)
+label_patches["xl/worksheets/sheet5.xml"]["A20"] = (
+    "민감도 분석은 계획 가정의 변화에 따른 비교이며, 실제 실험 결과는 근거 확보 후 별도 기록",
+    "민감도 분석은 계획 가정의 변화에 따른 비교이며, 실제 실험 결과는 근거를 확보한 뒤 별도로 기록합니다.",
+)
+
 with ZipFile(model) as archive:
     original_members = [(item, archive.read(item.filename)) for item in archive.infolist()]
     assert all(info.filename != "xl/externalLinks/externalLink1.xml" for info, _ in original_members)
