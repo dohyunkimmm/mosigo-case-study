@@ -135,7 +135,7 @@ with ZipFile(PPTX) as z:
     assert '기존 사업자 제휴 모델 우선 검토 · 고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in first, 'Slide 1 decision not synchronized'
     assert '기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 199건(가정) / 손익분기점 1,082건' in last, 'Slide 11 quantified recommendation missing'
     assert '고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in last, 'Slide 11 expansion criteria missing'
-    assert '인력 투입 비용 반영 손익 개선' in last, 'Slide 11 staffing-cost condition missing'
+    assert '인력 투입 기회비용을 반영한 손익 구조를 개선' in last, 'Slide 11 staffing-cost condition missing'
 print('PASS PPT cover and decision wording synchronized with case study')
 
 print('PASS PPTX',len(slides),'editable slides',east_asian,'consistent text runs')
