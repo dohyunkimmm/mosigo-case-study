@@ -4,7 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 const source = path.resolve('downloads/mosigo_business_plan_20261031.html');
 const output = path.resolve('downloads/mosigo_business_plan_20261031.pdf');
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||undefined,args:['--no-sandbox']});
 try{
  const page=await browser.newPage({viewport:{width:1280,height:720},deviceScaleFactor:1});
  await page.goto('file://'+source,{waitUntil:'load'});

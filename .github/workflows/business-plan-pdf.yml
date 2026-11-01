@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: mosigo-business-plan-pdf
+  group: mosigo-business-plan-pdf-fast
   cancel-in-progress: false
 
 jobs:
@@ -30,7 +30,10 @@ jobs:
       - name: Install PDF renderer
         run: |
           npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1
-          npx --no-install playwright install --with-deps chromium
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME_BIN"
+          echo "CHROME_BIN=$CHROME_BIN" >> "$GITHUB_ENV"
+          "$CHROME_BIN" --version
       - name: Install original Pretendard fonts
         run: |
           set -euo pipefail
