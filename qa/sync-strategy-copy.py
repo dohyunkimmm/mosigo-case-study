@@ -7,7 +7,7 @@ into its first run so the replacement remains complete and readable.
 from pathlib import Path
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
-from pptx.util import Pt
+from pptx.util import Pt, Inches
 from pptx.dml.color import RGBColor
 from pptx.oxml.xmlchemy import OxmlElement
 from pptx.oxml.ns import qn
@@ -177,8 +177,8 @@ for old, new in (
 ):
     legacy_cleanup_changes += replace_everywhere(old, new)
 
-# Keep a concise source-and-assumptions note on the source slide.
-# This distinguishes the planning scenario from actual operating results.
+# Keep the source citation and assumptions in a dedicated, readable note area.
+# A separate text box prevents the compact source line from clipping in PDF export.
 qa_note = "가정 기반 시나리오 분석입니다. 실제 운영 실적은 아닙니다. 개인 분석 자료. 계산 근거: mosigo_model.xlsx."
 source_shape = next(
     (shape for shape in prs.slides[1].shapes
@@ -186,27 +186,57 @@ source_shape = next(
     None,
 )
 assert source_shape is not None, "Slide 2 source citation box not found"
-source_text = "\\n".join(paragraph.text for paragraph in source_shape.text_frame.paragraphs)
-if qa_note not in source_text:
-    note = source_shape.text_frame.add_paragraph()
-    note.space_before = Pt(2)
-    note.space_after = Pt(0)
-    run = note.add_run()
-    run.text = qa_note
-    run.font.name = "Pretendard"
-    run.font.size = Pt(8.5)
-    run.font.color.rgb = RGBColor(79, 105, 88)
-    props = run._r.get_or_add_rPr()
-    for key in ("ea", "cs"):
-        node = props.find(qn("a:" + key))
-        if node is None:
-            node = OxmlElement("a:" + key)
-            props.append(node)
-        node.set("typeface", "Pretendard")
 
+# Remove any prior copy of the note before placing it in the dedicated text box.
+for paragraph in list(source_shape.text_frame.paragraphs):
+    if qa_note in paragraph.text:
+        paragraph._element.getparent().remove(paragraph._element)
+
+source_shape.top = Inches(6.12)
+source_shape.height = Inches(0.30)
+source_shape.text_frame.margin_top = Inches(0)
+source_shape.text_frame.margin_bottom = Inches(0)
+for paragraph in source_shape.text_frame.paragraphs:
+    for run in paragraph.runs:
+        run.font.name = "Pretendard"
+        run.font.size = Pt(9.5)
+        run.font.bold = False
+        run.font.color.rgb = RGBColor(79, 105, 88)
+        props = run._r.get_or_add_rPr()
+        for key in ("ea", "cs"):
+            node = props.find(qn("a:" + key))
+            if node is None:
+                node = OxmlElement("a:" + key)
+                props.append(node)
+            node.set("typeface", "Pretendard")
+
+note_shape = prs.slides[1].shapes.add_textbox(
+    Inches(0.78), Inches(6.48), Inches(11.8), Inches(0.26)
+)
+note_shape.text_frame.word_wrap = False
+note_shape.text_frame.margin_left = Inches(0)
+note_shape.text_frame.margin_right = Inches(0)
+note_shape.text_frame.margin_top = Inches(0)
+note_shape.text_frame.margin_bottom = Inches(0)
+note = note_shape.text_frame.paragraphs[0]
+note.space_before = Pt(0)
+note.space_after = Pt(0)
+run = note.add_run()
+run.text = qa_note
+run.font.name = "Pretendard"
+run.font.size = Pt(8.5)
+run.font.color.rgb = RGBColor(79, 105, 88)
+props = run._r.get_or_add_rPr()
+for key in ("ea", "cs"):
+    node = props.find(qn("a:" + key))
+    if node is None:
+        node = OxmlElement("a:" + key)
+        props.append(node)
+    node.set("typeface", "Pretendard")
 prs.save(file)
 check = Presentation(file)
 assert len(check.slides) == 11
+assert qa_note in "\\n".join(shape.text for shape in check.slides[1].shapes if shape.has_text_frame), "Slide 2 assumptions/source note missing after save"
 legacy_terms = ("노동비용","노동 기회비용","획득비","지원비","인수 기준","수용 기준","직접 잔여액","경유율","완료 예약","병원동행","퍼널","리텐션")
 for slide in check.slides:
     checked_text = "\\n".join(paragraph_text(p) for p in slide_paragraphs(slide))
