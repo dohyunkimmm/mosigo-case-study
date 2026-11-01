@@ -139,6 +139,22 @@ with ZipFile(PPTX) as z:
 print('PASS PPT cover and decision wording synchronized with case study')
 
 print('PASS PPTX',len(slides),'editable slides',east_asian,'consistent text runs')
+with ZipFile(PPTX) as z:
+    theme_files = sorted(n for n in z.namelist() if re.fullmatch(r'ppt/theme/theme[0-9]+\.xml', n))
+    assert theme_files, 'PowerPoint theme XML missing'
+    for theme_file in theme_files:
+        theme_root = ET.fromstring(z.read(theme_file))
+        for branch in ('majorFont', 'minorFont'):
+            for family in ('latin', 'ea', 'cs'):
+                nodes = theme_root.findall('.//a:fontScheme/a:'+branch+'/a:'+family, ns)
+                assert nodes and all(n.get('typeface') == 'Pretendard' for n in nodes), (
+                    f'{theme_file}: {branch}/{family} theme default is not Pretendard')
+    for name in z.namelist():
+        if re.fullmatch(r'ppt/(?:slideMasters|slideLayouts)/[^/]+\.xml', name):
+            raw = z.read(name)
+            assert b'Aptos' not in raw, f'{name}: inherited Aptos font remains'
+print('PASS PPTX theme and master fonts: Pretendard')
+
 def rgb(hexcode):
     return [int(hexcode[i:i+2],16)/255 for i in (0,2,4)]
 def lum(h):
