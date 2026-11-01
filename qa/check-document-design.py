@@ -163,6 +163,7 @@ print('PASS full document QA')
 # Editorial regression checks for previously identified Korean copy defects.
 site_html = Path("index.html").read_text(encoding="utf-8")
 plan_html = Path("downloads/mosigo_business_plan_20261031.html").read_text(encoding="utf-8")
+assert "현재 처리 능력을 기준으로 산출" in plan_html, "Business-plan page 11 capacity caption was not updated"
 for label, source, forbidden in (
     ("website", site_html, ("손익분기점와", "손익분기점점", "수정 가능 이며",
                            "<th data-label=\"문제 가설\">대리 예약</th>",
