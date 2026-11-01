@@ -45,5 +45,7 @@ jobs:
           git add assets/mosigo-share.png
           if ! git diff --cached --quiet; then
             git commit -m "assets: publish MOSIGO social sharing preview"
+            git fetch origin main
+            git rebase origin/main
             git push origin HEAD:main
           fi
