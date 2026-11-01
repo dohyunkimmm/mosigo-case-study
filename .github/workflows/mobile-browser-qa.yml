@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'downloads/**'
+      - 'assets/tossface-phone.png'
       - 'qa/mobile-browser.mjs'
       - '.github/workflows/mobile-browser-qa.yml'
   workflow_dispatch:
@@ -29,7 +31,7 @@ jobs:
         run: |
           npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1
           npx --no-install playwright install --with-deps chromium webkit
-      - name: Exercise production PDFs and emoji font on WebKit/Chromium
+      - name: Exercise all mobile PDF pages, Pretendard and Tossface on WebKit/Chromium
         env:
           SITE_QA_URL: https://mosigo-case-study.vercel.app/
         run: node qa/mobile-browser.mjs
