@@ -86,9 +86,7 @@ def replace_everywhere(old, new):
                 changed += replace_paragraph(paragraph, old, new)
             elif new in current:
                 existing += current.count(new)
-    if changed + existing == 0:
-        raise AssertionError(f"Expected repeated source phrase not found: {old!r}")
-    return changed
+    return changed + existing
 
 
 updates = {
@@ -138,12 +136,21 @@ for slide_number, edits in updates.items():
         changes += 1
 
 disclaimer_changes = replace_everywhere(
-    "포트폴리오용 합성 데이터·가정 기반 예측입니다. 실제 고객·계약·매출·인터뷰 결과가 아닙니다.",
-    "가정 기반 시나리오 분석이며 실제 운영 실적이 아닙니다.",
+    "포트폴리오용 합성 데이터·가정 기반 예측입니다.",
+    "가정 기반 시나리오 분석입니다.",
+) + replace_everywhere(
+    "실제 고객·계약·매출·인터뷰 결과가 아닙니다.",
+    "실제 운영 실적은 아닙니다.",
 )
 source_note_changes = replace_everywhere(
-    "해당 사례의 독립 분석 자료. 계산 파일: mosigo_model.xlsx. 시장·고객 근거의 출처와 한계는 원본 케이스 스터디에 표시.",
-    "자료·계산 근거: 원본 케이스 스터디 및 mosigo_model.xlsx.",
+    "해당 사례의 독립 분석 자료.",
+    "개인 분석 자료.",
+) + replace_everywhere(
+    "계산 파일: mosigo_model.xlsx.",
+    "계산 근거: mosigo_model.xlsx.",
+) + replace_everywhere(
+    "시장·고객 근거의 출처와 한계는 원본 케이스 스터디에 표시.",
+    "시장·고객 근거의 출처와 한계는 원본 사례 자료에 표시.",
 )
 
 prs.save(file)
@@ -155,6 +162,12 @@ for slide_number, edits in updates.items():
         assert new in text, f"Slide {slide_number}: missing updated phrase {new!r}"
 for slide in check.slides:
     text = "\n".join(paragraph_text(p) for p in slide_paragraphs(slide))
-    assert "포트폴리오용 합성 데이터·가정 기반 예측" not in text
-    assert "해당 사례의 독립 분석 자료" not in text
+    for old_phrase in (
+        "포트폴리오용 합성 데이터·가정 기반 예측입니다.",
+        "실제 고객·계약·매출·인터뷰 결과가 아닙니다.",
+        "해당 사례의 독립 분석 자료.",
+        "계산 파일: mosigo_model.xlsx.",
+        "시장·고객 근거의 출처와 한계는 원본 케이스 스터디에 표시.",
+    ):
+        assert old_phrase not in text, f"Legacy repeated note remains: {old_phrase!r}"
 print(f"PASS Korean copy revision: {changes} slide edits, {disclaimer_changes} concise disclaimers, {source_note_changes} concise source notes; 11 editable slides retained")

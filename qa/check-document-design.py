@@ -68,6 +68,8 @@ assert 'MOSIGO' in compact_slides and '사업화의사결정' in compact_slides
 assert '\ufffd' not in plan_text+slides_text
 for term in legacy_terms:
     assert term not in slides_text, f'Unreviewed wording remains in presentation: {term}'
+for phrase in ('포트폴리오용 합성 데이터·가정 기반 예측입니다.','실제 고객·계약·매출·인터뷰 결과가 아닙니다.','해당 사례의 독립 분석 자료.'):
+    assert phrase not in slides_text, f'Repeated long note remains in presentation: {phrase}'
 assert '사업기획서3쪽' in compact_slides, 'Slide 2 source citation must point to current plan p3'
 assert '11~12쪽' not in slides_text, 'Obsolete source page reference remains'
 with ZipFile(ROOT/'mosigo_model.xlsx') as model:
