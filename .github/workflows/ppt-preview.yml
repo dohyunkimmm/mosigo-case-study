@@ -7,7 +7,6 @@ on:
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
       - 'qa/sync-strategy-copy.py'
-      - 'qa/fix-content-consistency.py'
       - 'downloads/mosigo_model.xlsx'
       - '.github/workflows/ppt-preview.yml'
   workflow_dispatch:
@@ -41,7 +40,6 @@ jobs:
           fc-match Pretendard | grep -qi Pretendard
           python3 -m venv /tmp/mosigo-ppt-venv
           /tmp/mosigo-ppt-venv/bin/pip install --quiet python-pptx==1.0.2
-          /tmp/mosigo-ppt-venv/bin/python qa/fix-content-consistency.py
           /tmp/mosigo-ppt-venv/bin/python qa/style-presentation.py
       - name: Synchronize editable strategic decisions with quantified gap
         run: /tmp/mosigo-ppt-venv/bin/python qa/sync-strategy-copy.py
@@ -78,7 +76,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add downloads/mosigo_model.xlsx downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf downloads/previews/slides-*.webp
+          git add downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf downloads/previews/slides-*.webp
           if git diff --cached --quiet; then
             echo "PPT preview already up to date"
           else

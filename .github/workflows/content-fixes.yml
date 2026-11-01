@@ -28,7 +28,7 @@ jobs:
           python-version: '3.11'
       - name: Install slide editor
         run: python -m pip install --quiet python-pptx==1.0.2
-      - name: Apply reviewed cell changes and source citation correction
+      - name: Apply reviewed Excel scenario labels
         run: python qa/fix-content-consistency.py
       - name: Commit revised originals
         run: |
@@ -39,7 +39,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Source documents unchanged"
           else
-            git commit -m "fix: align Excel conversion scenario and PPT evidence citation"
+            git commit -m "fix: align Excel sensitivity scenario labels"
             git pull --rebase origin main
             git push origin HEAD:main
           fi
