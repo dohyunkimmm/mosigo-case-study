@@ -76,8 +76,9 @@ jobs:
           node qa/check-lighthouse.mjs
       - name: Extract final document text for editorial QA
         run: |
-          python3 -m pip install --user python-pptx openpyxl
-          python3 qa/extract-editorial-text.py
+          python3 -m venv /tmp/mosigo-editorial-venv
+          /tmp/mosigo-editorial-venv/bin/pip install --quiet python-pptx openpyxl
+          /tmp/mosigo-editorial-venv/bin/python qa/extract-editorial-text.py
       - name: Verify PDF, PPTX, embedded fonts and color contrast
         run: |
           sudo apt-get update -qq
