@@ -124,8 +124,7 @@ jobs:
                   safari.activate()
                   let web = safari.webViews.firstMatch
                   XCTAssertTrue(web.waitForExistence(timeout: 30), "The actual iOS Safari app must expose the loaded case study")
-                  print("SAFARI_UI_TREE_BEGIN\\n" + safari.debugDescription + "\\nSAFARI_UI_TREE_END")
-                  let documentTab = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "발표자료")).firstMatch
+                  let documentTab = safari.switches.matching(NSPredicate(format: "label CONTAINS %@", "발표자료")).firstMatch
                   guard documentTab.waitForExistence(timeout: 15) else {
                       XCTFail("Presentation tab not found in iOS Safari accessibility tree")
                       return
@@ -136,7 +135,7 @@ jobs:
                   forward.tap()
                   let pageCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "2 / 11")).firstMatch
                   XCTAssertTrue(pageCounter.waitForExistence(timeout: 10), "Native Safari must update slide page number")
-                  let planTab = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "사업기획서")).firstMatch
+                  let planTab = safari.switches.matching(NSPredicate(format: "label CONTAINS %@", "사업기획서")).firstMatch
                   XCTAssertTrue(planTab.exists, "Business plan tab must exist")
                   planTab.tap()
                   let planCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "1 / 17")).firstMatch
