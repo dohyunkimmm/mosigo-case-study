@@ -64,6 +64,8 @@ print('PASS M-01/M-02/M-03 website-to-plan strategic copy')
 
 
 slides_text=cmd('pdftotext','-layout',str(SLIDES),'-')
+# Poppler may emit a gap before punctuation when PowerPoint text runs are separate.
+normalized_slides=re.sub(r'\s+([.,:;])',r'\1',slides_text)
 compact_slides=re.sub(r'\s+','',slides_text)
 assert 'MOSIGO' in compact_slides and '사업화의사결정' in compact_slides
 assert '\ufffd' not in plan_text+slides_text
@@ -72,7 +74,7 @@ for term in legacy_terms:
 for phrase in ('포트폴리오용 합성 데이터·가정 기반 예측입니다.','실제 고객·계약·매출·인터뷰 결과가 아닙니다.','해당 사례의 독립 분석 자료.'):
     assert phrase not in slides_text, f'Repeated long note remains in presentation: {phrase}'
 for phrase in ('가정 기반 시나리오 분석입니다.','실제 운영 실적은 아닙니다.','개인 분석 자료.','계산 근거: mosigo_model.xlsx.'):
-    assert phrase in slides_text, f'Concise presentation note missing: {phrase}'
+    assert phrase in normalized_slides, f'Concise presentation note missing: {phrase}'
 assert '사업기획서3쪽' in compact_slides, 'Slide 2 source citation must point to current plan p3'
 assert '11~12쪽' not in slides_text, 'Obsolete source page reference remains'
 with ZipFile(ROOT/'mosigo_model.xlsx') as model:
