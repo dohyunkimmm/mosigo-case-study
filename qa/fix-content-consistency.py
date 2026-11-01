@@ -176,7 +176,7 @@ label_patches["xl/worksheets/sheet5.xml"]["C9"] = (
 )
 label_patches["xl/worksheets/sheet5.xml"]["A20"] = (
     "민감도 분석은 계획 가정의 변화에 따른 비교이며, 실제 실험 결과는 근거 확보 후 별도 기록",
-    "민감도 분석은 계획 가정의 변화에 따른 비교이며, 실제 실험 결과는 근거를 확보한 뒤 별도로 기록합니다.",
+    "손익분기 완료 건수는 건당 공헌이익 기준의 이론값입니다. 실제 달성 가능 여부는 시나리오별 월 완료 건수와 비교해야 합니다. 민감도 분석은 계획 가정의 변화에 따른 비교이며, 실제 실험 결과는 근거를 확보한 뒤 별도로 기록합니다.",
 )
 
 
@@ -224,4 +224,4 @@ if changed_any:
         if os.path.exists(temp_name):
             os.remove(temp_name)
 
-print("PASS workbook terminology harmonization: 57 labels across 5 sheets; formulas, cached results, and chart package preserved")
+print("PASS workbook terminology harmonization: 60 labels across 5 sheets; formulas, cached results, and chart package preserved")
