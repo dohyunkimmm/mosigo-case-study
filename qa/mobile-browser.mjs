@@ -11,7 +11,8 @@ const cases = [
 ];
 const assetTests = [
   { path: '/downloads/mosigo_business_plan_20261031.pdf', label: 'business plan' },
-  { path: '/downloads/mosigo_report_preview.pdf', label: 'presentation preview' }
+  { path: '/downloads/mosigo_report_preview.pdf', label: 'presentation preview' },
+  { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf', label: 'IR 12 slide deck' }
 ];
 const screenshots = 'qa-artifacts/mobile-browser';
 await mkdir(screenshots, { recursive: true });
@@ -30,7 +31,7 @@ for (const { name, engine, device } of cases) {
     const response = await page.goto(base + '#attachments', { waitUntil: 'load', timeout: 45000 });
     assert.equal(response.status(), 200, name + ' site HTTP status');
     await page.locator('#mobile-doc-viewer').scrollIntoViewIfNeeded();
-    assert.equal(await page.locator('.doc-tab').count(), 2);
+    assert.equal(await page.locator('.doc-tab').count(), 3);
     assert.equal(await page.locator('#doc-frame').isVisible(), false, name + ' blank PDF iframe hidden');
     assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), true, name + ' preview image viewer visible');
     const bodyFont = await page.locator('body').evaluate(el => getComputedStyle(el).fontFamily);
@@ -49,13 +50,14 @@ for (const { name, engine, device } of cases) {
     }
     for (const [tab, path] of [
       ['presentation', '/downloads/mosigo_report_preview.pdf'],
+      ['ir', '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf'],
       ['plan', '/downloads/mosigo_business_plan_20261031.pdf']
     ]) {
       await page.locator('[data-doc-preview="' + tab + '"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith(path + '#'), name + ' frame switches');
       assert.ok(new URL(await page.locator('#doc-open').getAttribute('href'), base).pathname === path, name + ' open link updates');
       assert.equal(await page.locator('[data-doc-preview="' + tab + '"]').getAttribute('aria-pressed'), 'true', name + ' accessible selected state');
-      const prefix=tab==='plan'?'plan':'slides';
+      const prefix=tab==='plan'?'plan':tab==='ir'?'ir':'slides';
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01-sm.webp'), name + ' initial preview image');
       await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
       await page.locator('#doc-next').click();
@@ -64,7 +66,7 @@ for (const { name, engine, device } of cases) {
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01-sm.webp'), name + ' previous page');
       await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
       // Walk every published mobile page rather than checking only the first two.
-      const total = tab === 'plan' ? 17 : 11;
+      const total = tab === 'plan' ? 17 : tab === 'ir' ? 12 : 11;
       for (let number = 2; number <= total; number++) {
         await page.locator('#doc-next').click();
         const padded = String(number).padStart(2, '0');
@@ -127,7 +129,7 @@ for (const { name, engine, device } of cases) {
     // Test the full mobile preview manifest (both the 800px and 1400px variants).
     // Execute once for the last device, because assets are common to every engine.
     if (name === cases[cases.length - 1].name) {
-      for (const [prefix, count] of [['plan', 17], ['slides', 11]]) {
+      for (const [prefix, count] of [['plan', 17], ['slides', 11], ['ir', 12]]) {
         for (let number = 1; number <= count; number++) {
           const numberText = String(number).padStart(2, '0');
           for (const suffix of ['-sm.webp', '.webp']) {
@@ -141,10 +143,10 @@ for (const { name, engine, device } of cases) {
           }
         }
       }
-      console.log('PASS 56 mobile preview WebP files: 17 plan pages and 11 slides at both sizes');
+      console.log('PASS 80 mobile preview WebP files: 17 plan pages, 11 presentation slides and 12 IR slides at both sizes');
     }
     assert.deepEqual(pageErrors, [], name + ' uncaught JS errors');
-    console.log('PASS',name,JSON.stringify({layout,fontResult,documents:'PDF header and EOF verified, both tabs and fallback links verified'}));
+    console.log('PASS',name,JSON.stringify({layout,fontResult,documents:'PDF header and EOF verified, all three tabs and fallback links verified'}));
     runs++;
     await context.close();
   } finally { await browser.close(); }
