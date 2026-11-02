@@ -8,6 +8,8 @@ ROOT=Path('downloads')
 PLAN=ROOT/'mosigo_business_plan_20261031.pdf'
 SLIDES=ROOT/'mosigo_report_preview.pdf'
 PPTX=ROOT/'mosigo_report.pptx'
+IR_PDF=ROOT/'MOSIGO_IR_Investment_Review_12slides.pdf'
+IR_PPTX=ROOT/'MOSIGO_IR_Investment_Review_12slides.pptx'
 def cmd(*args):
     return subprocess.check_output(args,text=True,stderr=subprocess.STDOUT)
 def pages(p):
@@ -20,9 +22,22 @@ def fonts(p):
     return sorted(set(re.findall(r'Pretendard-[A-Za-z]+',info)))
 assert pages(PLAN)==17,'Business plan must be 17 pages'
 assert pages(SLIDES)==11,'Slides must be 11 pages'
+assert pages(IR_PDF)==12,'IR deck must be 12 pages'
+assert IR_PDF.stat().st_size>25000,'IR PDF is unexpectedly small'
+assert IR_PPTX.stat().st_size>25000,'IR editable PPTX is unexpectedly small'
+with ZipFile(IR_PPTX) as ir:
+    assert ir.testzip() is None, 'IR editable PPTX archive is damaged'
+    slide_names=[n for n in ir.namelist() if re.fullmatch(r'ppt/slides/slide[0-9]+\.xml',n)]
+    assert len(slide_names)==12, 'IR editable slide count differs from PDF'
+    assert any(n.startswith('ppt/media/') for n in ir.namelist()), 'Tossface graphic missing from IR deck'
+print('PASS IR PPTX: 12 slides, image asset present, valid archive')
 assert PLAN.stat().st_size>25000 and SLIDES.stat().st_size>25000
-for f in [PLAN,SLIDES]:
+for f in [PLAN,SLIDES,IR_PDF]:
     print('PASS PDF',str(f),'pages',pages(f),'embedded fonts',fonts(f))
+ir_text=cmd('pdftotext','-layout',str(IR_PDF),'-')
+for figure in ('199','1,082','3,700','400'):
+    assert figure in ir_text, f'Missing original IR business assumption: {figure}'
+assert '\ufffd' not in ir_text, 'Invalid replacement character in IR PDF'
 plan_text=cmd('pdftotext','-layout',str(PLAN),'-')
 compact_plan=re.sub(r'\s+','',plan_text)
 assert 'MOSIGO' in compact_plan and '기획기준과참고자료' in compact_plan
