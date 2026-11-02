@@ -29,7 +29,7 @@ try {
     assert.equal(check.overflow, false, width + 'px horizontal overflow');
     assert.equal(check.sections, 9, 'section count');
     assert.equal(check.details, 9, 'details count');
-    assert.equal(check.tables, 13, 'table count');
+    assert.equal(check.tables, 14, 'table count');
     assert.ok(check.labels > 0 && check.unlabeled === 0, 'static table labels');
     assert.equal(check.open, 0, width + 'px concise chapter mode');
     assert.equal(check.mobileSummary, true, 'summary shown at every width');
