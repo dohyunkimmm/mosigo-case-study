@@ -89,12 +89,12 @@ with ZipFile(filename, "r") as source, ZipFile(temp_name, "w") as target:
     for info in source.infolist():
         data = source.read(info.filename)
         if re.fullmatch(
-            r"ppt/(?:theme|slideMasters|slideLayouts|notesMasters|notesSlides|handoutMasters)/.+\\.xml",
+            r"ppt/(?:theme|slideMasters|slideLayouts|notesMasters|notesSlides|handoutMasters)/.+\.xml",
             info.filename
         ):
             data, n = re.subn(
-                rb'(<a:(?:latin|ea|cs)\\b[^>]*?\\btypeface=")[^"]*(")',
-                rb'\\1Pretendard\\2', data
+                rb'(<a:(?:latin|ea|cs)\b[^>]*?\btypeface=")[^"]*(")',
+                rb'\1Pretendard\2', data
             )
             replacements += n
         target.writestr(info, data)
