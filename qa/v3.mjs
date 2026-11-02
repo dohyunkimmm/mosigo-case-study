@@ -18,7 +18,7 @@ try{
   assert.equal(await page.locator('.hero-actions').count(),0,'repeated hero jump links removed');
   assert.equal(await page.locator('.v3-hero-metric').count(),3,'hero metrics');
   assert.equal(await page.locator('.v3-product-card').count(),3,'three verified concept wireframes');
-  assert.match(await page.locator('.v3-product-intro').textContent(),/검증\s*전\s*설계\s*시안/,'concepts are labeled as unvalidated');
+  assert.match(await page.locator('.v3-product-intro').textContent(),/개념\s*시안\s*3종/,'three concept screens are clearly labeled');
   assert.equal(await page.locator('.v3-scenario-picks button').count(),3);
   assert.equal(await page.locator('.v3-bar-col').count(),4,'three presets plus current assumptions');
   assert.equal(await page.locator('#v3-doc-thumbs button').count(),5);
