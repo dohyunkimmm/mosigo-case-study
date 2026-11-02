@@ -154,6 +154,17 @@ for slide_number, edits in updates.items():
         replace_on_slide(slide_number, old, new)
         changes += 1
 
+
+# Final editorial pass on newly added IR sentences only; preserve figures and slide layouts.
+concise_ir_copies = [
+    (8, "초기 공급 월 199건은 손익분기점 1,082건의 18.4%입니다. 실측 수요·공급·비용 확인 전 확대 투자는 보류합니다.", "월 완료 199건은 손익분기점 1,082건의 18.4%입니다. 수요·공급·비용을 실측해 확대 시점을 판단합니다."),
+    (9, "직접 운영 잔여 금액은 고객 지원·획득 비용 차감 전, 제휴 모델의 건당 공헌이익은 해당 비용 차감 후입니다. 구독은 월 3회 이용(회당 33,000원, 월 99,000원)으로 가정했으며, 차량 원가는 추정치입니다.", "직접 운영 잔여 금액은 고객 지원·획득 비용 차감 전, 제휴 공헌이익은 차감 후입니다. 구독은 월 3회(회당 33,000원, 월 99,000원), 차량 원가는 추정치입니다."),
+    (11, "투자 검토 · 제휴 모델 우선, 고객 수요·비용·공급 계약 검증 후 단계별 투자 집행 판단", "제휴 모델 우선 · 수요·공급 계약·비용 확인 후 투자 판단"),
+    (11, "추가 집행 조건 · 안전·권한 검수 및 반복 수요 확인, 기회비용 반영 손익 구조 개선", "확대 조건 · 안전·권한, 반복 수요, 기회비용 반영 손익 개선"),
+]
+for slide_number, old, new in concise_ir_copies:
+    replace_on_slide(slide_number, old, new)
+
 disclaimer_changes = replace_everywhere(
     "포트폴리오용 합성 데이터·가정 기반 예측입니다.",
     "가정 기반 시나리오 분석입니다.",
