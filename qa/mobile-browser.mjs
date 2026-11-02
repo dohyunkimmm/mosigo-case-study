@@ -94,7 +94,6 @@ for (const { name, engine, device } of cases) {
       const fallback = document.querySelector('#doc-open');
       const image = document.querySelector('#doc-page-img');
       const doc = document.querySelector('#attachments');
-      const nav = document.querySelector('.mobile-toc');
       const r = element => {
         const b = element.getBoundingClientRect();
         return { w: b.width, h: b.height, top: b.top, bottom: b.bottom };
@@ -103,7 +102,6 @@ for (const { name, engine, device } of cases) {
         overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
         iconWidth: document.querySelector('.emoji-icon').naturalWidth,
         tabs: tabs.map(r), fallback: r(fallback), image: r(image), viewer: r(doc),
-        navPointerEvents: getComputedStyle(nav).pointerEvents,
         viewerVisible: r(doc).bottom > 0 && r(doc).top < innerHeight
       };
     });
@@ -112,7 +110,8 @@ for (const { name, engine, device } of cases) {
     assert.ok(layout.fallback.h >= 44, name + ' open-PDF touch target');
     assert.ok(layout.image.h >= 140 && layout.image.w > 240, name + ' visible mobile document image');
     assert.ok(layout.iconWidth>=100,name+' Tossface visual asset');
-    assert.equal(layout.navPointerEvents,'none',name + ' nav not blocking document');
+    assert.equal(await page.locator('.mobile-toc').count(),0,name + ' duplicate floating toc removed');
+    assert.equal(await page.locator('.nav-link').count(),9,name + ' original chapter navigation retained');
     const imageInfo=await page.locator('#doc-page-img').evaluate(el=>({ready:el.complete,w:el.naturalWidth,h:el.naturalHeight}));
     assert.ok(imageInfo.ready&&imageInfo.w>=700&&imageInfo.h>=350,name+' decoded WebP preview');
     console.log('PASS visible mobile PDF preview',name,imageInfo);
