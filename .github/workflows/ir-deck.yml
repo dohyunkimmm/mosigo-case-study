@@ -5,6 +5,8 @@ on:
     paths:
       - 'qa/ir-deck-source/**'
       - 'qa/normalize-ir-deck.py'
+      - 'qa/apply-concise-ir-copy.py'
+      - 'qa/concise-ir-copy.json'
       - '.github/workflows/ir-deck.yml'
   workflow_dispatch:
 
@@ -44,6 +46,8 @@ jobs:
           mkdir -p downloads
           MOSIGO_IR_OUT=downloads /tmp/mosigo-ir-venv/bin/python /tmp/build_ir_deck.py
           test -s downloads/MOSIGO_IR_Investment_Review_12slides.pptx
+      - name: Apply concise IR editorial wording
+        run: /tmp/mosigo-ir-venv/bin/python qa/apply-concise-ir-copy.py downloads/MOSIGO_IR_Investment_Review_12slides.pptx
       - name: Apply Pretendard fonts and original Tossface pictograms
         run: |
           /tmp/mosigo-ir-venv/bin/python qa/normalize-ir-deck.py downloads/MOSIGO_IR_Investment_Review_12slides.pptx assets/tossface-phone.png
