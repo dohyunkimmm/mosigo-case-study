@@ -164,17 +164,6 @@ function setupDocuments(){
  });
  refresh();
 }
-function setupSharing(){
- const button=$("#v3-page-share"); if(!button)return;
- button.addEventListener("click",async()=>{
-   if(navigator.share){
-     try{await navigator.share({title:"MOSIGO 전략기획 보고서",text:"자녀 대리 예약형 병원 동행 서비스의 사업화 전략 사례",url:location.href});return;}
-     catch(e){if(e?.name==="AbortError")return;}
-   }
-   await copyUrl(button,"page");
- });
-}
 setupScenario();
 setupDocuments();
-setupSharing();
 })();
