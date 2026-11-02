@@ -1,0 +1,85 @@
+name: Build MOSIGO IR deck
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'qa/ir-deck-source/**'
+      - '.github/workflows/ir-deck.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mosigo-ir-deck-build
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Install presentation tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libreoffice-impress poppler-utils webp fonts-noto-cjk python3-venv
+          python3 -m venv /tmp/mosigo-ir-venv
+          /tmp/mosigo-ir-venv/bin/pip install -q python-pptx==1.0.2 brotli==1.1.0
+      - name: Restore and verify editable IR slide source
+        run: |
+          cat qa/ir-deck-source/0*.txt | tr -d '\n' | base64 -d > /tmp/mosigo-ir-source.br
+          /tmp/mosigo-ir-venv/bin/python -c 'import brotli,pathlib; pathlib.Path("/tmp/build_ir_deck.py").write_bytes(brotli.decompress(pathlib.Path("/tmp/mosigo-ir-source.br").read_bytes()))'
+          echo 'a9040978fc04c822db687249db07dc9cb03e430f51368d1c3a652aea14349127  /tmp/build_ir_deck.py' | sha256sum -c -
+      - name: Generate editable PPTX
+        run: |
+          mkdir -p downloads
+          MOSIGO_IR_OUT=downloads /tmp/mosigo-ir-venv/bin/python /tmp/build_ir_deck.py
+          test -s downloads/MOSIGO_IR_Investment_Review_12slides.pptx
+      - name: Export PDF, verify 12 slides and stage-gated funding assumptions
+        run: |
+          mkdir -p /tmp/ir-pdf
+          libreoffice -env:UserInstallation=file:///tmp/lo-mosigo-ir --headless --convert-to pdf --outdir /tmp/ir-pdf downloads/MOSIGO_IR_Investment_Review_12slides.pptx
+          cp /tmp/ir-pdf/MOSIGO_IR_Investment_Review_12slides.pdf downloads/
+          test "$(pdfinfo downloads/MOSIGO_IR_Investment_Review_12slides.pdf | awk '/^Pages:/ {print $2}')" = "12"
+          pdftotext downloads/MOSIGO_IR_Investment_Review_12slides.pdf /tmp/mosigo-ir.txt
+          grep -q '400' /tmp/mosigo-ir.txt
+          grep -q '80' /tmp/mosigo-ir.txt
+          grep -q '120' /tmp/mosigo-ir.txt
+          grep -q '200' /tmp/mosigo-ir.txt
+          if grep -q '금액 미산정' /tmp/mosigo-ir.txt; then echo 'Old unsized ask remains'; exit 1; fi
+      - name: Render 12 full and mobile slide previews
+        run: |
+          mkdir -p downloads/previews /tmp/ir-pages
+          for i in $(seq 1 12); do
+            n="$(printf '%02d' "$i")"
+            pdftoppm -f "$i" -l "$i" -scale-to 1400 -png -singlefile downloads/MOSIGO_IR_Investment_Review_12slides.pdf /tmp/ir-pages/page
+            cwebp -quiet -q 84 -m 6 /tmp/ir-pages/page.png -o "downloads/previews/ir-$n.webp"
+            cwebp -quiet -q 82 -m 6 -resize 800 0 /tmp/ir-pages/page.png -o "downloads/previews/ir-$n-sm.webp"
+            test "$(stat -c%s "downloads/previews/ir-$n.webp")" -gt 1000
+          done
+          test "$(find downloads/previews -maxdepth 1 -name 'ir-*.webp' | wc -l)" -eq 24
+      - name: Publish IR presentation and previews
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloads/MOSIGO_IR_Investment_Review_12slides.pptx downloads/MOSIGO_IR_Investment_Review_12slides.pdf downloads/previews/ir-*.webp
+          if git diff --cached --quiet; then
+            echo 'MOSIGO IR files already current'
+          else
+            git commit -m 'docs: publish editable 12-slide MOSIGO IR deck and previews'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Save deck for QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mosigo-ir-12-slides
+          path: |
+            downloads/MOSIGO_IR_Investment_Review_12slides.pptx
+            downloads/MOSIGO_IR_Investment_Review_12slides.pdf
+          if-no-files-found: ignore
+          retention-days: 14
