@@ -46,6 +46,23 @@ try {
     assert.equal(await page.locator('.docs-note').count(), 0, width + 'px no redundant disclaimer beneath documents');
     assert.equal(await page.locator('.hero-actions a, .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
+    const pageCopy = await page.locator('body').innerText();
+    for (const removed of [
+      '8주 파일럿 예산 400만 원(가정)',
+      '동일한 공급·비용 가정을 비교한 추정치이며, 실제 운영 실적이 아닙니다.',
+      '핵심 결정: 기존 사업자 제휴 조건을 먼저 검증한 뒤 확대 여부를 판단합니다.',
+      '제품 설계 살펴보기', '사업기획서·IR Deck 보기', '최종 전략 판단 보기',
+      '핵심 고객 이용 과업 고객 가설',
+      'IR Deck PDF 저장'
+    ]) {
+      assert.ok(!pageCopy.includes(removed), width + 'px removed duplicate/caveat: ' + removed);
+    }
+    assert.equal(await page.locator('#doc-pdf-save').count(), 1, width + 'px one current-document PDF download');
+    assert.equal(await page.locator('.doc-links a[download$=".pdf"]').count(), 1, width + 'px no duplicate IR PDF download');
+    assert.equal(await page.locator('.doc-links a[download$=".pptx"]').count(), 2, width + 'px both editable slide decks retained');
+    assert.equal(await page.locator('.doc-links a[download$=".xlsx"]').count(), 1, width + 'px calculation file retained');
+    assert.match(await page.locator('#market .chapter-content').textContent(), /15,000명.*1\.5회.*40,000원.*9억 원/, width + 'px market scenario arithmetic retained');
+    assert.match(await page.locator('#customer .chapter-content h3.subhead').textContent(), /고객 이용 과업/, width + 'px duplicate customer hypothesis wording removed');
     const decisionSummary = await page.locator('#decision .skim-verdict').textContent();
     assert.ok(decisionSummary.includes('월 서비스 완료 199건(가정)'), width + 'px scenario label retained');
     assert.ok(decisionSummary.includes('손익분기점 1,082건'), width + 'px break-even count retained');
@@ -73,6 +90,8 @@ try {
       await page.locator('#doc-prev').click();
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-01-sm.webp'), 'mobile previous page');
       await page.locator('[data-doc-preview="ir"]').click();
+      assert.equal(await page.locator('#doc-pdf-save').getAttribute('href'), '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf', 'selected IR PDF download points to IR deck');
+      assert.equal(await page.locator('.doc-links a[download$=".pdf"]').count(), 1, 'IR view has one PDF save action');
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/ir-01-sm.webp'), 'mobile IR preview');
       await page.locator('#doc-next').click();
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/ir-02-sm.webp'), 'mobile IR next slide');
