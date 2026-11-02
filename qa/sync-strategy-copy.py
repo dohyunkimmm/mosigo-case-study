@@ -284,10 +284,17 @@ for slide in check.slides:
     checked_text = "\\n".join(paragraph_text(p) for p in slide_paragraphs(slide))
     for term in legacy_terms:
         assert term not in checked_text, f"Legacy term remains in presentation: {term}"
+reviewed_copies = {(n, old): new for n, old, new in concise_ir_copies}
 for slide_number, edits in updates.items():
     text = "\n".join(paragraph_text(p) for p in slide_paragraphs(check.slides[slide_number - 1]))
     for new in edits.values():
-        assert new in text, f"Slide {slide_number}: missing updated phrase {new!r}"
+        expected = reviewed_copies.get((slide_number, new), new)
+        expected = expected.replace("제휴 공헌이익", "제휴형 건당 공헌이익")
+        assert expected in text, f"Slide {slide_number}: missing reviewed phrase {expected!r}"
+for slide_number, old, new in concise_ir_copies:
+    text = "\n".join(paragraph_text(p) for p in slide_paragraphs(check.slides[slide_number - 1]))
+    expected = new.replace("제휴 공헌이익", "제휴형 건당 공헌이익")
+    assert expected in text, f"Slide {slide_number}: missing concise IR phrase {expected!r}"
 for slide in check.slides:
     text = "\n".join(paragraph_text(p) for p in slide_paragraphs(slide))
     for old_phrase in (
