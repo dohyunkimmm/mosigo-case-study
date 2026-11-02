@@ -70,6 +70,12 @@ try {
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-02-sm.webp'), 'mobile next page');
       await page.locator('#doc-prev').click();
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-01-sm.webp'), 'mobile previous page');
+      await page.locator('[data-doc-preview="ir"]').click();
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/ir-01-sm.webp'), 'mobile IR preview');
+      await page.locator('#doc-next').click();
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/ir-02-sm.webp'), 'mobile IR next slide');
+      assert.ok((await page.locator('#doc-page-count').innerText()).includes('12장'), 'IR slide count');
+      await page.locator('[data-doc-preview="plan"]').click();
       await page.waitForFunction(() => {const img=document.getElementById('doc-page-img');return img.complete&&img.naturalWidth>0;});
       const details = page.locator('details.chapter-detail').first();
       await details.locator('summary').click();
@@ -89,14 +95,19 @@ try {
       await page.locator('[data-doc-preview="presentation"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_report_preview.pdf#'), 'PPT tab changes viewer');
       assert.equal(await page.locator('[data-doc-preview="presentation"]').getAttribute('aria-pressed'), 'true', 'PPT selected');
+      await page.locator('[data-doc-preview="ir"]').click();
+      assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/MOSIGO_IR_Investment_Review_12slides.pdf#'), 'IR tab changes viewer');
+      assert.equal(await page.locator('[data-doc-preview="ir"]').getAttribute('aria-pressed'), 'true', 'IR selected');
       await page.locator('[data-doc-preview="plan"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_business_plan_20261031.pdf#'), 'PDF tab restored');
       const assets = [
         { path: '/favicon.svg', kind: 'svg', minBytes: 200 },
         { path: '/downloads/mosigo_business_plan_20261031.pdf', kind: 'pdf', minBytes: 1000 },
         { path: '/downloads/mosigo_report_preview.pdf', kind: 'pdf', minBytes: 1000 },
+        { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf', kind: 'pdf', minBytes: 1000 },
         { path: '/downloads/mosigo_model.xlsx', kind: 'zip', minBytes: 200 },
         { path: '/downloads/mosigo_report.pptx', kind: 'zip', minBytes: 200 },
+        { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pptx', kind: 'zip', minBytes: 200 },
       ];
       for (const { path, kind, minBytes } of assets) {
         if (path.startsWith('/downloads/') && !path.endsWith('/mosigo_report_preview.pdf')) {
