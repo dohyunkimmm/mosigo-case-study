@@ -13,7 +13,9 @@ try{
   page.on('pageerror',error=>failures.push(error.message));
   const response=await page.goto(base,{waitUntil:'load',timeout:45000});
   assert.equal(response.status(),200);
-  assert.equal(await page.locator('.v3-phase-link').count(),3,'three-phase navigation');
+  assert.equal(await page.locator('.v3-phase-link').count(),0,'duplicate phase shortcuts removed');
+  assert.equal(await page.locator('.nav-link').count(),9,'primary contents navigation retained');
+  assert.equal(await page.locator('.hero-actions').count(),0,'repeated hero jump links removed');
   assert.equal(await page.locator('.v3-hero-metric').count(),3,'hero metrics');
   assert.equal(await page.locator('.v3-product-card').count(),3,'three verified concept wireframes');
   assert.match(await page.locator('.v3-product-intro').textContent(),/검증\s*전\s*설계\s*시안/,'concepts are labeled as unvalidated');
@@ -48,7 +50,7 @@ try{
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),true,'full-screen dialog opens');
   await page.locator('#v3-full-close').click();
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),false,'dialog closes');
-  assert.ok(await page.locator('#v3-page-share').isVisible());
+  assert.equal(await page.locator('#v3-page-share').count(),0,'extra page-share button removed');
   const end=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
   assert.ok(end.x<=end.w+1,width+'px no horizontal overflow after interactions');
   assert.deepEqual(failures,[],width+'px no page JS errors');
