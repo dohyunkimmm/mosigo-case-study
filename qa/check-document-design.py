@@ -134,8 +134,8 @@ with ZipFile(PPTX) as z:
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
     assert '기존 사업자 제휴 모델 우선 검토 · 고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in first, 'Slide 1 decision not synchronized'
     assert '기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 199건(가정) / 손익분기점 1,082건' in last, 'Slide 11 quantified recommendation missing'
-    assert '투자 검토 · 제휴 모델 우선, 고객 수요·비용·공급 계약 검증 후 단계별 투자 집행 판단' in last, 'Slide 11 investment gate missing'
-    assert '추가 집행 조건 · 안전·권한 검수 및 반복 수요 확인, 기회비용 반영 손익 구조 개선' in last, 'Slide 11 further funding condition missing'
+    assert '제휴 모델 우선 · 수요·공급 계약·비용 확인 후 투자 판단' in last, 'Slide 11 investment gate missing'
+    assert '확대 조건 · 안전·권한, 반복 수요, 기회비용 반영 손익 개선' in last, 'Slide 11 further funding condition missing'
 print('PASS PPT cover and decision wording synchronized with case study')
 
 print('PASS PPTX',len(slides),'editable slides',east_asian,'consistent text runs')
