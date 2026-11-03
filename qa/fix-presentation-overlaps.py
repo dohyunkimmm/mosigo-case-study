@@ -81,7 +81,7 @@ slide=prs.slides[7]
 bar_count=0
 label_count=0
 for sh in slide.shapes:
-    if 5.19 < sh.top/Inches(1) < 5.60:
+    if 5.00 < sh.top/Inches(1) < 5.60:
         if sh.has_text_frame and "초기 공급" in sh.text and "손익분기점" in sh.text:
             sh.top=Inches(5.35);sh.height=Inches(.22)
             label_count+=1
