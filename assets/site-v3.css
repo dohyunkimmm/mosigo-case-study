@@ -1,12 +1,22 @@
 
 /* MOSIGO v3 enhancements: no changes to the verified report data. */
-/* All three document tabs share the same desktop PDF preview window.
-   Preserve each document's own page proportions inside the viewer. */
+/* Consistent document preview: a decoded page image, not browser-dependent PDF iframe chrome.
+   The original PDF remains available through Open and Save actions, including with JS disabled. */
 @media(min-width:801px){
- .quick-documents .document-preview-frame{
-  height:min(78vh,640px);
-  min-height:565px;
+ html.v3-active .quick-documents .document-preview-frame{display:none}
+ html.v3-active .mobile-document-viewer{display:block;width:100%}
+ html.v3-active .mobile-page-open{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:min(78vh,640px);min-height:565px;
+  border:1px solid #d6e5da;border-radius:10px;background:white;overflow:hidden
  }
+ html.v3-active .mobile-page-image{display:block;width:100%;height:100%;object-fit:contain;aspect-ratio:auto}
+ html.v3-active .mobile-page-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:11px 0 0}
+ html.v3-active .mobile-page-controls button{min-width:72px;min-height:44px;padding:8px 13px;border:1px solid #b8ccbd;border-radius:10px;background:white;color:#174f35;font:inherit;font-weight:750;font-size:14px;cursor:pointer}
+ html.v3-active .mobile-page-controls button:disabled{opacity:.42;cursor:default}
+ html.v3-active .mobile-page-controls button:not(:disabled):hover{border-color:#377a5c;background:#eef6ed}
+ html.v3-active .mobile-page-controls button:focus-visible,
+ html.v3-active .mobile-page-open:focus-visible{outline:3px solid #267248;outline-offset:3px}
 }
 
 html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-doc-thumbs,html:not(.v3-active) .v3-scenarios,html:not(.v3-active) .v3-share-shortcut{display:none!important}
