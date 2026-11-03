@@ -39,6 +39,14 @@
 3. **잔여 PR 브랜치 `docs/free-private-repo-qa-exception-20261101`**: PR #18의 작업 브랜치다. PR이 열려 있는 동안 삭제하지 않는다.
 4. **기존 브랜치 정리 기록**: [2026-10-31 보존·정리 문서](branch-retirement-20261031.md)는 14개 아카이브 태그 보존 및 당시 `main` 단일 브랜치 상태를 기록한다. 이는 당시 스냅샷으로, 2026-11-03 현재 브랜치 개수가 1개라는 뜻이 아니다.
 
+## 후속 반영 경위 (2026-11-03)
+
+- [PR #19](https://github.com/dohyunkimmm/mosigo-case-study/pull/19)의 README 파일·폴더 색인 및 본 점검 기록은 `d7b71904fd08da00e07a213db286d9f5bcfc67e9`로 `main`에 병합됐다.
+- 원본 [PR #18](https://github.com/dohyunkimmm/mosigo-case-study/pull/18)은 이전 브랜치의 `Site QA / browser-and-lighthouse`에서 실패했다([run 41292993495](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/41292993495)). 따라서 이전 브랜치의 전체 변경·문서 상태를 그대로 병합하지 않는다.
+- PR #18에 남았던 운영 안내 6줄은 **현재 `main` 기반의 새 작업에서 README에 다시 반영**했다. 해당 새 PR의 QA 성공·병합 여부와 기존 PR #18의 종료 상태는 GitHub PR 기록을 기준으로 확인한다.
+- `main` 브랜치의 보호 설정은 GitHub API에서 `protected=false`로 확인했다. 무료·비공개 제약에 대한 실행 절차는 별도 운영 지침이며 GitHub의 서버 측 푸시 차단을 의미하지 않는다.
+- 과거 QA·정리 브랜치는 참조가 남아 있더라도 **현재 `main`에 필요한 내용이 누락됐다는 증거가 아니다**. 보존 태그/HEAD 확인 없이 삭제하거나 다시 병합하지 않는다.
+
 ## 이번 정리의 경계
 
 - README에 **메인 페이지, 파일·폴더, 다운로드 원본/게시본**을 빠르게 찾을 수 있는 색인을 추가했다.
