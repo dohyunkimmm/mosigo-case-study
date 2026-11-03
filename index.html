@@ -704,8 +704,11 @@ let currentDocument='plan',currentDocumentPage=1;
 function renderMobileDocumentPage(){
  const doc=docConfigs[currentDocument],number=String(currentDocumentPage).padStart(2,'0');
  const path='/downloads/previews/'+doc.images+'-'+number+'-sm.webp';
+ const fullPath=path.replace('-sm.webp','.webp');
+ docImage.srcset=path+' 800w, '+fullPath+' 1400w';
+ docImage.sizes='(max-width:800px) 100vw, 1000px';
  if(docImage.getAttribute('src')!==path)docImage.src=path;docImage.alt=doc.label+' '+currentDocumentPage+doc.unit+' 미리보기';
- docImageLink.href=path.replace("-sm.webp",".webp");
+ docImageLink.href=fullPath;
  docPageCount.textContent=currentDocumentPage+' / '+doc.pages+doc.unit;
   docPageCount.setAttribute('aria-label','현재 '+currentDocumentPage+doc.unit+', 전체 '+doc.pages+doc.unit);
  docPrev.disabled=currentDocumentPage<=1;docNext.disabled=currentDocumentPage>=doc.pages;
