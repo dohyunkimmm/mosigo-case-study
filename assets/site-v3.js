@@ -9,7 +9,7 @@ const base = {users:15000,freq:1.5,price:40000,cost:30000,rate:20};
 const presets = [
   {key:"conservative",label:"보수",users:8000,freq:1,price:35000,cost:30000,rate:20},
   {key:"base",label:"기준",...base},
-  {key:"growth",label:"개선 가정",users:20000,freq:2,price:45000,cost:30000,rate:20}
+  {key:"growth",label:"개선 시나리오",users:20000,freq:2,price:45000,cost:30000,rate:20}
 ];
 const state = () => Object.fromEntries(values.map(id=>[id,Number(document.getElementById(id).value)]));
 const annualContribution = p => p.users*p.freq*(p.price-p.cost);
@@ -60,7 +60,7 @@ function renderScenario(){
    button.setAttribute("aria-pressed",String(!!p && values.every(id=>p[id]===current[id])));
  }
  const subtitle=$("#v3-scenario-live");
- if(subtitle)subtitle.textContent="내 입력: 연간 "+new Intl.NumberFormat("ko-KR").format(current.users*current.freq)+"건 가정 · 고정비 차감 전 "+formatHundredMillion(annualContribution(current));
+ if(subtitle)subtitle.textContent="내 입력: 연간 "+new Intl.NumberFormat("ko-KR").format(current.users*current.freq)+"건 예상 · 고정비 차감 전 "+formatHundredMillion(annualContribution(current));
 }
 async function copyUrl(button,source){
  const text=location.href;
@@ -69,7 +69,7 @@ async function copyUrl(button,source){
    else if(navigator.share){await navigator.share({title:document.title,url:text});return;}
    else {button.textContent="주소창의 링크를 복사해 주세요";return;}
    button.textContent="링크 복사 완료";
-   const message=$("#v3-scenario-copy-status");if(message)message.textContent="현재 가정이 포함된 링크를 복사했습니다.";
+   const message=$("#v3-scenario-copy-status");if(message)message.textContent="현재 입력 조건이 포함된 링크를 복사했습니다.";
  }catch(err){
    if(err?.name==="AbortError")return;
    button.textContent="복사 불가 · 주소창에서 복사";
