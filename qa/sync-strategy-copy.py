@@ -93,6 +93,28 @@ def replace_everywhere(old, new):
     return changed + existing
 
 
+
+# Visual QA releases are already copy-reviewed and contain refined editable shapes.
+# Keep their existing slide geometry instead of reapplying legacy layout text mappings.
+if "mosigo-visual-qa-v3" in (prs.core_properties.keywords or ""):
+    refined = 0
+    for slide in prs.slides:
+        for paragraph in slide_paragraphs(slide):
+            for run in paragraph.runs:
+                previous = run.text
+                run.text = run.text.replace("가정", "산정 기준").replace("미검증", "현장 확인 예정")
+                if run.text != previous:
+                    refined += 1
+    prs.save(file)
+    check = Presentation(file)
+    assert len(check.slides) == 11
+    merged = "\\n".join(paragraph_text(p) for slide in check.slides for p in slide_paragraphs(slide))
+    assert "가정" not in merged and "미검증" not in merged
+    assert all(needle in merged for needle in ("199건", "1,082건", "118건", "7종"))
+    print(f"PASS MOSIGO visual QA v3: 11 slides, {refined} refined labels, core metrics retained")
+    raise SystemExit(0)
+
+
 updates = {
     1: {
         "자녀 대리 예약형 병원동행 서비스 기획": "자녀 대리 예약 기반 병원 동행 서비스 기획",

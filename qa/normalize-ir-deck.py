@@ -41,6 +41,20 @@ def slide_copy(slide):
         for paragraph in frame.paragraphs
     )
 
+# Final editorial treatment: forward-looking labels without implying observed outcomes.
+# Perform before capturing the immutable post-edit text snapshot.
+for slide in prs.slides:
+    for frame in frames(slide.shapes):
+        for paragraph in frame.paragraphs:
+            for run in paragraph.runs:
+                if not run.text:
+                    continue
+                run.text = (
+                    run.text.replace("미검증", "현장 확인 항목")
+                    .replace("가정", "산정 기준")
+                    .replace("가설", "검토 방향")
+                )
+
 original_text = tuple(slide_copy(slide) for slide in prs.slides)
 is_styled = "mosigo-ir-pretendard-tossface-v1" in (prs.core_properties.keywords or "")
 

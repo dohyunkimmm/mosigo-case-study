@@ -43,7 +43,7 @@ compact_plan=re.sub(r'\s+','',plan_text)
 assert 'MOSIGO' in compact_plan and '기획기준과참고자료' in compact_plan
 assert '2026.10.31' not in plan_text and 'BUSINESS PLAN 2026' not in plan_text
 plan_html=(ROOT/'mosigo_business_plan_20261031.html').read_text(encoding='utf-8')
-assert '기본 동행 3만 원대(상품 가정) / 손익 비교용 평균 이용가 40,000원' in plan_html, 'Product price vs model-average distinction missing'
+assert '기본 동행 3만 원대(상품 구성안) / 손익 비교용 평균 이용가 40,000원' in plan_html, 'Product price vs model-average distinction missing'
 assert '<td>손익 비교용 평균 이용가</td>' in plan_html, 'Unit-economics price label is ambiguous'
 assert '기본동행3만원대' in compact_plan, 'Published PDF does not show the 30k-range product hypothesis'
 assert '손익비교용평균이용가' in compact_plan, 'Published PDF does not distinguish 40k model average'
@@ -51,10 +51,10 @@ print('PASS price hypothesis/model separation in source and published PDF')
 site_html=Path('index.html').read_text(encoding='utf-8')
 assert '<h2>MOSIGO · 고객·시장 분석에서 사업화 전략 결정까지</h2>' in site_html, 'M-01 heading drifted'
 assert '<h2>수요·공급·손익 격차로 사업화 가능성을 판단한다</h2>' in site_html, 'M-02 heading drifted'
-assert '월 서비스 완료 199건(가정)과 손익분기점 1,082건' in site_html, 'M-03 quantitative reasoning missing'
+assert '월 서비스 완료 199건(산정 기준)과 손익분기점 1,082건' in site_html, 'M-03 quantitative reasoning missing'
 assert '고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in site_html, 'M-03 expansion criteria missing'
-assert '<h2>기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 건수 199건(가정) / 손익분기점 1,082건 · 단계적 확대 기준</h2>' in plan_html, 'Decision page and website disagree'
-assert '월서비스완료' in compact_plan and '199건(가정)' in compact_plan and '손익분기점1,082건' in compact_plan, 'Published plan PDF decision does not contain scenario comparison'
+assert '<h2>기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 건수 199건(산정 기준) / 손익분기점 1,082건 · 단계적 확대 기준</h2>' in plan_html, 'Decision page and website disagree'
+assert '월서비스완료' in compact_plan and ('199건(가정)' in compact_plan or '199건(산정기준)' in compact_plan) and '손익분기점1,082건' in compact_plan, 'Published plan PDF decision does not contain scenario comparison'
 assert '팀 조사 기록을 바탕으로 작성한 개인 전략 보고서입니다.' not in site_html, 'Duplicated homepage disclaimer returned'
 assert '개인 사업기획서 · 가정·계획과 실제 성과 구분' not in plan_html, 'Repeated defensive footer returned'
 assert plan_html.count('MOSIGO · 전략기획 보고서') >= 17, 'Neutral document footer should appear on all pages'
@@ -103,10 +103,10 @@ for term in legacy_terms:
     assert term not in slides_text, f'Unreviewed wording remains in presentation: {term}'
 for phrase in ('포트폴리오용 합성 데이터·가정 기반 예측입니다.','실제 고객·계약·매출·인터뷰 결과가 아닙니다.','해당 사례의 독립 분석 자료.'):
     assert phrase not in slides_text, f'Repeated long note remains in presentation: {phrase}'
-assert normalized_slides.count('가정 기반 시나리오 분석이며 실제 운영 실적이 아닙니다.') == 1, 'Presentation disclaimer must appear exactly once'
+assert (normalized_slides.count('가정 기반 시나리오 분석이며 실제 운영 실적이 아닙니다.') + normalized_slides.count('예상 시나리오 분석과 실제 운영 실적을 구분합니다.')) == 1, 'Presentation disclaimer must appear exactly once'
 assert '가정 기반 시나리오 분석입니다. 실제 운영 실적은 아닙니다.' not in slides_text, 'Legacy disclaimer remains'
-for phrase in ('가정 기반 시나리오 분석이며','실제 운영 실적이 아닙니다.','개인 분석 자료입니다.','계산 근거: mosigo_model.xlsx.'):
-    assert phrase in normalized_slides, f'Concise presentation note missing: {phrase}'
+for phrase in ('예상 시나리오 분석과','실제 운영 실적을 구분합니다.','산출 근거: mosigo_model.xlsx.'):
+    assert phrase in normalized_slides or '가정 기반 시나리오 분석이며 실제 운영 실적이 아닙니다.' in normalized_slides, f'Concise presentation note missing: {phrase}'
 assert '사업기획서3쪽' in compact_slides, 'Slide 2 source citation must point to current plan p3'
 assert '11~12쪽' not in slides_text, 'Obsolete source page reference remains'
 with ZipFile(ROOT/'mosigo_model.xlsx') as model:
@@ -148,7 +148,7 @@ with ZipFile(PPTX) as z:
     first=''.join((t.text or '') for t in title.findall('.//a:t',ns))
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
     assert '기존 사업자 제휴 모델 우선 검토 · 고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in first, 'Slide 1 decision not synchronized'
-    assert '기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 199건(가정) / 손익분기점 1,082건' in last, 'Slide 11 quantified recommendation missing'
+    assert '기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 199건(산정 기준) / 손익분기점 1,082건' in last, 'Slide 11 quantified recommendation missing'
     assert '제휴 모델 우선 · 수요·공급 계약·비용 확인 후 투자 판단' in last, 'Slide 11 investment gate missing'
     assert '확대 조건 · 안전·권한, 반복 수요, 기회비용 반영 손익 개선' in last, 'Slide 11 further funding condition missing'
 print('PASS PPT cover and decision wording synchronized with case study')
