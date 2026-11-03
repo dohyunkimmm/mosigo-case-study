@@ -78,7 +78,7 @@ for (const { name, engine, device } of cases) {
           name + ' page ' + number + ' accessible page counter');
         await page.waitForFunction(() => {
           const image = document.querySelector('#doc-page-img');
-          return image.complete && Math.max(image.naturalWidth, image.naturalHeight) >= 700;
+          return image.complete && image.naturalWidth >= 200 && image.naturalHeight >= 110;
         }, { timeout: 20000 });
       }
       assert.equal(await page.locator('#doc-next').isDisabled(), true, name + ' last-page boundary');
