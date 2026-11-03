@@ -48,12 +48,28 @@ try {
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
     // Regression: switching between plan, presentation and IR must never resize the preview box.
     if (width === 390 || width === 1024 || width === 1440) {
-      const previewSelector = width <= 800 ? '#doc-page-open' : '#doc-frame';
+      const previewSelector = '#doc-page-open';
       const boxes = [];
       for (const tab of ['plan', 'presentation', 'ir']) {
         await page.locator('[data-doc-preview="' + tab + '"]').click();
+        const img = page.locator('#doc-page-img');
+        const prefix = tab === 'plan' ? 'plan' : tab === 'presentation' ? 'slides' : 'ir';
+        await img.evaluate(element => element.decode());
+        assert.ok((await img.getAttribute('src')).endsWith(prefix + '-01-sm.webp'), width + 'px ' + tab + ' preview source');
+        const rendered = await img.evaluate(element => ({ready:element.complete,w:element.naturalWidth,h:element.naturalHeight}));
+        assert.ok(rendered.ready && rendered.w >= 700 && rendered.h >= 300, width + 'px ' + tab + ' actual preview image loaded');
+        await page.waitForFunction(({ prefix }) => {
+          const fullscreen = document.querySelector('#v3-fullscreen-img');
+          const firstThumb = document.querySelector('#v3-doc-thumbs img');
+          return fullscreen?.getAttribute('src')?.endsWith(prefix + '-01.webp') &&
+                 firstThumb?.getAttribute('src')?.endsWith(prefix + '-01-sm.webp');
+        }, { prefix });
         const rect = await page.locator(previewSelector).boundingBox();
         assert.ok(rect && rect.width > 200 && rect.height > 120, width + 'px ' + tab + ' preview renders');
+        if (width === 1440) {
+          const screenshot = await page.locator(previewSelector).screenshot({path:'qa-artifacts/'+reportPrefix+'preview-'+tab+'-1440.png'});
+          assert.ok(screenshot.length > 10000, width + 'px ' + tab + ' preview has visible page content');
+        }
         boxes.push({ tab, width: rect.width, height: rect.height });
       }
       for (const rect of boxes.slice(1)) {
@@ -130,8 +146,8 @@ try {
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.23억 원', 'rounding');
       await page.locator('#reset').click();
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.00억 원', 'reset');
-      assert.equal(await page.locator('#doc-frame').isVisible(), true, 'desktop PDF viewer visible');
-      assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), false, 'mobile image viewer hidden on desktop');
+      assert.equal(await page.locator('#doc-frame').isVisible(), false, 'browser-native PDF iframe hidden on desktop');
+      assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), true, 'same decoded page preview used on desktop');
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_business_plan_20261031.pdf#'), 'PDF initial tab');
       await page.locator('[data-doc-preview="presentation"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_report_preview.pdf#'), 'PPT tab changes viewer');
