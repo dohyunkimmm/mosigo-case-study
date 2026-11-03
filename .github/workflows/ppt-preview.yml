@@ -7,6 +7,7 @@ on:
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
       - 'qa/sync-strategy-copy.py'
+      - 'qa/fix-presentation-overlaps.py'
       - 'downloads/mosigo_model.xlsx'
       - '.github/workflows/ppt-preview.yml'
   workflow_dispatch:
@@ -43,6 +44,8 @@ jobs:
           /tmp/mosigo-ppt-venv/bin/python qa/style-presentation.py
       - name: Synchronize editable strategic decisions with quantified gap
         run: /tmp/mosigo-ppt-venv/bin/python qa/sync-strategy-copy.py
+      - name: Repair slide table overlaps and Korean copy
+        run: /tmp/mosigo-ppt-venv/bin/python qa/fix-presentation-overlaps.py
       - name: Convert existing presentation for inline viewing
         run: |
           set -euo pipefail
