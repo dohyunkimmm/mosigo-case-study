@@ -86,9 +86,10 @@ for sh in slide.shapes:
             sh.top=Inches(5.35);sh.height=Inches(.22)
             label_count+=1
         elif (not sh.has_text_frame or not sh.text.strip()) and not sh.has_table and sh.height/Inches(1)<.24 and sh.width/Inches(1)>1:
-            sh.top=Inches(5.62)
+            sh.top=Inches(5.59)
             bar_count+=1
 assert bar_count>=2 and label_count>=1, f"Slide 8 progress data missing ({bar_count} bars, {label_count} labels)"
+assert Inches(5.59+.18) < Inches(5.79), "Progress bar touches summary band"
 
 # Explicit Korean sentence repair; never change numerals or scenario provenance.
 assert paragraph_replace(prs.slides[3],"우선 검토 방향로 검증","우선안으로 검토")>=1, "Slide 4 awkward phrase not found"
