@@ -99,7 +99,7 @@ try {
     assert.match(await page.locator('#market .chapter-content').textContent(), /15,000명.*1\.5회.*40,000원.*9억 원/, width + 'px market scenario arithmetic retained');
     assert.match(await page.locator('#customer .chapter-content h3.subhead').textContent(), /고객 이용 과업/, width + 'px duplicate customer hypothesis wording removed');
     const decisionSummary = await page.locator('#decision .skim-verdict').textContent();
-    assert.ok(decisionSummary.includes('월 서비스 완료 199건(가정)'), width + 'px scenario label retained');
+    assert.ok(decisionSummary.includes('월 서비스 완료 199건(산정 기준)'), width + 'px scenario label retained');
     assert.ok(decisionSummary.includes('손익분기점 1,082건'), width + 'px break-even count retained');
     assert.ok(decisionSummary.includes('확대 여부 판단'), width + 'px decision described by action criteria');
 
