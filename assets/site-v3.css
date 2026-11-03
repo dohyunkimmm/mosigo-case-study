@@ -106,3 +106,58 @@ html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-doc-thumbs,html:
 @media(max-width:560px){.v3-hero-summary{font-size:30px}.v3-hero-metrics{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:22px}.v3-hero-metric{padding:11px 9px;border-radius:10px}.v3-hero-metric strong{font-size:clamp(19px,5.5vw,25px)}.v3-hero-metric small{font-size:10px;line-height:1.45}.v3-phase-link span{font-size:11px}.v3-phase-link small{font-size:10px}.v3-product-card{display:block}.v3-card-explain{border:0;border-top:1px solid #e6eee6}.v3-screen{min-height:190px}.v3-chart{gap:6px}.v3-bar-col b{font-size:10px}.v3-bar-col small{font-size:10px}.v3-scenario-foot{align-items:stretch}.v3-doc-thumbs button{flex-basis:73px}}
 @media(prefers-reduced-motion:reduce){.v3-phase-link,.v3-product-card,.v3-bar-col .v3-bar{transition:none}}
 @media print{.v3-share-shortcut,.v3-preview-tools,.v3-doc-thumbs,.v3-scenario-picks,.v3-share-scenario,.v3-fullscreen{display:none!important}.v3-product-screens{grid-template-columns:repeat(3,1fr)}}
+
+
+/* Visual QA 2026-11-03: improve long-form reading, document controls and small-screen hierarchy. */
+:root{--vqa-deep:#103d31;--vqa-accent:#d5ec8c;--vqa-focus:#236b4b}
+.v3-hero-metric small{font-size:13px;line-height:1.55;color:#e1eee4}
+.v3-hero-metric strong{font-variant-numeric:tabular-nums}
+.v3-evidence-key{font-size:13px;line-height:1.55;gap:12px 18px}
+.v3-scenario-foot,.v3-scenarios .v3-sub,.v3-microcopy,.v3-concept-label{font-size:13px;line-height:1.55}
+.v3-card-explain p,.v3-product-intro p{font-size:14px;line-height:1.7}
+.v3-profile small,.v3-statusline small,.v3-ui-input small{font-size:12px}
+.v3-doc-thumbs button{font-size:12px;min-height:65px}
+.v3-doc-thumbs button[aria-current="page"]{box-shadow:0 0 0 2px #e4efe6 inset}
+.v3-preview-tools .v3-view-full{font-size:14px;min-height:44px}
+.v3-fullscreen-header{font-size:15px}
+.v3-share-shortcut{font-size:13px;min-height:44px}
+.v3-phase-link span{font-size:15px}
+.v3-phase-link small{font-size:13px}
+.v3-hero-actions .btn{font-size:15px;min-height:46px}
+.doc-tab{font-size:15px;font-weight:800;min-height:48px}
+.doc-tab small{font-size:13px}
+.doc-tab.active{box-shadow:inset 0 -3px 0 var(--vqa-accent)}
+.doc-links .btn,.doc-open{font-size:14px;min-height:44px}
+.quick-documents .mobile-page-controls button{font-size:15px}
+.chapter-detail>summary{font-weight:780}
+.panel,.callout,.quick-documents{scroll-margin-top:70px}
+.tbl tbody tr:nth-child(even){background:#f4f8f3}
+.tbl tbody th{color:#173e30}
+:where(.doc-tab,.v3-view-full,.v3-doc-thumbs button,.v3-phase-link,.v3-share-scenario):focus-visible{outline:3px solid var(--vqa-focus);outline-offset:3px}
+@media (max-width:800px){
+ .v3-phase-link{min-height:58px}
+ .v3-phase-link span{font-size:13px}
+ .v3-phase-link small{font-size:12px}
+ .v3-preview-tools{gap:8px}
+ .v3-doc-thumbs button{flex-basis:86px}
+ .v3-fullscreen img{max-height:calc(95dvh - 120px)}
+}
+@media (max-width:560px){
+ .v3-hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .v3-hero-metric{padding:13px 14px}
+ .v3-hero-metric:last-child{grid-column:1/-1}
+ .v3-hero-metric small{font-size:12px;line-height:1.5}
+ .v3-hero-metric strong{font-size:clamp(23px,6vw,30px)}
+ .doc-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .doc-tab{font-size:14px;min-height:50px;padding:9px 12px}
+ .doc-tab small{font-size:12px}
+ .doc-tab:last-child{grid-column:1/-1}
+ .v3-hero-overline{font-size:12px;letter-spacing:.045em}
+ .v3-evidence-key{font-size:13px}
+ .chapter-detail>summary{font-size:15px}
+ .v3-product-card .v3-screen-title{font-size:16px}
+ .v3-card-explain h4{font-size:15px}
+ .v3-phase-link span{font-size:12px}
+ .v3-phase-link small{font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){.doc-tab,.v3-hero-metric,.v3-doc-thumbs button{transition:none!important}}
