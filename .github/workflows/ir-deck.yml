@@ -8,6 +8,14 @@ on:
       - 'qa/apply-concise-ir-copy.py'
       - 'qa/concise-ir-copy.json'
       - '.github/workflows/ir-deck.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/ir-deck-source/**'
+      - 'qa/normalize-ir-deck.py'
+      - 'qa/apply-concise-ir-copy.py'
+      - 'qa/concise-ir-copy.json'
+      - '.github/workflows/ir-deck.yml'
   workflow_dispatch:
 
 permissions:
@@ -77,6 +85,7 @@ jobs:
           done
           test "$(find downloads/previews -maxdepth 1 -name 'ir-*.webp' | wc -l)" -eq 24
       - name: Publish IR presentation and previews
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
