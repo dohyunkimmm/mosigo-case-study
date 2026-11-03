@@ -1,9 +1,9 @@
 
 /* MOSIGO v3 enhancements: no changes to the verified report data. */
-/* Show more of the business plan cover vertically inside the PDF preview.
-   Keep the cover artwork, document panel width and presentation viewer unchanged. */
+/* All three document tabs share the same desktop PDF preview window.
+   Preserve each document's own page proportions inside the viewer. */
 @media(min-width:801px){
- .quick-documents:has(.doc-tab[data-doc-preview="plan"].active) .document-preview-frame{
+ .quick-documents .document-preview-frame{
   height:min(78vh,640px);
   min-height:565px;
  }
