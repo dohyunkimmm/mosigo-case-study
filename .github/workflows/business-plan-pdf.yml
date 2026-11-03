@@ -7,6 +7,12 @@ on:
       - 'downloads/mosigo_business_plan_20261031.html'
       - 'qa/generate-business-plan.mjs'
       - '.github/workflows/business-plan-pdf.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'downloads/mosigo_business_plan_20261031.html'
+      - 'qa/generate-business-plan.mjs'
+      - '.github/workflows/business-plan-pdf.yml'
   workflow_dispatch:
 
 permissions:
@@ -70,6 +76,7 @@ jobs:
           done
           test "$(find downloads/previews -maxdepth 1 -name 'plan-*.webp' | wc -l)" -eq 34
       - name: Publish regenerated PDF
+        if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
