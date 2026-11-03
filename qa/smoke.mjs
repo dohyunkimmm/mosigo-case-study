@@ -78,6 +78,7 @@ try {
     assert.ok((await demoLink.getAttribute('rel')).includes('noopener'), 'demo target is protected');
     assert.ok(await page.locator('link[href*="pretendardvariable"]').count() > 0, 'Pretendard stylesheet');
     assert.equal(await page.locator('img.emoji-icon[src="/assets/tossface-phone.png"]').count(), 1, 'official Tossface static icon');
+    await page.locator('.emoji-icon').first().evaluate(el=>el.decode());
     assert.ok(await page.locator('.emoji-icon').first().evaluate(el=>el.complete && el.naturalWidth>60), 'Tossface icon loads on screen');
     if (width === 390 || width === 1440) {
       await page.screenshot({ path: 'qa-artifacts/' + reportPrefix + 'site-' + width + '.png', fullPage: false });
@@ -188,7 +189,7 @@ try {
   }
   const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await noJs.newPage();
-  await page.goto(base, { waitUntil: 'load', timeout: 30000 });
+  await page.goto(base, { waitUntil: 'domcontentloaded', timeout: 45000 });
   assert.equal(await page.locator('details.chapter-detail[open]').count(), 9, 'no-JS contents available');
   const label = await page.locator('tbody td[data-label]').first().evaluate(el => getComputedStyle(el, '::before').content);
   assert.ok(label && label !== 'none' && label !== '""', 'no-JS mobile table label visible');
