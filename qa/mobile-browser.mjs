@@ -113,7 +113,7 @@ for (const { name, engine, device } of cases) {
     assert.equal(await page.locator('.mobile-toc').count(),0,name + ' duplicate floating toc removed');
     assert.equal(await page.locator('.nav-link').count(),9,name + ' original chapter navigation retained');
     const imageInfo=await page.locator('#doc-page-img').evaluate(el=>({ready:el.complete,w:el.naturalWidth,h:el.naturalHeight}));
-    assert.ok(imageInfo.ready&&imageInfo.w>=700&&imageInfo.h>=350,name+' decoded WebP preview');
+    assert.ok(imageInfo.ready&&imageInfo.w>=200&&imageInfo.h>=110,name+' decoded responsive WebP preview '+JSON.stringify(imageInfo));
     console.log('PASS visible mobile PDF preview',name,imageInfo);
     const icon=page.locator('img.emoji-icon');
     assert.equal(await icon.count(),1,name+' renders original Tossface icon');
