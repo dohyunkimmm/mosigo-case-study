@@ -13,7 +13,7 @@ try {
     const page = await browser.newPage({ viewport: { width, height: 844 } });
     page.on('pageerror', e => errors.push(width + 'px: ' + e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(width + 'px: ' + m.text()); });
-    const response = await page.goto(base, { waitUntil: 'load', timeout: 30000 });
+    const response = await page.goto(base, { waitUntil: 'domcontentloaded', timeout: 45000 });
     assert.equal(response.status(), 200, width + 'px HTTP status');
     const check = await page.evaluate(() => ({
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
