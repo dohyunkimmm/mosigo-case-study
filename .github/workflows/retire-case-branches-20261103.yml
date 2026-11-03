@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: read
 
 jobs:
   archive-retire:
@@ -28,13 +29,14 @@ jobs:
         run: |
           set -euo pipefail
           [[ "$GH_REPO" == "dohyunkimmm/mosigo-case-study" ]]
-          source_branch="chore/archive-retire-leftover-branches-20261103"
+          source_branch="chore/fix-retirement-pr-permissions-20261103"
 
           entries="$(cat <<'BRANCHES'
           chore/qa-static-route-coverage-20261101|904fab65ce2d1c0fff0e4732b2b0f48d11075ce2
           chore/repository-index-audit-20261103|2eee63cb046bcf0ad0046d9fb4f67c2f1320bafe
           docs/free-private-repo-qa-exception-20261101|1643f475a8ec7899568bd7e6d7fcf50a4fc5566b
           docs/main-protection-exception-refresh-20261103|ab954d4866fcfee26cab5b86da3fd26878d08553
+          chore/archive-retire-leftover-branches-20261103|1d956b5d56d6a96506280b346946f2850704ea94
           BRANCHES
           )"
 
