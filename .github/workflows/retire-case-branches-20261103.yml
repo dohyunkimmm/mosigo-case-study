@@ -1,0 +1,104 @@
+name: Archive and retire remaining MOSIGO branches (one time)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/retire-case-branches-20261103.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  archive-retire:
+    if: github.repository == 'dohyunkimmm/mosigo-case-study' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          persist-credentials: true
+
+      - name: Verify unchanged heads, create recovery tags, remove only audited branch refs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          [[ "$GH_REPO" == "dohyunkimmm/mosigo-case-study" ]]
+          source_branch="chore/archive-retire-leftover-branches-20261103"
+
+          entries="$(cat <<'BRANCHES'
+          chore/qa-static-route-coverage-20261101|904fab65ce2d1c0fff0e4732b2b0f48d11075ce2
+          chore/repository-index-audit-20261103|2eee63cb046bcf0ad0046d9fb4f67c2f1320bafe
+          docs/free-private-repo-qa-exception-20261101|1643f475a8ec7899568bd7e6d7fcf50a4fc5566b
+          docs/main-protection-exception-refresh-20261103|ab954d4866fcfee26cab5b86da3fd26878d08553
+          BRANCHES
+          )"
+
+          # The source branch has no fixed SHA in this workflow because writing
+          # that SHA into the workflow would change the SHA recursively.
+          merged_source="$(gh api "repos/$GH_REPO/pulls?state=closed&per_page=100" | jq --arg b "$source_branch" '[.[] | select(.head.ref == $b and .base.ref == "main" and .merged_at != null)] | sort_by(.merged_at) | last')"
+          source_sha="$(jq -r '.head.sha // empty' <<< "$merged_source")"
+          [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Merged maintenance PR missing"; exit 1; }
+          entries="$entries"$'\n'"$source_branch|$source_sha"
+
+          # Abort if any other work was started while this cleanup was reviewed.
+          branch_list="$(gh api "repos/$GH_REPO/branches?per_page=100" | jq -r '.[].name' | sort)"
+          expected_list="$(printf '%s\n' main; cut -d'|' -f1 <<< "$entries")"
+          expected_list="$(sort <<< "$expected_list")"
+          [[ "$branch_list" == "$expected_list" ]] || { echo "::error::Branch set changed, refusing retirement"; echo "$branch_list"; exit 1; }
+
+          # Preflight ALL branches before creating tags or deleting anything.
+          while IFS='|' read -r b expected; do
+            [[ -z "$b" ]] && continue
+            current="$(gh api "repos/$GH_REPO/git/ref/heads/$b" --jq '.object.sha')"
+            [[ "$current" == "$expected" ]] || { echo "::error::Moved branch $b: $current"; exit 1; }
+            open_count="$(gh api "repos/$GH_REPO/pulls?state=open&per_page=100" | jq --arg b "$b" '[.[] | select(.head.ref == $b)] | length')"
+            [[ "$open_count" == "0" ]] || { echo "::error::Open PR for $b"; exit 1; }
+          done <<< "$entries"
+
+          # Preserve all five original branch heads as verified immutable tags first.
+          while IFS='|' read -r b expected; do
+            [[ -z "$b" ]] && continue
+            tag="archive/20261103/$b"
+            if existing="$(gh api "repos/$GH_REPO/git/ref/tags/$tag" --jq '.object.sha' 2>/dev/null)"; then
+              [[ "$existing" == "$expected" ]] || { echo "::error::Tag collision: $tag"; exit 1; }
+            else
+              gh api --method POST "repos/$GH_REPO/git/refs" -f ref="refs/tags/$tag" -f sha="$expected" >/dev/null
+            fi
+            archived="$(gh api "repos/$GH_REPO/git/ref/tags/$tag" --jq '.object.sha')"
+            [[ "$archived" == "$expected" ]] || { echo "::error::Archive verification failed: $tag"; exit 1; }
+            echo "Verified archive: $b -> $tag ($expected)"
+          done <<< "$entries"
+
+          # Delete only the audited refs whose HEADs still equal the verified tags.
+          while IFS='|' read -r b expected; do
+            [[ -z "$b" ]] && continue
+            current="$(gh api "repos/$GH_REPO/git/ref/heads/$b" --jq '.object.sha')"
+            tag_sha="$(gh api "repos/$GH_REPO/git/ref/tags/archive/20261103/$b" --jq '.object.sha')"
+            [[ "$current" == "$expected" && "$tag_sha" == "$expected" ]] || { echo "::error::Moved or unarchived $b"; exit 1; }
+            open_count="$(gh api "repos/$GH_REPO/pulls?state=open&per_page=100" | jq --arg b "$b" '[.[] | select(.head.ref == $b)] | length')"
+            [[ "$open_count" == "0" ]] || { echo "::error::New open PR for $b"; exit 1; }
+            gh api --method DELETE "repos/$GH_REPO/git/refs/heads/$b"
+            echo "- Archived \`$b\` as \`archive/20261103/$b\` (\`$expected\`); deleted branch ref" >> "$GITHUB_STEP_SUMMARY"
+          done <<< "$entries"
+
+          left="$(gh api "repos/$GH_REPO/branches?per_page=100" | jq -r '.[].name')"
+          [[ "$left" == "main" ]] || { echo "::error::Unexpected branches remain: $left"; exit 1; }
+          echo "Branch cleanup complete: only main remains."
+
+      - name: Remove this one-time workflow from main
+        shell: bash
+        run: |
+          set -euo pipefail
+          remote_main="$(git ls-remote origin refs/heads/main | cut -f1)"
+          [[ "$remote_main" == "$GITHUB_SHA" ]] || { echo "::error::Main moved; refuse automated self-removal"; exit 1; }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/retire-case-branches-20261103.yml
+          git commit -m 'chore: remove completed one-time branch retirement workflow'
+          git push origin HEAD:main
+          echo "Removed temporary workflow after verified branch retirement." >> "$GITHUB_STEP_SUMMARY"
