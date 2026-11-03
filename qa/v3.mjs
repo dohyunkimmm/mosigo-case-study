@@ -35,7 +35,7 @@ try{
   assert.equal(await page.locator('#price').inputValue(),'45000');
   assert.equal((await page.locator('#margin').textContent()).trim(),'6.00억 원');
   assert.equal(await page.locator('[data-v3-scenario="growth"]').getAttribute('aria-pressed'),'true');
-  await page.reload({waitUntil:'load'});
+  await page.reload({waitUntil:'domcontentloaded'});
   assert.equal(await page.locator('#users').inputValue(),'20000','shared URL restores slider state');
   await page.locator('#business .chapter-detail summary').click();
   await page.locator('#reset').click();
