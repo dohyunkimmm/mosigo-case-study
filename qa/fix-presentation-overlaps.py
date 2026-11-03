@@ -46,7 +46,7 @@ def move_band(slide, page_number):
     for sh in slide.shapes:
         y=sh.top/Inches(1)
         width=sh.width/Inches(1)
-        if 5.75 < y < 5.91 and width>10 and not sh.has_text_frame and not sh.has_table:
+        if 5.75 < y < 5.91 and width>10 and (not sh.has_text_frame or not sh.text.strip()) and not sh.has_table:
             sh.top=Inches(5.79 if page_number==8 else 5.68)
             bg+=1
         elif 5.75 < y < 5.91 and width>10 and sh.has_text_frame:
@@ -85,7 +85,7 @@ for sh in slide.shapes:
         if sh.has_text_frame and "초기 공급" in sh.text and "손익분기점" in sh.text:
             sh.top=Inches(5.35);sh.height=Inches(.22)
             label_count+=1
-        elif not sh.has_text_frame and not sh.has_table and sh.height/Inches(1)<.24 and sh.width/Inches(1)>1:
+        elif (not sh.has_text_frame or not sh.text.strip()) and not sh.has_table and sh.height/Inches(1)<.24 and sh.width/Inches(1)>1:
             sh.top=Inches(5.62)
             bar_count+=1
 assert bar_count>=2 and label_count>=1, f"Slide 8 progress data missing ({bar_count} bars, {label_count} labels)"
