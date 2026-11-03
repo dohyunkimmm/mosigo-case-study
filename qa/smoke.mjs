@@ -46,6 +46,25 @@ try {
     assert.equal(await page.locator('.docs-note').count(), 0, width + 'px no redundant disclaimer beneath documents');
     assert.equal(await page.locator('.hero-actions a, .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
+    // Regression: switching between plan, presentation and IR must never resize the preview box.
+    if (width === 390 || width === 1024 || width === 1440) {
+      const previewSelector = width <= 800 ? '#doc-page-open' : '#doc-frame';
+      const boxes = [];
+      for (const tab of ['plan', 'presentation', 'ir']) {
+        await page.locator('[data-doc-preview="' + tab + '"]').click();
+        const rect = await page.locator(previewSelector).boundingBox();
+        assert.ok(rect && rect.width > 200 && rect.height > 120, width + 'px ' + tab + ' preview renders');
+        boxes.push({ tab, width: rect.width, height: rect.height });
+      }
+      for (const rect of boxes.slice(1)) {
+        assert.ok(Math.abs(rect.width - boxes[0].width) <= 1, width + 'px preview width matches plan for ' + rect.tab);
+        assert.ok(Math.abs(rect.height - boxes[0].height) <= 1, width + 'px preview height matches plan for ' + rect.tab);
+      }
+      if (width > 800) assert.ok(boxes[0].height >= 565, width + 'px consistent readable desktop preview height');
+      await page.locator('[data-doc-preview="plan"]').click();
+      console.log('PASS equal plan/presentation/IR viewer geometry', width, JSON.stringify(boxes));
+    }
+
     const pageCopy = await page.locator('body').innerText();
     for (const removed of [
       '8주 파일럿 예산 400만 원(가정)',
