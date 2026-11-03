@@ -14,6 +14,24 @@
 - 우선순위·게이트·KPI·QA·UAT, AI 적용 조건과 제휴형 제한 검증 전략
 - MOSIGO 사업화 의사결정과 향후 검증
 
+## 파일·폴더 색인
+
+GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성 미리보기 / 품질 검증**으로 구분합니다. 기존 배포 경로는 유지합니다.
+
+| 위치 | 역할 |
+| --- | --- |
+| [`index.html`](index.html) | 공개 보고서 메인 페이지(9개 장), 문서 탭·사업성 계산기 |
+| [`assets/`](assets/) | 페이지 스타일·스크립트·공유 이미지·스마트폰 아이콘 |
+| [`downloads/`](downloads/) | 사업기획서·발표자료·IR Deck·계산 파일(최상위 7개) |
+| [`downloads/previews/`](downloads/previews/) | 사업기획서 17쪽·발표자료 11장·IR Deck 12장의 일반/소형 WebP(총 80개) |
+| [`qa/`](qa/) | 점검·문서 생성 스크립트, 검토 기록, IR 원본 복원용 압축 조각 |
+| [`.github/workflows/`](.github/workflows/) | 품질 검증과 문서·이미지 생성 자동화 |
+| [`decision-memos.html`](decision-memos.html) · [`forecast.html`](forecast.html) · [`materials.html`](materials.html) | 과거 링크 호환용 페이지. 현재 보고서의 의사결정·사업성·첨부 자료 위치로 연결 |
+
+**첨부 자료 원본과 게시본:** [사업기획서 HTML](downloads/mosigo_business_plan_20261031.html) · [사업기획서 PDF](downloads/mosigo_business_plan_20261031.pdf) · [발표자료 PPTX](downloads/mosigo_report.pptx) · [발표자료 미리보기 PDF](downloads/mosigo_report_preview.pdf) · [IR Deck PPTX](downloads/MOSIGO_IR_Investment_Review_12slides.pptx) · [IR Deck PDF](downloads/MOSIGO_IR_Investment_Review_12slides.pdf) · [계산 파일 XLSX](downloads/mosigo_model.xlsx).
+
+파일 존재·참조·미리보기 개수와 별도 미반영 항목은 [2026-11-03 저장소 정합성 점검](qa/repository-audit-20261103.md)에 기록했습니다.
+
 ## 자료의 구분
 
 - **작성 주체:** 개인 단독 Strategy Case Study.
