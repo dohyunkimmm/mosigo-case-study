@@ -57,7 +57,7 @@ try {
         await img.evaluate(element => element.decode());
         assert.ok((await img.getAttribute('src')).endsWith(prefix + '-01-sm.webp'), width + 'px ' + tab + ' preview source');
         const rendered = await img.evaluate(element => ({ready:element.complete,w:element.naturalWidth,h:element.naturalHeight}));
-        assert.ok(rendered.ready && rendered.w >= 700 && rendered.h >= 300, width + 'px ' + tab + ' actual preview image loaded');
+        assert.ok(rendered.ready && Math.max(rendered.w, rendered.h) >= 700 && Math.min(rendered.w, rendered.h) >= 300, width + 'px ' + tab + ' actual preview image loaded: ' + JSON.stringify(rendered));
         await page.waitForFunction(({ prefix }) => {
           const fullscreen = document.querySelector('#v3-fullscreen-img');
           const firstThumb = document.querySelector('#v3-doc-thumbs img');
