@@ -8,6 +8,14 @@ on:
       - 'qa/apply-concise-ir-copy.py'
       - 'qa/concise-ir-copy.json'
       - '.github/workflows/ir-deck.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/ir-deck-source/**'
+      - 'qa/normalize-ir-deck.py'
+      - 'qa/apply-concise-ir-copy.py'
+      - 'qa/concise-ir-copy.json'
+      - '.github/workflows/ir-deck.yml'
   workflow_dispatch:
 
 permissions:
@@ -64,6 +72,10 @@ jobs:
           grep -q '80' /tmp/mosigo-ir.txt
           grep -q '120' /tmp/mosigo-ir.txt
           grep -q '200' /tmp/mosigo-ir.txt
+          if grep -Eq '검토 방향로|산정 기준한|고객 설정로' /tmp/mosigo-ir.txt; then
+            echo "::error::IR Deck contains an unreviewed Korean phrase"
+            exit 1
+          fi
           if grep -q '금액 미산정' /tmp/mosigo-ir.txt; then echo 'Old unsized ask remains'; exit 1; fi
       - name: Render 12 full and mobile slide previews
         run: |
@@ -77,6 +89,7 @@ jobs:
           done
           test "$(find downloads/previews -maxdepth 1 -name 'ir-*.webp' | wc -l)" -eq 24
       - name: Publish IR presentation and previews
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

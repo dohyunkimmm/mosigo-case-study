@@ -7,6 +7,16 @@ on:
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
       - 'qa/sync-strategy-copy.py'
+      - 'qa/fix-presentation-overlaps.py'
+      - 'downloads/mosigo_model.xlsx'
+      - '.github/workflows/ppt-preview.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'downloads/mosigo_report.pptx'
+      - 'qa/style-presentation.py'
+      - 'qa/sync-strategy-copy.py'
+      - 'qa/fix-presentation-overlaps.py'
       - 'downloads/mosigo_model.xlsx'
       - '.github/workflows/ppt-preview.yml'
   workflow_dispatch:
@@ -43,6 +53,8 @@ jobs:
           /tmp/mosigo-ppt-venv/bin/python qa/style-presentation.py
       - name: Synchronize editable strategic decisions with quantified gap
         run: /tmp/mosigo-ppt-venv/bin/python qa/sync-strategy-copy.py
+      - name: Repair slide table overlaps and Korean copy
+        run: /tmp/mosigo-ppt-venv/bin/python qa/fix-presentation-overlaps.py
       - name: Convert existing presentation for inline viewing
         run: |
           set -euo pipefail
@@ -69,9 +81,14 @@ jobs:
           done
           test "$(find downloads/previews -maxdepth 1 -name 'slides-*.webp' | wc -l)" -eq 22
           pdftotext downloads/mosigo_report_preview.pdf /tmp/mosigo-ppt-text.txt
+          if grep -Eq '검토 방향로|산정 기준한|고객 설정로' /tmp/mosigo-ppt-text.txt; then
+            echo "::error::Presentation contains an unreviewed Korean phrase"
+            exit 1
+          fi
           if grep -q '11~12쪽' /tmp/mosigo-ppt-text.txt; then echo "::error::Stale PPT source citation"; exit 1; fi
           grep -Eq '사업기획서[[:space:]]*3[[:space:]]*쪽' /tmp/mosigo-ppt-text.txt
       - name: Commit static preview
+        if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
