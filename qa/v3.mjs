@@ -11,7 +11,7 @@ try{
   const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
   const failures=[];
   page.on('pageerror',error=>failures.push(error.message));
-  const response=await page.goto(base,{waitUntil:'load',timeout:45000});
+  const response=await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
   assert.equal(response.status(),200);
   assert.equal(await page.locator('.v3-phase-link').count(),0,'duplicate phase shortcuts removed');
   assert.equal(await page.locator('.nav-link').count(),9,'primary contents navigation retained');
