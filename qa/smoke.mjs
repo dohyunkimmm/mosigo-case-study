@@ -120,6 +120,7 @@ try {
       await page.locator('[data-doc-preview="ir"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/MOSIGO_IR_Investment_Review_12slides.pdf#'), 'IR tab changes viewer');
       assert.equal(await page.locator('[data-doc-preview="ir"]').getAttribute('aria-pressed'), 'true', 'IR selected');
+      assert.equal(await page.locator('#doc-pdf-save').getAttribute('href'), '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf', 'selected IR document download');
       await page.locator('[data-doc-preview="plan"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_business_plan_20261031.pdf#'), 'PDF tab restored');
       const assets = [
@@ -132,7 +133,7 @@ try {
         { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pptx', kind: 'zip', minBytes: 200 },
       ];
       for (const { path, kind, minBytes } of assets) {
-        if (path.startsWith('/downloads/') && !path.endsWith('/mosigo_report_preview.pdf')) {
+        if (path.startsWith('/downloads/') && !path.endsWith('/mosigo_report_preview.pdf') && !path.endsWith('/MOSIGO_IR_Investment_Review_12slides.pdf')) {
           assert.ok(await page.locator('a[href$="' + path + '"]').count() >= 1, path + ' document link');
         }
         const response = await page.request.get(new URL(path, base).href);
