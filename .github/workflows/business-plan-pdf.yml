@@ -57,6 +57,10 @@ jobs:
           test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "17"
           pdffonts downloads/mosigo_business_plan_20261031.pdf | grep -qi Pretendard
           pdftotext downloads/mosigo_business_plan_20261031.pdf /tmp/business-plan-text.txt
+          if grep -Eq '고객 설정로|산정 기준한|검토 방향로' /tmp/business-plan-text.txt; then
+            echo "::error::Business plan contains an unreviewed Korean phrase"
+            exit 1
+          fi
           if grep -E '2026\.10\.31|2026\.10\.07|BUSINESS PLAN 2026' /tmp/business-plan-text.txt; then
             echo "::error::Document publication date remains in the rendered PDF"
             exit 1
