@@ -194,7 +194,13 @@ print('PASS full document QA')
 # Editorial regression checks for previously identified Korean copy defects.
 site_html = Path("index.html").read_text(encoding="utf-8")
 plan_html = Path("downloads/mosigo_business_plan_20261031.html").read_text(encoding="utf-8")
-assert "현재 처리 능력을 기준으로 산출" in plan_html, "Business-plan page 11 capacity caption was not updated"
+assert "동일 생산성·고정비 단순 비례 산정" in plan_html, "Business-plan capacity assumption label is missing"
+assert "2025년 사업 참여 인원" in plan_html and "12,802명" in plan_html, "Public participant unit should be explicit"
+assert "현금 기준 월 541건" in plan_html and "기회비용 포함 월 1,082건" in plan_html, "Cash and economic BEP should be separated"
+assert "현금 기준 손익분기점은 월 541건" in site_html, "Site should explain cash break-even"
+assert "초기 20명의 이론상 최대 공급 433건" in site_html, "Site should explain supply capacity"
+assert "인구 기반 참고 범위" in site_html and "장기 고객 목표 가설" in site_html, "Market population and goal labels should be clear"
+print("PASS P0-P2 scenario labels, market scope, capacity comparisons and public participant units")
 for label, source, forbidden in (
     ("website", site_html, ("손익분기점와", "손익분기점점", "수정 가능 이며",
                            "<th data-label=\"문제 가설\">대리 예약</th>",

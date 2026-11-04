@@ -2,13 +2,13 @@ name: Build business plan PDF
 
 on:
   push:
-    branches: [main]
+    branches: [main, 'review/p0-p1-p2-*']
     paths:
       - 'downloads/mosigo_business_plan_20261031.html'
       - 'qa/generate-business-plan.mjs'
       - '.github/workflows/business-plan-pdf.yml'
   pull_request:
-    branches: [main]
+    branches: [main, 'review/p0-p1-p2-*']
     paths:
       - 'downloads/mosigo_business_plan_20261031.html'
       - 'qa/generate-business-plan.mjs'
@@ -90,8 +90,8 @@ jobs:
             echo "PDF is already up to date"
           else
             git commit -m "docs: regenerate business plan without dates"
-            git pull --rebase origin main
-            git push origin HEAD:main
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
       - name: Save document for inspection
         if: always()
