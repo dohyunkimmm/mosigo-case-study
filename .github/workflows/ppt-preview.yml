@@ -102,7 +102,7 @@ jobs:
             echo "PPT preview already up to date"
           else
             git commit -m "style: use Pretendard and harmonized presentation visuals"
-            git pull --rebase origin main
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
       - name: Upload preview for inspection
