@@ -1,20 +1,22 @@
 name: Build MOSIGO IR deck
 on:
   push:
-    branches: [main]
+    branches: [main, 'review/p0-p1-p2-*']
     paths:
       - 'qa/ir-deck-source/**'
       - 'qa/normalize-ir-deck.py'
       - 'qa/apply-concise-ir-copy.py'
       - 'qa/concise-ir-copy.json'
+      - 'qa/refine-decks.py'
       - '.github/workflows/ir-deck.yml'
   pull_request:
-    branches: [main]
+    branches: [main, 'review/p0-p1-p2-*']
     paths:
       - 'qa/ir-deck-source/**'
       - 'qa/normalize-ir-deck.py'
       - 'qa/apply-concise-ir-copy.py'
       - 'qa/concise-ir-copy.json'
+      - 'qa/refine-decks.py'
       - '.github/workflows/ir-deck.yml'
   workflow_dispatch:
 
@@ -59,6 +61,8 @@ jobs:
       - name: Apply Pretendard fonts and original Tossface pictograms
         run: |
           /tmp/mosigo-ir-venv/bin/python qa/normalize-ir-deck.py downloads/MOSIGO_IR_Investment_Review_12slides.pptx assets/tossface-phone.png
+      - name: Apply financial decision and editorial QA refinements
+        run: /tmp/mosigo-ir-venv/bin/python qa/refine-decks.py ir
       - name: Export PDF, verify 12 slides and stage-gated funding assumptions
         run: |
           mkdir -p /tmp/ir-pdf
@@ -99,7 +103,7 @@ jobs:
           else
             git commit -m 'docs: publish editable 12-slide MOSIGO IR deck and previews'
             git pull --rebase origin main
-            git push origin HEAD:main
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
       - name: Save deck for QA
         if: always()
