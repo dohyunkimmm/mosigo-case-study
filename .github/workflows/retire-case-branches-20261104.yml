@@ -1,5 +1,5 @@
 # One-time guarded cleanup of two merged MOSIGO Case Study branches.
-# Runs only when this file first lands on main via an approved PR.
+# Runs only when this file changes on main via an approved PR.
 name: Retire audited Case Study branches (2026-11-04)
 on:
   push:
@@ -79,4 +79,43 @@ jobs:
             final_code="$(curl -sS -o /dev/null -w '%{http_code}' "${auth[@]}" "${api}/git/ref/heads/${branch}")"
             test "${final_code}" = 404 || { echo "::error::branch still exists"; exit 1; }
             echo "Retired ${branch}; preserved ${archive}"
+          done
+          # Second pass: also retire the temporary branches created by cleanup PRs.
+          # Compare against the final merged PR heads rather than a stale pre-merge SHA.
+          for pr in 25 26; do
+            if [ "${pr}" = 25 ]; then branch="chore/cleanup-case-audit-20261104"; else branch="chore/cleanup-finalize-20261104"; fi
+            pr_info="$(curl -fsS "${auth[@]}" "${api}/pulls/${pr}")"
+            test "$(jq -r '.merged' <<<"${pr_info}")" = true || exit 1
+            test "$(jq -r '.head.ref' <<<"${pr_info}")" = "${branch}" || exit 1
+            test "$(jq -r '.head.repo.full_name' <<<"${pr_info}")" = "${GITHUB_REPOSITORY}" || exit 1
+            test "$(jq -r '.base.ref' <<<"${pr_info}")" = main || exit 1
+            test "$(jq --arg b "${branch}" '[.[] | select(.head.ref == $b)] | length' <<<"${open_prs}")" = 0 || exit 1
+            expected="$(jq -r '.head.sha' <<<"${pr_info}")"
+            test "${#expected}" = 40 || exit 1
+            code="$(curl -sS -o /tmp/cleanup_head.json -w '%{http_code}' "${auth[@]}" "${api}/git/ref/heads/${branch}")"
+            if [ "${code}" = 404 ]; then echo "Already retired: ${branch}"; continue; fi
+            test "${code}" = 200 || exit 1
+            test "$(jq -r '.object.sha' /tmp/cleanup_head.json)" = "${expected}" || exit 1
+            archive="archive/20261104/${branch}"
+            code="$(curl -sS -o /tmp/cleanup_tag.json -w '%{http_code}' "${auth[@]}" "${api}/git/ref/tags/${archive}")"
+            if [ "${code}" = 404 ]; then
+              payload="$(jq -nc --arg ref "refs/tags/${archive}" --arg sha "${expected}" '{ref:$ref,sha:$sha}')"
+              curl -fsS "${auth[@]}" -X POST -d "${payload}" "${api}/git/refs" >/dev/null
+            elif [ "${code}" != 200 ]; then exit 1; fi
+            test "$(curl -fsS "${auth[@]}" "${api}/git/ref/tags/${archive}" | jq -r '.object.sha')" = "${expected}" || exit 1
+            echo "Verified cleanup archive: ${archive} -> ${expected}"
+          done
+          for pr in 25 26; do
+            if [ "${pr}" = 25 ]; then branch="chore/cleanup-case-audit-20261104"; else branch="chore/cleanup-finalize-20261104"; fi
+            pr_info="$(curl -fsS "${auth[@]}" "${api}/pulls/${pr}")"
+            expected="$(jq -r '.head.sha' <<<"${pr_info}")"
+            archive="archive/20261104/${branch}"
+            code="$(curl -sS -o /tmp/cleanup_verify.json -w '%{http_code}' "${auth[@]}" "${api}/git/ref/heads/${branch}")"
+            if [ "${code}" = 404 ]; then continue; fi
+            test "${code}" = 200 || exit 1
+            test "$(jq -r '.object.sha' /tmp/cleanup_verify.json)" = "${expected}" || exit 1
+            test "$(curl -fsS "${auth[@]}" "${api}/git/ref/tags/${archive}" | jq -r '.object.sha')" = "${expected}" || exit 1
+            curl -fsS "${auth[@]}" -X DELETE "${api}/git/refs/heads/${branch}" >/dev/null
+            test "$(curl -sS -o /dev/null -w '%{http_code}' "${auth[@]}" "${api}/git/ref/heads/${branch}")" = 404 || exit 1
+            echo "Retired cleanup PR branch: ${branch}"
           done
