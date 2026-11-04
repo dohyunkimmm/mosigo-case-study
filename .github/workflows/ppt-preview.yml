@@ -102,8 +102,18 @@ jobs:
             echo "PPT preview already up to date"
           else
             git commit -m "style: use Pretendard and harmonized presentation visuals"
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            for attempt in 1 2 3 4 5; do
+              git pull --rebase origin "${GITHUB_REF_NAME}"
+              if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                echo "Published reviewed artifacts (attempt ${attempt})"
+                break
+              fi
+              if [ "${attempt}" -eq 5 ]; then
+                echo "::error::Could not publish after five safe rebase attempts"
+                exit 1
+              fi
+              sleep $((attempt * 2))
+            done
           fi
       - name: Upload preview for inspection
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
