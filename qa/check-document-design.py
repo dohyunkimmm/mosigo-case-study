@@ -200,6 +200,22 @@ assert "현금 기준 월 541건" in plan_html and "기회비용 포함 월 1,08
 assert "현금 기준 손익분기점은 월 541건" in site_html, "Site should explain cash break-even"
 assert "초기 20명의 이론상 최대 공급 433건" in site_html, "Site should explain supply capacity"
 assert "인구 기반 참고 범위" in site_html and "장기 고객 목표 가설" in site_html, "Market population and goal labels should be clear"
+# Public-program facts use explicit Gyeonggi sources and distinguish their units.
+assert "11/31개 시·군" in plan_html, "2026 public operating-area scope must be labeled"
+assert "2024년 이용자 만족도" in plan_html and "4.98 / 5점" in plan_html, "2024 satisfaction survey label missing"
+assert "2025년 사업 참여 인원" in plan_html and "12,802명" in plan_html, "2025 participant count missing"
+assert "공공 서비스와 민간 서비스의 역할 비교" in site_html, "Public/private differentiation missing"
+assert "장기 목표와 초기 확보 가능량을 별도 검토" in site_html, "Long-term SOM vs initial capacity not separated"
+for uri in (
+    "https://www.gg.go.kr/contents/contents.do?ciIdx=987005&amp;menuId=265914",
+    "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=S017&amp;number=69199",
+    "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=S017&amp;number=66581",
+):
+    assert uri in plan_html, f"Official source reference missing in plan: {uri}"
+assert (2_000_000 + 3_700 - 1) // 3_700 == 541, "Cash break-even arithmetic differs"
+assert (4_000_000 + 3_700 - 1) // 3_700 == 1082, "Economic break-even arithmetic differs"
+assert round(433*.65*.8*.90*.98) == 199 and 433 < 541, "Supply comparison differs"
+print("PASS market and financial source-level arithmetic QA")
 print("PASS P0-P2 scenario labels, market scope, capacity comparisons and public participant units")
 for label, source, forbidden in (
     ("website", site_html, ("손익분기점와", "손익분기점점", "수정 가능 이며",
