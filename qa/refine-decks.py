@@ -64,8 +64,10 @@ if MODE == "strategy":
             "예상 199건  /  현금 BEP 541건  /  경제적 BEP 1,082건", required=False)
     replace(9, "상품별 원가 구조와 계약 책임을 분리",
             "상품별 원가·청구시간·제휴 계약 조건을 확인")
+    replace(10, "유료 수요·완료율·지원비·공헌이익 기록 후 단계별 심의",
+            "수요·완료율·고객 지원 비용·공헌이익 측정 후 단계별 심의", required=False)
     replace(10, "실제 수요·운영비 확인 후 단계별 투자 승인",
-            "유료 수요·완료율·지원비·공헌이익 기록 후 단계별 심의")
+            "수요·완료율·고객 지원 비용·공헌이익 측정 후 단계별 심의")
     slide = prs.slides[7]
     # Keep the native table and the original two-bar graphic. Allocate clean
     # vertical lanes below the table for the progress label and the decision.

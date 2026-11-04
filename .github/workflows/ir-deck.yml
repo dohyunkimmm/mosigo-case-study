@@ -95,6 +95,7 @@ jobs:
       - name: Publish IR presentation and previews
         if: github.event_name != 'pull_request'
         run: |
+          set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add downloads/MOSIGO_IR_Investment_Review_12slides.pptx downloads/MOSIGO_IR_Investment_Review_12slides.pdf downloads/previews/ir-*.webp
@@ -102,8 +103,18 @@ jobs:
             echo 'MOSIGO IR files already current'
           else
             git commit -m 'docs: publish editable 12-slide MOSIGO IR deck and previews'
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            for attempt in 1 2 3 4 5; do
+              git pull --rebase origin "${GITHUB_REF_NAME}"
+              if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                echo "Published reviewed artifacts (attempt ${attempt})"
+                break
+              fi
+              if [ "${attempt}" -eq 5 ]; then
+                echo "::error::Could not publish after five safe rebase attempts"
+                exit 1
+              fi
+              sleep $((attempt * 2))
+            done
           fi
       - name: Save deck for QA
         if: always()
