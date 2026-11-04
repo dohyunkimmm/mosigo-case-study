@@ -67,3 +67,11 @@
 - 현행 `main` 직전 커밋 `89d867a`의 [Site QA #41739650533](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/41739650533)·모바일 Safari QA는 성공했습니다. 이후 자동생성 IR Deck 게시 커밋 `6fb8ee2` **그 자체에 연결된 Site QA 실행은 조회되지 않았습니다**. 따라서 이번 정리 PR에서 검증하고, 병합된 `main`의 Site QA·배포 일치 결과도 별도 확인해야 합니다.
 - 비공개 저장소의 `main`은 `protected=false`입니다. QA 선행 병합 절차가 서버 측 강제 보호를 제공하는 것처럼 표현하지 않습니다.
 - 이 점검은 저장소 원격 상태·워크플로 기록만 확인합니다. 실제 모바일 기기 실측이나 로컬 미커밋 파일 검사를 주장하지 않습니다.
+
+### 2026-11-04 실제 처리 결과 · PR #25
+
+- [PR #25](https://github.com/dohyunkimmm/mosigo-case-study/pull/25) 변경은 [PR Site QA #41746070365](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/41746070365) 성공 후 `main` `3436bece83c29e84851d5b19905df227cabb6c6f`에 squash 병합됐습니다.
+- [보존형 정리 Actions #41746322797](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/41746322797) **success**. `archive/20261104/design/case-study-visual-qa-20261103`는 `667c68f52e80700942f886ec39da800a34748d56`, `archive/20261104/fix/mosigo-editorial-slide-layout-20261104`는 `039a6f104c71e4974a56a1ddf2c71d0ca1e2be36`를 보존하는 것으로 API에서 확인했습니다.
+- 두 기존 작업 브랜치의 ref **삭제 완료**. 이전 작업의 미병합 내용과 `main` 이력은 변경·강제 병합하지 않았습니다.
+- 후속 조회 시 `main`과 PR #25의 정리 작업 브랜치 `chore/cleanup-case-audit-20261104`만 남았습니다. 이 후속 PR에서는 해당 임시 브랜치와 자신이 생성한 작업 브랜치도 **각 원본 SHA를 태그로 보존한 뒤** 정리하도록 검증 범위를 확장합니다. 작업 후 최종 브랜치 개수는 GitHub API로 재검증합니다.
+- `3436bece`의 배포 검증 [Site QA #41746322815](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/41746322815)은 이번 문서 작성 시 진행 중이었으므로 성공 여부를 미리 확정하지 않습니다. 결과가 확인되면 최신 `main` 기준으로 다시 기록합니다.
