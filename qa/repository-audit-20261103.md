@@ -53,3 +53,17 @@
 - 존재하지 않는 첨부 링크나 누락된 미리보기 파일은 발견되지 않아 PDF/PPTX/XLSX/WebP를 재생성하거나 이동하지 않았다.
 - 보고서 본문, 배포 경로, 제품 저장소, 생성 워크플로, 과거 보관 태그·브랜치 이력은 수정하지 않았다.
 - 열린 PR과 잔여 브랜치는 **미반영·잔여 작업으로 기록**하되, 충돌 가능성/복원 가능성 확인 없이 강제 병합하거나 삭제하지 않았다.
+
+---
+
+## 2026-11-04 후속 점검 · 최신 메인과 병합 브랜치
+
+> 위 2026-11-03 기록은 당시 스냅샷으로 보존합니다. 아래 내용의 조회 기준 `main`은 `6fb8ee2d9ca9787fdc467ba9a4676dc58a3fc721`입니다. 이번 문서 변경과 이후 자동화 실행은 별도 후속 사건입니다.
+
+- 재귀 트리: **136개 파일·7개 디렉터리**(11월 3일 기록: 134개 파일·7개 디렉터리). 동일 blob SHA를 쓰는 파일 **0개**이며, 기존 9개 보고서 섹션·문서 미리보기 80개·호환 URL은 보존 대상입니다.
+- 열린 PR **0개**. 기존 [PR #18](https://github.com/dohyunkimmm/mosigo-case-study/pull/18)은 병합 없이 종료됐으며, 필요한 운영 안내는 후속 [PR #20](https://github.com/dohyunkimmm/mosigo-case-study/pull/20)으로 반영됐습니다.
+- 원격 브랜치 **3개**: `main`, `design/case-study-visual-qa-20261103`, `fix/mosigo-editorial-slide-layout-20261104`. 뒤의 두 브랜치는 각각 [PR #23](https://github.com/dohyunkimmm/mosigo-case-study/pull/23)·[PR #24](https://github.com/dohyunkimmm/mosigo-case-study/pull/24)로 병합됐지만 현재 `main`과 분기되어 있습니다. 이전 내용을 재병합하지 않습니다.
+- 두 원본 HEAD는 각각 `667c68f52e80700942f886ec39da800a34748d56`, `039a6f104c71e4974a56a1ddf2c71d0ca1e2be36`입니다. 정리 시 **PR 병합 여부·원본 HEAD 동일성·열린 PR 부재**를 재검증하고 원본 SHA의 `archive/20261104/` 태그가 존재함을 확인한 뒤에만 브랜치 ref를 삭제합니다. 한 항목이라도 불일치하면 해당 브랜치는 보존합니다.
+- 현행 `main` 직전 커밋 `89d867a`의 [Site QA #41739650533](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/41739650533)·모바일 Safari QA는 성공했습니다. 이후 자동생성 IR Deck 게시 커밋 `6fb8ee2` **그 자체에 연결된 Site QA 실행은 조회되지 않았습니다**. 따라서 이번 정리 PR에서 검증하고, 병합된 `main`의 Site QA·배포 일치 결과도 별도 확인해야 합니다.
+- 비공개 저장소의 `main`은 `protected=false`입니다. QA 선행 병합 절차가 서버 측 강제 보호를 제공하는 것처럼 표현하지 않습니다.
+- 이 점검은 저장소 원격 상태·워크플로 기록만 확인합니다. 실제 모바일 기기 실측이나 로컬 미커밋 파일 검사를 주장하지 않습니다.
