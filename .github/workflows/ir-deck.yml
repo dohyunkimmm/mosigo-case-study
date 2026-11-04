@@ -102,7 +102,7 @@ jobs:
             echo 'MOSIGO IR files already current'
           else
             git commit -m 'docs: publish editable 12-slide MOSIGO IR deck and previews'
-            git pull --rebase origin main
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
       - name: Save deck for QA
