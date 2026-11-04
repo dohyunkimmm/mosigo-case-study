@@ -90,7 +90,7 @@ jobs:
             echo "PDF is already up to date"
           else
             git commit -m "docs: regenerate business plan without dates"
-            git pull --rebase origin main
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
       - name: Save document for inspection
