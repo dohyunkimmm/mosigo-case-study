@@ -90,8 +90,18 @@ jobs:
             echo "PDF is already up to date"
           else
             git commit -m "docs: regenerate business plan without dates"
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            for attempt in 1 2 3 4 5; do
+              git pull --rebase origin "${GITHUB_REF_NAME}"
+              if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                echo "Published reviewed artifacts (attempt ${attempt})"
+                break
+              fi
+              if [ "${attempt}" -eq 5 ]; then
+                echo "::error::Could not publish after five safe rebase attempts"
+                exit 1
+              fi
+              sleep $((attempt * 2))
+            done
           fi
       - name: Save document for inspection
         if: always()
