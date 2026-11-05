@@ -1,7 +1,7 @@
 name: Build MOSIGO IR deck
 on:
   push:
-    branches: [main, 'review/p0-p1-p2-*']
+    branches: [main, 'review/p0-p1-p2-*', 'review/p1-p2-market-price-ir-*']
     paths:
       - 'qa/ir-deck-source/**'
       - 'qa/normalize-ir-deck.py'
