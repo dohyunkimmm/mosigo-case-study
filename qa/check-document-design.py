@@ -43,7 +43,7 @@ compact_plan=re.sub(r'\s+','',plan_text)
 assert 'MOSIGO' in compact_plan and '기획기준과참고자료' in compact_plan
 assert '2026.10.31' not in plan_text and 'BUSINESS PLAN 2026' not in plan_text
 plan_html=(ROOT/'mosigo_business_plan_20261031.html').read_text(encoding='utf-8')
-assert '기본 동행 3만 원대(상품 구성안) / 손익 비교용 평균 이용가 40,000원' in plan_html, 'Product price vs model-average distinction missing'
+assert '기본 동행 3만 원대(출시 가격 가설) / 손익 비교용 평균 이용가 40,000원(기본 판매가 아님)' in plan_html, 'Product price vs model-average distinction missing'
 assert '<td>손익 비교용 평균 이용가</td>' in plan_html, 'Unit-economics price label is ambiguous'
 assert '기본동행3만원대' in compact_plan, 'Published PDF does not show the 30k-range product hypothesis'
 assert '손익비교용평균이용가' in compact_plan, 'Published PDF does not distinguish 40k model average'
@@ -98,6 +98,7 @@ compact_slides=re.sub(r'\s+','',slides_text)
 for page_number, page_text in enumerate(slides_text.split('\f'), 1):
     assert_no_repeated_sentences(page_text, f'presentation page {page_number}')
 assert 'MOSIGO' in compact_slides and '사업화의사결정' in compact_slides
+assert '기본상품3만원대는출시가격가설' in compact_slides, 'PPT slide 9 must separate launch price and average financial price'
 assert '\ufffd' not in plan_text+slides_text
 for term in legacy_terms:
     assert term not in slides_text, f'Unreviewed wording remains in presentation: {term}'
@@ -200,6 +201,15 @@ assert "현금 기준 월 541건" in plan_html and "기회비용 포함 월 1,08
 assert "현금 기준 손익분기점은 월 541건" in site_html, "Site should explain cash break-even"
 assert "초기 20명의 이론상 최대 공급 433건" in site_html, "Site should explain supply capacity"
 assert "인구 기반 참고 범위" in site_html and "장기 고객 목표 가설" in site_html, "Market population and goal labels should be clear"
+assert '2,578,873명' in site_html and '2,578,873명' in plan_html, 'Official 2026-10 population missing'
+assert '약 258만 명' in plan_html and '약 154만 명' in plan_html, 'TAM update or historical SAM label missing'
+assert '이전 지역 추정치' in plan_html, 'Historical SAM scenario must be labelled'
+assert 'jumin.mois.go.kr/etcStatOldAge.do' in site_html and 'jumin.mois.go.kr/etcStatOldAge.do' in plan_html, 'Official population citation missing'
+assert '기본 판매가 아님' in plan_html and '실제 판매가격이 아닌 손익 계산용 평균 이용가' in site_html, 'Product/average-price clarification missing'
+assert '약258만명' in compact_plan, 'Updated TAM reference must appear in published PDF'
+assert '플랫폼이용비율·획득비용·취소율' in re.sub(r'\s+','',ir_text), 'IR sensitivity variables need matching title'
+assert '2026.10주민등록2,578,873명' in re.sub(r'\s+','',ir_text), 'IR TAM reference date/number not synchronized'
+print('PASS P1-P2 market vintage, product price and IR sensitivity checks')
 # Public-program facts use explicit Gyeonggi sources and distinguish their units.
 assert "11/31개 시·군" in plan_html, "2026 public operating-area scope must be labeled"
 assert "2024년 이용자 만족도" in plan_html and "4.98 / 5점" in plan_html, "2024 satisfaction survey label missing"
