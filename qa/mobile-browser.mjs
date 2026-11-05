@@ -85,7 +85,9 @@ for (const { name, engine, device } of cases) {
       assert.equal(await page.locator('#doc-prev').isEnabled(), true, name + ' previous-page control');
       await page.screenshot({ path: screenshots + '/' + name + '-' + tab + '-last.png', fullPage: false });
       await page.locator('[data-doc-preview="' + tab + '"]').click();
-      assert.equal(await page.locator('#doc-prev').isDisabled(), true, name + ' reset to first page');
+      assert.equal(await page.locator('#doc-next').isDisabled(), true, name + ' remembers the last page when reselected');
+      await page.locator('#v3-doc-page').selectOption('1');
+      assert.equal(await page.locator('#doc-prev').isDisabled(), true, name + ' direct jump to first page');
       await page.screenshot({ path: screenshots + '/' + name + '-' + tab + '.png', fullPage: false });
     }
     await page.locator('#mobile-doc-viewer').scrollIntoViewIfNeeded();
