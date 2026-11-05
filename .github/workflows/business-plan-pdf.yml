@@ -2,7 +2,7 @@ name: Build business plan PDF
 
 on:
   push:
-    branches: [main, 'review/p0-p1-p2-*']
+    branches: [main, 'review/p0-p1-p2-*', 'review/p1-p2-market-price-ir-*']
     paths:
       - 'downloads/mosigo_business_plan_20261031.html'
       - 'qa/generate-business-plan.mjs'
