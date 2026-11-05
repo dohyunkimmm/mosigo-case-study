@@ -51,19 +51,33 @@ try{
   await page.locator('#v3-full-close').click();
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),false,'dialog closes');
   await page.locator('[data-doc-preview="ir"]').click();
-  await page.waitForFunction(() => document.querySelector('#v3-fullscreen-img')?.getAttribute('src')?.endsWith('ir-01.webp'));
+  await page.waitForFunction(() => document.querySelector('#doc-page-img')?.getAttribute('src')?.endsWith('ir-01-sm.webp'));
   assert.equal(await page.locator('#v3-doc-thumbs button').count(),5,'IR thumbnails populated');
   assert.match(await page.locator('#v3-doc-thumbs button').first().getAttribute('aria-label'),/IR Deck 1장으로/,'IR thumbnails match current document');
   await page.locator('#v3-doc-thumbs button[aria-label="IR Deck 3장으로 이동"]').click();
   assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('ir-03-sm.webp'),'IR thumbnail changes page');
-  assert.ok((await page.locator('#v3-fullscreen-img').getAttribute('src')).endsWith('ir-03.webp'),'IR fullscreen matches selected page');
   await page.locator('#v3-view-full').click();
+  assert.ok((await page.locator('#v3-fullscreen-img').getAttribute('src')).endsWith('ir-03.webp'),'IR fullscreen matches selected page');
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),true,'IR fullscreen opens');
   await page.locator('#v3-full-close').click();
   await page.locator('[data-doc-preview="plan"]').click();
   assert.equal(await page.locator('#v3-page-share').count(),0,'extra page-share button removed');
   const end=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
   assert.ok(end.x<=end.w+1,width+'px no horizontal overflow after interactions');
+  const printStates = await page.evaluate(() => {
+    const chapters = [...document.querySelectorAll('.chapter-detail')];
+    chapters[0].open = true;
+    chapters[1].open = false;
+    const before = chapters.map(chapter => chapter.open);
+    window.dispatchEvent(new Event('beforeprint'));
+    const expanded = chapters.every(chapter => chapter.open);
+    window.dispatchEvent(new Event('afterprint'));
+    return {before,expanded,after:chapters.map(chapter => chapter.open)};
+  });
+  assert.ok(printStates.expanded,'all chapters appear in print');
+  assert.deepEqual(printStates.after,printStates.before,'chapter state restored after print');
+  const partner = page.locator('#partner-results');
+  assert.match(await partner.textContent(),/199건.*3,700원.*541건.*1,082건/,'partner scenario matches baseline');
   assert.deepEqual(failures,[],width+'px no page JS errors');
   await page.screenshot({path:'qa-artifacts/'+prefix+'v3-'+width+'.png',fullPage:true});
   console.log('PASS v3 progressive interactions',width,{start,end});
@@ -76,3 +90,4 @@ try{
  await bad.close();
  console.log('PASS v3 share safety and controls');
 }finally{await browser.close();}
+

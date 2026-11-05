@@ -59,10 +59,8 @@ try {
         const rendered = await img.evaluate(element => ({ready:element.complete,w:element.naturalWidth,h:element.naturalHeight}));
         assert.ok(rendered.ready && rendered.w >= 200 && rendered.h >= 110, width + 'px ' + tab + ' actual preview image loaded: ' + JSON.stringify(rendered));
         await page.waitForFunction(({ prefix }) => {
-          const fullscreen = document.querySelector('#v3-fullscreen-img');
           const firstThumb = document.querySelector('#v3-doc-thumbs img');
-          return fullscreen?.getAttribute('src')?.endsWith(prefix + '-01.webp') &&
-                 firstThumb?.getAttribute('src')?.endsWith(prefix + '-01-sm.webp');
+          return firstThumb?.getAttribute('src')?.endsWith(prefix + '-01-sm.webp');
         }, { prefix });
         const rect = await page.locator(previewSelector).boundingBox();
         assert.ok(rect && rect.width > 200 && rect.height > 120, width + 'px ' + tab + ' preview renders');
@@ -236,3 +234,4 @@ try {
 } finally {
   await browser.close();
 }
+
