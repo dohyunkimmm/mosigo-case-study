@@ -28,7 +28,7 @@ permissions:
 
 concurrency:
   group: mosigo-ppt-preview
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   convert:
