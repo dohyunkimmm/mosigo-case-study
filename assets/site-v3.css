@@ -185,3 +185,6 @@ html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-doc-thumbs,html:
 .is-live .review-signed-bar{background:#14734a}
 .review-signed-bar.is-negative{left:auto;right:50%;background:#a63f2b}
 @media print{.review-jumps,.review-inputs,#partner-reset{display:none}}
+.review-examples{display:grid;gap:8px}
+.review-examples details{padding:10px 14px;background:#f2f7f3;border:1px solid #d4e3d7;border-radius:8px}
+.review-examples summary{cursor:pointer;font-weight:750;padding:6px 0}

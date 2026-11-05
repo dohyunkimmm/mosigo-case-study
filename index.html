@@ -513,6 +513,12 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <article><small>TO-BE · MOSIGO 설계 방향</small><strong>가족 대리 예약을 하나의 흐름으로 연결</strong><p>예약자·이용자 정보 분리 → 매니저·요금 비교 → 동의 → 예약 → 권한에 맞는 진행 확인 → 재예약으로 여정을 통합</p></article>
 </div>
 
+<h3 class="subhead">운영 예외 흐름</h3>
+<div class="review-examples">
+<details><summary>동행 대상자가 동의하지 않은 경우</summary><p>신청을 중단하고 필요한 동의와 철회 방법을 안내합니다. 동의 전에는 동행 대상자의 정보를 매니저에게 전달하지 않습니다.</p></details>
+<details><summary>배정된 매니저가 변경된 경우</summary><p>보호자에게 변경된 매니저·일정·요금을 안내하고, 보호자가 변경안을 확인할 수 있도록 합니다.</p></details>
+<details><summary>진행 공유 링크가 만료된 경우</summary><p>동행 정보를 표시하지 않고 보호자에게 새 공유 링크를 요청하는 방법을 안내합니다.</p></details>
+</div>
 <h3 class="subhead">요구사항과 기능 검수 기준</h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>항목</th><th>핵심 정책</th><th>기능 검수 기준 · 후속 검증안</th></tr></thead><tbody>
 <tr><th data-label="항목">01 · 예약자·이용자 구분</th><td data-label="핵심 정책">예약자와 대상자 정보를 분리하고, 동의 범위·유효성을 확인</td><td data-label="기능 검수 기준 · 후속 검증안">동의 대상·필수 정보가 빠지면 신청 완료를 차단하고 사유를 설명</td></tr>
@@ -539,11 +545,13 @@ main>section .mobile-skim>p{margin-bottom:9px}
 
 </div></details></section>
 <section id="business"><div class="section-title"><span class="eyebrow">06 / BUSINESS CASE</span><h2>수요·공급·손익 격차로 사업화 가능성을 판단한다</h2></div><div class="mobile-skim"><p>초기 제휴 모델 산출 조건 · 매니저 20명 기준</p><dl class="skim-numbers"><div><dt>월 서비스 완료 건수</dt><dd>199건</dd></div><div><dt>건당 공헌이익</dt><dd>3,700원</dd></div><div><dt>월 손익분기점</dt><dd>1,082건</dd></div></dl><p class="skim-note">인력 투입 기회비용을 반영한 기준 / 공급 확대 전 고객 획득 비용과 운영비 개선</p></div>
-<figure class="bep-visual" aria-label="월 서비스 완료 건수 비교: 초기 공급 예상 199건, 인력 투입 기회비용 반영 손익분기점 1,082건. 초기 공급은 손익분기의 약 18.4퍼센트">
+<figure class="bep-visual" aria-label="월 서비스 완료 건수 비교: 초기 공급 예상 199건, 이론상 최대 공급 433건, 현금 손익분기점 541건, 인력 투입 기회비용 반영 손익분기점 1,082건. 초기 공급은 손익분기의 약 18.4퍼센트">
 <figcaption>초기 공급 예상치와 손익분기점 비교 <small>월 서비스 완료 건수 기준</small></figcaption>
 <div class="bep-emphasis"><div class="bep-ratio"><strong>18.4%</strong><span>손익분기점 대비<br>초기 공급 비율</span></div><div class="bep-gap"><span>손익분기점까지 남은 건수</span><strong>월 883건</strong><small>현재 조건에서 추가로 필요한 월 서비스 완료 건수</small></div></div>
 <div class="bep-row"><span>초기 공급 산정 기준</span><div class="bep-track" aria-hidden="true"><span class="bep-fill current"></span></div><strong>199건</strong></div>
-<div class="bep-row"><span>손익분기</span><div class="bep-track" aria-hidden="true"><span class="bep-fill target"></span></div><strong>1,082건</strong></div>
+<div class="bep-row"><span>이론상 최대 공급</span><div class="bep-track" aria-hidden="true"><span class="bep-fill" style="width:40.02%;background:#719482"></span></div><strong>433건</strong></div>
+<div class="bep-row"><span>현금 손익분기</span><div class="bep-track" aria-hidden="true"><span class="bep-fill" style="width:50%;background:#537969"></span></div><strong>541건</strong></div>
+<div class="bep-row"><span>인력 비용 포함 손익분기</span><div class="bep-track" aria-hidden="true"><span class="bep-fill target"></span></div><strong>1,082건</strong></div>
 </figure><details class="chapter-detail" open><summary>계산기·손익 근거 보기</summary><div class="chapter-content">
 <p id="sim-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 <div class="sim"><div class="sim-head"><h3>거래액·공헌이익 민감도</h3><p>이용자 수·빈도·가격·비용·수수료를 직접 조정</p></div><div class="sim-body"><div>

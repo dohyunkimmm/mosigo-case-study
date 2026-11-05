@@ -64,6 +64,20 @@ try{
   assert.equal(await page.locator('#v3-page-share').count(),0,'extra page-share button removed');
   const end=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
   assert.ok(end.x<=end.w+1,width+'px no horizontal overflow after interactions');
+  const printStates = await page.evaluate(() => {
+    const chapters = [...document.querySelectorAll('.chapter-detail')];
+    chapters[0].open = true;
+    chapters[1].open = false;
+    const before = chapters.map(chapter => chapter.open);
+    window.dispatchEvent(new Event('beforeprint'));
+    const expanded = chapters.every(chapter => chapter.open);
+    window.dispatchEvent(new Event('afterprint'));
+    return {before,expanded,after:chapters.map(chapter => chapter.open)};
+  });
+  assert.ok(printStates.expanded,'all chapters appear in print');
+  assert.deepEqual(printStates.after,printStates.before,'chapter state restored after print');
+  const partner = page.locator('#partner-results');
+  assert.match(await partner.textContent(),/199건.*3,700원.*541건.*1,082건/,'partner scenario matches baseline');
   assert.deepEqual(failures,[],width+'px no page JS errors');
   await page.screenshot({path:'qa-artifacts/'+prefix+'v3-'+width+'.png',fullPage:true});
   console.log('PASS v3 progressive interactions',width,{start,end});
