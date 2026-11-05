@@ -2,7 +2,7 @@ name: Build PPT preview PDF
 
 on:
   push:
-    branches: [main, 'review/p0-p1-p2-*', 'review/p1-p2-market-price-ir-*']
+    branches: [main, 'review/p0-p1-p2-*']
     paths:
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
@@ -28,7 +28,7 @@ permissions:
 
 concurrency:
   group: mosigo-ppt-preview
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   convert:
