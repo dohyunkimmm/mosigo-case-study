@@ -70,6 +70,10 @@ if MODE == "strategy":
             "수요·완료율·고객 지원 비용·공헌이익 측정 후 단계별 심의", required=False)
     replace(10, "실제 수요·운영비 확인 후 단계별 투자 승인",
             "수요·완료율·고객 지원 비용·공헌이익 측정 후 단계별 심의")
+    replace(7, "기준 산정 기준 결과", "기준 시나리오 결과", required=False)
+    for _, frame in frames(prs.slides[8]):
+        if frame.text.strip() == "기본":
+            frame.paragraphs[0].runs[0].text = "평균 이용가 기준"
     slide = prs.slides[7]
     # Keep the native table and the original two-bar graphic. Allocate clean
     # vertical lanes below the table for the progress label and the decision.
@@ -120,6 +124,14 @@ else:
             "8주 고정비 내 배분 상한")
     replace(10, "별도 견적: 구축·보험·법무·환불·채용·판촉 / 필요 시 재심의",
             "별도 확인: 구축·보험·법무·환불·채용·판촉비는 400만 원 외 추가 검토")
+    replace(9, "예약·완료·취소·재예약, 실제 획득·지원 비용 측정",
+            "유료 전환·완료·취소와 실제 획득·지원 비용 측정")
+    replace(9, "심의 기준  ·  실측 성과에 따라 확대 여부 결정",
+            "8주 심의 · 실측 손익 검토 / 90일 재예약은 후속 평가", required=False)
+    replace(10, "8주 단순 환산 약 252.7만 원",
+            "예산상 2개월 환산 약 252.7만 원")
+    replace(12, "고객 유료 의향·재예약 근거",
+            "유료 전환·완료 근거 / 90일 재예약은 후속 평가")
     # P2: Align the two values to the right of the native bars without
     # changing the plotted bar lengths or numeric assumptions.
     from pptx.enum.text import PP_ALIGN
@@ -168,3 +180,4 @@ else:
 assert all(x not in corpus for x in ("검토 방향로", "고객 설정로", "산정 기준한"))
 print("PASS", MODE, "slides", expected, "editorial updates", len(changes),
       "cash and economic break-even labeled", path)
+
