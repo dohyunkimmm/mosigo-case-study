@@ -95,16 +95,16 @@ else:
     # paid demand. Historical SAM is kept as a scenario until area-level
     # eligibility and supply filters have been recalculated.
     replace(4, "약 238만 명", "약 258만 명")
-    replace(4, "고령 인구 참고치 · 유료 이용 수요는 별도 확인",
-            "2026.10 주민등록 2,578,873명 · 유료 수요 별도 확인", required=False)
-    replace(4, "대상 지역 인구 기준 · 서비스 가능 수요와 구분",
-            "기존 후보 지역 가정 · 기준월·대상 시군 재산정", required=False)
     replace(4, "고령 인구는 시장 참고 지표 · 실제 이용 수요는 별도 확인",
             "출처: 행안부 2026.10 주민등록 인구 · 인구는 유료 수요와 구분", required=False)
     replace(4, "경기도 65세 이상 인구를 활용한 산정 기준",
             "고령 인구 참고치 · 유료 이용 수요는 별도 확인")
     replace(4, "20개 시·군 대상 지역 인구를 기준으로 산출한 규모",
             "대상 지역 인구 기준 · 서비스 가능 수요와 구분")
+    replace(4, "고령 인구 참고치 · 유료 이용 수요는 별도 확인",
+            "2026.10 주민등록 2,578,873명 · 유료 수요 별도 확인", required=False)
+    replace(4, "대상 지역 인구 기준 · 서비스 가능 수요와 구분",
+            "기존 후보 지역 가정 · 기준월·대상 시군 재산정", required=False)
     replace(4, "SAM 약 1% 확보를 전제한 목표 산정 기준",
             "장기 목표 가설 · 초기 공급 계획과 별도")
     replace(7, "초기 완료량은 BEP의 18.4% · 목표까지 약 5.4배",
