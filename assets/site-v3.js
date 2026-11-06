@@ -76,7 +76,7 @@ async function copyUrl(button,source){
    const message=$("#v3-scenario-copy-status");if(message)message.textContent="현재 입력 조건이 포함된 링크를 복사했습니다.";
  }catch(err){
    if(err?.name==="AbortError")return;
-   button.textContent="복사 불가 · 주소창에서 복사";
+   button.textContent="주소창에서 링크 복사";
  }
 }
 function setupScenario(){
@@ -127,7 +127,7 @@ function setupPartnerModel() {
    const capacity = staff*hours*4.33/time;
    const orders = Math.round(capacity*utilization/100*platform/100*(1-cancel/100)*completion/100);
    const margin = Math.round(price*(rate-fee)/100-support-system-newShare*cac/100);
-   const breakeven = cost => margin > 0 ? Math.ceil(cost/margin).toLocaleString("ko-KR")+"건" : "산출 불가 (건당 공헌이익 0원 이하)";
+   const breakeven = cost => margin > 0 ? Math.ceil(cost/margin).toLocaleString("ko-KR")+"건" : "건당 공헌이익 개선 후 산정";
    const rows = [
      ["월 이론상 최대 처리", Math.floor(capacity).toLocaleString("ko-KR")+"건"],
      ["월 예상 완료", orders.toLocaleString("ko-KR")+"건"],
@@ -307,9 +307,9 @@ function setupDocuments(){
        item.append(link,excerpt);
        results.append(item);
      }
-     searchStatus.textContent=matches.length ? matches.length+"개 페이지를 찾았습니다." : "일치하는 페이지가 없습니다.";
+     searchStatus.textContent=matches.length ? matches.length+"개 페이지를 찾았습니다." : "검색 결과 0건 · 다른 검색어를 입력해 주세요.";
    }catch{
-     if(searchId===pendingSearch)searchStatus.textContent="문서 검색을 불러오지 못했습니다. 다시 검색하거나 PDF를 열어 주세요.";
+     if(searchId===pendingSearch)searchStatus.textContent="다시 검색하거나 PDF에서 찾아보세요.";
    }
  });
  $("#document-read-page").addEventListener("click", async ()=>{
@@ -321,7 +321,7 @@ function setupDocuments(){
      pageText.hidden=false;
      pageText.focus();
    }catch{
-     searchStatus.textContent="텍스트를 불러오지 못했습니다. PDF 열기를 이용해 주세요.";
+     searchStatus.textContent="PDF 열기에서 본문을 확인해 주세요.";
    }
  });
  const params=new URLSearchParams(location.search);
