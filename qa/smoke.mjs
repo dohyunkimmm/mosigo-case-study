@@ -58,10 +58,7 @@ try {
         assert.ok((await img.getAttribute('src')).endsWith(prefix + '-01-sm.webp'), width + 'px ' + tab + ' preview source');
         const rendered = await img.evaluate(element => ({ready:element.complete,w:element.naturalWidth,h:element.naturalHeight}));
         assert.ok(rendered.ready && rendered.w >= 200 && rendered.h >= 110, width + 'px ' + tab + ' actual preview image loaded: ' + JSON.stringify(rendered));
-        await page.waitForFunction(({ prefix }) => {
-          const firstThumb = document.querySelector('#v3-doc-thumbs img');
-          return firstThumb?.getAttribute('src')?.endsWith(prefix + '-01-sm.webp');
-        }, { prefix });
+        assert.ok((await page.locator(previewSelector).getAttribute('href')).endsWith(prefix + '-01.webp'), 'enlargement tracks the selected document');
         const rect = await page.locator(previewSelector).boundingBox();
         assert.ok(rect && rect.width > 200 && rect.height > 120, width + 'px ' + tab + ' preview renders');
         if (width === 1440) {
