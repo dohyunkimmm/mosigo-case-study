@@ -392,7 +392,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
  .chapter-content>.subhead{margin-top:26px;margin-bottom:13px}
 }
 @media print{.bep-emphasis,.skim-verdict,.skim-lead{break-inside:avoid}}
-</style><link rel="stylesheet" href="/assets/site-v3.css?v=readable-20261106"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}</script></head>
+</style><link rel="stylesheet" href="/assets/site-v3.css?v=zoom-20261106"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}</script></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside id="contents" tabindex="-1" aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a></div>
 <div class="toc-label" aria-hidden="true"><span>CONTENTS</span><small>01 — 09</small></div>
@@ -415,7 +415,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <div class="v3-hero-metrics" aria-label="사업성 핵심 수치 · 예상 시나리오">
  <div class="v3-hero-metric"><small>초기 공급 기준 · 예상 월 완료</small><strong>199건</strong></div>
  <div class="v3-hero-metric"><small>월 손익분기점 · 기회비용 포함</small><strong>1,082건</strong></div>
- <div class="v3-hero-metric"><small>초기 공급 / 손익분기점</small><strong>18.4%</strong></div>
+ <div class="v3-hero-metric v3-hero-ratio"><small>손익분기점 대비 예상 완료</small><strong>18.4%</strong></div>
 </div>
 </div></header>
 <div id="attachments" class="quick-documents" aria-label="사업기획서·발표자료·IR Deck">
@@ -430,7 +430,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="모바일 문서 페이지 보기">
 <a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 문서 쪽 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1쪽 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
 <div class="mobile-page-controls"><button id="doc-prev" type="button" disabled>이전</button><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1쪽, 전체 17쪽">1 / 17쪽</span><button id="doc-next" type="button">다음</button></div></div>
-<dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><img id="v3-fullscreen-img" alt=""><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF를 다운로드하거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
+<dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><div class="v3-zoom-viewport"><button type="button" id="v3-doc-zoom" aria-label="문서 이미지 확대" aria-pressed="false"><img id="v3-fullscreen-img" alt=""></button></div><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF를 다운로드하거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
 <details class="report-search" id="document-search">
 <summary>문서 본문 검색·텍스트 읽기</summary>
 <form id="document-search-form" role="search">
@@ -793,4 +793,4 @@ ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>update(
 document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update(true);});
 update();
 })();
-</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=compact-20261106"></script></body></html>
+</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=zoom-20261106"></script></body></html>
