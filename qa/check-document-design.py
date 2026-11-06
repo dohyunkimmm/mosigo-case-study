@@ -205,7 +205,7 @@ assert '2,578,873명' in site_html and '2,578,873명' in plan_html, 'Official 20
 assert '약 258만 명' in plan_html and '약 154만 명' in plan_html, 'TAM update or historical SAM label missing'
 assert '이전 지역 추정치' in plan_html, 'Historical SAM scenario must be labelled'
 assert 'jumin.mois.go.kr/etcStatOldAge.do' in site_html and 'jumin.mois.go.kr/etcStatOldAge.do' in plan_html, 'Official population citation missing'
-assert '기본 판매가 아님' in plan_html and '실제 판매가격이 아닌 손익 계산용 평균 이용가' in site_html, 'Product/average-price clarification missing'
+assert '기본 판매가 아님' in plan_html and '손익 계산에 적용한 평균 이용가' in site_html, 'Product/average-price clarification missing'
 assert '플랫폼 이용 비율·획득 비용·취소율 변동에 따른 월 손익' in Path('qa/refine-decks.py').read_text(encoding='utf-8'), 'IR sensitivity variable must be specified in generator'
 assert '2026.10 주민등록 2,578,873명' in Path('qa/refine-decks.py').read_text(encoding='utf-8'), 'IR official population caption must be specified in generator'
 print('PASS P1-P2 market vintage, product price and IR sensitivity checks')
