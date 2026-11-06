@@ -164,6 +164,16 @@ function setupDocuments(){
  const currentDoc=()=>tabs.find(x=>x.getAttribute("aria-pressed")==="true")?.dataset.docPreview||"plan";
  const fullPrev=$("#v3-full-prev"), fullNext=$("#v3-full-next");
  const previewError=$("#doc-preview-error");
+ const zoom=$("#v3-doc-zoom"), zoomViewport=zoom.parentElement;
+ function resetZoom(){
+   zoom.setAttribute("aria-pressed","false");
+   zoomViewport.scrollTo(0,0);
+ }
+ zoom.addEventListener("click",()=>{
+   if(zoom.getAttribute("aria-pressed")==="true"){resetZoom();return;}
+   zoom.setAttribute("aria-pressed","true");
+   zoomViewport.scrollLeft=(zoomViewport.scrollWidth-zoomViewport.clientWidth)/2;
+ });
  const imageStatus=()=>{ previewError.hidden = !image.complete || image.naturalWidth > 0; };
  image.addEventListener("load", imageStatus);
  image.addEventListener("error", imageStatus);
@@ -194,6 +204,7 @@ function setupDocuments(){
    $("#v3-full-count").textContent=page+" / "+doc.total;
    const fullImage=$("#v3-fullscreen-img");
    if(fullImage && $("#v3-fullscreen").open) {
+      resetZoom();
       fullImage.src="/downloads/previews/"+doc.prefix+"-"+String(page).padStart(2,"0")+".webp";
       fullImage.alt=doc.label+" "+page+(key==="plan"?"쪽":"장")+" 전체화면 미리보기";
    }
@@ -213,9 +224,9 @@ function setupDocuments(){
      else window.open($("#doc-page-open").href,"_blank","noopener");
    });
    close.addEventListener("click",()=>dialog.close());
-   dialog.addEventListener("close",()=>open.focus());
+   dialog.addEventListener("close",()=>{resetZoom();open.focus();});
    dialog.addEventListener("keydown",event=>{
-     if(event.key==="ArrowLeft" || event.key==="ArrowRight"){
+     if((event.key==="ArrowLeft" || event.key==="ArrowRight") && zoom.getAttribute("aria-pressed")!=="true"){
        event.preventDefault();
        window.MOSIGO_DOC.setPage(currentPage()+(event.key==="ArrowRight"?1:-1));
      }

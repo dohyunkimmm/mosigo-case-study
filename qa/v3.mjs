@@ -51,6 +51,9 @@ try{
   assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('slides-01-sm.webp'));
   await page.locator('#doc-page-open').click();
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),true,'full-screen dialog opens');
+  await page.locator('#v3-doc-zoom').click();
+  assert.equal(await page.locator('#v3-doc-zoom').getAttribute('aria-pressed'),'true','expanded preview supports zoom');
+  assert.equal(await page.locator('.v3-zoom-viewport').evaluate(e=>e.scrollWidth>e.clientWidth),true,'zoom supports horizontal reading');
   await page.locator('#v3-full-close').click();
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),false,'dialog closes');
   await page.locator('[data-doc-preview="ir"]').click();
