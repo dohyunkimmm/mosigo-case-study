@@ -392,7 +392,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
  .chapter-content>.subhead{margin-top:26px;margin-bottom:13px}
 }
 @media print{.bep-emphasis,.skim-verdict,.skim-lead{break-inside:avoid}}
-</style><link rel="stylesheet" href="/assets/site-v3.css"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}</script></head>
+</style><link rel="stylesheet" href="/assets/site-v3.css?v=readable-20261106"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}</script></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside id="contents" tabindex="-1" aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a></div>
 <div class="toc-label" aria-hidden="true"><span>CONTENTS</span><small>01 — 09</small></div>
@@ -424,13 +424,13 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>17쪽</small></button>
 <button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">발표자료 <small>11장</small></button>
 <button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR Deck <small>12장</small></button></div>
-<div class="quick-head"><span class="doc-context">선택 문서 열기</span><a class="btn doc-open" id="doc-open" href="/downloads/mosigo_business_plan_20261031.pdf" target="_blank" rel="noopener noreferrer">사업기획서 PDF 열기 ↗</a></div>
+
 </div>
 <iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
 <div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="모바일 문서 페이지 보기">
 <a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 문서 쪽 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1쪽 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
 <div class="mobile-page-controls"><button id="doc-prev" type="button" disabled>이전</button><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1쪽, 전체 17쪽">1 / 17쪽</span><button id="doc-next" type="button">다음</button></div></div>
-<dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><img id="v3-fullscreen-img" alt=""><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF로 열거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
+<dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><img id="v3-fullscreen-img" alt=""><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF를 다운로드하거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
 <details class="report-search" id="document-search">
 <summary>문서 본문 검색·텍스트 읽기</summary>
 <form id="document-search-form" role="search">
@@ -442,11 +442,9 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <button type="button" id="document-read-page">현재 페이지 텍스트 읽기</button>
 <pre id="document-page-text" tabindex="0" hidden></pre>
 </details>
-<div class="doc-links">
-<a class="btn" id="doc-pdf-save" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">현재 문서 PDF 저장</a>
-<a class="btn" href="/downloads/mosigo_report.pptx" download="mosigo_report.pptx">발표자료 PPTX 다운로드</a>
-<a class="btn" href="/downloads/MOSIGO_IR_Investment_Review_12slides.pptx" download="MOSIGO_IR_Investment_Review_12slides.pptx">IR Deck PPTX 다운로드</a>
-<a class="btn" href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx">Excel 저장</a></div>
+<div class="doc-links" aria-label="선택한 문서 다운로드">
+<a id="doc-pdf-save" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">PDF 다운로드</a>
+<a id="doc-pptx-save" hidden>PPTX 다운로드</a></div>
 </div>
 <section id="overview"><div class="section-title"><span class="eyebrow">01 / PROJECT BRIEF</span><h2>MOSIGO · 고객·시장 분석에서 사업화 전략 결정까지</h2></div><div class="mobile-skim"><p class="skim-lead"><span class="insight-kicker">01 · 핵심 결론</span><strong>자녀 대리 예약을 중심으로<br class="desktop-break">기존 사업자와 제한된 범위에서 제휴 운영을 먼저 시험</strong></p><p>자녀가 예약하고 부모가 이용하는 병원 동행 서비스의 사업화 검토</p><ul><li>핵심 과업 · 대리 예약과 진행 확인</li><li>선택 · 기존 사업자 제휴 모델 우선 검토</li></ul></div><details class="chapter-detail" open><summary>분석 범위·근거 보기</summary><div class="chapter-content">
 <div class="grid g3">
@@ -551,7 +549,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 </tbody></table></div>
 
 </div></details></section>
-<section id="business"><div class="section-title"><span class="eyebrow">06 / BUSINESS CASE</span><h2>수요·공급·손익 격차로 사업화 가능성을 판단한다</h2></div><div class="mobile-skim"><p>초기 제휴 모델 산출 조건 · 매니저 20명 기준</p><dl class="skim-numbers"><div><dt>월 서비스 완료 건수</dt><dd>199건</dd></div><div><dt>건당 공헌이익</dt><dd>3,700원</dd></div><div><dt>월 손익분기점</dt><dd>1,082건</dd></div></dl><p class="skim-note">인력 투입 기회비용을 반영한 기준 / 공급 확대 전 고객 획득 비용과 운영비 개선</p></div>
+<section id="business"><div class="section-title"><span class="eyebrow">06 / BUSINESS CASE</span><h2>수요·공급·손익 격차로 사업화 가능성을 판단한다</h2></div><a class="business-model-download" href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx">손익 모델 Excel 다운로드</a><div class="mobile-skim"><p>초기 제휴 모델 산출 조건 · 매니저 20명 기준</p><dl class="skim-numbers"><div><dt>월 서비스 완료 건수</dt><dd>199건</dd></div><div><dt>건당 공헌이익</dt><dd>3,700원</dd></div><div><dt>월 손익분기점</dt><dd>1,082건</dd></div></dl><p class="skim-note">인력 투입 기회비용을 반영한 기준 / 공급 확대 전 고객 획득 비용과 운영비 개선</p></div>
 <figure class="bep-visual" aria-label="월 서비스 완료 건수 비교: 초기 공급 예상 199건, 이론상 최대 공급 433건, 현금 손익분기점 541건, 인력 투입 기회비용 반영 손익분기점 1,082건. 초기 공급은 손익분기의 약 18.4퍼센트">
 <figcaption>초기 공급 예상치와 손익분기점 비교 <small>월 서비스 완료 건수 기준</small></figcaption>
 <div class="bep-emphasis"><div class="bep-ratio"><strong>18.4%</strong><span>손익분기점 대비<br>초기 공급 비율</span></div><div class="bep-gap"><span>손익분기점까지 남은 건수</span><strong>월 883건</strong><small>현재 조건에서 추가로 필요한 월 서비스 완료 건수</small></div></div>
@@ -734,13 +732,13 @@ window.addEventListener('afterprint', () => {
  setChapterMode();
 });
 
-const docFrame=document.getElementById('doc-frame'),docOpen=document.getElementById('doc-open'),docPdfSave=document.getElementById('doc-pdf-save');
+const docFrame=document.getElementById('doc-frame'),docPdfSave=document.getElementById('doc-pdf-save'),docPptxSave=document.getElementById('doc-pptx-save');
 const docImage=document.getElementById('doc-page-img'),docImageLink=document.getElementById('doc-page-open');
 const docPrev=document.getElementById('doc-prev'),docNext=document.getElementById('doc-next'),docPageCount=document.getElementById('doc-page-count');
 const docConfigs={
  plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:17,images:'plan',unit:'쪽',file:'mosigo_business_plan_20261031.pdf'},
- presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 11장 미리보기',label:'발표자료',pages:11,images:'slides',unit:'장',file:'mosigo_report_preview.pdf'},
- ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO 실무형 IR Deck 12장',label:'IR Deck',pages:12,images:'ir',unit:'장',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
+ presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 11장 미리보기',label:'발표자료',pages:11,images:'slides',unit:'장',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
+ ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO 실무형 IR Deck 12장',label:'IR Deck',pages:12,images:'ir',unit:'장',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
 };
 let currentDocument='plan',currentDocumentPage=1;
 const savedPages = {};
@@ -768,8 +766,11 @@ const docButtons=Array.from(document.querySelectorAll('[data-doc-preview]'));
 docButtons.forEach(button=>button.addEventListener('click',()=>{
  const key=button.getAttribute('data-doc-preview'),doc=docConfigs[key];if(!doc)return;
  const next=doc.path+'#toolbar=1&view=FitH';if(docFrame.getAttribute('src')!==next)docFrame.src=next;
- docFrame.title=doc.title;docOpen.href=doc.path;docOpen.textContent=doc.label+' PDF 열기 ↗';
-  docPdfSave.href=doc.path;docPdfSave.download=doc.file;
+ docFrame.title=doc.title;
+ docPdfSave.href=doc.path;docPdfSave.download=doc.file;
+ docPptxSave.hidden=!doc.pptx;
+ if(doc.pptx){docPptxSave.href='/downloads/'+doc.pptx;docPptxSave.download=doc.pptx;}
+ else{docPptxSave.removeAttribute('href');docPptxSave.removeAttribute('download');}
  currentDocument=key;currentDocumentPage=rememberedPage(key);renderMobileDocumentPage();
  docButtons.forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
 }));

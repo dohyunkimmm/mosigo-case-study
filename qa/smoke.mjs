@@ -89,8 +89,8 @@ try {
     }
     assert.equal(await page.locator('#doc-pdf-save').count(), 1, width + 'px one current-document PDF download');
     assert.equal(await page.locator('.doc-links a[download$=".pdf"]').count(), 1, width + 'px no duplicate IR PDF download');
-    assert.equal(await page.locator('.doc-links a[download$=".pptx"]').count(), 2, width + 'px both editable slide decks retained');
-    assert.equal(await page.locator('.doc-links a[download$=".xlsx"]').count(), 1, width + 'px calculation file retained');
+    assert.equal(await page.locator('#doc-pptx-save').isHidden(), true, width + 'px plan only offers PDF');
+    assert.equal(await page.locator('#business a[download$=".xlsx"]').count(), 1, width + 'px calculation file in business section');
     assert.match(await page.locator('#market .chapter-content').textContent(), /15,000명.*1\.5회.*40,000원.*9억 원/, width + 'px market scenario arithmetic retained');
     assert.match(await page.locator('#customer .chapter-content h3.subhead').textContent(), /고객 이용 과업/, width + 'px duplicate customer hypothesis wording removed');
     const decisionSummary = await page.locator('#decision .skim-verdict').textContent();
@@ -163,7 +163,7 @@ try {
         { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pptx', kind: 'zip', minBytes: 200 },
       ];
       for (const { path, kind, minBytes } of assets) {
-        if (path.startsWith('/downloads/') && !path.endsWith('/mosigo_report_preview.pdf') && !path.endsWith('/MOSIGO_IR_Investment_Review_12slides.pdf')) {
+        if (path.startsWith('/downloads/') && !path.endsWith('.pptx') && !path.endsWith('/mosigo_report_preview.pdf') && !path.endsWith('/MOSIGO_IR_Investment_Review_12slides.pdf')) {
           assert.ok(await page.locator('a[href$="' + path + '"]').count() >= 1, path + ' document link');
         }
         const response = await page.request.get(new URL(path, base).href);
