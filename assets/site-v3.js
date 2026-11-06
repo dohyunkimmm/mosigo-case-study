@@ -152,8 +152,8 @@ function setupPartnerModel() {
 }
 
 function setupDocuments(){
- const image=$("#doc-page-img"),container=$("#v3-doc-thumbs");
- if(!image||!container)return;
+ const image=$("#doc-page-img");
+ if(!image)return;
  const details={plan:{prefix:"plan",total:17,label:"사업기획서"},presentation:{prefix:"slides",total:11,label:"발표자료"},ir:{prefix:"ir",total:12,label:"IR Deck"}};
  const titles={
    plan:["표지","사업화 요약","자료 출처","시장 문제","고객과 공급자","시장 규모","서비스 여정","IT·운영 범위","상품·사업모델","거래당 손익","공급 산정","민감도","단계별 검증","로드맵","성과 지표","사업화 판단","참고 자료"],
@@ -162,7 +162,7 @@ function setupDocuments(){
  };
  const tabs=[...document.querySelectorAll("[data-doc-preview]")];
  const currentDoc=()=>tabs.find(x=>x.getAttribute("aria-pressed")==="true")?.dataset.docPreview||"plan";
- const selector=$("#v3-doc-page"), fullPrev=$("#v3-full-prev"), fullNext=$("#v3-full-next");
+ const fullPrev=$("#v3-full-prev"), fullNext=$("#v3-full-next");
  const previewError=$("#doc-preview-error");
  const imageStatus=()=>{ previewError.hidden = !image.complete || image.naturalWidth > 0; };
  image.addEventListener("load", imageStatus);
@@ -173,10 +173,9 @@ function setupDocuments(){
    image.srcset=url.href+" 800w, "+url.href+" 1400w";
    previewError.hidden=true;
  });
- selector.addEventListener("change",()=>window.MOSIGO_DOC.setPage(Number(selector.value)));
  fullPrev.addEventListener("click",()=>window.MOSIGO_DOC.setPage(currentPage()-1));
  fullNext.addEventListener("click",()=>window.MOSIGO_DOC.setPage(currentPage()+1));
- let listedDoc="";
+
  let cached="";
  const currentPage=()=>{
   const found=(image.getAttribute("src")||"").match(/-(\d{2})-sm\.webp/);
@@ -190,28 +189,9 @@ function setupDocuments(){
    cached=next;
    $("#document-page-text").hidden=true;
    imageStatus();
-   if(listedDoc!==key){
-      selector.replaceChildren(...Array.from({length:doc.total},(_,i)=>new Option((i+1)+(key==="plan"?"쪽":"장")+" · "+titles[key][i],String(i+1))));
-      listedDoc=key;
-   }
-   selector.value=String(page);
    fullPrev.disabled=page===1;
    fullNext.disabled=page===doc.total;
    $("#v3-full-count").textContent=page+" / "+doc.total;
-   container.replaceChildren();
-   const start=Math.max(1,Math.min(page-2,doc.total-4));
-   for(let n=start;n<=Math.min(doc.total,start+4);n++){
-      const button=document.createElement("button");button.type="button";
-      button.setAttribute("aria-label",doc.label+" "+n+(key==="plan"?"쪽으로":"장으로")+" 이동");
-      if(n===page)button.setAttribute("aria-current","page");
-      const thumb=document.createElement("img");
-      thumb.src="/downloads/previews/"+doc.prefix+"-"+String(n).padStart(2,"0")+"-sm.webp";
-      thumb.alt="";thumb.loading="lazy";thumb.decoding="async";thumb.width=76;thumb.height=43;
-      const label=document.createElement("span");label.textContent=n+(key==="plan"?"쪽":"장");
-      button.append(thumb,label);
-      button.addEventListener("click",()=>window.MOSIGO_DOC?.setPage(n));
-      container.append(button);
-   }
    const fullImage=$("#v3-fullscreen-img");
    if(fullImage && $("#v3-fullscreen").open) {
       fullImage.src="/downloads/previews/"+doc.prefix+"-"+String(page).padStart(2,"0")+".webp";
@@ -222,7 +202,7 @@ function setupDocuments(){
  const observer=new MutationObserver(refresh);
  observer.observe(image,{attributes:true,attributeFilter:["src"]});
  for(const tab of tabs)tab.addEventListener("click",()=>requestAnimationFrame(refresh));
- const open=$("#v3-view-full"),dialog=$("#v3-fullscreen"),close=$("#v3-full-close");
+ const open=$("#doc-page-open"),dialog=$("#v3-fullscreen"),close=$("#v3-full-close");
  if(open&&dialog&&close){
    open.addEventListener("click",()=>{
      if(typeof dialog.showModal==="function"){
@@ -300,7 +280,7 @@ function setupDocuments(){
          tabs.find(tab=>tab.dataset.docPreview===key).click();
          window.MOSIGO_DOC.setPage(number);
          history.replaceState(history.state,"",link.href);
-         $("#v3-doc-page").focus();
+         $("#doc-page-open").focus();
        });
        const excerpt=document.createElement("p");
        excerpt.textContent=page.split("\n").find(line=>normalize(line).includes(term)) || page.slice(0,160);
