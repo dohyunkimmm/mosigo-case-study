@@ -189,28 +189,9 @@ function setupDocuments(){
    cached=next;
    $("#document-page-text").hidden=true;
    imageStatus();
-   if(listedDoc!==key){
-      selector.replaceChildren(...Array.from({length:doc.total},(_,i)=>new Option((i+1)+(key==="plan"?"쪽":"장")+" · "+titles[key][i],String(i+1))));
-      listedDoc=key;
-   }
-   selector.value=String(page);
    fullPrev.disabled=page===1;
    fullNext.disabled=page===doc.total;
    $("#v3-full-count").textContent=page+" / "+doc.total;
-   container.replaceChildren();
-   const start=Math.max(1,Math.min(page-2,doc.total-4));
-   for(let n=start;n<=Math.min(doc.total,start+4);n++){
-      const button=document.createElement("button");button.type="button";
-      button.setAttribute("aria-label",doc.label+" "+n+(key==="plan"?"쪽으로":"장으로")+" 이동");
-      if(n===page)button.setAttribute("aria-current","page");
-      const thumb=document.createElement("img");
-      thumb.src="/downloads/previews/"+doc.prefix+"-"+String(n).padStart(2,"0")+"-sm.webp";
-      thumb.alt="";thumb.loading="lazy";thumb.decoding="async";thumb.width=76;thumb.height=43;
-      const label=document.createElement("span");label.textContent=n+(key==="plan"?"쪽":"장");
-      button.append(thumb,label);
-      button.addEventListener("click",()=>window.MOSIGO_DOC?.setPage(n));
-      container.append(button);
-   }
    const fullImage=$("#v3-fullscreen-img");
    if(fullImage && $("#v3-fullscreen").open) {
       fullImage.src="/downloads/previews/"+doc.prefix+"-"+String(page).padStart(2,"0")+".webp";
