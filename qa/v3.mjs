@@ -22,6 +22,7 @@ try{
   assert.equal(await page.locator('.v3-scenario-picks button').count(),3);
   assert.equal(await page.locator('.v3-bar-col').count(),4,'three presets plus current assumptions');
   assert.equal(await page.locator('#v3-doc-thumbs,#v3-doc-page,#v3-view-full').count(),0);
+  assert.equal(await page.locator('#doc-pptx-save').isHidden(),true,'plan has a PDF only');
   const start=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
   assert.ok(start.x<=start.w+1,width+'px document fits viewport');
   await page.locator('#business .chapter-detail summary').click();
@@ -45,6 +46,7 @@ try{
   await page.locator('#doc-next').click();
   assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('plan-03-sm.webp'));
   await page.locator('[data-doc-preview="presentation"]').click();
+  assert.match(await page.locator('#doc-pptx-save').getAttribute('href'),/mosigo_report\.pptx$/);
 
   assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('slides-01-sm.webp'));
   await page.locator('#doc-page-open').click();
@@ -52,6 +54,7 @@ try{
   await page.locator('#v3-full-close').click();
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),false,'dialog closes');
   await page.locator('[data-doc-preview="ir"]').click();
+  assert.match(await page.locator('#doc-pptx-save').getAttribute('href'),/MOSIGO_IR_Investment_Review_12slides\.pptx$/);
   await page.waitForFunction(() => document.querySelector('#doc-page-img')?.getAttribute('src')?.endsWith('ir-01-sm.webp'));
   await page.locator('#doc-next').click();
   await page.locator('#doc-next').click();
