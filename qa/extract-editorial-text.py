@@ -1,6 +1,7 @@
 from pathlib import Path
 from zipfile import ZipFile
 import subprocess
+import sys
 from pptx import Presentation
 from openpyxl import load_workbook
 
@@ -66,3 +67,7 @@ for ws in wb_formula.worksheets:
 print(f"PASS editorial extraction: {len(prs.slides)} slides, {len(wb_formula.worksheets)} sheets")
 for p in sorted(OUT.glob("*.txt")):
     print(f"EXTRACTED {p.name}: {p.stat().st_size} bytes")
+
+# Validate the published search index and Excel-derived web defaults.
+subprocess.run([sys.executable, 'qa/build-report-data.py', '--check'], check=True)
+

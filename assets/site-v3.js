@@ -109,10 +109,11 @@ function setupPartnerModel() {
    ["신규 고객 획득비 (원)", 3000, 10000000], ["월 현금 고정비 (원)", 2000000, 1000000000],
    ["월 인력 기회비용 (원)", 2000000, 1000000000]
  ];
- const controls = fields.map(([name, initial, max, min=0, step=1]) => {
+ const baseline = window.MOSIGO_PARTNER_BASELINE ?? fields.map(field => field[1]);
+ const controls = fields.map(([name, , max, min=0, step=1], index) => {
    const label = document.createElement("label"), input = document.createElement("input");
    label.textContent = name;
-   Object.assign(input, {type:"number", min, max, step, value:initial, required:true});
+   Object.assign(input, {type:"number", min, max, step, value:baseline[index], required:true});
    label.append(input);
    inputs.append(label);
    return input;
@@ -144,7 +145,7 @@ function setupPartnerModel() {
  }
  inputs.addEventListener("input",render);
  $("#partner-reset").addEventListener("click",() => {
-   controls.forEach((input,i) => { input.value=fields[i][1]; });
+   controls.forEach((input,i) => { input.value=baseline[i]; });
    render();
  });
  render();
@@ -187,6 +188,7 @@ function setupDocuments(){
    const next=key+":"+page;
    if(cached===next)return;
    cached=next;
+   $("#document-page-text").hidden=true;
    imageStatus();
    if(listedDoc!==key){
       selector.replaceChildren(...Array.from({length:doc.total},(_,i)=>new Option((i+1)+(key==="plan"?"쪽":"장")+" · "+titles[key][i],String(i+1))));
@@ -259,6 +261,69 @@ function setupDocuments(){
    const button=$(event.key==="ArrowRight"?"#doc-next":"#doc-prev");
    if(button&&!button.disabled){event.preventDefault();button.click();}
  });
+ const searchForm=$("#document-search-form"), query=$("#document-query");
+ const searchStatus=$("#document-search-status"), results=$("#document-search-results");
+ const pageText=$("#document-page-text");
+ let documentIndex;
+ let pendingSearch=0;
+ const normalize = value => value.normalize("NFKC").toLocaleLowerCase("ko-KR").replace(/\s+/g,"");
+ async function getIndex(){
+   if(!documentIndex){
+     const response=await fetch("/assets/document-search.json");
+     if(!response.ok)throw new Error("Search index unavailable");
+     documentIndex=await response.json();
+   }
+   return documentIndex;
+ }
+ searchForm.addEventListener("submit",async event=>{
+   event.preventDefault();
+   const term=normalize(query.value.trim()), searchId=++pendingSearch;
+   results.replaceChildren();
+   if(term.length<2){searchStatus.textContent="검색어를 두 글자 이상 입력해 주세요.";return;}
+   searchStatus.textContent="문서에서 찾는 중입니다.";
+   try{
+     const index=await getIndex();
+     if(searchId!==pendingSearch)return;
+     const matches=[];
+     for(const [key,pages] of Object.entries(index)){
+       pages.forEach((page,i)=>{
+         if(normalize(page).includes(term))matches.push({key,number:i+1, page});
+       });
+     }
+     for(const {key,number,page} of matches){
+       const item=document.createElement("li"), link=document.createElement("a");
+       link.href="?document="+key+"&page="+number+"#attachments";
+       link.textContent=details[key].label+" "+number+(key==="plan"?"쪽":"장")+" · "+titles[key][number-1];
+       link.addEventListener("click",event=>{
+         if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+         event.preventDefault();
+         tabs.find(tab=>tab.dataset.docPreview===key).click();
+         window.MOSIGO_DOC.setPage(number);
+         history.replaceState(history.state,"",link.href);
+         $("#v3-doc-page").focus();
+       });
+       const excerpt=document.createElement("p");
+       excerpt.textContent=page.split("\n").find(line=>normalize(line).includes(term)) || page.slice(0,160);
+       item.append(link,excerpt);
+       results.append(item);
+     }
+     searchStatus.textContent=matches.length ? matches.length+"개 페이지를 찾았습니다." : "일치하는 페이지가 없습니다.";
+   }catch{
+     if(searchId===pendingSearch)searchStatus.textContent="문서 검색을 불러오지 못했습니다. 다시 검색하거나 PDF를 열어 주세요.";
+   }
+ });
+ $("#document-read-page").addEventListener("click", async ()=>{
+   const key=currentDoc(), page=currentPage();
+   try{
+     const index=await getIndex();
+     if(key!==currentDoc() || page!==currentPage())return;
+     pageText.textContent=details[key].label+" "+page+" / "+details[key].total+"\n\n"+index[key][page-1];
+     pageText.hidden=false;
+     pageText.focus();
+   }catch{
+     searchStatus.textContent="텍스트를 불러오지 못했습니다. PDF 열기를 이용해 주세요.";
+   }
+ });
  const params=new URLSearchParams(location.search);
  const requestedDoc=params.get("document"), requestedPage=Number(params.get("page"));
  if(Object.hasOwn(details,requestedDoc)){
@@ -275,4 +340,3 @@ document.querySelectorAll('a[href="#partner-model"]').forEach(link => link.addEv
  $("#partner-model").closest("details").open=true;
 }));
 })();
-
