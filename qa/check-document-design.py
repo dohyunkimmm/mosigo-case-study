@@ -198,8 +198,8 @@ plan_html = Path("downloads/mosigo_business_plan_20261031.html").read_text(encod
 assert "동일 생산성·고정비 단순 비례 산정" in plan_html, "Business-plan capacity assumption label is missing"
 assert "2025년 사업 참여 인원" in plan_html and "12,802명" in plan_html, "Public participant unit should be explicit"
 assert "현금 기준 월 541건" in plan_html and "기회비용 포함 월 1,082건" in plan_html, "Cash and economic BEP should be separated"
-assert "현금 기준 손익분기점은 월 541건" in site_html, "Site should explain cash break-even"
-assert "초기 20명의 이론상 최대 공급 433건" in site_html, "Site should explain supply capacity"
+assert re.search(r'<div class="bep-row"><span>현금 손익분기</span>[^\n]*<strong>541건</strong>', site_html), "Cash break-even should be visible in the supply comparison"
+assert re.search(r'<div class="bep-row"><span>이론상 최대 공급</span>[^\n]*<strong>433건</strong>', site_html), "Theoretical capacity should be visible in the supply comparison"
 assert "인구 기반 참고 범위" in site_html and "장기 고객 목표 가설" in site_html, "Market population and goal labels should be clear"
 assert '2,578,873명' in site_html and '2,578,873명' in plan_html, 'Official 2026-10 population missing'
 assert '약 258만 명' in plan_html and '약 154만 명' in plan_html, 'TAM update or historical SAM label missing'
