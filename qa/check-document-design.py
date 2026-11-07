@@ -20,7 +20,7 @@ def fonts(p):
     info=cmd('pdffonts',str(p))
     assert 'Pretendard' in info, f'Pretendard not embedded in {p}'
     return sorted(set(re.findall(r'Pretendard-[A-Za-z]+',info)))
-assert pages(PLAN)==19,'Business plan must be 17 pages'
+assert pages(PLAN)==19,'Business plan must be 19 pages'
 assert pages(SLIDES)==11,'Slides must be 11 pages'
 assert pages(IR_PDF)==12,'IR deck must be 12 pages'
 assert IR_PDF.stat().st_size>25000,'IR PDF is unexpectedly small'
