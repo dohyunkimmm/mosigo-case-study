@@ -70,16 +70,15 @@ try{
   assert.equal(await page.locator('#v3-page-share').count(),0,'extra page-share button removed');
   const end=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
   assert.ok(end.x<=end.w+1,width+'px no horizontal overflow after interactions');
-  await page.locator('#document-search summary').click();
-  await page.locator('#document-query').fill('252.7만 원');
-  await page.locator('#document-search-form button').click();
-  const hit = page.locator('#document-search-results a[href="?document=ir&page=10#attachments"]');
-  await hit.waitFor();
-  await hit.click();
-  assert.match(await page.locator('#doc-page-count').textContent(),/10 \/ 12/);
-  await page.locator('#document-read-page').click();
-  await page.locator('#document-page-text').waitFor({state:'visible'});
-  assert.match(await page.locator('#document-page-text').textContent(),/252\.7/);
+  assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('plan-03-sm.webp'),'plan page remembered when switching documents');
+  await page.locator('#doc-prev').click();
+  assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('plan-02-sm.webp'),'previous-page control works');
+  await page.locator('#doc-page-open').click();
+  assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),true,'page preview opens in a dialog');
+  await page.locator('#v3-full-next').click();
+  assert.ok((await page.locator('#v3-fullscreen-img').getAttribute('src')).endsWith('plan-03.webp'),'dialog next-page control advances the preview');
+  await page.locator('#v3-full-close').click();
+  assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),false,'dialog closes after navigation');
   assert.equal(await page.locator('.review-verification article').count(),4);
   const printStates = await page.evaluate(() => {
     const chapters = [...document.querySelectorAll('.chapter-detail')];

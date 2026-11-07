@@ -150,14 +150,13 @@ jobs:
                   planTab.tap()
                   let planCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "1 / 17")).firstMatch
                   XCTAssertTrue(planCounter.waitForExistence(timeout: 10), "Switching documents must reset page counter")
-                  // Exercise a new v3 navigation affordance with a native finger tap.
-                  let thumbnail = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "3쪽으로 이동")).firstMatch
-                  XCTAssertTrue(thumbnail.waitForExistence(timeout: 15), "Document thumbnails must be accessible in native Safari")
-                  thumbnail.tap()
-                  let thumbCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "3 / 17")).firstMatch
-                  XCTAssertTrue(thumbCounter.waitForExistence(timeout: 10), "Thumbnail selection must jump to page 3")
-                  let fullScreen = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "현재 쪽 전체화면 보기")).firstMatch
-                  XCTAssertTrue(fullScreen.waitForExistence(timeout: 15), "Full-screen document control must be accessible")
+                  // Exercise current previous/next controls instead of removed thumbnails.
+                  forward.tap()
+                  forward.tap()
+                  let thirdPage = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "3 / 17")).firstMatch
+                  XCTAssertTrue(thirdPage.waitForExistence(timeout: 10), "Native Safari must advance to page 3")
+                  let fullScreen = safari.links.matching(NSPredicate(format: "label CONTAINS %@", "현재 문서 쪽 크게 보기")).firstMatch
+                  XCTAssertTrue(fullScreen.waitForExistence(timeout: 15), "Document full-screen link must be accessible")
                   fullScreen.tap()
                   let close = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "닫기")).firstMatch
                   XCTAssertTrue(close.waitForExistence(timeout: 10), "Full-screen dialog must expose an accessible close control")

@@ -209,7 +209,8 @@ function setupDocuments(){
  for(const tab of tabs)tab.addEventListener("click",()=>requestAnimationFrame(refresh));
  const open=$("#doc-page-open"),dialog=$("#v3-fullscreen"),close=$("#v3-full-close");
  if(open&&dialog&&close){
-   open.addEventListener("click",()=>{
+   open.addEventListener("click",event=>{
+     event.preventDefault();
      if(typeof dialog.showModal==="function"){
        dialog.showModal();
        cached="";
