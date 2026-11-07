@@ -63,3 +63,12 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 Pretendard Variable · 정적 HTML로 독립 배포합니다. 9개 장은 요약을 우선 보여주고 상세는 선택해 열 수 있습니다.
 
 - **아이콘:** 토스페이스 공식 스마트폰 글리프를 정적 PNG로 사용합니다. [토스페이스 저작권 및 사용조건](https://toss.im/tossface/copyright). 대용량 이모지 웹폰트를 방문자에게 전달하지 않습니다.
+
+## 2026-11-07 저장소 클렌징·QA 기록
+
+- [PR #38](https://github.com/dohyunkimmm/mosigo-case-study/pull/38): 현행 문서 뷰어와 맞지 않는 Chromium·모바일·iOS Safari QA 선택자를 교체하고 미사용 검색 색인 생성 코드/CSS 일부를 정리. 기존 문서·미리보기·URL을 보존.
+- [PR #39](https://github.com/dohyunkimmm/mosigo-case-study/pull/39): 병합된 작업 브랜치 13개를 원본 SHA와 PR 상태 확인 후 `archive/20261107/` 태그로 보존하고 브랜치 참조만 회수. [정리 Actions](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42331192554) 성공, 점검 직후 원격 브랜치는 `main`만 남았음.
+- [Site QA PR #38](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42330700286) 및 [PR #39](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42331017120) 통과. [병합된 코드의 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42330886274)는 첫 실행에서 합성 Lighthouse 모바일 성능 83점(기준 90점)으로 실패한 뒤 **기준을 바꾸지 않고 재실행에 성공**함.
+- [모바일 엔진 QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42330886270) 및 [네이티브 iOS Safari 시뮬레이터 QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42330886263) 통과. 시뮬레이터 QA는 실제 iPhone 실기기 통과를 의미하지 않음.
+- 과거 일회성 브랜치 정리 워크플로는 완료로 인해 제거하며, 후속 정리용 워크플로는 본인 파일 변경이 `main`에 병합될 때만 실행되고 다른 변경에는 반응하지 않도록 제한.
+- `main`의 `protected=false` 운영 예외는 여전히 유효함. 저장소·브랜치 보존 검증은 사용자 데이터, Vercel Blob, 실제 실기기와 별개의 범위임.
