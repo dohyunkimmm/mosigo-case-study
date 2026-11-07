@@ -154,7 +154,7 @@ function setupPartnerModel() {
 function setupDocuments(){
  const image=$("#doc-page-img");
  if(!image)return;
- const details={plan:{prefix:"plan",total:17,label:"사업기획서"},presentation:{prefix:"slides",total:11,label:"발표자료"},ir:{prefix:"ir",total:12,label:"IR Deck"}};
+ const details={plan:{prefix:"plan",total:19,label:"사업기획서"},presentation:{prefix:"slides",total:11,label:"발표자료"},ir:{prefix:"ir",total:12,label:"IR Deck"}};
  const tabs=[...document.querySelectorAll("[data-doc-preview]")];
  const currentDoc=()=>tabs.find(x=>x.getAttribute("aria-pressed")==="true")?.dataset.docPreview||"plan";
  const fullPrev=$("#v3-full-prev"), fullNext=$("#v3-full-next");
