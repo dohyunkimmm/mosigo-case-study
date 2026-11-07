@@ -29,7 +29,7 @@ try {
     assert.equal(check.overflow, false, width + 'px horizontal overflow');
     assert.equal(check.sections, 9, 'section count');
     assert.equal(check.details, 9, 'details count');
-    assert.equal(check.tables, 14, 'table count');
+    assert.equal(check.tables, 15, 'table count');
     assert.ok(check.labels > 0 && check.unlabeled === 0, 'static table labels');
     assert.equal(check.open, 0, width + 'px concise chapter mode');
     assert.equal(check.mobileSummary, true, 'summary shown at every width');
@@ -194,7 +194,7 @@ try {
         assert.ok(redirectHtml.includes('content="0;url=/' + anchor + '"'), legacyPath + ' target');
         assert.ok(redirectHtml.includes('href="/' + anchor + '"'), legacyPath + ' fallback link');
       }
-      for(const [kind,count] of [['plan',17],['slides',11]]){
+      for(const [kind,count] of [['plan',19],['slides',11]]){
         for(let i=1;i<=count;i++){
           const imagePath='/downloads/previews/'+kind+'-'+String(i).padStart(2,'0')+'.webp';
           const response=await page.request.get(new URL(imagePath,base).href);
