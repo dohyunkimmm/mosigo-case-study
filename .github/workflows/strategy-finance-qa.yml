@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Rebuild from original five-sheet workbook
+        run: git show origin/main:downloads/mosigo_model.xlsx > downloads/mosigo_model.xlsx
       - name: Preserve existing five worksheets, add investment and 3-year strategy
         run: |
           python qa/strategy_excel_sync.py mosigo
