@@ -213,3 +213,39 @@ html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-scenarios,html:n
  .v3-hero-metrics .v3-hero-ratio{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:4px 2px;border:0;background:transparent}
  .v3-hero-metrics .v3-hero-ratio strong{font-size:19px}
 }
+
+/* 2026-11 investment decision visual polish: existing navigation and downloads unchanged. */
+#decision .investment-gap{
+  margin:22px 0 28px;padding:23px 24px 19px;
+  background:linear-gradient(135deg,#f7faf7,#eef5ef);
+  border:1px solid #d2e1d6;border-radius:16px;
+  color:#194332;box-shadow:0 4px 18px rgba(20,58,38,.045)
+}
+.investment-gap figcaption{display:flex;flex-direction:column;gap:4px;margin:0 0 20px}
+.investment-gap-kicker{font-size:11px;letter-spacing:.12em;font-weight:800;color:#407657}
+.investment-gap figcaption>strong{font-size:clamp(21px,2vw,27px);line-height:1.35;letter-spacing:-.035em}
+.investment-gap-intro{font-size:14px;color:#567365;line-height:1.65}
+.investment-gap-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.investment-gap-steps>li{display:flex;flex-direction:column;gap:5px;min-width:0;padding:17px 15px 14px;background:#fff;border:1px solid #dae8de;border-radius:11px}
+.investment-gap-label{font-size:13px;line-height:1.5;color:#446555;font-weight:700}
+.investment-gap-steps strong{font-size:clamp(22px,2.5vw,30px);font-weight:850;letter-spacing:-.055em;font-variant-numeric:tabular-nums;line-height:1.2}
+.investment-gap-steps strong small{font-size:12px;margin-left:3px;letter-spacing:0;font-weight:650}
+.investment-gap-steps li>small{font-size:12px;line-height:1.5;color:#61766a}
+.investment-gap-track{height:8px;background:#e7eee8;border-radius:99px;overflow:hidden;margin:9px 0 1px}
+.investment-gap-track>span{display:block;height:100%;background:#7da895;border-radius:inherit}
+.investment-gap-goal{border-color:#b6d1bf!important;background:#edf5ef!important}
+.investment-gap-goal .investment-gap-track>span{background:#196143}
+.investment-gap-summary{margin:19px 0 5px!important;padding:14px 16px;border-left:3px solid #26744d;border-radius:4px 9px 9px 4px;background:#e0efe4;font-size:14px;line-height:1.65;font-weight:700}
+.investment-gap-source{margin:10px 0 0!important;font-size:12px;line-height:1.6;color:#60796a}
+@media(max-width:800px){
+ #decision .investment-gap{padding:17px 14px;margin:16px 0 22px}
+ .investment-gap-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .investment-gap-steps>li{padding:13px 12px}
+ .investment-gap figcaption>strong{font-size:21px}
+}
+@media(max-width:380px){.investment-gap-steps{gap:8px}.investment-gap-label{font-size:12px}.investment-gap-steps strong{font-size:23px}}
+/* A more readable hierarchy for dense evidence tables, without introducing extra controls. */
+#decision .tablewrap,#business .tablewrap{border-radius:12px;box-shadow:0 2px 12px rgba(25,64,42,.035)}
+#decision .tbl th,#business .tbl th{line-height:1.55}
+#decision .tbl td,#business .tbl td{line-height:1.62}
+#decision .subhead{letter-spacing:-.025em}
