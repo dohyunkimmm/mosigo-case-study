@@ -35,7 +35,7 @@ jobs:
           for kind in plan slides; do
             if [ "$kind" = plan ]; then
               pdf=downloads/mosigo_business_plan_20261031.pdf
-              expected=17
+              expected=19
             else
               pdf=downloads/mosigo_report_preview.pdf
               expected=11
