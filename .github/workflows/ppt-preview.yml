@@ -9,6 +9,7 @@ on:
       - 'qa/sync-strategy-copy.py'
       - 'qa/fix-presentation-overlaps.py'
       - 'qa/refine-decks.py'
+      - 'qa/apply-strategy-20261107.py'
       - 'downloads/mosigo_model.xlsx'
       - '.github/workflows/ppt-preview.yml'
   pull_request:
@@ -19,6 +20,7 @@ on:
       - 'qa/sync-strategy-copy.py'
       - 'qa/fix-presentation-overlaps.py'
       - 'qa/refine-decks.py'
+      - 'qa/apply-strategy-20261107.py'
       - 'downloads/mosigo_model.xlsx'
       - '.github/workflows/ppt-preview.yml'
   workflow_dispatch:
@@ -59,6 +61,8 @@ jobs:
         run: /tmp/mosigo-ppt-venv/bin/python qa/fix-presentation-overlaps.py
       - name: Apply capacity and editorial QA refinements
         run: /tmp/mosigo-ppt-venv/bin/python qa/refine-decks.py strategy
+      - name: Align investment strategy and Pretendard typography
+        run: /tmp/mosigo-ppt-venv/bin/python qa/apply-strategy-20261107.py strategy
       - name: Convert existing presentation for inline viewing
         run: |
           set -euo pipefail
