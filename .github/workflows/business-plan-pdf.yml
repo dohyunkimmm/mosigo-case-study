@@ -54,7 +54,7 @@ jobs:
           node qa/generate-business-plan.mjs
           sudo apt-get update -qq
           sudo apt-get install -y -qq poppler-utils webp
-          test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "17"
+          test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "19"
           pdffonts downloads/mosigo_business_plan_20261031.pdf | grep -qi Pretendard
           pdftotext downloads/mosigo_business_plan_20261031.pdf /tmp/business-plan-text.txt
           if grep -Eq '고객 설정로|산정 기준한|검토 방향로' /tmp/business-plan-text.txt; then
@@ -65,12 +65,12 @@ jobs:
             echo "::error::Document publication date remains in the rendered PDF"
             exit 1
           fi
-      - name: Render 17 mobile PDF preview pages
+      - name: Render 19 mobile PDF preview pages
         run: |
           set -euo pipefail
           mkdir -p downloads/previews /tmp/mosigo-plan-preview
-          test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "17"
-          for page in $(seq 1 17); do
+          test "$(pdfinfo downloads/mosigo_business_plan_20261031.pdf | awk '/^Pages:/ {print $2}')" = "19"
+          for page in $(seq 1 19); do
             padded="$(printf '%02d' "$page")"
             pdftoppm -f "$page" -l "$page" -scale-to 1400 -png -singlefile downloads/mosigo_business_plan_20261031.pdf /tmp/mosigo-plan-preview/page
             cwebp -quiet -q 84 -m 6 /tmp/mosigo-plan-preview/page.png -o "downloads/previews/plan-$padded.webp"
@@ -78,7 +78,7 @@ jobs:
             test "$(stat -c%s "downloads/previews/plan-$padded.webp")" -gt 1000
             test "$(stat -c%s "downloads/previews/plan-$padded-sm.webp")" -gt 1000
           done
-          test "$(find downloads/previews -maxdepth 1 -name 'plan-*.webp' | wc -l)" -eq 34
+          test "$(find downloads/previews -maxdepth 1 -name 'plan-*.webp' | wc -l)" -eq 38
       - name: Publish regenerated PDF
         if: github.event_name != 'pull_request'
         run: |
