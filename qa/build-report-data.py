@@ -43,7 +43,7 @@ def check_metrics(text, label):
 
 total_pages = 0
 for key,name,count in [
-    ("plan","mosigo_business_plan_20261031.pdf",17),
+    ("plan","mosigo_business_plan_20261031.pdf",19),
     ("presentation","mosigo_report_preview.pdf",11),
     ("ir","MOSIGO_IR_Investment_Review_12slides.pdf",12),
 ]:
