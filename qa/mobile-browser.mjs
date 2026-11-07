@@ -66,7 +66,7 @@ for (const { name, engine, device } of cases) {
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01-sm.webp'), name + ' previous page');
       await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
       // Walk every published mobile page rather than checking only the first two.
-      const total = tab === 'plan' ? 17 : tab === 'ir' ? 12 : 11;
+      const total = tab === 'plan' ? 19 : tab === 'ir' ? 12 : 11;
       for (let number = 2; number <= total; number++) {
         await page.locator('#doc-next').click();
         const padded = String(number).padStart(2, '0');
@@ -133,7 +133,7 @@ for (const { name, engine, device } of cases) {
     // Test the full mobile preview manifest (both the 800px and 1400px variants).
     // Execute once for the last device, because assets are common to every engine.
     if (name === cases[cases.length - 1].name) {
-      for (const [prefix, count] of [['plan', 17], ['slides', 11], ['ir', 12]]) {
+      for (const [prefix, count] of [['plan', 19], ['slides', 11], ['ir', 12]]) {
         for (let number = 1; number <= count; number++) {
           const numberText = String(number).padStart(2, '0');
           for (const suffix of ['-sm.webp', '.webp']) {
@@ -147,7 +147,7 @@ for (const { name, engine, device } of cases) {
           }
         }
       }
-      console.log('PASS 80 mobile preview WebP files: 17 plan pages, 11 presentation slides and 12 IR slides at both sizes');
+      console.log('PASS 84 mobile preview WebP files: 19 plan pages, 11 presentation slides and 12 IR slides at both sizes');
     }
     assert.deepEqual(pageErrors, [], name + ' uncaught JS errors');
     console.log('PASS',name,JSON.stringify({layout,fontResult,documents:'PDF header and EOF verified, all three tabs and fallback links verified'}));
