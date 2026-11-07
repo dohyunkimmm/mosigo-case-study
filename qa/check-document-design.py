@@ -49,7 +49,7 @@ assert '기본동행3만원대' in compact_plan, 'Published PDF does not show th
 assert '손익비교용평균이용가' in compact_plan, 'Published PDF does not distinguish 40k model average'
 print('PASS price hypothesis/model separation in source and published PDF')
 site_html=Path('index.html').read_text(encoding='utf-8')
-assert '<h2>MOSIGO · 고객·시장 분석에서 사업화 전략 결정까지</h2>' in site_html, 'M-01 heading drifted'
+assert '<h2>MOSIGO · 신사업 투자 타당성에서 중장기 성장전략까지</h2>' in site_html, 'M-01 heading drifted'
 assert '<h2>수요·공급·손익 격차로 사업화 가능성을 판단한다</h2>' in site_html, 'M-02 heading drifted'
 assert '월 서비스 완료 199건(산정 기준)과 손익분기점 1,082건' in site_html, 'M-03 quantitative reasoning missing'
 assert '고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in site_html, 'M-03 expansion criteria missing'
@@ -97,7 +97,7 @@ normalized_slides=re.sub(r'\s+([.,:;])',r'\1',slides_text)
 compact_slides=re.sub(r'\s+','',slides_text)
 for page_number, page_text in enumerate(slides_text.split('\f'), 1):
     assert_no_repeated_sentences(page_text, f'presentation page {page_number}')
-assert 'MOSIGO' in compact_slides and '사업화의사결정' in compact_slides
+assert 'MOSIGO' in compact_slides and '투자·성장의사결정' in compact_slides
 assert '기본 상품 3만 원대는 출시 가격 가설' in Path('qa/refine-decks.py').read_text(encoding='utf-8'), 'PPT slide 9 pricing edit must be defined'
 assert '\ufffd' not in plan_text+slides_text
 for term in legacy_terms:
@@ -149,9 +149,9 @@ with ZipFile(PPTX) as z:
     first=''.join((t.text or '') for t in title.findall('.//a:t',ns))
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
     assert '기존 사업자 제휴 모델 우선 검토 · 고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in first, 'Slide 1 decision not synchronized'
-    assert '기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 199건(산정 기준) / 손익분기점 1,082건' in last, 'Slide 11 quantified recommendation missing'
-    assert '제휴 모델 우선 · 수요·공급 계약·비용 확인 후 투자 판단' in last, 'Slide 11 investment gate missing'
-    assert '확대 조건 · 안전·권한, 반복 수요, 기회비용 반영 손익 개선' in last, 'Slide 11 further funding condition missing'
+    assert '제휴 사업모델 우선 · 초기 완료 199건 / 손익분기점 1,082건(계획 기준)' in last, 'Slide 11 quantified recommendation missing'
+    assert '1년 차 · 제휴 사업모델과 운영 책임 정교화' in last, 'Slide 11 investment gate missing'
+    assert '3년 차 · 반복수요 기반 기업·공공 협력 모델 검토' in last, 'Slide 11 further funding condition missing'
 print('PASS PPT cover and decision wording synchronized with case study')
 
 print('PASS PPTX',len(slides),'editable slides',east_asian,'consistent text runs')
