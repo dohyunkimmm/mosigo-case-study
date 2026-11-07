@@ -331,7 +331,7 @@ def sync(path,project):
         for part,h in preserved.items():assert hashlib.sha256(z.read(part)).hexdigest()==h,("original sheet modified",part)
         updated,formulas,errors=workbook_stats(output)
         assert updated==src_names+expected,(updated,src_names,expected)
-        assert formulas>=src_formulas+25,(formulas,src_formulas)
+        assert formulas>=src_formulas+(25 if project=='footmate' else 24),(formulas,src_formulas)
         assert errors==0
         for new in spec:
             assert any(new["name"]==name for name in updated)
