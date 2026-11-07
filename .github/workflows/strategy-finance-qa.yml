@@ -1,0 +1,36 @@
+name: MOSIGO investment strategy workbook sync
+on:
+  push:
+    branches:
+      - strategy/investment-workbook-20261108
+    paths:
+      - 'qa/strategy_excel_sync.py'
+      - '.github/workflows/strategy-finance-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  finance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild from original five-sheet workbook
+        run: git show origin/main:downloads/mosigo_model.xlsx > downloads/mosigo_model.xlsx
+      - name: Preserve existing five worksheets, add investment and 3-year strategy
+        run: |
+          python qa/strategy_excel_sync.py mosigo
+          python qa/strategy_excel_sync.py mosigo
+      - name: Commit validated integrated XLSX
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloads/mosigo_model.xlsx
+          if ! git diff --cached --quiet; then
+            git commit -m 'build(finance): replace MOSIGO Excel with 5 source and 3 investment sheets'
+            git push origin HEAD:strategy/investment-workbook-20261108
+          fi
