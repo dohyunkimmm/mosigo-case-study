@@ -109,6 +109,7 @@ def footmate_specs():
     put(v["cells"],"B11",f("'검증'!B6","원장 입력 후 확인"))
     put(v["cells"],"A12","입력 전에는 원장 대사 완료로 표시하지 않음. 원본 검증 탭의 수식은 모두 보존.","note")
     put(v["cells"],"A13","원본 6개 시트의 2027년 계획·합성 자료와 중장기 시나리오를 혼동하지 않습니다.","note")
+    put(v["cells"],"A14","기존 '36개월 TCO'는 초기 투자·고정비·인력 기회비용의 합계로, 거래변동비·추가 투자까지 포함한 총비용은 아닙니다.","note")
     return [b,d,k,v]
 
 def mosigo_specs():
@@ -161,6 +162,8 @@ def mosigo_specs():
         for col,val in vals.items():put(z["cells"],f"{col}{row}",val)
     put(z["cells"],"A11","기존 기본 동행 출시 가격 3만 원대와 4만 원 계산용 평균 이용가는 서로 다릅니다.","note")
     put(z["cells"],"A12","기존 초기 투자 500만 원 가정과 신규 8주 운영비 400만 원은 중복·잔여 금액 확정 전 서로 더하지 않습니다.","note")
+    put(z["cells"],"A13","8주 예산 외 보험·법률·환불·개발·판촉 등은 별도 투자 심의 항목입니다.","note")
+    put(z["cells"],"A14","SAM 154만 명은 이전 지역 범위의 계획 추정치입니다. 진입 생활권·대상 기간을 확정한 뒤 원자료로 재산정합니다.","note")
     return [m,t,z]
 
 def mkstyles(styles):
@@ -323,6 +326,24 @@ def sync(path,project):
         raw["xl/workbook.xml"]=ET.tostring(workbook,encoding="utf-8",xml_declaration=True)
         raw["xl/_rels/workbook.xml.rels"]=ET.tostring(rels,encoding="utf-8",xml_declaration=True)
         raw["[Content_Types].xml"]=ET.tostring(content,encoding="utf-8",xml_declaration=True)
+        # Excel's file properties must list the same worksheet titles/count as the workbook.
+        if "docProps/app.xml" in raw:
+            app=ET.fromstring(raw["docProps/app.xml"])
+            AP="{http://schemas.openxmlformats.org/officeDocument/2006/extended-properties}"
+            VT="{http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes}"
+            titles=app.find(AP+"TitlesOfParts/"+VT+"vector")
+            if titles is not None:
+                for item in spec:ET.SubElement(titles,VT+"lpstr").text=item["name"]
+                titles.set("size",str(len(titles)))
+            pairs=app.find(AP+"HeadingPairs/"+VT+"vector")
+            if pairs is not None:
+                variants=pairs.findall(VT+"variant")
+                for idx in range(len(variants)-1):
+                    label=variants[idx].find(VT+"lpstr")
+                    count=variants[idx+1].find(VT+"i4")
+                    if label is not None and label.text=="Worksheets" and count is not None:
+                        count.text=str(len(sheets))
+            raw["docProps/app.xml"]=ET.tostring(app,encoding="utf-8",xml_declaration=True)
     output=path.with_suffix(".strategy.tmp.xlsx")
     with ZipFile(output,"w",ZIP_DEFLATED,compresslevel=6) as z:
         for name,b in raw.items():z.writestr(name,b)
