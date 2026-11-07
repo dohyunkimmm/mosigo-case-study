@@ -38,7 +38,7 @@ for (const { name, engine, device } of cases) {
     assert.match(bodyFont, /Pretendard/, name + ' site typography must declare Pretendard');
 
     await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
-    assert.equal(await page.locator('#doc-open').isVisible(), true);
+    assert.equal(await page.locator('#doc-pdf-save').isVisible(), true);
 
     for (const { path, label } of assetTests) {
       const response = await context.request.get(new URL(path, base).href, { timeout: 25000 });
@@ -55,7 +55,7 @@ for (const { name, engine, device } of cases) {
     ]) {
       await page.locator('[data-doc-preview="' + tab + '"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith(path + '#'), name + ' frame switches');
-      assert.ok(new URL(await page.locator('#doc-open').getAttribute('href'), base).pathname === path, name + ' open link updates');
+      assert.ok(new URL(await page.locator('#doc-pdf-save').getAttribute('href'), base).pathname === path, name + ' open link updates');
       assert.equal(await page.locator('[data-doc-preview="' + tab + '"]').getAttribute('aria-pressed'), 'true', name + ' accessible selected state');
       const prefix=tab==='plan'?'plan':tab==='ir'?'ir':'slides';
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01-sm.webp'), name + ' initial preview image');
@@ -86,14 +86,17 @@ for (const { name, engine, device } of cases) {
       await page.screenshot({ path: screenshots + '/' + name + '-' + tab + '-last.png', fullPage: false });
       await page.locator('[data-doc-preview="' + tab + '"]').click();
       assert.equal(await page.locator('#doc-next').isDisabled(), true, name + ' remembers the last page when reselected');
-      await page.locator('#v3-doc-page').selectOption('1');
-      assert.equal(await page.locator('#doc-prev').isDisabled(), true, name + ' direct jump to first page');
+      await page.locator('#doc-prev').click();
+      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/' + prefix + '-' + String(total-1).padStart(2, '0') + '-sm.webp'), name + ' previous-page navigation');
+      assert.equal(await page.locator('#doc-next').isEnabled(), true, name + ' can return to last page');
+      await page.locator('#doc-next').click();
+      assert.equal(await page.locator('#doc-next').isDisabled(), true, name + ' last-page boundary after returning');
       await page.screenshot({ path: screenshots + '/' + name + '-' + tab + '.png', fullPage: false });
     }
     await page.locator('#mobile-doc-viewer').scrollIntoViewIfNeeded();
     const layout = await page.evaluate(() => {
       const tabs = [...document.querySelectorAll('.doc-tab')];
-      const fallback = document.querySelector('#doc-open');
+      const fallback = document.querySelector('#doc-pdf-save');
       const image = document.querySelector('#doc-page-img');
       const doc = document.querySelector('#attachments');
       const r = element => {

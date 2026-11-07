@@ -1,4 +1,4 @@
-"""Build the document search index and web calculator defaults from release assets."""
+"""Validate release documents and generate the calculator baseline."""
 import argparse
 import json
 import math
@@ -41,7 +41,7 @@ def check_metrics(text, label):
         if str(value)+unit not in text:
             raise ValueError(f"{label}: expected {value:,}{unit}")
 
-documents = {}
+total_pages = 0
 for key,name,count in [
     ("plan","mosigo_business_plan_20261031.pdf",17),
     ("presentation","mosigo_report_preview.pdf",11),
@@ -52,7 +52,7 @@ for key,name,count in [
     if len(pages) != count or any(not page.strip() for page in pages):
         raise ValueError(f"{name}: expected {count} searchable pages")
     check_metrics(raw,name)
-    documents[key] = ["\n".join(" ".join(line.split()) for line in page.splitlines() if line.strip()) for page in pages]
+    total_pages += len(pages)
 
 for name in ("mosigo_report.pptx","MOSIGO_IR_Investment_Review_12slides.pptx"):
     deck = Presentation(root/name)
@@ -71,7 +71,6 @@ parser.add_argument("--check", action="store_true")
 args=parser.parse_args()
 assets = {
     "assets/partner-baseline.js": "window.MOSIGO_PARTNER_BASELINE = Object.freeze(" + json.dumps(values) + ");\n",
-    "assets/document-search.json": json.dumps(documents, ensure_ascii=False, separators=(",",":"))+"\n",
 }
 for file, data in assets.items():
     path=Path(file)
@@ -80,4 +79,4 @@ for file, data in assets.items():
             raise ValueError(f"{file} is stale. Run python qa/build-report-data.py")
     else:
         path.write_text(data)
-print(f"PASS: {sum(map(len,documents.values()))} searchable pages, Excel and document baseline agreement")
+print(f"PASS: {total_pages} document pages, Excel and document baseline agreement")
