@@ -189,14 +189,6 @@ html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-doc-thumbs,html:
 .review-examples details{padding:10px 14px;background:#f2f7f3;border:1px solid #d4e3d7;border-radius:8px}
 .review-examples summary{cursor:pointer;font-weight:750;padding:6px 0}
 
-.report-search{margin:14px 0;padding:12px;background:#fff;border:1px solid #cbded0;border-radius:10px}
-.report-search summary{padding:8px 0;font-weight:750;cursor:pointer}
-.report-search form>div{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-.report-search input{flex:1;min-width:min(100%,170px)}
-.report-search input,.report-search button{min-height:44px;padding:6px 10px;border:1px solid #668a73;border-radius:6px;background:white;color:#183e30;font:inherit}
-.report-search ol{max-height:24rem;overflow:auto;padding-inline-start:26px}
-.report-search ol p{margin:0 0 8px;color:#315040;font-size:.85rem}
-#document-page-text{white-space:pre-wrap;overflow-wrap:anywhere;max-height:24rem;overflow:auto;font:inherit;font-size:.9rem}
 .review-verification{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,215px),1fr));gap:12px;margin:16px 0}
 .review-verification article{padding:14px;border:1px solid #cbded0;border-radius:10px;background:#f8fbf8}
 .verification-state{display:inline-block;margin-bottom:7px;padding:2px 8px;border-radius:6px;background:#e4f2e7;color:#20563b;font-size:.8rem;font-weight:750}
@@ -210,7 +202,7 @@ html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-doc-thumbs,html:
 #attachments .doc-links a,.business-model-download{display:inline-flex;align-items:center;min-height:44px;color:#175b43;text-decoration:underline;text-underline-offset:3px;font-size:14px;font-weight:700}
 #attachments .doc-links a[hidden]{display:none}
 .business-model-download{margin-bottom:8px}
-@media(max-width:600px){#attachments .doc-tabs button{font-size:12px;line-height:1.3}#attachments .report-search{margin:6px 0}}
+@media(max-width:600px){#attachments .doc-tabs button{font-size:12px;line-height:1.3}}
 
 .v3-zoom-viewport{overflow:auto;max-height:calc(95dvh - 170px);overscroll-behavior:contain}
 #v3-doc-zoom{display:block;width:100%;padding:0;border:0;background:transparent;cursor:zoom-in}

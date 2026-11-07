@@ -155,11 +155,6 @@ function setupDocuments(){
  const image=$("#doc-page-img");
  if(!image)return;
  const details={plan:{prefix:"plan",total:17,label:"사업기획서"},presentation:{prefix:"slides",total:11,label:"발표자료"},ir:{prefix:"ir",total:12,label:"IR Deck"}};
- const titles={
-   plan:["표지","사업화 요약","자료 출처","시장 문제","고객과 공급자","시장 규모","서비스 여정","IT·운영 범위","상품·사업모델","거래당 손익","공급 산정","민감도","단계별 검증","로드맵","성과 지표","사업화 판단","참고 자료"],
-   presentation:["표지","조사 근거","고객 가치","전략 대안","사업모델","요구사항","공급과 손익","수요·공급·BEP","상품 수익성","실행 계획","최종 판단"],
-   ir:["표지","투자 요약","지불 의향","시장 규모","운영 범위","거래당 손익","공급·손익분기","민감도","8주 검증","검증 예산","실사 항목","최종 투자 판단"]
- };
  const tabs=[...document.querySelectorAll("[data-doc-preview]")];
  const currentDoc=()=>tabs.find(x=>x.getAttribute("aria-pressed")==="true")?.dataset.docPreview||"plan";
  const fullPrev=$("#v3-full-prev"), fullNext=$("#v3-full-next");
@@ -197,7 +192,6 @@ function setupDocuments(){
    const next=key+":"+page;
    if(cached===next)return;
    cached=next;
-   $("#document-page-text").hidden=true;
    imageStatus();
    fullPrev.disabled=page===1;
    fullNext.disabled=page===doc.total;
@@ -251,69 +245,6 @@ function setupDocuments(){
    if(event.target.closest("button,a"))return;
    const button=$(event.key==="ArrowRight"?"#doc-next":"#doc-prev");
    if(button&&!button.disabled){event.preventDefault();button.click();}
- });
- const searchForm=$("#document-search-form"), query=$("#document-query");
- const searchStatus=$("#document-search-status"), results=$("#document-search-results");
- const pageText=$("#document-page-text");
- let documentIndex;
- let pendingSearch=0;
- const normalize = value => value.normalize("NFKC").toLocaleLowerCase("ko-KR").replace(/\s+/g,"");
- async function getIndex(){
-   if(!documentIndex){
-     const response=await fetch("/assets/document-search.json");
-     if(!response.ok)throw new Error("Search index unavailable");
-     documentIndex=await response.json();
-   }
-   return documentIndex;
- }
- searchForm.addEventListener("submit",async event=>{
-   event.preventDefault();
-   const term=normalize(query.value.trim()), searchId=++pendingSearch;
-   results.replaceChildren();
-   if(term.length<2){searchStatus.textContent="검색어를 두 글자 이상 입력해 주세요.";return;}
-   searchStatus.textContent="문서에서 찾는 중입니다.";
-   try{
-     const index=await getIndex();
-     if(searchId!==pendingSearch)return;
-     const matches=[];
-     for(const [key,pages] of Object.entries(index)){
-       pages.forEach((page,i)=>{
-         if(normalize(page).includes(term))matches.push({key,number:i+1, page});
-       });
-     }
-     for(const {key,number,page} of matches){
-       const item=document.createElement("li"), link=document.createElement("a");
-       link.href="?document="+key+"&page="+number+"#attachments";
-       link.textContent=details[key].label+" "+number+(key==="plan"?"쪽":"장")+" · "+titles[key][number-1];
-       link.addEventListener("click",event=>{
-         if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
-         event.preventDefault();
-         tabs.find(tab=>tab.dataset.docPreview===key).click();
-         window.MOSIGO_DOC.setPage(number);
-         history.replaceState(history.state,"",link.href);
-         $("#doc-page-open").focus();
-       });
-       const excerpt=document.createElement("p");
-       excerpt.textContent=page.split("\n").find(line=>normalize(line).includes(term)) || page.slice(0,160);
-       item.append(link,excerpt);
-       results.append(item);
-     }
-     searchStatus.textContent=matches.length ? matches.length+"개 페이지를 찾았습니다." : "검색 결과 0건 · 다른 검색어를 입력해 주세요.";
-   }catch{
-     if(searchId===pendingSearch)searchStatus.textContent="다시 검색하거나 PDF에서 찾아보세요.";
-   }
- });
- $("#document-read-page").addEventListener("click", async ()=>{
-   const key=currentDoc(), page=currentPage();
-   try{
-     const index=await getIndex();
-     if(key!==currentDoc() || page!==currentPage())return;
-     pageText.textContent=details[key].label+" "+page+" / "+details[key].total+"\n\n"+index[key][page-1];
-     pageText.hidden=false;
-     pageText.focus();
-   }catch{
-     searchStatus.textContent="PDF 열기에서 본문을 확인해 주세요.";
-   }
  });
  const params=new URLSearchParams(location.search);
  const requestedDoc=params.get("document"), requestedPage=Number(params.get("page"));
