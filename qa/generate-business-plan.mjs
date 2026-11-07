@@ -33,7 +33,7 @@ try{
    return {pages:slides.length,issues:issues.slice(0,30)};
  });
  console.log('Layout QA:',JSON.stringify(check));
- if(check.pages!==17||check.issues.length)throw new Error('Layout QA failure');
+ if(check.pages!==19||check.issues.length)throw new Error('Layout QA failure');
  await page.pdf({path:output,printBackground:true,preferCSSPageSize:true,width:'1280px',height:'720px',margin:{top:'0',right:'0',bottom:'0',left:'0'}});
  if(fs.statSync(output).size<25000)throw new Error('PDF unexpectedly small');
  console.log('Generated new PDF:',fs.statSync(output).size,'bytes');
