@@ -60,8 +60,9 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 ## 공개 저장소 운영 및 브랜치 보호 (2026-11-08)
 
 - **운영 기준:** 저장소는 **공개(Public)** 상태이며 `main`은 **`protected=true`**입니다. [Ruleset `Protect main`](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)이 `Active`로 적용되어 브랜치 **삭제·강제 푸시를 차단**합니다.
-- **적용 범위:** 현재 규칙에 **PR 필수·상태 검사 필수 설정은 포함되지 않습니다.** 일반 직접 푸시는 기술적으로 허용되므로 변경은 작업 브랜치 → PR → `Site QA / browser-and-lighthouse` 성공 → 검토 후 squash merge 절차로 처리합니다.
-- **자동 생성과 동기화:** 사업기획서·발표자료·IR·미리보기·공유 이미지 생성 워크플로는 결과물을 `main`에 직접 게시할 수 있습니다. PR 필수 규칙을 켜기 전 이 작업들을 PR 기반으로 변경하거나 예외 권한을 설계해야 합니다. 사이트·PRD의 운영 HTML 및 공개 XLSX/PDF/PPTX는 [최종 운영 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42474907407)에서 검증됐습니다.
+- **PR 필수 설정 준비:** 문서 생성 작업 6개는 `main`에 직접 푸시하지 않고, 변경된 산출물이 있을 때 `automation/*` 작업 브랜치와 검토용 PR을 생성하도록 전환했습니다. `Site QA / browser-and-lighthouse`와 `PRD Evidence QA / prd-trace-and-product-tests`는 **모든 PR에서 실행**되도록 경로 제한을 해제했습니다. GitHub 규칙을 실제 활성화하기 전까지는 일반 직접 푸시가 여전히 기술적으로 허용됩니다.
+- **관리자 설정 필요:** [Actions → General](https://github.com/dohyunkimmm/mosigo-case-study/settings/actions)에서 `Allow GitHub Actions to create and approve pull requests`를 허용해야 생성 작업이 PR을 게시할 수 있습니다. `GITHUB_TOKEN`으로 생성한 PR의 검사는 사용자 승인이 필요할 수 있으므로 자동 승인·자동 병합은 하지 않습니다. 이후 [Ruleset `Protect main`](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)에서 `Require a pull request before merging`와 위 **두 작업 이름**을 필수 상태 검사로 지정합니다.
+- **검증 범위:** 생성 PR은 필수 QA 검사를 통과한 후 사람이 병합합니다. 사이트·PRD 운영 HTML 및 XLSX/PDF/PPTX는 [기존 운영 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42474907407)에서 검증했습니다. 규칙 활성화 여부는 별도 GitHub 조회로 확인해야 합니다.
 - **과거 기록:** [#15](https://github.com/dohyunkimmm/mosigo-case-study/issues/15)의 비공개 시절 제약과 `docs/history/`의 `protected=false` 표기는 당시 상태를 설명한 것입니다. 현재 보호 상태의 근거로 사용하지 않습니다.
 
 ## 기술
