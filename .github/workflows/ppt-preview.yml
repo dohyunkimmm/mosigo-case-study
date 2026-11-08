@@ -12,6 +12,7 @@ on:
       - 'qa/apply-strategy-20261107.py'
       - 'qa/visual-polish-20261108.py'
       - 'qa/focus-service-pm-decks-20261108.py'
+      - 'qa/final-presentation-readability-20261108.py'
       - 'downloads/mosigo_model.xlsx'
       - '.github/workflows/ppt-preview.yml'
   pull_request:
@@ -25,6 +26,7 @@ on:
       - 'qa/apply-strategy-20261107.py'
       - 'qa/visual-polish-20261108.py'
       - 'qa/focus-service-pm-decks-20261108.py'
+      - 'qa/final-presentation-readability-20261108.py'
       - 'downloads/mosigo_model.xlsx'
       - '.github/workflows/ppt-preview.yml'
   workflow_dispatch:
@@ -71,6 +73,8 @@ jobs:
         run: /tmp/mosigo-ppt-venv/bin/python qa/visual-polish-20261108.py strategy
       - name: Align main MOSIGO presentation with PRD, delivery and acceptance
         run: /tmp/mosigo-ppt-venv/bin/python qa/focus-service-pm-decks-20261108.py strategy
+      - name: Replace repeated finance page with PRD evidence and acceptance trace
+        run: /tmp/mosigo-ppt-venv/bin/python qa/final-presentation-readability-20261108.py strategy
       - name: Convert existing presentation for inline viewing
         run: |
           set -euo pipefail
