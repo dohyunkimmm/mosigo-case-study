@@ -69,15 +69,22 @@ jobs:
       - name: Verify financial assumptions and reviewed language
         run: |
           set -euo pipefail
-          pdftotext downloads/mosigo_report_preview.pdf /tmp/mosigo-product.txt
-          pdftotext downloads/MOSIGO_IR_Investment_Review_12slides.pdf /tmp/mosigo-ir.txt
-          pdftotext downloads/mosigo_business_plan_20261031.pdf /tmp/mosigo-plan.txt
-          grep -q '제품기획 산출물과 후속 검증' /tmp/mosigo-product.txt
-          grep -q '투자 승인 조건' /tmp/mosigo-ir.txt
-          grep -q '민감도 분석과 개선 우선순위' /tmp/mosigo-plan.txt
-          grep -q '1,082' /tmp/mosigo-ir.txt
-          grep -q '3,700' /tmp/mosigo-ir.txt
-          grep -q '154만' /tmp/mosigo-plan.txt
+          /tmp/mosigo-editorial-venv/bin/python - <<'PY'
+          from pathlib import Path
+          from pptx import Presentation
+          site = Path("index.html").read_text(encoding="utf-8")
+          plan = Path("downloads/mosigo_business_plan_20261031.html").read_text(encoding="utf-8")
+          product = " ".join(sh.text for slide in Presentation("downloads/mosigo_report.pptx").slides for sh in slide.shapes if sh.has_text_frame)
+          ir = " ".join(sh.text for slide in Presentation("downloads/MOSIGO_IR_Investment_Review_12slides.pptx").slides for sh in slide.shapes if sh.has_text_frame)
+          assert "사업성 변수의 측정 계획" in site
+          assert "민감도 분석과 개선 우선순위" in plan
+          assert "제품기획 산출물과 후속 검증" in product
+          assert "서비스 운영 전 투자 승인 조건" in ir
+          assert "199건" in product and "1,082건" in product
+          assert "3,700원" in ir
+          assert "약 154만 명" in ir
+          print("PASS: editorial sources and financial baseline")
+          PY
       - name: Commit reviewed site and document assets to review branch
         env:
           BRANCH: review/editorial-dedup-risk-20261108
