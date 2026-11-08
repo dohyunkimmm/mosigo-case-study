@@ -26,7 +26,7 @@ fi
 
 while IFS= read -r path; do
   case "$path" in
-    README.md|.github/workflows/*|qa/*.md)
+    README.md|.github/workflows/*|.github/scripts/*|qa/*.md)
       ;;
     *)
       echo "Build: deployable or unclassified file changed: $path"

@@ -6,11 +6,11 @@ on:
     paths:
       - 'downloads/mosigo_business_plan_20261031.pdf'
       - 'downloads/mosigo_report_preview.pdf'
-      - '.github/workflows/preview-pages.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: mosigo-mobile-preview-images
@@ -54,19 +54,11 @@ jobs:
             test "$(find downloads/previews -maxdepth 1 -name "$kind-*.webp" | wc -l)" -eq "$((expected * 2))"
             echo "PASS $kind $pages accessible mobile preview pages"
           done
-      - name: Commit browser-independent mobile previews
+      - name: Open PR for regenerated mobile-previews assets
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A downloads/previews
-          if git diff --cached --quiet; then
-            echo "Mobile preview pages unchanged"
-          else
-            git commit -m "assets: render PDF pages for mobile inline viewing"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
+          bash .github/scripts/publish-generated-pr.sh mobile-previews 'assets: refresh mobile PDF preview images' downloads/previews/plan-*.webp downloads/previews/slides-*.webp
       - name: Save preview images
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

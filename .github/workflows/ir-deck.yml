@@ -12,7 +12,6 @@ on:
       - 'qa/visual-polish-20261108.py'
       - 'qa/focus-service-pm-decks-20261108.py'
       - 'qa/final-presentation-readability-20261108.py'
-      - '.github/workflows/ir-deck.yml'
   pull_request:
     branches: [main, 'review/p0-p1-p2-*']
     paths:
@@ -30,6 +29,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: mosigo-ir-deck-build
@@ -108,30 +108,12 @@ jobs:
             test "$(stat -c%s "downloads/previews/ir-$n.webp")" -gt 1000
           done
           test "$(find downloads/previews -maxdepth 1 -name 'ir-*.webp' | wc -l)" -eq 24
-      - name: Publish IR presentation and previews
+      - name: Open PR for regenerated ir-deck assets
         if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add downloads/MOSIGO_IR_Investment_Review_12slides.pptx downloads/MOSIGO_IR_Investment_Review_12slides.pdf downloads/previews/ir-*.webp
-          if git diff --cached --quiet; then
-            echo 'MOSIGO IR files already current'
-          else
-            git commit -m 'docs: publish editable 12-slide MOSIGO IR deck and previews'
-            for attempt in 1 2 3 4 5; do
-              git pull --rebase origin "${GITHUB_REF_NAME}"
-              if git push origin "HEAD:${GITHUB_REF_NAME}"; then
-                echo "Published reviewed artifacts (attempt ${attempt})"
-                break
-              fi
-              if [ "${attempt}" -eq 5 ]; then
-                echo "::error::Could not publish after five safe rebase attempts"
-                exit 1
-              fi
-              sleep $((attempt * 2))
-            done
-          fi
+          bash .github/scripts/publish-generated-pr.sh ir-deck 'docs: update editable IR deck and previews' downloads/MOSIGO_IR_Investment_Review_12slides.pptx downloads/MOSIGO_IR_Investment_Review_12slides.pdf downloads/previews/ir-*.webp
       - name: Save deck for QA
         if: always()
         uses: actions/upload-artifact@v4

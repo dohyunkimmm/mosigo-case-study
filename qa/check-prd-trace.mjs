@@ -97,3 +97,25 @@ for (const file of documentation) {
 }
 assert.deepEqual(missingLinks, [], 'broken repository-local Markdown links');
 console.log('PASS README and archived-document relative links');
+
+// Generated assets must use PRs; both mandatory QA jobs must run on every PR.
+const generatorWorkflows = [
+  'business-plan-pdf.yml', 'ppt-preview.yml', 'preview-pages.yml',
+  'ir-deck.yml', 'build-social-preview.yml', 'tossface-icon.yml',
+];
+for (const workflow of generatorWorkflows) {
+  const content = read('.github/workflows/' + workflow);
+  assert.ok(content.includes('publish-generated-pr.sh'), workflow + ' must open an asset PR');
+  assert.ok(content.includes('pull-requests: write'), workflow + ' requires PR write permission');
+  assert.ok(!/git\s+push\s+origin\s+HEAD:main/.test(content),
+    workflow + ' must not push generated files directly to main');
+}
+const prdWorkflow = read('.github/workflows/prd-evidence-qa.yml');
+const prTriggers = prdWorkflow.split('  pull_request:')[1]?.split('  push:')[0] || '';
+assert.ok(prTriggers.includes('branches: [main]') && !prTriggers.includes('paths:'),
+  'required PRD QA must run on all PR changes');
+const siteWorkflow = read('.github/workflows/site-qa.yml');
+const siteTriggers = siteWorkflow.split('  pull_request:')[1]?.split('  push:')[0] || '';
+assert.ok(siteTriggers.includes('branches: [main]') && !siteTriggers.includes('paths:'),
+  'required Site QA must run on all PR changes');
+console.log('PASS generator PR-only publishing and unfiltered required checks');

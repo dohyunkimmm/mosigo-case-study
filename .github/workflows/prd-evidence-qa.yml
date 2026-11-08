@@ -2,14 +2,6 @@ name: PRD Evidence QA
 on:
   pull_request:
     branches: [main]
-    paths:
-      - 'index.html'
-      - 'downloads/mosigo_prd_delivery.html'
-      - 'downloads/mosigo_business_plan_20261031.html'
-      - 'qa/check-prd-trace.mjs'
-      - 'qa/final-presentation-readability-20261108.py'
-      - 'qa/focus-service-pm-decks-20261108.py'
-      - '.github/workflows/prd-evidence-qa.yml'
   push:
     branches: [main]
     paths:
