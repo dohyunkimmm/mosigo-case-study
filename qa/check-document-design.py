@@ -100,7 +100,9 @@ compact_slides=re.sub(r'\s+','',slides_text)
 for page_number, page_text in enumerate(slides_text.split('\f'), 1):
     assert_no_repeated_sentences(page_text, f'presentation page {page_number}')
 assert 'MOSIGO' in compact_slides
-has_new_prd_deck='PRD에서기능검수·인계까지' in compact_slides
+has_product_prd_deck='사용자문제에서제품설계까지' in compact_slides
+has_legacy_prd_deck='PRD에서기능검수·인계까지' in compact_slides
+has_new_prd_deck=has_product_prd_deck or has_legacy_prd_deck
 if not has_new_prd_deck:
     # PR workflows render the new binaries in a separate job. Main publishes them
     # after merge, so verify the migration source while the checked-in PPT is old.
@@ -167,11 +169,15 @@ with ZipFile(PPTX) as z:
     decision=ET.fromstring(z.read('ppt/slides/slide11.xml'))
     first=''.join((t.text or '') for t in title.findall('.//a:t',ns))
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
-    if has_new_prd_deck:
-        assert '대리 예약·공유·복구 요구사항을 정의하고' in first, 'Slide 1 PRD focus not synchronized'
-        assert '요구사항 6개 · QA 케이스 11개 · UAT 5개(미실시)' in last, 'Slide 11 acceptance decision missing'
-        assert '02 / PRD 설계' in last, 'Slide 11 requirements milestone missing'
-        assert '04 / 운영 인계' in last, 'Slide 11 handoff milestone missing'
+    if has_product_prd_deck:
+        assert '자녀의 대리 예약 문제를 정의하고' in first, 'Slide 1 product goal missing'
+        assert '사용자 문제 · 핵심 여정 · 기능 6개 · UX 설계' in last, 'Slide 11 product summary missing'
+        assert '02 / 사용자 정의' in last, 'Slide 11 persona milestone missing'
+        assert '04 / 실행 계획' in last, 'Slide 11 roadmap milestone missing'
+    elif has_legacy_prd_deck:
+        # The existing editable source may precede the presentation generator.
+        assert '대리 예약·공유·복구 요구사항을 정의하고' in first, 'Legacy slide 1 PRD copy missing'
+        assert '요구사항 6개 · QA 케이스 11개 · UAT 5개(미실시)' in last, 'Legacy slide 11 QA copy missing'
     else:
         assert '기존 사업자 제휴 모델 우선 검토' in first, 'Original PPT source unexpectedly changed'
         assert '제휴 사업모델 우선' in last, 'Original closing slide unexpectedly changed'
