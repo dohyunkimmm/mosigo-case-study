@@ -10,13 +10,17 @@ ROOT = Path("downloads")
 CHANGES = {
  "strategy": {
   1: {2: "MOSIGO 서비스기획 · PRD", 3: "고객 문제 → 요구사항 → 권한·예외 정책 → 검수·인계",
+      5: "예약자·이용자 역할 구분과 대리 예약·공유·복구 요구사항 정의\\n정책·예외·테스트를 검수·인수 기준으로 연결",
       9: "서비스 여정 · 요구사항 · 검수 · 인수 기준"},
   4: {2: "예약자와 이용자 요구사항 정의",
       5: "자녀 대리 예약의 사용자 역할·동의·공유 범위를 기능 요구사항으로 정리"},
   10: {2: "요구사항 우선순위와 검수·인계",
-       5: "P0 필수 정책 → P1 구현·검수 → P2 운영 안내·인수 준비"},
+       5: "P0 필수 정책 → P1 구현·검수 → P2 운영 안내·인수 준비",
+       10: "요구사항", 12: "개발·검수", 14: "인수·교육",
+       16: "변경 요청·테스트 근거·잔여 이슈를 동일 버전으로 인계"},
   11: {2: "PRD에서 기능 검수·인계까지",
-       4: "고객 요구를 정책·기능·테스트·운영 기준으로 연결"},
+       4: "고객 요구를 정책·기능·테스트·운영 기준으로 연결",
+       5: "", 9: "요구사항 정의 · 상태 검수 · 인수 준비 · 변경 관리"},
  },
  "ir": {
   1: {6: "MOSIGO 서비스기획 연계\n사업성·투자 조건 검토",
@@ -74,6 +78,29 @@ def run(mode):
    assert sh.has_text_frame, (slide_no,idx)
    if sh.text!=value:
     set_preserving_style(sh,value);updates+=1
+ if mode=="strategy":
+  table=prs.slides[9].shapes[4].table
+  assert len(table.rows)==5 and len(table.columns)==3
+  revised=[
+   ["단계","실행·기록","통과 기준 제안"],
+   ["P0 요구사항","역할·권한·동의·예약 상태·복구 요구사항 정의","정책 경계와 인수 기준 확인"],
+   ["P1 구현","예약 소유권·공유·복구·상태 충돌 처리","권한·만료·중복·충돌 자동 검증"],
+   ["P2 검수","화면 흐름·예외·접근성·모바일 QA","기술 검증과 고객 UAT 승인 구분"],
+   ["인수·교육","사용 안내·문제 복구·잔여 이슈·후속 계획 정리","실제 예약·결제·의료 영역은 운영 인수 범위 제외"]
+  ]
+  for i,row in enumerate(table.rows):
+   for j,cell in enumerate(row.cells):
+    if cell.text==revised[i][j]:continue
+    tf=cell.text_frame
+    p=tf.paragraphs[0]
+    if p.runs:
+     p.runs[0].text=revised[i][j]
+     for run in p.runs[1:]:run.text=""
+    else:p.text=revised[i][j]
+    for rest in tf.paragraphs[1:]:
+     for run in rest.runs:run.text=""
+    tf.word_wrap=True
+    updates+=1
  if mode=="strategy":
   slide=prs.slides[10]
   for old,new in CARD_PAIRS:
