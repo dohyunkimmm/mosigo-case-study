@@ -77,7 +77,27 @@ def run(mode):
    sh=slide.shapes[idx]
    assert sh.has_text_frame, (slide_no,idx)
    if sh.text!=value:
-    set_preserving_style(sh,value);updates+=1
+    set_preserving_style(sh,value)
+    if sh.text != value:
+     # Old decks contain manual a:br elements outside text runs. Clear only
+     # this edited text frame and rebuild one run to avoid hidden legacy copy.
+     source=sh.text_frame.paragraphs[0].runs
+     oldfont=source[0].font if source else None
+     size=oldfont.size if oldfont is not None else None
+     bold=oldfont.bold if oldfont is not None else None
+     color=None
+     if oldfont is not None:
+      try: color=oldfont.color.rgb
+      except (AttributeError,ValueError,TypeError):pass
+     sh.text_frame.clear()
+     run=sh.text_frame.paragraphs[0].add_run()
+     run.text=value
+     run.font.name="Pretendard"
+     if size is not None:run.font.size=size
+     if bold is not None:run.font.bold=bold
+     if color is not None:run.font.color.rgb=color
+     sh.text_frame.word_wrap=True
+    updates+=1
  if mode=="strategy":
   table=prs.slides[9].shapes[4].table
   assert len(table.rows)==5 and len(table.columns)==3
