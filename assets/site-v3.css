@@ -407,3 +407,7 @@ section{padding-top:70px;padding-bottom:73px}
 }
 @media(prefers-reduced-motion:reduce){.hero-actions .btn{transition:none}}
 @media print{.artifact-shortcuts{display:none!important}#attachments.quick-documents{display:none!important}.supporting-note{break-inside:avoid}.decision-board{break-inside:avoid}}
+
+/* Render concise mobile sections immediately: avoid blank offscreen chapters in full-page captures and print. */
+@media(max-width:800px){main>section{content-visibility:visible;contain-intrinsic-size:none}}
+@media print{main>section{content-visibility:visible!important;contain-intrinsic-size:none!important}}
