@@ -159,12 +159,12 @@ jobs:
                   let planTab = safari.switches.matching(NSPredicate(format: "label CONTAINS %@", "사업기획서")).firstMatch
                   XCTAssertTrue(planTab.exists, "Business plan tab must exist")
                   planTab.tap()
-                  let planCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "1 / 17")).firstMatch
+                  let planCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "1 / 19")).firstMatch
                   XCTAssertTrue(planCounter.waitForExistence(timeout: 10), "Switching documents must reset page counter")
                   // Exercise current previous/next controls instead of removed thumbnails.
                   forward.tap()
                   forward.tap()
-                  let thirdPage = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "3 / 17")).firstMatch
+                  let thirdPage = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "3 / 19")).firstMatch
                   XCTAssertTrue(thirdPage.waitForExistence(timeout: 10), "Native Safari must advance to page 3")
                   let fullScreen = safari.links.matching(NSPredicate(format: "label CONTAINS %@", "현재 문서 쪽 크게 보기")).firstMatch
                   XCTAssertTrue(fullScreen.waitForExistence(timeout: 15), "Document full-screen link must be accessible")
