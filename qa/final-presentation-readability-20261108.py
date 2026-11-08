@@ -47,7 +47,7 @@ def apply_strategy(prs):
             updates+=shape_text(cell,value)
     for idx,value in [
        (9,"주요 사용자 · 자녀/부모"),
-       (11,"핵심 여정 · 5단계"),
+       (11,"핵심 과업 · 4가지"),
        (13,"요구사항 · R-01~R-06"),
        (15,"사용자 문제 → 기능 정의 → 화면 정책 → 후속 검증"),
     ]:
