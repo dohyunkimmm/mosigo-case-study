@@ -70,7 +70,7 @@ section a{font-weight:600}
 <div><dt>기획 범위</dt><dd>고객 과업·핵심 기능·UX</dd></div>
 <div><dt>문서 기준</dt><dd>2026.11.08 · 개인 기획안</dd></div>
 </dl>
-<div class="note"><strong>문서 범위</strong> · 서비스기획 관점의 요구사항과 제안입니다. 사용자 인터뷰·유료 사용성 검증·의료기관 제휴가 완료된 결과물은 아닙니다. 구현 시연과 실제 운영 서비스의 범위를 구분합니다.</div>
+<div class="note"><strong>문서 범위</strong> · 제품기획안과 프로토타입을 다룹니다. 사용자 조사·서비스 운영·제휴 조건은 후속 검증 단계입니다.</div>
 <nav class="toc" aria-label="PRD 목차"><strong>목차 · 13개 항목</strong><ol>
 <li><a href="#project-overview">프로젝트 개요</a></li><li><a href="#objective">제품 목표</a></li><li><a href="#personas">사용자 페르소나</a></li>
 <li><a href="#success-metrics">성공 지표</a></li><li><a href="#prd-requirements">핵심 기능·요구사항</a></li><li><a href="#user-stories">사용자 스토리</a></li>
@@ -82,9 +82,9 @@ section a{font-weight:600}
 <p><strong>MOSIGO</strong>는 병원동행이 필요한 부모와 직접 동행하기 어려운 자녀 사이의 정보 확인·서비스 신청·진행 공유 과정을 하나의 흐름으로 묶는 서비스 기획안입니다.</p>
 <div class="grid">
 <article><h3>해결할 문제</h3><p>자녀는 부모의 진료를 대신 준비해야 하지만, 서비스 조건과 이용자 동의, 진행 상황을 각각 확인해야 합니다.</p></article>
-<article><h3>제품 기회</h3><p>검색과 비교, 부모 동의, 신청, 상태 공유를 연결해 보호자의 확인 부담과 이용 과정의 불확실성을 줄입니다.</p></article>
+<article><h3>제품 기회</h3><p>검색·비교·부모 동의·신청·진행 공유를 한 흐름으로 연결합니다.</p></article>
 </div>
-<p class="small">시장 규모·공공 서비스와의 비교·비용 가정은 별도 사업기획서에서 다룹니다. 이 문서는 제품을 사용하는 경험과 기능 정의에 집중합니다.</p>
+<p class="small">시장·비용 분석은 사업기획서에서, 사용자 경험과 기능은 이 문서에서 다룹니다.</p>
 </section>
 
 <section id="objective"><span class="snum">02 · OBJECTIVE</span><h2>제품 목표</h2>
@@ -99,7 +99,7 @@ section a{font-weight:600}
 </section>
 
 <section id="personas"><span class="snum">03 · USER PERSONAS</span><h2>사용자 페르소나</h2>
-<p class="desc">인터뷰로 확정된 페르소나가 아니라 검증할 사용자 가설입니다.</p>
+<p class="desc">사용자 조사에서 검증할 핵심 페르소나 가설입니다.</p>
 <div class="grid">
 <article><span class="tag">핵심 사용자 · 예약자</span><h3>부모의 진료를 준비하는 자녀</h3><p><strong>상황:</strong> 근무나 거주지 문제로 부모와 매번 동행하기 어렵습니다.</p><p><strong>필요:</strong> 믿을 만한 조건 비교, 대리 신청, 일정·진행 확인, 변경 안내</p><p><strong>주요 과업:</strong> 탐색 → 비교 → 동의 요청 → 신청 → 진행 확인</p></article>
 <article><span class="tag">서비스 이용자</span><h3>병원동행 서비스를 이용하는 부모</h3><p><strong>상황:</strong> 방문 일정과 현장 동행 정보를 이해하고 서비스 이용을 결정해야 합니다.</p><p><strong>필요:</strong> 이해하기 쉬운 안내, 동의·거부 선택, 이동·현장 안전 정보</p><p><strong>주요 과업:</strong> 내용 확인 → 동의 → 동행 이용 → 이상 시 연락</p></article>
@@ -107,14 +107,14 @@ section a{font-weight:600}
 </section>
 
 <section id="success-metrics"><span class="snum">04 · SUCCESS METRICS / KPIs</span><h2>성공 지표</h2>
-<p class="desc">제품이 실제로 문제를 해결하는지 판단할 측정 항목입니다. 현재 실측값과 확정 목표값은 없습니다.</p>
+<p class="desc">제품 경험을 평가할 지표를 정의하고, 목표값은 조사 결과로 설정합니다.</p>
 <div class="tablewrap"><table><thead><tr><th>지표</th><th>측정 방법</th><th>기획 의도</th><th>현재 상태</th></tr></thead><tbody>
-<tr><td>신청 완료율</td><td>신청을 시작한 사용자 중 최종 제출한 비율</td><td>입력·동의 과정의 이탈 확인</td><td>측정 설계 단계</td></tr>
+<tr><td>예약 확정률</td><td>예약 시작 세션 중 예약 확정 세션 비율(중복·테스트 제외)</td><td>신청·동의 과정의 이탈 확인</td><td>측정 설계 단계</td></tr>
 <tr><td>매니저 비교 후 신청률</td><td>비교 화면 이용자 중 신청을 시작한 비율</td><td>비교 정보의 의사결정 도움 확인</td><td>측정 설계 단계</td></tr>
-<tr><td>진행 정보 확인률</td><td>신청 이후 진행·공유 화면을 확인한 비율</td><td>보호자 확인 부담 완화 여부 확인</td><td>측정 설계 단계</td></tr>
-<tr><td>재이용 의향·재예약</td><td>첫 이용 후 재이용 의향과 후속 예약 관찰</td><td>일회성 편의 이상의 가치 검증</td><td>사용자 조사·운영 검증 필요</td></tr>
+<tr><td>상태 이해도</td><td>현재·다음 단계를 설명할 수 있는 참가자 비율</td><td>진행 안내의 명확성 평가</td><td>측정 설계 단계</td></tr>
+<tr><td>90일 내 재예약률</td><td>첫 동행 완료 후 90일 관찰한 고객의 재예약 비율</td><td>반복 이용 가치 검증</td><td>운영 데이터 확보 후 측정</td></tr>
 </tbody></table></div>
-<p class="small">목표 수치는 인터뷰·프로토타입 과업 테스트와 파일럿 기준값을 확보한 뒤 설정합니다. 사업기획서의 월 199건 등은 산정 가정이며 제품 성과 실측값이 아닙니다.</p>
+<p class="small">목표값은 사용자 조사·시범 운영 후 설정합니다. 사업기획서의 월 199건은 운영 산정 가정입니다.</p>
 </section>
 
 <section id="prd-requirements"><span class="snum">05 · KEY FEATURES / REQUIREMENTS</span><h2>핵심 기능·요구사항</h2>
@@ -124,7 +124,7 @@ section a{font-weight:600}
 <tr><td><strong>R-02</strong></td><td>내 예약 확인·복구</td><td>신청자는 본인 예약을 다시 찾고 현재 상태를 확인할 수 있어야 합니다.</td><td>내 예약 목록·상세, 본인 확인, 다른 계정 정보 접근 제한</td><td>우선</td></tr>
 <tr><td><strong>R-03</strong></td><td>진행 상황 공유</td><td>자녀가 필요한 사람에게 진행 정보를 공유하고 공유 범위를 관리할 수 있어야 합니다.</td><td>공유 대상·변경 가능 범위 안내, 링크 만료·철회, 접근 실패 시 안내</td><td>우선</td></tr>
 <tr><td><strong>R-04</strong></td><td>예약 상태·변경 안내</td><td>신청 이후의 진행 단계와 취소·변경 결과를 이해할 수 있어야 합니다.</td><td>요청/확정/동행/완료 등 상태 표시, 오래된 정보 수정 시 재확인 안내</td><td>우선</td></tr>
-<tr><td><strong>R-05</strong></td><td>매니저 정보 비교</td><td>이용 조건을 비교하고 본인 상황에 맞는 선택을 할 수 있어야 합니다.</td><td>지역·가능 시간·동행 범위 비교, 시안 정보와 실제 배정의 구분</td><td>핵심 경험·운영 검증 필요</td></tr>
+<tr><td><strong>R-05</strong></td><td>매니저 정보 비교</td><td>이용 조건을 비교하고 본인 상황에 맞는 선택을 할 수 있어야 합니다.</td><td>지역·가능 시간·동행 범위 비교, 배정 확정 상태 구분</td><td>핵심 경험·운영 검증 필요</td></tr>
 <tr><td><strong>R-06</strong></td><td>진행·운영 정보 조회</td><td>문의나 변경 요청이 있을 때 필요한 정보를 확인할 수 있어야 합니다.</td><td>진행 이력·상세 조회, 개인정보 접근 범위, 운영 책임 안내</td><td>후속 운영 검증</td></tr>
 </tbody></table></div>
 <div class="note"><strong>요구사항 해석</strong> · ID는 기능을 추적하기 위한 번호입니다. 예컨대 R-03의 핵심은 서버 요청 방식이 아니라, 사용자가 무엇을 공유할 수 있고 언제 접근이 끝나는지 이해하는 것입니다.</div>
@@ -155,7 +155,7 @@ section a{font-weight:600}
 <tr><td>신청·동의</td><td>예약자·이용자, 연락처, 동의 항목</td><td>오입력 수정, 필수 동의·철회 안내</td></tr>
 <tr><td>예약 상세·공유</td><td>예약 단계, 변경·취소, 공유 정보</td><td>만료·권한·접근 실패 시 대체 경로 제공</td></tr>
 </tbody></table></div>
-<p>관련 화면은 <a href="https://mosigo-nine.vercel.app/">MOSIGO 프로토타입</a>에서 확인할 수 있습니다. 이는 사용자 경험을 설명하는 시연용 구현이며 실제 병원·매니저 운영 화면과 동일하지 않을 수 있습니다.</p>
+<p>관련 화면은 <a href="https://mosigo-nine.vercel.app/">MOSIGO 프로토타입</a>에서 확인할 수 있습니다. 사용 흐름을 보여주는 시연 화면이며, 현장 운영 연계는 후속 검토 대상입니다.</p>
 </section>
 
 <section id="prd-scope"><span class="snum">08 · SCOPE OF WORK</span><h2>업무 범위</h2>
@@ -213,7 +213,7 @@ section a{font-weight:600}
 <li><a href="mosigo_report_preview.pdf">발표자료</a> — 주요 의사결정 요약</li>
 <li><a href="mosigo_qa_appendix.html">기능 검증 기록(별도 부록)</a> — 구현 확인·테스트·미검증 항목이 필요한 경우에만 참고</li>
 </ul>
-<p class="small">서비스기획 PRD와 구현 검증 자료를 구분합니다. 코드 저장소와 자동 테스트는 본문의 요구사항을 대신하지 않습니다.</p>
+<p class="small">제품기획 PRD와 기술 검증 기록을 별도 문서로 제공합니다.</p>
 </section>
 <footer class="footer">MOSIGO · PRODUCT REQUIREMENTS DOCUMENT · 개인 제품기획안 · 2026.11.08</footer>
 </main></body></html>
