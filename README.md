@@ -1,12 +1,12 @@
-# MOSIGO 전략기획 보고서 · Strategy Case Study
+# MOSIGO 서비스기획 · PRD Case Study
 
 **포트폴리오:** https://mosigo-case-study.vercel.app/
 
-개인이 단독 작성한 **MOSIGO 병원동행 서비스의 전략기획 보고서**입니다. MOSIGO를 다른 사업과 분리해 소개하는 문서가 아니라, 해당 서비스의 고객 문제부터 시장·제품·수익모델·실행 전략을 분석한 결과물입니다.
+개인이 작성한 **MOSIGO 병원동행 서비스기획 포트폴리오**입니다. 자녀의 부모 병원동행 대리 예약 문제를 사용자 여정·제품 요구사항·화면 정책으로 구체화하고, 시장·수익성 분석을 기획 판단의 근거로 활용했습니다.
 
 ## 직무별 포트폴리오 관점
 
-이 Case Study의 주된 강조점은 **서비스 요구사항·PRD·프로젝트 수행 관리·기능 검수·인수인계**입니다. 기존 시장·수익성 분석은 서비스 범위와 우선순위를 정하는 배경 근거로 유지합니다. [PRD·요구사항 추적·UAT 및 인수 문서](downloads/mosigo_prd_delivery.html)에서 기능별 상태와 테스트 근거를 확인할 수 있습니다.
+이 Case Study의 주된 강조점은 **사용자 문제·페르소나·사용자 여정·제품 요구사항(PRD)·화면 정책**입니다. 기존 시장·수익성 분석은 서비스 범위와 우선순위를 정하는 배경 근거로 유지합니다. [제품 요구사항 정의서(PRD)](downloads/mosigo_prd_delivery.html)에서 13개 구성 항목과 R-01~R-06 요구사항을 확인할 수 있습니다. 내부 기술 QA·UAT 기록은 공개 포트폴리오에 포함하지 않습니다.
 
 ## 제출용 구성
 
@@ -26,15 +26,15 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 | --- | --- |
 | [`index.html`](index.html) | 공개 보고서 메인 페이지(9개 장), 문서 탭·사업성 계산기 |
 | [`assets/`](assets/) | 페이지 스타일·스크립트·공유 이미지·스마트폰 아이콘 |
-| [`downloads/`](downloads/) | 사업기획서·발표자료·IR Deck·계산 파일(최상위 7개) |
-| [`downloads/previews/`](downloads/previews/) | 사업기획서 17쪽·발표자료 11장·IR Deck 12장의 일반/소형 WebP(총 80개) |
-| [`qa/`](qa/) | 점검·문서 생성 스크립트, 검토 기록, IR 원본 복원용 압축 조각 |
+| [`downloads/`](downloads/) | 사업기획서·발표자료·IR Deck·계산 파일(최상위 8개) |
+| [`downloads/previews/`](downloads/previews/) | 사업기획서 19쪽·발표자료 11장·IR Deck 12장의 일반/소형 WebP(총 84개) |
+| [`qa/`](qa/) | 공개용 점검·문서 생성 스크립트와 과거 점검 문서. 내부 기술 검증 부록 및 상세 실행 증빙은 공개 저장소에서 제외 |
 | [`.github/workflows/`](.github/workflows/) | 품질 검증과 문서·이미지 생성 자동화 |
 | [`decision-memos.html`](decision-memos.html) · [`forecast.html`](forecast.html) · [`materials.html`](materials.html) | 과거 링크 호환용 페이지. 현재 보고서의 의사결정·사업성·첨부 자료 위치로 연결 |
 
 **첨부 자료 원본과 게시본:** [사업기획서 HTML](downloads/mosigo_business_plan_20261031.html) · [사업기획서 PDF](downloads/mosigo_business_plan_20261031.pdf) · [발표자료 PPTX](downloads/mosigo_report.pptx) · [발표자료 미리보기 PDF](downloads/mosigo_report_preview.pdf) · [IR Deck PPTX](downloads/MOSIGO_IR_Investment_Review_12slides.pptx) · [IR Deck PDF](downloads/MOSIGO_IR_Investment_Review_12slides.pdf) · [계산 파일 XLSX](downloads/mosigo_model.xlsx).
 
-파일 존재·참조·미리보기 개수와 별도 미반영 항목은 [2026-11-03 저장소 정합성 점검](qa/repository-audit-20261103.md)에 기록했습니다.
+2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](qa/repository-audit-20261103.md)에 보존합니다. 위 수량은 현재 `main`의 파일 구성을 기준으로 갱신한 값입니다.
 
 ## 자료의 구분
 
@@ -42,7 +42,7 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 - **프로젝트 근거:** MOSIGO의 기존 경쟁 앱 7종·리뷰 118건 조사 기록, 서비스 흐름·19개 모달/상태 화면, 예약·복구·공유 구현 범위. 보고서의 개인 분석과 조사·구현 원자료의 출처를 구분합니다.
 - **검증 가정:** 시장 규모, 제품·운영 설계, 가격·원가, 사업모델·수익성, KPI와 실행 게이트는 확인된 결과와 기획 가설을 구분해 서술합니다.
 - **데모:** [MOSIGO 서비스 데모](https://mosigo-nine.vercel.app/) 링크 1개만 있습니다. 데모 페이지와 임베드는 이 보고서에 포함하지 않습니다.
-- **자료 바로보기:** 사업기획서 PDF 17쪽, 기존 발표자료 11장, 실무형 IR Deck 12장을 탭으로 전환해 읽을 수 있습니다. PPTX·PDF 내려받기도 제공합니다.
+- **자료 바로보기:** 사업기획서 PDF 19쪽, 기존 발표자료 11장, 실무형 IR Deck 12장을 탭으로 전환해 읽을 수 있습니다. PPTX·PDF 내려받기도 제공합니다.
 - **IR 예산 가정:** 8주 제한 검증의 현금 집행 상한은 기존 월 현금 고정비 200만 원 × 2개월 = 400만 원으로 단순 산정했습니다. P0 80만·P1 120만·P2 200만 원은 신규 단계별 배분 가정이며, 인력 기회비용 400만 원은 별도입니다. 일회성 구축·보험·법무·추가 판촉·환불비와 외부 투자유치 금액·기업가치는 포함하지 않았습니다. 실제 투자유치·고객 실적을 의미하지 않습니다.
 - **채용공고:** 사람인 IT기획·전략기획·PM 공고의 담당업무·자격요건·우대사항은 작성·품질 검토 과정에서만 참고합니다. 포트폴리오 사이트에는 회사명·채용공고 링크·역량 대조표를 노출하지 않습니다.
 
@@ -56,11 +56,11 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 - PPT 미리보기 PDF는 원본 PPTX 변경 시 자동 갱신하며, `Site QA`는 문서 탭 전환과 배포 PDF 형식을 검사합니다.
 - 로컬 및 운영 배포의 화면 캡처·Lighthouse 보고서는 GitHub Actions 실행 기록의 산출물로 보관합니다. 운영 배포의 Lighthouse 점수는 CI 환경의 합성 측정값으로 실제 사용자 경험 데이터(CrUX/RUM)가 아닙니다.
 
-## 무료·비공개 저장소 운영 예외 (2026-11-01)
+## 공개 저장소 운영 및 브랜치 보호 (2026-11-08)
 
-- **운영 기준:** 저장소는 무료 요금제·비공개 상태를 유지합니다. 현재 서버 측 `main` 보호 규칙을 적용하지 못하므로 `protected=false`이며, 직접 푸시·실패 검사 병합을 GitHub가 기술적으로 차단하지 않습니다.
+- **운영 기준:** 저장소는 **공개(Public)** 상태입니다. 현재 `main`은 `protected=false`이며 브랜치 규칙이 설정되지 않아, 직접 푸시·검사 실패 상태의 병합을 GitHub가 자동 차단하지 않습니다.
 - **보완 절차:** 모든 변경은 작업 브랜치에서 PR 생성 → `Site QA / browser-and-lighthouse` 성공 확인 → 검토 후 squash merge 순서로 처리합니다. `main` 직접 푸시·강제 푸시·이력 삭제는 운영 절차상 금지하고, PR의 Site QA 성공 기록을 확인합니다. 이 절차를 거치지 않는 직접 변경은 서버에서 자동 차단되지 않으므로 남은 위험을 명시합니다.
-- **예외 기록:** [#15](https://github.com/dohyunkimmm/mosigo-case-study/issues/15)는 무료 운영 제약으로 `not_planned` 종결했으며, 보호 기능이 적용됐다고 주장하지 않습니다. 유료 기능이나 저장소 공개 전환을 후속 과제로 요구하지 않습니다.
+- **후속 설정:** [#15](https://github.com/dohyunkimmm/mosigo-case-study/issues/15)는 비공개 저장소 당시의 기록입니다. 공개 전환 후에도 보호 규칙은 아직 적용되지 않았으므로 GitHub 설정에서 PR·필수 상태 검사를 강제하는 브랜치 보호 구성을 검토해야 합니다.
 
 ## 기술
 

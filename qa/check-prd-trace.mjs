@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const read = path => readFileSync(path, 'utf8');
 const prd = read('downloads/mosigo_prd_delivery.html');
-const appendix = read('qa/internal/verification-appendix.html');
 const site = read('index.html');
 const plan = read('downloads/mosigo_business_plan_20261031.html');
 const deck = read('qa/final-presentation-readability-20261108.py');
@@ -27,11 +26,12 @@ for (const technicalTerm of ['github.com','PATCH 403','176건 통과','TC-03-04'
   assert.ok(!prd.includes(technicalTerm), 'Technical evidence leaked into product PRD: ' + technicalTerm);
 }
 
-const tc = ['TC-02-01','TC-03-01','TC-03-02','TC-03-03','TC-03-04',
-  'TC-03-05','TC-04-01','TC-04-02','TC-01-01','TC-05-01','TC-06-01'];
-for (const id of tc) assert.ok(appendix.includes(id), 'optional QA appendix missing ' + id);
-for (let i=1;i<=5;i++) assert.ok(appendix.includes('UAT-0' + i), 'optional UAT appendix missing ' + i);
-assert.ok(appendix.includes('176건 통과'), 'appendix preserves verified QA evidence');
+// Internal QA evidence must not be tracked in the public Case Study repository.
+for (const path of [
+  'qa/internal/verification-appendix.html',
+  'qa/evidence/2026-11-08-live-browser.json',
+  'qa/evidence/2026-11-08-document-crosscheck.json',
+]) assert.ok(!existsSync(path), 'private QA evidence must not be committed to public case study: ' + path);
 assert.ok(site.includes('고객 문제와 목표, 사용자 페르소나, 서비스 흐름, 핵심 기능 6개'));
 assert.ok(!site.includes('mosigo_qa_appendix.html') && !site.includes('QA·인수인계'), 'Public portfolio must not expose QA appendix or QA handoff claims');
 assert.ok(site.includes('핵심 사용자 페르소나') && site.includes('2유형'), 'portfolio hero must present personas, not QA counts');
@@ -68,4 +68,4 @@ assert.ok(!site.includes('QA 테스트 케이스 11개'),
   'QA proof should not dominate the core deliverable');
 console.log('PASS cross-document KPI, user journey and editorial QA');
 
-console.log('PASS product-centered PRD: 13 sections, 6 requirements; technical QA confined to private repository');
+console.log('PASS product-centered PRD: 13 sections, 6 requirements; internal QA evidence absent from public repository');

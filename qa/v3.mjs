@@ -15,7 +15,8 @@ try{
   assert.equal(response.status(),200);
   assert.equal(await page.locator('.v3-phase-link').count(),0,'duplicate phase shortcuts removed');
   assert.equal(await page.locator('.nav-link').count(),9,'primary contents navigation retained');
-  assert.equal(await page.locator('.hero-actions').count(),0,'repeated hero jump links removed');
+  assert.equal(await page.locator('.hero-actions a[href="downloads/mosigo_prd_delivery.html"]').count(),1,'PRD hero shortcut is intentional');
+  assert.equal(await page.locator('.hero-actions a:not([href="downloads/mosigo_prd_delivery.html"])').count(),0,'repeated hero jump links removed');
   assert.equal(await page.locator('.v3-hero-metric').count(),3,'hero metrics');
   assert.equal(await page.locator('.v3-product-card').count(),3,'three verified concept wireframes');
   assert.match(await page.locator('.v3-product-intro').textContent(),/개념\s*시안\s*3종/,'three concept screens are clearly labeled');

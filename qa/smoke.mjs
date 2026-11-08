@@ -44,7 +44,8 @@ try {
     assert.ok(!visibleLabels.join(' ').includes('STRATEGY REPORT'), width + 'px no competing report slogan');
 
     assert.equal(await page.locator('.docs-note').count(), 0, width + 'px no redundant disclaimer beneath documents');
-    assert.equal(await page.locator('.hero-actions a, .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
+    assert.equal(await page.locator('.hero-actions a[href="downloads/mosigo_prd_delivery.html"]').count(), 1, width + 'px single PRD hero shortcut');
+    assert.equal(await page.locator('.hero-actions a:not([href="downloads/mosigo_prd_delivery.html"]), .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
     // Regression: switching between plan, presentation and IR must never resize the preview box.
     if (width === 390 || width === 1024 || width === 1440) {
