@@ -33,11 +33,12 @@ try {
     assert.equal(await page.locator('#supporting a[href="mosigo_qa_appendix.html"]').count(),1);
     const state=await page.evaluate(()=>({
       overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth,
-      tables:[...document.querySelectorAll('.tablewrap')].map(el=>getComputedStyle(el).overflowX)
+      tables:[...document.querySelectorAll('.tablewrap')].map(el=>({overflow:getComputedStyle(el).overflowX,focusable:el.tabIndex===0,label:el.getAttribute('aria-label'),role:el.getAttribute('role')}))
     }));
     assert.equal(state.overflow,false,'PRD horizontal overflow '+width);
     assert.ok(state.tables.length>=5,'tables in PRD');
-    assert.ok(state.tables.every(x=>x==='auto'),'tables horizontally scrollable');
+    assert.ok(state.tables.every(x=>x.overflow==='auto'),'tables horizontally scrollable');
+    assert.ok(state.tables.every(x=>x.focusable && x.role==='region' && x.label),'tables are keyboard-accessible labelled scroll regions');
     assert.deepEqual(errors,[],'no PRD JS errors');
     if(width===390||width===1440){
       await page.screenshot({path:'qa-artifacts/'+prefix+'prd-'+width+'.png',fullPage:true});
@@ -51,6 +52,8 @@ try {
   assert.equal(await page.locator('#prd-qa tbody tr').count(),11,'11 QA appendix cases');
   assert.equal(await page.locator('#prd-uat tbody tr').count(),5,'5 unperformed UAT appendix scenarios');
   assert.match(await page.locator('h1').innerText(),/기능 검증/);
+  const accessibility = await page.locator('.tablewrap').evaluateAll(els => els.every(el => el.tabIndex===0 && el.getAttribute('role')==='region' && !!el.getAttribute('aria-label')));
+  assert.equal(accessibility,true,'appendix tables keyboard-accessible and labelled');
   await page.close();
   console.log('PASS optional QA appendix separated from product PRD');
 }finally{

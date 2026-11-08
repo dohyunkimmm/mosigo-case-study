@@ -24,6 +24,7 @@ ol,ul{padding-left:23px}code{font:12px/1.5 ui-monospace,Consolas,monospace;backg
 footer{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;color:var(--muted);font-size:13px}
 @media(max-width:680px){main{padding:27px 16px 65px}.pair{grid-template-columns:1fr}table{font-size:13px}}
 @media print{body{background:white}main{padding:0 12px}.tablewrap{overflow:visible}table{min-width:0}a{color:inherit;text-decoration:none}.pair article{break-inside:avoid}h2{break-after:avoid}}
+.tablewrap:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 </style>
 </head>
 <body><main><p class="small"><a href="mosigo_prd_delivery.html">← 제품기획 PRD로 돌아가기</a></p>
@@ -36,7 +37,7 @@ footer{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;color:v
 <section id="prd-scope"><h2>01 · 문제, 목표와 범위</h2>
 <p><strong>문제:</strong> 예약을 결정하는 자녀와 서비스를 이용하는 부모의 역할이 다릅니다. 비교·동의·예약·공유·복구 과정에서 권한 혼동이 생길 수 있습니다.</p>
 <p><strong>제품 목표:</strong> 예약자·이용자 정보 구분, 예약 소유권 보호, 기간 제한 공유, 상태 충돌 방지, 운영 조회의 경계를 명확히 합니다.</p>
-<div class="tablewrap"><table><thead><tr><th>구분</th><th>포함</th><th>제외·후속 검증</th></tr></thead><tbody>
+<div class="tablewrap" role="region" tabindex="0" aria-label="기능 검증 범위 표"><table><thead><tr><th>구분</th><th>포함</th><th>제외·후속 검증</th></tr></thead><tbody>
 <tr><td>현재 제품 범위</td><td>예약 소유권·공유 토큰·상태 전이·화면 시연</td><td>실제 의료기관 예약·결제·매니저 자동 배정</td></tr>
 <tr><td>권한 원칙</td><td>소유자 인증·복구 키·공유 토큰을 구별하고 만료·폐기를 처리</td><td>가족·의료정보에 대한 실운영 동의 프로세스 승인</td></tr>
 <tr><td>운영 검증</td><td>기능 테스트 코드와 시연 화면을 기준으로 QA 조건 정의</td><td>실서비스 장애 대응·실사용자 UAT·제휴 계약 승인</td></tr>
@@ -45,7 +46,7 @@ footer{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;color:v
 </section>
 
 <section id="prd-requirements"><h2>02 · 요구사항 R-01~R-06와 수용 기준</h2>
-<div class="tablewrap"><table><thead><tr><th>요구사항</th><th>행동·정책·예외</th><th>수용 기준</th><th>구현·검증 상태</th></tr></thead><tbody><tr><td><strong>R-01</strong><br>예약자·이용자 역할 분리</td><td>자녀(예약자)와 부모(이용자) 정보·동의 범위를 구분한다. 의료정보는 동의 전에 매니저에게 제공하지 않는다.</td><td>두 역할과 동의 안내를 구별할 수 있고, 동의 누락 시 신청 제한 정책이 명시돼 있다.</td><td>정책·개념 시안만 확인 / 실제 동의·개인정보 운영 QA 미실시</td></tr>
+<div class="tablewrap" role="region" tabindex="0" aria-label="수용 기준과 검증 상태 표"><table><thead><tr><th>요구사항</th><th>행동·정책·예외</th><th>수용 기준</th><th>구현·검증 상태</th></tr></thead><tbody><tr><td><strong>R-01</strong><br>예약자·이용자 역할 분리</td><td>자녀(예약자)와 부모(이용자) 정보·동의 범위를 구분한다. 의료정보는 동의 전에 매니저에게 제공하지 않는다.</td><td>두 역할과 동의 안내를 구별할 수 있고, 동의 누락 시 신청 제한 정책이 명시돼 있다.</td><td>정책·개념 시안만 확인 / 실제 동의·개인정보 운영 QA 미실시</td></tr>
 <tr><td><strong>R-02</strong><br>예약 소유권</td><td>계정이 소유한 예약만 조회·변경할 수 있다. 계정 로그인과 예약 복구 키 접근 경계를 구분한다.</td><td>본인 예약은 조회·복구할 수 있고, 비소유 계정 접근은 거부되어 기존 상태가 유지된다.</td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/account-ownership-runtime.test.js">계정 소유권 테스트 코드</a> / 자동 실행 기록은 별도 확인</td></tr>
 <tr><td><strong>R-03</strong><br>공유 발급·권한·만료·폐기</td><td>소유자의 복구 키로 공유 링크를 발급·교체·폐기한다. 현재 기본 정책은 공유자 변경 허용이며, 읽기 전용 정책은 별도 설정이다. 만료·폐기·교체 토큰은 차단한다.</td><td>유효 토큰으로 조회 가능; 새 발급 시 구 토큰 차단; 만료·폐기 토큰 접근·변경 차단; 읽기 전용 PATCH 403 및 예약 revision 유지.</td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/booking-shares.test.js">공유·권한 테스트 코드</a> / 자동 실행 기록은 별도 확인</td></tr>
 <tr><td><strong>R-04</strong><br>예약 상태·버전 충돌</td><td>요청→확정→동행→완료 등 허용된 상태 전이만 적용한다. PATCH 시 기대 revision이 다르면 409 충돌로 거절한다.</td><td>유효 전이만 처리; 잘못된 전이·오래된 변경은 차단; 기존 예약 기록을 유지하고 재조회하도록 안내한다.</td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/booking-state.test.js">상태 전이 테스트 코드</a> · <a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/src/api/bookings.js">충돌 처리 구현</a> / 충돌 UI 통합 QA 미실시</td></tr>
@@ -55,7 +56,7 @@ footer{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;color:v
 </section>
 
 <section id="prd-trace"><h2>03 · 화면·API·테스트 추적</h2>
-<div class="tablewrap"><table><thead><tr><th>ID</th><th>UI·API 경계</th><th>검증 연결</th><th>현재 판단</th></tr></thead><tbody>
+<div class="tablewrap" role="region" tabindex="0" aria-label="화면 및 API 추적 표"><table><thead><tr><th>ID</th><th>UI·API 경계</th><th>검증 연결</th><th>현재 판단</th></tr></thead><tbody>
 <tr><td>R-01</td><td>가족 등록·신청·동의 화면 정책</td><td>동의 누락·철회 시나리오</td><td>정책·시연 / 실제 이용자 검증 전</td></tr>
 <tr><td>R-02</td><td><code>/api/account</code>, <code>/api/bookings</code></td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/account-ownership-runtime.test.js">account-ownership-runtime.test.js</a></td><td>구현 및 테스트 코드 확인</td></tr>
 <tr><td>R-03</td><td><code>/api/booking-shares</code>, <code>/api/bookings</code></td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/booking-shares.test.js">booking-shares.test.js</a></td><td>구현 및 테스트 코드 확인</td></tr>
@@ -67,7 +68,7 @@ footer{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;color:v
 
 <section id="prd-qa"><h2>04 · QA 테스트 케이스 및 증빙</h2>
 <p><strong>대조 기준:</strong> 제품 저장소 <a href="https://github.com/dohyunkimmm/mosigo/commit/978ef8bc2e00e772a5a5ddad87584bb97451e4cb"><code>978ef8bc</code> 커밋</a>. <strong>자동 QA:</strong> <a href="https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42446209792">2026-11-08 실행 로그</a> · 176건 통과, 실패 0건, 소스 점검 성공. 이는 해당 고정 커밋의 자동 테스트 결과입니다. 개별 수용 기준·실서비스·UAT까지 전체 통과했다는 뜻은 아닙니다.</p>
-<div class="tablewrap"><table><thead><tr><th>케이스</th><th>요구</th><th>상황·절차</th><th>기대 결과</th><th>근거</th><th>상태</th></tr></thead><tbody><tr><td><code>TC-02-01</code></td><td>R-02</td><td>계정 로그인 후 본인 예약 목록·상세 조회</td><td>본인 소유 예약 확인·비소유 접근 차단</td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/account-ownership-runtime.test.js">소스</a></td><td>테스트 코드 확인 · 고정 코드 자동 QA 통과 / UAT 별도</td></tr>
+<div class="tablewrap" role="region" tabindex="0" aria-label="QA 테스트 케이스 표"><table><thead><tr><th>케이스</th><th>요구</th><th>상황·절차</th><th>기대 결과</th><th>근거</th><th>상태</th></tr></thead><tbody><tr><td><code>TC-02-01</code></td><td>R-02</td><td>계정 로그인 후 본인 예약 목록·상세 조회</td><td>본인 소유 예약 확인·비소유 접근 차단</td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/account-ownership-runtime.test.js">소스</a></td><td>테스트 코드 확인 · 고정 코드 자동 QA 통과 / UAT 별도</td></tr>
 <tr><td><code>TC-03-01</code></td><td>R-03</td><td>소유자 복구 키로 60분 공유 발급</td><td>201·토큰 발급 / 복구 키 없으면 401</td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/booking-shares.test.js">소스</a></td><td>테스트 코드 확인 · 고정 코드 자동 QA 통과 / UAT 별도</td></tr>
 <tr><td><code>TC-03-02</code></td><td>R-03</td><td>공유 토큰 조회·기본 변경 정책</td><td>유효 토큰 GET 200 / 기본 공유 PATCH 허용</td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/booking-shares.test.js">소스</a></td><td>테스트 코드 확인 · 고정 코드 자동 QA 통과 / UAT 별도</td></tr>
 <tr><td><code>TC-03-03</code></td><td>R-03</td><td>읽기 전용 옵션 설정 후 변경 시도</td><td>GET 200·PATCH 403 / revision 불변</td><td><a href="https://github.com/dohyunkimmm/mosigo/blob/978ef8bc2e00e772a5a5ddad87584bb97451e4cb/tests/booking-shares.test.js">소스</a></td><td>테스트 코드 확인 · 고정 코드 자동 QA 통과 / UAT 별도</td></tr>
@@ -84,7 +85,7 @@ footer{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;color:v
 </section>
 
 <section id="prd-uat"><h2>05 · 사용자 UAT 시나리오 (실시 전)</h2>
-<div class="tablewrap"><table><thead><tr><th>과업</th><th>사용자 행동</th><th>통과 조건</th><th>기록 상태</th></tr></thead><tbody>
+<div class="tablewrap" role="region" tabindex="0" aria-label="사용자 UAT 시나리오 표"><table><thead><tr><th>과업</th><th>사용자 행동</th><th>통과 조건</th><th>기록 상태</th></tr></thead><tbody>
 <tr><td>UAT-01 가족 대리 예약</td><td>자녀가 부모 정보·동의 범위를 구분하여 신청</td><td>필수 정보·동의 조건 이해, 오류 시 수정 경로 확인</td><td>미실시</td></tr>
 <tr><td>UAT-02 매니저 비교</td><td>지역·가능 시간·역할 비교, 시안/확정 정보 판단</td><td>선택 근거 설명, 배정 확정으로 오인하지 않음</td><td>미실시</td></tr>
 <tr><td>UAT-03 공유 권한</td><td>보호자가 링크를 발급·폐기하고 공유자가 조회</td><td>권한·만료·변경 가능 여부를 정확히 이해</td><td>미실시</td></tr>
@@ -95,7 +96,7 @@ footer{border-top:1px solid var(--line);margin-top:45px;padding-top:20px;color:v
 </section>
 
 <section id="prd-delivery"><h2>06 · 우선순위·변경관리·인수인계</h2>
-<div class="tablewrap"><table><thead><tr><th>단계</th><th>검토 산출물</th><th>통과/보류 기준</th></tr></thead><tbody>
+<div class="tablewrap" role="region" tabindex="0" aria-label="변경 관리 및 인수 조건 표"><table><thead><tr><th>단계</th><th>검토 산출물</th><th>통과/보류 기준</th></tr></thead><tbody>
 <tr><td>P0 · 요구사항</td><td>R-01~06, 역할·정보 권한, 허용 상태·예외</td><td>누락된 동의·소유권·공유 정책 확정 전 운영 보류</td></tr>
 <tr><td>P1 · 기능 QA</td><td>TC ID별 코드·자동 실행 로그·결함 재검수</td><td>검증 실패·근거 미확보는 통과로 표시하지 않음</td></tr>
 <tr><td>P2 · 사용성·운영</td><td>UAT 기록·운영 책임·고객 안내·인수 체크리스트</td><td>외부 운영·매니저·의료기관 승인 전 실제 제공 제외</td></tr>
