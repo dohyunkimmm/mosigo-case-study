@@ -42,4 +42,5 @@ jobs:
       - name: Open PR for regenerated social-card assets
         env:
           GH_TOKEN: ${{ github.token }}
-        run: bash .github/scripts/publish-generated-pr.sh social-card 'assets: update MOSIGO sharing image' assets/mosigo-share.png
+        run: |
+          bash .github/scripts/publish-generated-pr.sh social-card 'assets: update MOSIGO sharing image' assets/mosigo-share.png
