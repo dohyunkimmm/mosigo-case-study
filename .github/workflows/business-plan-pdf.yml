@@ -84,7 +84,8 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: bash .github/scripts/publish-generated-pr.sh business-plan 'docs: regenerate business plan PDF and mobile previews' downloads/mosigo_business_plan_20261031.pdf downloads/previews/plan-*.webp
+        run: |
+          bash .github/scripts/publish-generated-pr.sh business-plan 'docs: regenerate business plan PDF and mobile previews' downloads/mosigo_business_plan_20261031.pdf downloads/previews/plan-*.webp
       - name: Save document for inspection
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
