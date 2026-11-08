@@ -168,7 +168,7 @@ with ZipFile(PPTX) as z:
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
     if has_new_prd_deck:
         assert '대리 예약·공유·복구 요구사항을 정의하고' in first, 'Slide 1 PRD focus not synchronized'
-        assert '고객 요구를 정책·기능·테스트·운영 기준으로 연결' in last, 'Slide 11 acceptance decision missing'
+        assert '요구사항 6개 · QA 케이스 11개 · UAT 5개(미실시)' in last, 'Slide 11 acceptance decision missing'
         assert '02 / PRD 설계' in last, 'Slide 11 requirements milestone missing'
         assert '04 / 운영 인계' in last, 'Slide 11 handoff milestone missing'
     else:
