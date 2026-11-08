@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 
 const read = path => readFileSync(path, 'utf8');
 const prd = read('downloads/mosigo_prd_delivery.html');
-const appendix = read('downloads/mosigo_qa_appendix.html');
+const appendix = read('qa/internal/verification-appendix.html');
 const site = read('index.html');
 const plan = read('downloads/mosigo_business_plan_20261031.html');
 const deck = read('qa/final-presentation-readability-20261108.py');
@@ -20,7 +20,7 @@ for (const term of ['사용자 페르소나','사용자 스토리','성공 지�
   '추진 일정','미해결 질문·위험 요소','측정 설계 단계','페르소나 가설']) {
   assert.ok(prd.includes(term), 'PRD missing product planning element: ' + term);
 }
-assert.ok(prd.includes('mosigo_qa_appendix.html'), 'PRD must link optional technical appendix');
+assert.ok(!prd.includes('mosigo_qa_appendix.html'), 'Public PRD must not link technical QA records');
 for (const technicalTerm of ['github.com','PATCH 403','176건 통과','TC-03-04']) {
   assert.ok(!prd.includes(technicalTerm), 'Technical evidence leaked into product PRD: ' + technicalTerm);
 }
@@ -31,7 +31,9 @@ for (const id of tc) assert.ok(appendix.includes(id), 'optional QA appendix miss
 for (let i=1;i<=5;i++) assert.ok(appendix.includes('UAT-0' + i), 'optional UAT appendix missing ' + i);
 assert.ok(appendix.includes('176건 통과'), 'appendix preserves verified QA evidence');
 assert.ok(site.includes('고객 문제와 목표, 사용자 페르소나, 서비스 흐름, 핵심 기능 6개'));
-assert.ok(site.includes('mosigo_qa_appendix.html'), 'tech evidence remains separately accessible');
+assert.ok(!site.includes('mosigo_qa_appendix.html') && !site.includes('QA·인수인계'), 'Public portfolio must not expose QA appendix or QA handoff claims');
+assert.ok(site.includes('핵심 사용자 페르소나') && site.includes('2유형'), 'portfolio hero must present personas, not QA counts');
+assert.ok(!site.includes('기능 검수') && !site.includes('인수인계'), 'public portfolio uses product planning vocabulary');
 assert.ok(plan.includes('사용자 경험 중심 제품 요구사항'));
 assert.ok(plan.includes('탐색부터 대리 신청·진행 공유까지'));
 assert.equal((plan.match(/<section\b/g) || []).length, 19, 'business plan page count');
@@ -64,4 +66,4 @@ assert.ok(!site.includes('QA 테스트 케이스 11개'),
   'QA proof should not dominate the core deliverable');
 console.log('PASS cross-document KPI, user journey and editorial QA');
 
-console.log('PASS product-centered PRD: 13 sections, 6 requirements, separate 11 TC + 5 UAT, synchronized site/plan/slides');
+console.log('PASS product-centered PRD: 13 sections, 6 requirements; technical QA confined to private repository');
