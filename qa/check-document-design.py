@@ -51,7 +51,7 @@ assert '손익비교용평균이용가' in compact_plan, 'Published PDF does not
 print('PASS price hypothesis/model separation in source and published PDF')
 site_html=Path('index.html').read_text(encoding='utf-8')
 assert '<h2>MOSIGO · 고객 문제에서 제품 설계까지</h2>' in site_html, 'M-01 heading drifted'
-assert '<h2>수요·공급·손익 격차로 사업화 가능성을 판단한다</h2>' in site_html, 'M-02 heading drifted'
+assert '<h2>공급 규모와 단위손익으로 사업화 조건 판단</h2>' in site_html, 'M-02 heading drifted'
 assert '월 서비스 완료 199건(산정 기준)과 손익분기점 1,082건' in site_html, 'M-03 quantitative reasoning missing'
 assert '고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in site_html, 'M-03 expansion criteria missing'
 assert '<h2>기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 건수 199건(산정 기준) / 손익분기점 1,082건 · 단계적 확대 기준</h2>' in plan_html, 'Decision page and website disagree'
@@ -100,7 +100,7 @@ compact_slides=re.sub(r'\s+','',slides_text)
 for page_number, page_text in enumerate(slides_text.split('\f'), 1):
     assert_no_repeated_sentences(page_text, f'presentation page {page_number}')
 assert 'MOSIGO' in compact_slides
-has_product_prd_deck='사용자문제에서제품설계까지' in compact_slides
+has_product_prd_deck=('사용자문제에서제품설계까지' in compact_slides or '제품기획산출물과후속검증' in compact_slides)
 has_legacy_prd_deck='PRD에서기능검수·인계까지' in compact_slides
 has_new_prd_deck=has_product_prd_deck or has_legacy_prd_deck
 if not has_new_prd_deck:
@@ -114,7 +114,7 @@ for term in legacy_terms:
     assert term not in slides_text, f'Unreviewed wording remains in presentation: {term}'
 for phrase in ('포트폴리오용 합성 데이터·가정 기반 예측입니다.','실제 고객·계약·매출·인터뷰 결과가 아닙니다.','해당 사례의 독립 분석 자료.'):
     assert phrase not in slides_text, f'Repeated long note remains in presentation: {phrase}'
-assert '시장·공급수치는사업기획을위한추정치이며,운영실적과구분했습니다.' in compact_slides, 'Presentation must distinguish planning assumptions from operational results'
+assert '시장·공급수치는추정치이며,상세산정근거는사업기획서에서확인합니다.' in compact_slides, 'Presentation must distinguish planning assumptions from operational results'
 assert 'mosigo_model.xlsx' not in slides_text, 'Internal spreadsheet filename must not appear in the public deck'
 assert 'STRATEGY CASE STUDY' not in slides_text, 'Decorative English boilerplate must be replaced with meaningful product-planning context'
 assert '사업기획서3쪽' in compact_slides, 'Slide 2 source citation must point to current plan p3'
@@ -170,7 +170,7 @@ with ZipFile(PPTX) as z:
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
     if has_product_prd_deck:
         assert '자녀의 대리 예약 문제를 정의하고' in first, 'Slide 1 product goal missing'
-        assert '사용자 문제 · 핵심 여정 · 기능 6개 · UX 설계' in last, 'Slide 11 product summary missing'
+        assert '역할·동의 정책 · 기능 요구사항 6개 · 예외 대응' in last, 'Slide 11 product summary missing'
         assert '02 / 사용자 정의' in last, 'Slide 11 persona milestone missing'
         assert '04 / 실행 계획' in last, 'Slide 11 roadmap milestone missing'
     elif has_legacy_prd_deck:
