@@ -129,7 +129,8 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: bash .github/scripts/publish-generated-pr.sh ppt-preview 'docs: update presentation and preview files' downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf downloads/previews/slides-*.webp
+        run: |
+          bash .github/scripts/publish-generated-pr.sh ppt-preview 'docs: update presentation and preview files' downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf downloads/previews/slides-*.webp
       - name: Upload preview for inspection
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
