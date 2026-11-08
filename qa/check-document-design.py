@@ -41,7 +41,7 @@ assert '\ufffd' not in ir_text, 'Invalid replacement character in IR PDF'
 plan_text=cmd('pdftotext','-layout',str(PLAN),'-')
 compact_plan=re.sub(r'\s+','',plan_text)
 assert 'MOSIGO' in compact_plan and '사업화·PRD판단에사용한자료와근거' in compact_plan, 'PDF source-note subtitle missing'
-assert '<h1>기획 기준과 참고 자료</h1>' in plan_html, 'Business-plan source-note heading missing'
+assert '<h1>기획 기준과 참고 자료</h1>' in Path('downloads/mosigo_business_plan_20261031.html').read_text(encoding='utf-8'), 'Business-plan source-note heading missing'
 assert '2026.10.31' not in plan_text and 'BUSINESS PLAN 2026' not in plan_text
 plan_html=(ROOT/'mosigo_business_plan_20261031.html').read_text(encoding='utf-8')
 assert '기본 동행 3만 원대(출시 가격 가설) / 손익 비교용 평균 이용가 40,000원(기본 판매가 아님)' in plan_html, 'Product price vs model-average distinction missing'
