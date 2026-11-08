@@ -113,7 +113,8 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: bash .github/scripts/publish-generated-pr.sh ir-deck 'docs: update editable IR deck and previews' downloads/MOSIGO_IR_Investment_Review_12slides.pptx downloads/MOSIGO_IR_Investment_Review_12slides.pdf downloads/previews/ir-*.webp
+        run: |
+          bash .github/scripts/publish-generated-pr.sh ir-deck 'docs: update editable IR deck and previews' downloads/MOSIGO_IR_Investment_Review_12slides.pptx downloads/MOSIGO_IR_Investment_Review_12slides.pdf downloads/previews/ir-*.webp
       - name: Save deck for QA
         if: always()
         uses: actions/upload-artifact@v4
