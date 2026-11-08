@@ -236,7 +236,7 @@ assert "11/31개 시·군" in plan_html, "2026 public operating-area scope must 
 assert "2024년 이용자 만족도" in plan_html and "4.98 / 5점" in plan_html, "2024 satisfaction survey label missing"
 assert "2025년 사업 참여 인원" in plan_html and "12,802명" in plan_html, "2025 participant count missing"
 assert "공공 서비스와 민간 서비스의 역할 비교" in site_html, "Public/private differentiation missing"
-assert "장기 목표와 초기 확보 가능량을 별도 검토" in site_html, "Long-term SOM vs initial capacity not separated"
+assert "장기 목표와 초기 확보량 구분" in site_html, "Long-term SOM vs initial capacity not separated"
 for uri in (
     "https://www.gg.go.kr/contents/contents.do?ciIdx=987005&amp;menuId=265914",
     "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=S017&amp;number=69199",
