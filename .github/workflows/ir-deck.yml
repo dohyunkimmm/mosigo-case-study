@@ -9,6 +9,7 @@ on:
       - 'qa/concise-ir-copy.json'
       - 'qa/refine-decks.py'
       - 'qa/apply-strategy-20261107.py'
+      - 'qa/visual-polish-20261108.py'
       - '.github/workflows/ir-deck.yml'
   pull_request:
     branches: [main, 'review/p0-p1-p2-*']
@@ -19,6 +20,7 @@ on:
       - 'qa/concise-ir-copy.json'
       - 'qa/refine-decks.py'
       - 'qa/apply-strategy-20261107.py'
+      - 'qa/visual-polish-20261108.py'
       - '.github/workflows/ir-deck.yml'
   workflow_dispatch:
 
@@ -67,6 +69,8 @@ jobs:
         run: /tmp/mosigo-ir-venv/bin/python qa/refine-decks.py ir
       - name: Align 3-year investor strategy and preserve Tossface pictograms
         run: /tmp/mosigo-ir-venv/bin/python qa/apply-strategy-20261107.py ir
+      - name: Polish investment roadmap visual hierarchy without changing figures
+        run: /tmp/mosigo-ir-venv/bin/python qa/visual-polish-20261108.py ir
       - name: Export PDF, verify 12 slides and stage-gated funding assumptions
         run: |
           mkdir -p /tmp/ir-pdf
