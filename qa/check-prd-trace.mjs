@@ -17,7 +17,7 @@ assert.equal((prd.match(/<section\b/g) || []).length, 13, 'PRD follows 13-sectio
 for (let i=1;i<=6;i++) assert.ok(prd.includes('<strong>R-0' + i + '</strong>'), 'missing product requirement R-0' + i);
 
 for (const term of ['사용자 페르소나','사용자 스토리','성공 지표','UX·화면 설계',
-  '추진 일정','미해결 질문·위험 요소','측정 설계 단계','사용자 가설']) {
+  '추진 일정','미해결 질문·위험 요소','측정 설계 단계','페르소나 가설']) {
   assert.ok(prd.includes(term), 'PRD missing product planning element: ' + term);
 }
 assert.ok(prd.includes('mosigo_qa_appendix.html'), 'PRD must link optional technical appendix');
