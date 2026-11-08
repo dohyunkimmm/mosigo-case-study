@@ -58,7 +58,8 @@ jobs:
       - name: Open PR for regenerated mobile-previews assets
         env:
           GH_TOKEN: ${{ github.token }}
-        run: bash .github/scripts/publish-generated-pr.sh mobile-previews 'assets: refresh mobile PDF preview images' downloads/previews/plan-*.webp downloads/previews/slides-*.webp
+        run: |
+          bash .github/scripts/publish-generated-pr.sh mobile-previews 'assets: refresh mobile PDF preview images' downloads/previews/plan-*.webp downloads/previews/slides-*.webp
       - name: Save preview images
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
