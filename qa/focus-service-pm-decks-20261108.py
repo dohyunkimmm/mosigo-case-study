@@ -9,18 +9,18 @@ from pptx import Presentation
 ROOT = Path("downloads")
 CHANGES = {
  "strategy": {
-  1: {2: "MOSIGO 서비스기획 · PRD", 3: "고객 문제 → 요구사항 → 권한·예외 정책 → 검수·인계",
-      5: "예약자·이용자 구분과 대리 예약·공유·복구 요구사항을 정의하고, 예외·테스트·인수 기준까지 연결",
-      9: "서비스 여정 · 요구사항 · 검수 · 인수 기준"},
+  1: {2: "MOSIGO 서비스기획 · PRD", 3: "고객 문제 → 사용자 여정 → 핵심 기능 → UX 설계",
+      5: "자녀의 대리 예약 문제를 정의하고, 사용자 흐름·핵심 기능·화면 정책으로 제품 경험을 구체화",
+      9: "사용자 문제 · 페르소나 · 서비스 흐름 · 기능 요구사항"},
   4: {2: "예약자와 이용자 요구사항 정의",
       5: "자녀 대리 예약의 사용자 역할·동의·공유 범위를 기능 요구사항으로 정리"},
-  10: {2: "요구사항 우선순위와 검수·인계",
-       5: "P0 요구 정의 → P1 기능·QA → P2 사용자·운영 인수 준비",
-       10: "요구사항", 12: "개발·검수", 14: "인수·교육",
-       16: "R-ID·TC-ID·실행 기록·잔여 이슈를 같은 버전으로 인계"},
-  11: {2: "PRD에서 기능 검수·인계까지",
-       4: "요구사항 6개 · QA 케이스 11개 · UAT 5개(미실시)",
-       5: "", 9: "요구사항 정의 · 테스트 근거 · UAT 계획 · 변경 관리"},
+  10: {2: "제품 요구사항과 실행 우선순위",
+       5: "문제 확인 → 제품 설계 → UX 검증 → 운영 타당성 판단",
+       10: "문제 정의", 12: "제품 설계", 14: "운영 검토",
+       16: "사용자 과업과 기능 우선순위를 단계별로 구체화"},
+  11: {2: "사용자 문제에서 제품 설계까지",
+       4: "사용자 문제 · 핵심 여정 · 기능 6개 · UX 설계",
+       5: "", 9: "사용자 니즈 · 서비스 흐름 · UX 설계 · 실행 계획"},
  },
  "ir": {
   1: {6: "MOSIGO 서비스기획 연계\n사업성·투자 조건 검토",
@@ -31,14 +31,14 @@ CHANGES = {
  }
 }
 CARD_PAIRS = [
- ("01 / 초기 투자", "01 / 문제 정의"),
- ("공급 계약·고객 수요\n단위 손익 확인", "예약자·이용자 분리\n고객 과업 확인"),
- ("02 / 1년 차", "02 / PRD 설계"),
- ("제휴 사업모델과\n운영 책임 정교화", "역할·권한·동의\n예외 정책 정리"),
- ("03 / 2년 차", "03 / 기능 검수"),
- ("지역별 사업성에 따른\n생활권 확대", "공유·복구·충돌\n테스트와 조치"),
- ("04 / 3년 차", "04 / 운영 인계"),
- ("반복수요 기반 기업·\n공공 협력 모델 검토", "인수 기준·잔여 과제\n운영 안내 정리")
+ ("01 / 초기 투자", "01 / 문제 정의", "01 / 문제 정의"),
+ ("공급 계약·고객 수요\n단위 손익 확인", "예약자·이용자 분리\n고객 과업 확인", "자녀의 대리 예약\n정보 확인 부담 파악"),
+ ("02 / 1년 차", "02 / PRD 설계", "02 / 사용자 정의"),
+ ("제휴 사업모델과\n운영 책임 정교화", "역할·권한·동의\n예외 정책 정리", "자녀·부모 페르소나\n과업·동의 조건"),
+ ("03 / 2년 차", "03 / 기능 검수", "03 / 핵심 기능"),
+ ("지역별 사업성에 따른\n생활권 확대", "공유·복구·충돌\n테스트와 조치", "비교·신청·공유\n상태 확인 흐름"),
+ ("04 / 3년 차", "04 / 운영 인계", "04 / 실행 계획"),
+ ("반복수요 기반 기업·\n공공 협력 모델 검토", "인수 기준·잔여 과제\n운영 안내 정리", "UX 검증·공급 조건\n시범 운영 검토")
 ]
 def set_preserving_style(shape, value):
  assert shape.has_text_frame
@@ -102,11 +102,11 @@ def run(mode):
   table=prs.slides[9].shapes[4].table
   assert len(table.rows)==5 and len(table.columns)==3
   revised=[
-   ["단계","실행·기록","통과 기준 제안"],
-   ["P0 요구사항","R-01~06 역할·동의·권한·상태·복구 정책","요구사항·수용 기준 정의"],
-   ["P1 기능 근거","R-02~04 소유권·공유·상태 테스트 코드","고정 코드 QA 176/176 통과 · UAT 별도"],
-   ["P2 QA·UAT","TC 11개·UAT 5개 과업 추적","미검증·실패·UAT 미실시를 구분"],
-   ["인수·교육","사용 안내·복구·잔여 이슈·운영 책임","실제 예약·결제·배정은 인수 범위 제외"]
+   ["단계","핵심 작업","판단 기준"],
+   ["P0 문제 정의","자녀·부모 과업·동의 조건 확인","우선 고객 문제와 니즈 가설"],
+   ["P1 제품 설계","비교·신청·공유 흐름과 R-01~06 정의","화면·권한·예외 정책 정리"],
+   ["P2 UX 검증","프로토타입 과업·이탈 원인 확인","사용성 문제·개선점 기록"],
+   ["P3 운영 검토","공급·비용·안전·지원 책임 확인","제휴·시범 운영 가능성 검토"]
   ]
   for i,row in enumerate(table.rows):
    for j,cell in enumerate(row.cells):
@@ -123,13 +123,13 @@ def run(mode):
     updates+=1
  if mode=="strategy":
   slide=prs.slides[10]
-  for old,new in CARD_PAIRS:
-   candidates=[sh for sh in slide.shapes if sh.has_text_frame and sh.text.strip()==old]
+  for original,previous,new in CARD_PAIRS:
+   candidates=[sh for sh in slide.shapes if sh.has_text_frame and sh.text.strip() in (original,previous) and sh.text.strip()!=new]
    already=[sh for sh in slide.shapes if sh.has_text_frame and sh.text.strip()==new]
    if len(candidates)==1:
     set_preserving_style(candidates[0],new);updates+=1
    elif len(already)!=1:
-    raise AssertionError("Missing editable PRD stage card: "+old)
+    raise AssertionError("Missing editable product-planning stage card: "+original)
  # In editable PPTX text, python-pptx's font.name writes the Latin face only.
  # Add explicit East Asian and complex-script faces for newly rebuilt runs.
  from pptx.oxml.xmlchemy import OxmlElement
