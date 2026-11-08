@@ -130,6 +130,25 @@ def run(mode):
     set_preserving_style(candidates[0],new);updates+=1
    elif len(already)!=1:
     raise AssertionError("Missing editable PRD stage card: "+old)
+ # In editable PPTX text, python-pptx's font.name writes the Latin face only.
+ # Add explicit East Asian and complex-script faces for newly rebuilt runs.
+ from pptx.oxml.xmlchemy import OxmlElement
+ from pptx.oxml.ns import qn
+ for slide in prs.slides:
+  for sh in slide.shapes:
+   frames=[sh.text_frame] if sh.has_text_frame else []
+   if sh.has_table: frames.extend(cell.text_frame for row in sh.table.rows for cell in row.cells)
+   for tf in frames:
+    for para in tf.paragraphs:
+     for run in para.runs:
+      if not run.text.strip():continue
+      run.font.name="Pretendard"
+      props=run._r.get_or_add_rPr()
+      for family in ("latin","ea","cs"):
+       node=props.find(qn("a:"+family))
+       if node is None:
+        node=OxmlElement("a:"+family);props.append(node)
+       node.set("typeface","Pretendard")
  assert snapshot_numbers(prs)==before_charts,"Existing chart numeric values changed"
  assert sum(sh.shape_type==13 for slide in prs.slides for sh in slide.shapes)==before_images
  if updates:
