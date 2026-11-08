@@ -47,7 +47,10 @@ for (const metric of ['예약 확정률','매니저 선택 성공률','90일 내
 }
 assert.ok(prd.includes('상태 이해도') && site.includes('상태 이해도'),
   'PRD and website state-understanding metric differ');
-assert.ok(prd.includes('상세 7단계 보기') && site.includes('가족 등록'),
+const siteJourney = site.match(/<ol class="skim-journey">([\s\S]*?)<\/ol>/);
+assert.ok(siteJourney && (siteJourney[1].match(/<li>/g) || []).length === 7,
+  'Website journey must retain 7 steps');
+assert.ok(prd.includes('상세 7단계 보기') && (prd.match(/<article><strong>0[1-5] /g) || []).length === 5,
   '5-step PRD summary must link to detailed 7-step site flow');
 assert.ok(source.includes('사용자 문제에서 제품 설계까지') && deck.includes('핵심 과업 · 4가지'),
   'slide 7/10/11 product journey and task summary drifted');
