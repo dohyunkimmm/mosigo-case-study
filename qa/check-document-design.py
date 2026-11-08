@@ -105,7 +105,7 @@ for figure in ('199', '433', '541', '1,082'):
     assert figure in compact_slides, f'Presentation financial quantity missing: {figure}'
     assert figure in re.sub(r'\s+', '', ir_text), f'IR financial quantity missing: {figure}'
 assert '3,700' in compact_slides and '3,700' in ir_text, 'Slide/IR unit margin mismatch'
-assert '400만' in ir_text, 'IR pilot budget missing'
+assert '400만원' in re.sub(r'\s+', '', ir_text), 'IR pilot budget missing'
 assert '서비스기획' in compact_slides and 'PRD' in compact_slides, 'Supplemental PRD deck identity missing'
 assert '신사업 기획' in site_html and '추가 산출물 · 서비스기획·PRD' in site_html, 'Site/PRD document roles mismatched'
 for phrase in ('※ 공급·손익 수치는 기획상 산정 가정이며', '운영 성과를 의미하지 않습니다', '실제 운영·상용화가 완료됐다는 의미는 아닙니다'):
