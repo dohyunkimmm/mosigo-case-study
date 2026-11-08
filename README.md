@@ -72,7 +72,9 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 - [PR #64](https://github.com/dohyunkimmm/mosigo-case-study/pull/64): 자동 생성 산출물 6종을 `main` 직접 푸시 대신 검토용 PR로 게시하도록 전환했습니다. 필수 검사 `browser-and-lighthouse`, `prd-trace-and-product-tests`가 모든 PR을 검사하며 [GitHub Ruleset](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)에서 강제 적용됩니다.
 - [PR #66](https://github.com/dohyunkimmm/mosigo-case-study/pull/66)과 [정리 Actions #42481462073](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42481462073): 병합 이력 및 정확한 SHA를 확인한 브랜치를 포함해 **25개를 `archive/20261108/` 태그로 먼저 보존하고 원격 브랜치 참조를 삭제**했습니다. 성공 후 일회성 정리 워크플로도 제거했습니다.
 - 병합된 후속 PR 브랜치가 쌓이지 않도록 `.github/workflows/archive-merged-pr-branches.yml`에서 원본 SHA 보존·검증·참조 정리를 자동화했습니다. 이는 `main`을 강제 변경하지 않으며 포크·열린 PR·SHA 불일치가 있을 때 삭제하지 않습니다.
-- 과거 V03 PDF 임시 전송 브랜치는 9개 고유 커밋이 있지만, **HEAD Git 트리 SHA가 해당 커밋들 이전의 `main` 조상과 완전히 동일**해 결과 파일의 순변경은 0개입니다. 새로운 자동화는 이 사실·원본 SHA·열린 PR 부재를 재검증한 경우에만 `archive/20261108/` 태그로 보존하고 작업 브랜치를 정리합니다. [검토 이슈 #67](https://github.com/dohyunkimmm/mosigo-case-study/issues/67)
+- 과거 V03 PDF 임시 전송 브랜치는 9개 고유 커밋을 보유했지만 최종 Git 트리가 기존 `main` 조상과 정확히 같음을 확인했습니다. [자동 정리 #42482370425](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42482370425)에서 원본 SHA를 태그로 보존한 뒤 삭제했고, [이슈 #67](https://github.com/dohyunkimmm/mosigo-case-study/issues/67)을 완료 처리했습니다.
+- [자동 생성 PR 실제 검증 #42482370491](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42482370491): `GITHUB_TOKEN`으로 배포되지 않는 QA 파일을 담은 [봇 PR #69](https://github.com/dohyunkimmm/mosigo-case-study/pull/69)를 실제 생성하고 정확한 SHA·PR 존재를 확인했습니다. 테스트 PR은 **병합하지 않고 종료**했고 원본 SHA를 `archive/verification/` 태그로 보존한 뒤 테스트 브랜치를 삭제했습니다. 성공한 일회성 검사 워크플로도 제거했습니다. 이는 봇 PR 생성 권한 검증이며, 향후 생성 PR의 **필수 QA 실행 승인**은 사용자가 요청받을 수 있습니다.
+- [병합 브랜치 자동 보존 #42482371028](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42482371028) 성공. 정리 후 원격 브랜치 목록은 `main` **1개**입니다.
 - [Actions 실행기 오류 #55](https://github.com/dohyunkimmm/mosigo-case-study/issues/55)는 후속 모바일 Safari·Site QA·PRD QA의 실제 작업 실행 성공을 확인하고 종료했습니다. 원본 MOSIGO [Blob 보존 이슈 #88](https://github.com/dohyunkimmm/mosigo/issues/88)은 운영 데이터 독립 소유권·만료/복구 검증이 끝나지 않아 별개로 열려 있습니다.
 
 ## 기술
