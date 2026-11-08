@@ -1,0 +1,755 @@
+{
+  "at": "2026-11-08T07:16:59.505Z",
+  "commit": "3c3fae14a18a917ced003f4d50e9151b00e99a7b",
+  "type": "production-live-browser",
+  "tests": [
+    {
+      "name": "home HTTP 320",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "home no overflow 320",
+      "result": "pass",
+      "detail": "{\"scroll\":320,\"view\":320,\"printLayout\":false}"
+    },
+    {
+      "name": "home no page script errors 320",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home anchor targets 320",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home HTTP 390",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "home no overflow 390",
+      "result": "pass",
+      "detail": "{\"scroll\":390,\"view\":390,\"printLayout\":false}"
+    },
+    {
+      "name": "home no page script errors 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home anchor targets 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home no serious axe 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home HTTP 768",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "home no overflow 768",
+      "result": "pass",
+      "detail": "{\"scroll\":768,\"view\":768,\"printLayout\":false}"
+    },
+    {
+      "name": "home no page script errors 768",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home anchor targets 768",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home HTTP 1440",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "home no overflow 1440",
+      "result": "pass",
+      "detail": "{\"scroll\":1440,\"view\":1440,\"printLayout\":false}"
+    },
+    {
+      "name": "home no page script errors 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home anchor targets 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "home nine chapters",
+      "result": "pass",
+      "detail": "9"
+    },
+    {
+      "name": "home PRD link",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "name": "home no serious axe 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd HTTP 320",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "prd no overflow 320",
+      "result": "pass",
+      "detail": "{\"scroll\":320,\"view\":320,\"printLayout\":false}"
+    },
+    {
+      "name": "prd no page script errors 320",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd anchor targets 320",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd copy R-01 320",
+      "result": "pass",
+      "detail": "R-01"
+    },
+    {
+      "name": "prd copy R-03 320",
+      "result": "pass",
+      "detail": "R-03"
+    },
+    {
+      "name": "prd copy R-06 320",
+      "result": "pass",
+      "detail": "R-06"
+    },
+    {
+      "name": "prd copy 예약 확정률 320",
+      "result": "pass",
+      "detail": "예약 확정률"
+    },
+    {
+      "name": "prd copy 매니저 선택 성공률 320",
+      "result": "pass",
+      "detail": "매니저 선택 성공률"
+    },
+    {
+      "name": "prd copy 상태 이해도 320",
+      "result": "pass",
+      "detail": "상태 이해도"
+    },
+    {
+      "name": "prd copy 90일 내 재예약률 320",
+      "result": "pass",
+      "detail": "90일 내 재예약률"
+    },
+    {
+      "name": "prd HTTP 390",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "prd no overflow 390",
+      "result": "pass",
+      "detail": "{\"scroll\":390,\"view\":390,\"printLayout\":false}"
+    },
+    {
+      "name": "prd no page script errors 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd anchor targets 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd copy R-01 390",
+      "result": "pass",
+      "detail": "R-01"
+    },
+    {
+      "name": "prd copy R-03 390",
+      "result": "pass",
+      "detail": "R-03"
+    },
+    {
+      "name": "prd copy R-06 390",
+      "result": "pass",
+      "detail": "R-06"
+    },
+    {
+      "name": "prd copy 예약 확정률 390",
+      "result": "pass",
+      "detail": "예약 확정률"
+    },
+    {
+      "name": "prd copy 매니저 선택 성공률 390",
+      "result": "pass",
+      "detail": "매니저 선택 성공률"
+    },
+    {
+      "name": "prd copy 상태 이해도 390",
+      "result": "pass",
+      "detail": "상태 이해도"
+    },
+    {
+      "name": "prd copy 90일 내 재예약률 390",
+      "result": "pass",
+      "detail": "90일 내 재예약률"
+    },
+    {
+      "name": "prd no serious axe 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd HTTP 768",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "prd no overflow 768",
+      "result": "pass",
+      "detail": "{\"scroll\":768,\"view\":768,\"printLayout\":false}"
+    },
+    {
+      "name": "prd no page script errors 768",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd anchor targets 768",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd copy R-01 768",
+      "result": "pass",
+      "detail": "R-01"
+    },
+    {
+      "name": "prd copy R-03 768",
+      "result": "pass",
+      "detail": "R-03"
+    },
+    {
+      "name": "prd copy R-06 768",
+      "result": "pass",
+      "detail": "R-06"
+    },
+    {
+      "name": "prd copy 예약 확정률 768",
+      "result": "pass",
+      "detail": "예약 확정률"
+    },
+    {
+      "name": "prd copy 매니저 선택 성공률 768",
+      "result": "pass",
+      "detail": "매니저 선택 성공률"
+    },
+    {
+      "name": "prd copy 상태 이해도 768",
+      "result": "pass",
+      "detail": "상태 이해도"
+    },
+    {
+      "name": "prd copy 90일 내 재예약률 768",
+      "result": "pass",
+      "detail": "90일 내 재예약률"
+    },
+    {
+      "name": "prd HTTP 1440",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "prd no overflow 1440",
+      "result": "pass",
+      "detail": "{\"scroll\":1440,\"view\":1440,\"printLayout\":false}"
+    },
+    {
+      "name": "prd no page script errors 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd anchor targets 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "prd copy R-01 1440",
+      "result": "pass",
+      "detail": "R-01"
+    },
+    {
+      "name": "prd copy R-03 1440",
+      "result": "pass",
+      "detail": "R-03"
+    },
+    {
+      "name": "prd copy R-06 1440",
+      "result": "pass",
+      "detail": "R-06"
+    },
+    {
+      "name": "prd copy 예약 확정률 1440",
+      "result": "pass",
+      "detail": "예약 확정률"
+    },
+    {
+      "name": "prd copy 매니저 선택 성공률 1440",
+      "result": "pass",
+      "detail": "매니저 선택 성공률"
+    },
+    {
+      "name": "prd copy 상태 이해도 1440",
+      "result": "pass",
+      "detail": "상태 이해도"
+    },
+    {
+      "name": "prd copy 90일 내 재예약률 1440",
+      "result": "pass",
+      "detail": "90일 내 재예약률"
+    },
+    {
+      "name": "PRD 13 sections",
+      "result": "pass",
+      "detail": "13"
+    },
+    {
+      "name": "PRD six requirements",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "name": "PRD TOC 13 items",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "name": "PRD technical evidence separate",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "name": "prd no serious axe 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan HTTP 320",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "business-plan intentional 1280px print layout 320",
+      "result": "pass",
+      "detail": "{\"scroll\":1305,\"view\":320,\"printLayout\":true}"
+    },
+    {
+      "name": "business-plan no page script errors 320",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan anchor targets 320",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan copy 예약 확정률 320",
+      "result": "pass",
+      "detail": "예약 확정률"
+    },
+    {
+      "name": "business-plan copy 매니저 선택 성공률 320",
+      "result": "pass",
+      "detail": "매니저 선택 성공률"
+    },
+    {
+      "name": "business-plan copy 90일 내 재예약률 320",
+      "result": "pass",
+      "detail": "90일 내 재예약률"
+    },
+    {
+      "name": "business-plan HTTP 390",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "business-plan intentional 1280px print layout 390",
+      "result": "pass",
+      "detail": "{\"scroll\":1305,\"view\":390,\"printLayout\":true}"
+    },
+    {
+      "name": "business-plan no page script errors 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan anchor targets 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan copy 예약 확정률 390",
+      "result": "pass",
+      "detail": "예약 확정률"
+    },
+    {
+      "name": "business-plan copy 매니저 선택 성공률 390",
+      "result": "pass",
+      "detail": "매니저 선택 성공률"
+    },
+    {
+      "name": "business-plan copy 90일 내 재예약률 390",
+      "result": "pass",
+      "detail": "90일 내 재예약률"
+    },
+    {
+      "name": "business-plan no serious axe 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan HTTP 768",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "business-plan intentional 1280px print layout 768",
+      "result": "pass",
+      "detail": "{\"scroll\":1305,\"view\":768,\"printLayout\":true}"
+    },
+    {
+      "name": "business-plan no page script errors 768",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan anchor targets 768",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan copy 예약 확정률 768",
+      "result": "pass",
+      "detail": "예약 확정률"
+    },
+    {
+      "name": "business-plan copy 매니저 선택 성공률 768",
+      "result": "pass",
+      "detail": "매니저 선택 성공률"
+    },
+    {
+      "name": "business-plan copy 90일 내 재예약률 768",
+      "result": "pass",
+      "detail": "90일 내 재예약률"
+    },
+    {
+      "name": "business-plan HTTP 1440",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "business-plan intentional 1280px print layout 1440",
+      "result": "pass",
+      "detail": "{\"scroll\":1440,\"view\":1440,\"printLayout\":true}"
+    },
+    {
+      "name": "business-plan no page script errors 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan anchor targets 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "business-plan copy 예약 확정률 1440",
+      "result": "pass",
+      "detail": "예약 확정률"
+    },
+    {
+      "name": "business-plan copy 매니저 선택 성공률 1440",
+      "result": "pass",
+      "detail": "매니저 선택 성공률"
+    },
+    {
+      "name": "business-plan copy 90일 내 재예약률 1440",
+      "result": "pass",
+      "detail": "90일 내 재예약률"
+    },
+    {
+      "name": "business-plan 19 pages",
+      "result": "pass",
+      "detail": "19"
+    },
+    {
+      "name": "business-plan no serious axe 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix HTTP 320",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "qa-appendix no overflow 320",
+      "result": "pass",
+      "detail": "{\"scroll\":320,\"view\":320,\"printLayout\":false}"
+    },
+    {
+      "name": "qa-appendix no page script errors 320",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix anchor targets 320",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix copy TC-03-04 320",
+      "result": "pass",
+      "detail": "TC-03-04"
+    },
+    {
+      "name": "qa-appendix copy UAT-05 320",
+      "result": "pass",
+      "detail": "UAT-05"
+    },
+    {
+      "name": "qa-appendix HTTP 390",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "qa-appendix no overflow 390",
+      "result": "pass",
+      "detail": "{\"scroll\":390,\"view\":390,\"printLayout\":false}"
+    },
+    {
+      "name": "qa-appendix no page script errors 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix anchor targets 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix copy TC-03-04 390",
+      "result": "pass",
+      "detail": "TC-03-04"
+    },
+    {
+      "name": "qa-appendix copy UAT-05 390",
+      "result": "pass",
+      "detail": "UAT-05"
+    },
+    {
+      "name": "qa-appendix no serious axe 390",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix HTTP 768",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "qa-appendix no overflow 768",
+      "result": "pass",
+      "detail": "{\"scroll\":768,\"view\":768,\"printLayout\":false}"
+    },
+    {
+      "name": "qa-appendix no page script errors 768",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix anchor targets 768",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix copy TC-03-04 768",
+      "result": "pass",
+      "detail": "TC-03-04"
+    },
+    {
+      "name": "qa-appendix copy UAT-05 768",
+      "result": "pass",
+      "detail": "UAT-05"
+    },
+    {
+      "name": "qa-appendix HTTP 1440",
+      "result": "pass",
+      "detail": "200"
+    },
+    {
+      "name": "qa-appendix no overflow 1440",
+      "result": "pass",
+      "detail": "{\"scroll\":1440,\"view\":1440,\"printLayout\":false}"
+    },
+    {
+      "name": "qa-appendix no page script errors 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix anchor targets 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "qa-appendix copy TC-03-04 1440",
+      "result": "pass",
+      "detail": "TC-03-04"
+    },
+    {
+      "name": "qa-appendix copy UAT-05 1440",
+      "result": "pass",
+      "detail": "UAT-05"
+    },
+    {
+      "name": "QA appendix 11 cases",
+      "result": "pass",
+      "detail": "11"
+    },
+    {
+      "name": "QA appendix 5 UAT cases",
+      "result": "pass",
+      "detail": ""
+    },
+    {
+      "name": "qa-appendix no serious axe 1440",
+      "result": "pass",
+      "detail": "[]"
+    },
+    {
+      "name": "download /downloads/mosigo_report.pptx",
+      "result": "pass",
+      "detail": "{\"http\":200,\"bytes\":65874,\"magic\":true}"
+    },
+    {
+      "name": "download /downloads/mosigo_report_preview.pdf",
+      "result": "pass",
+      "detail": "{\"http\":200,\"bytes\":226258,\"magic\":true}"
+    },
+    {
+      "name": "download /downloads/mosigo_business_plan_20261031.pdf",
+      "result": "pass",
+      "detail": "{\"http\":200,\"bytes\":501534,\"magic\":true}"
+    },
+    {
+      "name": "download /downloads/MOSIGO_IR_Investment_Review_12slides.pdf",
+      "result": "pass",
+      "detail": "{\"http\":200,\"bytes\":552786,\"magic\":true}"
+    },
+    {
+      "name": "download /downloads/MOSIGO_IR_Investment_Review_12slides.pptx",
+      "result": "pass",
+      "detail": "{\"http\":200,\"bytes\":69657,\"magic\":true}"
+    }
+  ],
+  "axe": [
+    {
+      "page": "home",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "page": "home",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "page": "prd",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "page": "prd",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "page": "business-plan",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "page": "business-plan",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "page": "qa-appendix",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "page": "qa-appendix",
+      "width": 1440,
+      "violations": []
+    }
+  ],
+  "downloads": [
+    {
+      "path": "/downloads/mosigo_report.pptx",
+      "http": 200,
+      "bytes": 65874,
+      "magic": true
+    },
+    {
+      "path": "/downloads/mosigo_report_preview.pdf",
+      "http": 200,
+      "bytes": 226258,
+      "magic": true
+    },
+    {
+      "path": "/downloads/mosigo_business_plan_20261031.pdf",
+      "http": 200,
+      "bytes": 501534,
+      "magic": true
+    },
+    {
+      "path": "/downloads/MOSIGO_IR_Investment_Review_12slides.pdf",
+      "http": 200,
+      "bytes": 552786,
+      "magic": true
+    },
+    {
+      "path": "/downloads/MOSIGO_IR_Investment_Review_12slides.pptx",
+      "http": 200,
+      "bytes": 69657,
+      "magic": true
+    }
+  ],
+  "errors": [],
+  "total": 134,
+  "failed": 0,
+  "passed": 134
+}

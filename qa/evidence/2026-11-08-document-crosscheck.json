@@ -1,0 +1,190 @@
+{
+  "timestamp": "2026-11-08T07:15:34.841273+00:00",
+  "checks": [
+    {
+      "name": "presentation_pdf file exists",
+      "status": "PASS",
+      "detail": "/vercel/mosigo_report_preview.pdf"
+    },
+    {
+      "name": "presentation_pdf is nonempty",
+      "status": "PASS",
+      "detail": "226258"
+    },
+    {
+      "name": "presentation_pptx file exists",
+      "status": "PASS",
+      "detail": "/vercel/mosigo_report.pptx"
+    },
+    {
+      "name": "presentation_pptx is nonempty",
+      "status": "PASS",
+      "detail": "65874"
+    },
+    {
+      "name": "business_pdf file exists",
+      "status": "PASS",
+      "detail": "/vercel/mosigo_business_plan_20261031.pdf"
+    },
+    {
+      "name": "business_pdf is nonempty",
+      "status": "PASS",
+      "detail": "501534"
+    },
+    {
+      "name": "ir_pdf file exists",
+      "status": "PASS",
+      "detail": "/vercel/MOSIGO_IR_Investment_Review_12slides.pdf"
+    },
+    {
+      "name": "ir_pdf is nonempty",
+      "status": "PASS",
+      "detail": "552786"
+    },
+    {
+      "name": "ir_pptx file exists",
+      "status": "PASS",
+      "detail": "/vercel/MOSIGO_IR_Investment_Review_12slides.pptx"
+    },
+    {
+      "name": "ir_pptx is nonempty",
+      "status": "PASS",
+      "detail": "69657"
+    },
+    {
+      "name": "presentation_pdf page count",
+      "status": "PASS",
+      "detail": "11 expected 11"
+    },
+    {
+      "name": "presentation_pdf title has text",
+      "status": "PASS",
+      "detail": "226"
+    },
+    {
+      "name": "business_pdf page count",
+      "status": "PASS",
+      "detail": "19 expected 19"
+    },
+    {
+      "name": "business_pdf title has text",
+      "status": "PASS",
+      "detail": "274"
+    },
+    {
+      "name": "ir_pdf page count",
+      "status": "PASS",
+      "detail": "12 expected 12"
+    },
+    {
+      "name": "ir_pdf title has text",
+      "status": "PASS",
+      "detail": "189"
+    },
+    {
+      "name": "presentation_pptx slide count",
+      "status": "PASS",
+      "detail": "11"
+    },
+    {
+      "name": "presentation_pptx all slides have text",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "name": "ir_pptx slide count",
+      "status": "PASS",
+      "detail": "12"
+    },
+    {
+      "name": "ir_pptx all slides have text",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "name": "presentation PDF slide 7 updated wording",
+      "status": "PASS",
+      "detail": "STRATEGYCASESTUDY대리예약의핵심경험과요구사항주요사용자·자녀/부모핵심과업·4가지요구사항·R-01~R-06사용자과업핵심기능·화면정책탐색·비교지역·일정·매니저정보기준비교대리신청예약자·이용자분리/동의확인진행공유상태확인·공유대상·유효기간안내변경·복구취소·변경·오류시다시확인경로사용자문제→기능정의→화면정책→후속검증MOSIGO07/11"
+    },
+    {
+      "name": "presentation PDF slide 7 old wording absent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "presentation PPTX slide 7 updated wording",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "presentation PPTX slide 7 old wording absent",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "business PDF cover updated",
+      "status": "PASS",
+      "detail": "표지MOSIGO·BUSINESSPLANMOSIGO신규사업기획서·병원동행대리예약플랫폼교육프로젝트를출발점으로재구성한개인사업기획서시장·고객→IT/운영설계→사업모델·손익→실행·성과관리개인전략기획·시장·사업모델·실행전략MOSIGO·전략기획보고서01/19"
+    },
+    {
+      "name": "business PDF old cover removed",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "business PDF phase G2 updated",
+      "status": "PASS",
+      "detail": "12/Go-to-MarketMOSIGO·BUSINESSPLAN제휴중심진입·단계별검증시장수요와공급여건,IT운영정책을차례로확인한뒤사업확대여부를결정합니다.단계실행항목·측정방법단계별추진기준G0고객자녀·부모의이용과업관찰,대체수단과가격수용여부자녀수요와부모동의조건확인조사G1공급서비스제공가능지역·시간,수수료·취소규정·보험조건계약조건과안전책임합의확인G2제품대리신청·진행공유·변경흐름과사용자과업검증과업결과·개선사항을반영해보완G3시범운영서비스완료건수·고객획득비용·고객지원시간·취소·건당공헌이익이양수인지확인하고,공급여건과재예약측정손익분기점달성가능성을검토판단기준AI추천·기업및공공기관제휴·지역확대는반복수요·책임범위·건당수익성을확인한뒤별도결정합니다.제휴조건확인부터고객검증과투자승인까지단계별실행안을제시합니다.MOSIGO·전략기획보고서13/19"
+    },
+    {
+      "name": "business PDF old phase G2 removed",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "financial assumptions consistent 199건",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "financial assumptions consistent 3,700원",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "financial assumptions consistent 1,082건",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "IR deck models business",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "total": 32,
+  "passed": 32,
+  "failed": 0,
+  "files": {
+    "presentation_pdf": {
+      "size_bytes": 226258,
+      "pages": 11
+    },
+    "presentation_pptx": {
+      "size_bytes": 65874,
+      "slides": 11
+    },
+    "business_pdf": {
+      "size_bytes": 501534,
+      "pages": 19
+    },
+    "ir_pdf": {
+      "size_bytes": 552786,
+      "pages": 12
+    },
+    "ir_pptx": {
+      "size_bytes": 69657,
+      "slides": 12
+    }
+  }
+}
