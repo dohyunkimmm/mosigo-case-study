@@ -59,11 +59,11 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 
 ## 공개 저장소 운영 및 브랜치 보호 (2026-11-08)
 
-- **운영 기준:** 저장소는 **공개(Public)** 상태이며 `main`은 **`protected=true`**입니다. [Ruleset `Protect main`](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)이 `Active`로 적용되어 브랜치 **삭제·강제 푸시를 차단**합니다.
-- **PR 필수 설정 준비:** 문서 생성 작업 6개는 `main`에 직접 푸시하지 않고, 변경된 산출물이 있을 때 `automation/*` 작업 브랜치와 검토용 PR을 생성하도록 전환했습니다. `Site QA / browser-and-lighthouse`와 `PRD Evidence QA / prd-trace-and-product-tests`는 **모든 PR에서 실행**되도록 경로 제한을 해제했습니다. GitHub 규칙을 실제 활성화하기 전까지는 일반 직접 푸시가 여전히 기술적으로 허용됩니다.
-- **관리자 설정 필요:** [Actions → General](https://github.com/dohyunkimmm/mosigo-case-study/settings/actions)에서 `Allow GitHub Actions to create and approve pull requests`를 허용해야 생성 작업이 PR을 게시할 수 있습니다. `GITHUB_TOKEN`으로 생성한 PR의 검사는 사용자 승인이 필요할 수 있으므로 자동 승인·자동 병합은 하지 않습니다. 이후 [Ruleset `Protect main`](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)에서 `Require a pull request before merging`와 위 **두 작업 이름**을 필수 상태 검사로 지정합니다.
+- **운영 기준:** 저장소는 **공개(Public)** 상태이며 `main`은 **`protected=true`**입니다. [Ruleset `Protect main`](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)이 `Active`로 적용되어 브랜치 **삭제·강제 푸시를 차단**하고, **PR을 통한 병합과 두 필수 QA 검사**를 요구합니다.
+- **PR 필수 설정 완료:** 문서 생성 작업 6개는 `main`에 직접 푸시하지 않고, 변경된 산출물이 있을 때 `automation/*` 작업 브랜치와 검토용 PR을 생성하도록 전환했습니다. `browser-and-lighthouse`, `prd-trace-and-product-tests`는 **모든 PR에서 실행되는 필수 GitHub Actions 검사**로 지정됐습니다. 서버 측 Ruleset에서 PR 필수·필수 검사 설정을 확인했습니다.
+- **자동 생성 PR 운영:** 사용자는 [Actions → General](https://github.com/dohyunkimmm/mosigo-case-study/settings/actions)에서 GitHub Actions의 PR 생성 허용 옵션을 활성화했다고 확인했습니다. 이 토글과 실제 봇 생성 PR의 성공 여부는 연결된 API로 독립 조회하지 못했습니다. `GITHUB_TOKEN`이 생성한 PR은 검사를 실행하려면 관리자의 **Approve workflows to run** 승인이 필요할 수 있으며, 자동 승인·자동 병합은 사용하지 않습니다.
 - **워크플로 갱신:** 생성 소스가 변경되면 자동으로 재생성하며, 워크플로 파일만 변경했다면 불필요한 동시 재생성을 피하기 위해 해당 Actions의 `Run workflow`를 `main`에서 수동 실행합니다.
-- **검증 범위:** 생성 PR은 필수 QA 검사를 통과한 후 사람이 병합합니다. 사이트·PRD 운영 HTML 및 XLSX/PDF/PPTX는 [기존 운영 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42474907407)에서 검증했습니다. 규칙 활성화 여부는 별도 GitHub 조회로 확인해야 합니다.
+- **검증 범위:** 생성 PR은 필수 QA 검사를 통과한 후 사람이 병합합니다. 사이트·PRD 운영 HTML 및 XLSX/PDF/PPTX는 [운영 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42479802507)에서 검증했습니다. 규칙 적용은 GitHub API로 직접 확인했으며, 실제 자동 생성 PR 게시·승인은 최초 실행 시 확인해야 합니다.
 - **과거 기록:** [#15](https://github.com/dohyunkimmm/mosigo-case-study/issues/15)의 비공개 시절 제약과 `docs/history/`의 `protected=false` 표기는 당시 상태를 설명한 것입니다. 현재 보호 상태의 근거로 사용하지 않습니다.
 
 ## 기술
