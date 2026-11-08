@@ -103,7 +103,7 @@ assert 'MOSIGO' in compact_slides
 # Cross-verify financial inputs while keeping the PRD deck as a supplemental artifact.
 for figure in ('199', '433', '541', '1,082'):
     assert figure in compact_slides, f'Presentation financial quantity missing: {figure}'
-    assert figure in re.sub(r'\\s+', '', ir_text), f'IR financial quantity missing: {figure}'
+    assert figure in re.sub(r'\s+', '', ir_text), f'IR financial quantity missing: {figure}'
 assert '3,700' in compact_slides and '3,700' in ir_text, 'Slide/IR unit margin mismatch'
 assert '400만' in ir_text, 'IR pilot budget missing'
 assert '서비스기획' in compact_slides and 'PRD' in compact_slides, 'Supplemental PRD deck identity missing'
