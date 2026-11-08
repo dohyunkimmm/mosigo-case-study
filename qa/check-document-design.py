@@ -100,6 +100,17 @@ compact_slides=re.sub(r'\s+','',slides_text)
 for page_number, page_text in enumerate(slides_text.split('\f'), 1):
     assert_no_repeated_sentences(page_text, f'presentation page {page_number}')
 assert 'MOSIGO' in compact_slides
+# Cross-verify financial inputs while keeping the PRD deck as a supplemental artifact.
+for figure in ('199', '433', '541', '1,082'):
+    assert figure in compact_slides, f'Presentation financial quantity missing: {figure}'
+    assert figure in re.sub(r'\\s+', '', ir_text), f'IR financial quantity missing: {figure}'
+assert '3,700' in compact_slides and '3,700' in ir_text, 'Slide/IR unit margin mismatch'
+assert '400만' in ir_text, 'IR pilot budget missing'
+assert '서비스기획' in compact_slides and 'PRD' in compact_slides, 'Supplemental PRD deck identity missing'
+assert '신사업 기획' in site_html and '추가 산출물 · 서비스기획·PRD' in site_html, 'Site/PRD document roles mismatched'
+for phrase in ('※ 공급·손익 수치는 기획상 산정 가정이며', '운영 성과를 의미하지 않습니다', '실제 운영·상용화가 완료됐다는 의미는 아닙니다'):
+    assert phrase not in site_html, f'Redundant negative copy reintroduced: {phrase}'
+print('PASS website / planning deck / IR cross-document role and financial consistency')
 has_product_prd_deck=('사용자문제에서제품설계까지' in compact_slides or '제품기획산출물과후속검증' in compact_slides)
 has_legacy_prd_deck='PRD에서기능검수·인계까지' in compact_slides
 has_new_prd_deck=has_product_prd_deck or has_legacy_prd_deck
