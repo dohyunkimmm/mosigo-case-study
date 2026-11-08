@@ -35,7 +35,7 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 
 **첨부 자료 원본과 게시본:** [사업기획서 HTML](downloads/mosigo_business_plan_20261031.html) · [사업기획서 PDF](downloads/mosigo_business_plan_20261031.pdf) · [발표자료 PPTX](downloads/mosigo_report.pptx) · [발표자료 미리보기 PDF](downloads/mosigo_report_preview.pdf) · [IR Deck PPTX](downloads/MOSIGO_IR_Investment_Review_12slides.pptx) · [IR Deck PDF](downloads/MOSIGO_IR_Investment_Review_12slides.pdf) · [계산 파일 XLSX](downloads/mosigo_model.xlsx).
 
-2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-08 클렌징 후 `main` 목록은 157개 파일·8개 디렉터리**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
+2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-08 클렌징 후 `main` 목록은 157개 파일·9개 디렉터리**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
 
 ## 자료의 구분
 
