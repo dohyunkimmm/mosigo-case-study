@@ -24,7 +24,7 @@
 - `index.html`의 메인 목차 9개는 각각 대응 섹션 ID를 갖는다. 직접 참조하는 저장소 내부 정적 경로에서 없는 파일을 발견하지 않았다.
 - `index.html`의 문서 탭 설정은 사업기획서 17쪽, 발표자료 11장, IR Deck 12장이다. 각 쪽/장마다 일반 및 소형 WebP가 한 쌍씩 있어 총 **80개 모두 존재**한다.
 - `decision-memos.html` → `/#decision`, `forecast.html` → `/#business`, `materials.html` → `/#attachments`는 기존 URL 호환을 위한 파일이므로 삭제하지 않는다.
-- `qa/ir-deck-source/0*.txt`는 [IR Deck 생성 워크플로](../.github/workflows/ir-deck.yml)의 복원 입력이다. 랜덤한 문자열처럼 보이지만 생성 과정에서 쓰이므로 삭제하지 않는다.
+- `qa/ir-deck-source/0*.txt`는 [IR Deck 생성 워크플로](../../.github/workflows/ir-deck.yml)의 복원 입력이다. 랜덤한 문자열처럼 보이지만 생성 과정에서 쓰이므로 삭제하지 않는다.
 
 ## 검증 실행 상태
 

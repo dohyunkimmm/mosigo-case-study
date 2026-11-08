@@ -1,5 +1,7 @@
 # Internal verification records; not part of the public portfolio.
 qa/**
 !qa/vercel-ignore-build.sh
-# Historical technical appendix kept in the private repository only.
+# Keep historical audits out of the deployed website (GitHub source is public).
+docs/history/**
+# Defense in depth if the removed internal QA appendix is ever reintroduced.
 downloads/mosigo_qa_appendix.html
