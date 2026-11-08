@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: mosigo-business-plan-pdf-fast
@@ -79,30 +80,11 @@ jobs:
             test "$(stat -c%s "downloads/previews/plan-$padded-sm.webp")" -gt 1000
           done
           test "$(find downloads/previews -maxdepth 1 -name 'plan-*.webp' | wc -l)" -eq 38
-      - name: Publish regenerated PDF
+      - name: Open PR for regenerated business-plan assets
         if: github.event_name != 'pull_request'
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add downloads/mosigo_business_plan_20261031.pdf downloads/previews/plan-*.webp
-          if git diff --cached --quiet; then
-            echo "PDF is already up to date"
-          else
-            git commit -m "docs: regenerate business plan without dates"
-            for attempt in 1 2 3 4 5; do
-              git pull --rebase origin "${GITHUB_REF_NAME}"
-              if git push origin "HEAD:${GITHUB_REF_NAME}"; then
-                echo "Published reviewed artifacts (attempt ${attempt})"
-                break
-              fi
-              if [ "${attempt}" -eq 5 ]; then
-                echo "::error::Could not publish after five safe rebase attempts"
-                exit 1
-              fi
-              sleep $((attempt * 2))
-            done
-          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash .github/scripts/publish-generated-pr.sh business-plan 'docs: regenerate business plan PDF and mobile previews' downloads/mosigo_business_plan_20261031.pdf downloads/previews/plan-*.webp
       - name: Save document for inspection
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
