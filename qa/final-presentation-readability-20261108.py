@@ -47,7 +47,7 @@ def apply_strategy(prs):
             updates+=shape_text(cell,value)
     for idx,value in [
        (9,"핵심 요구사항 R-01~06"),
-       (11,"테스트 코드 R-02~04"),
+       (11,"제품 QA 176/176"),
        (13,"UAT 미실시 R-01·05·06"),
        (15,"PRD 6개 → TC 11개 → UAT 5개(계획)"),
     ]:
