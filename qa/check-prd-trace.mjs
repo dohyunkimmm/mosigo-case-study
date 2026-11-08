@@ -23,7 +23,7 @@ assert.ok(site.includes('사용자 UAT 5개(미실시)'));
 assert.ok(site.includes('PRD·QA 증빙과 UAT 계획'));
 assert.ok(plan.includes('PRD 요구사항·QA 수용 기준'));
 assert.ok(plan.includes('PRD TC 11개·UAT 5개'));
-assert.equal((plan.match(/<section\\b/g)||[]).length,19,'business plan page count');
+assert.equal((plan.match(/<section\b/g)||[]).length,19,'business plan page count');
 assert.ok(deck.includes('테스트 코드 R-02~04'));
 assert.ok(source.includes('TC 11개·UAT 5개 과업 추적'));
 console.log('PASS PRD trace: R-01~06, 11 TC, 5 pending UAT, chapter 05/07, 19-page plan and 11-slide scripts');
