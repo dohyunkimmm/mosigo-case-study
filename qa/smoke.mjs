@@ -38,7 +38,7 @@ try {
     assert.equal(await page.locator('aside .brand-sub, .top .top-l, .hero .tag.dark').count(), 0, width + 'px no duplicate report badges');
     assert.equal(await page.locator('.hero h1').count(), 1, width + 'px one main report heading');
     const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
-    assert.equal(heading, 'MOSIGO전략기획보고서', width + 'px single Korean report title');
+    assert.equal(heading, 'MOSIGO서비스기획·PRD', width + 'px single Korean report title');
     const visibleLabels = await page.locator('aside, .top, .hero').allTextContents();
     assert.ok(!visibleLabels.join(' ').includes('STRATEGY CASE STUDY'), width + 'px no repeated case-study slogan');
     assert.ok(!visibleLabels.join(' ').includes('STRATEGY REPORT'), width + 'px no competing report slogan');
