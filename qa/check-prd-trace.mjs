@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import path from 'node:path';
 
 const read = path => readFileSync(path, 'utf8');
 const prd = read('downloads/mosigo_prd_delivery.html');
@@ -69,3 +70,30 @@ assert.ok(!site.includes('QA 테스트 케이스 11개'),
 console.log('PASS cross-document KPI, user journey and editorial QA');
 
 console.log('PASS product-centered PRD: 13 sections, 6 requirements; internal QA evidence absent from public repository');
+
+
+// Keep the public repository index and archived audit references in sync.
+const documentation = ['README.md',
+  ...readdirSync('docs/history').filter(name => name.endsWith('.md'))
+    .map(name => path.join('docs/history', name))];
+const missingLinks = [];
+for (const file of documentation) {
+  const markdown = read(file);
+  for (const match of markdown.matchAll(/!?\[[^\]\r\n]*\]\((<[^>]+>|[^)\r\n]+)\)/g)) {
+    let href = match[1].trim();
+    if (href.startsWith('<')) href = href.slice(1, href.indexOf('>'));
+    else href = href.replace(/\s+(?:"[^"]*"|'[^']*')\s*$/, '').trim();
+    if (!href || /^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i.test(href)) continue;
+    href = href.split(/[?#]/)[0];
+    if (!href) continue;
+    let decoded;
+    try { decoded = decodeURIComponent(href); }
+    catch { missingLinks.push(file + ': invalid URI ' + href); continue; }
+    const absolute = decoded.startsWith('/')
+      ? path.resolve('.', '.' + decoded)
+      : path.resolve(path.dirname(file), decoded);
+    if (!existsSync(absolute)) missingLinks.push(file + ': ' + href);
+  }
+}
+assert.deepEqual(missingLinks, [], 'broken repository-local Markdown links');
+console.log('PASS README and archived-document relative links');
