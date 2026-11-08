@@ -116,21 +116,23 @@ jobs:
             downloads/MOSIGO_IR_Investment_Review_12slides.pdf; do
             ok=0
             for attempt in $(seq 1 18); do
-              # PDF/PPT generators publish in follow-up commits. Fetch
-              # the latest main binary through the authenticated Contents API.
-              # This preserves the checkout's persist-credentials:false setting.
-              curl --fail --silent --show-error --location --retry 3 --max-time 30 \
+              # Compare Git blob object IDs, not raw downloads from the
+              # Contents API: binary raw responses may be inconsistent for
+              # Office artifacts while the repository SHA remains authoritative.
+              source_sha="$(curl --fail --silent --show-error --location --retry 3 --max-time 30 \
                 -H "Authorization: Bearer ${GH_READ_TOKEN}" \
-                -H "Accept: application/vnd.github.raw+json" \
+                -H "Accept: application/vnd.github+json" \
                 "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/contents/${path}?ref=main" \
-                -o /tmp/mosigo-current-source-asset
+                | jq -er '.sha | select(test("^[0-9a-f]{40}$"))')"
               if curl --fail --silent --show-error --location --max-time 25 \
                 -H 'Cache-Control: no-cache' \
-                "https://mosigo-case-study.vercel.app/$path?qa=${GITHUB_SHA}-${attempt}" -o /tmp/mosigo-live-asset && \
-                 cmp -s /tmp/mosigo-current-source-asset /tmp/mosigo-live-asset; then
-                echo "PASS SHA identical $path (attempt $attempt)"
-                ok=1
-                break
+                "https://mosigo-case-study.vercel.app/$path?qa=${GITHUB_SHA}-${attempt}" -o /tmp/mosigo-live-asset; then
+                live_sha="$(git hash-object /tmp/mosigo-live-asset)"
+                if [ "$source_sha" = "$live_sha" ]; then
+                  echo "PASS Git blob identical $path (attempt $attempt)"
+                  ok=1
+                  break
+                fi
               fi
               sleep 5
             done
