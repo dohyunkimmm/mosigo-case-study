@@ -416,3 +416,6 @@ section{padding-top:70px;padding-bottom:73px}
 
 /* Ensure the supplementary PRD link meets mobile touch target dimensions. */
 .attachment-support a{display:inline-flex;align-items:center;min-height:44px;padding:8px 5px;border-radius:6px}
+
+/* Typography QA: preserve a readable 12px minimum for the mobile hero section label. */
+@media(max-width:560px){.v3-hero-overline{font-size:12px;line-height:1.55}}
