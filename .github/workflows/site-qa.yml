@@ -51,6 +51,7 @@ jobs:
           sleep 2
           node qa/smoke.mjs
           node qa/v3.mjs
+          node qa/prd-browser.mjs
           export CHROME_PATH="$(node -p "require('playwright').chromium.executablePath()")"
           npx --no-install lighthouse http://127.0.0.1:8765/ --only-categories=performance,accessibility,best-practices,seo --form-factor=mobile --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/lighthouse-mobile.json --quiet
           npx --no-install lighthouse http://127.0.0.1:8765/ --only-categories=performance,accessibility,best-practices,seo --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/lighthouse-desktop.json --quiet
@@ -78,6 +79,7 @@ jobs:
         run: |
           node qa/smoke.mjs
           node qa/v3.mjs
+          node qa/prd-browser.mjs
           export CHROME_PATH="$(node -p "require('playwright').chromium.executablePath()")"
           npx --no-install lighthouse "$SITE_QA_URL" --only-categories=performance,accessibility,best-practices,seo --form-factor=mobile --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/live-lighthouse-mobile.json --quiet
           npx --no-install lighthouse "$SITE_QA_URL" --only-categories=performance,accessibility,best-practices,seo --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output-path=qa-artifacts/live-lighthouse-desktop.json --quiet
