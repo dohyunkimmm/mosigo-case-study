@@ -39,4 +39,26 @@ assert.ok(deck.includes('대리 예약의 핵심 경험과 요구사항'));
 assert.ok(source.includes('사용자 문제에서 제품 설계까지'));
 assert.ok(source.includes('P1 제품 설계'));
 
+// Cross-document editorial QA: identical KPI labels and product-planning framing.
+for (const metric of ['예약 확정률','매니저 선택 성공률','90일 내 재예약률']) {
+  for (const [name,doc] of [['PRD',prd],['site',site],['business plan',plan]]) {
+    assert.ok(doc.includes(metric), name+' uses a mismatched KPI label: '+metric);
+  }
+}
+assert.ok(prd.includes('상태 이해도') && site.includes('상태 이해도'),
+  'PRD and website state-understanding metric differ');
+assert.ok(prd.includes('상세 7단계 보기') && site.includes('가족 등록'),
+  '5-step PRD summary must link to detailed 7-step site flow');
+assert.ok(source.includes('사용자 문제에서 제품 설계까지') && deck.includes('핵심 과업 · 4가지'),
+  'slide 7/10/11 product journey and task summary drifted');
+assert.ok(plan.includes('대리 신청·진행 공유·변경 흐름과 사용자 과업 검증'),
+  'business-plan G2 must emphasize user tasks over test code');
+assert.ok(site.includes('MOSIGO · 고객 문제에서 제품 설계까지'),
+  'portfolio intro must lead with product planning');
+assert.ok(!prd.includes('완료된 결과물은 아닙니다.'),
+  'remove repeated defensive phrasing from user-facing PRD');
+assert.ok(!site.includes('QA 테스트 케이스 11개'),
+  'QA proof should not dominate the core deliverable');
+console.log('PASS cross-document KPI, user journey and editorial QA');
+
 console.log('PASS product-centered PRD: 13 sections, 6 requirements, separate 11 TC + 5 UAT, synchronized site/plan/slides');
