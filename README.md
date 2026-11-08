@@ -28,20 +28,21 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 | [`assets/`](assets/) | 페이지 스타일·스크립트·공유 이미지·스마트폰 아이콘 |
 | [`downloads/`](downloads/) | 사업기획서·발표자료·IR Deck·계산 파일(최상위 8개) |
 | [`downloads/previews/`](downloads/previews/) | 사업기획서 19쪽·발표자료 11장·IR Deck 12장의 일반/소형 WebP(총 84개) |
-| [`qa/`](qa/) | 공개용 점검·문서 생성 스크립트와 과거 점검 문서. 내부 기술 검증 부록 및 상세 실행 증빙은 공개 저장소에서 제외 |
+| [`qa/`](qa/) | 현행 품질 검증·문서 생성 스크립트와 IR 원본 조각. 내부 기술 검증 부록·상세 실행 증빙은 공개 저장소에서 제외 |
+| [`docs/history/`](docs/history/) | 과거 브랜치·저장소·폰트 점검 기록 4건. 당시 기준의 스냅샷으로, 현행 운영 상태는 아래 안내를 우선 확인 |
 | [`.github/workflows/`](.github/workflows/) | 품질 검증과 문서·이미지 생성 자동화 |
 | [`decision-memos.html`](decision-memos.html) · [`forecast.html`](forecast.html) · [`materials.html`](materials.html) | 과거 링크 호환용 페이지. 현재 보고서의 의사결정·사업성·첨부 자료 위치로 연결 |
 
 **첨부 자료 원본과 게시본:** [사업기획서 HTML](downloads/mosigo_business_plan_20261031.html) · [사업기획서 PDF](downloads/mosigo_business_plan_20261031.pdf) · [발표자료 PPTX](downloads/mosigo_report.pptx) · [발표자료 미리보기 PDF](downloads/mosigo_report_preview.pdf) · [IR Deck PPTX](downloads/MOSIGO_IR_Investment_Review_12slides.pptx) · [IR Deck PDF](downloads/MOSIGO_IR_Investment_Review_12slides.pdf) · [계산 파일 XLSX](downloads/mosigo_model.xlsx).
 
-2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](qa/repository-audit-20261103.md)에 보존합니다. 위 수량은 현재 `main`의 파일 구성을 기준으로 갱신한 값입니다.
+2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-08 클렌징 후 `main` 목록은 157개 파일·9개 디렉터리**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
 
 ## 자료의 구분
 
 - **작성 주체:** 개인 단독 Strategy Case Study.
 - **프로젝트 근거:** MOSIGO의 기존 경쟁 앱 7종·리뷰 118건 조사 기록, 서비스 흐름·19개 모달/상태 화면, 예약·복구·공유 구현 범위. 보고서의 개인 분석과 조사·구현 원자료의 출처를 구분합니다.
 - **검증 가정:** 시장 규모, 제품·운영 설계, 가격·원가, 사업모델·수익성, KPI와 실행 게이트는 확인된 결과와 기획 가설을 구분해 서술합니다.
-- **데모:** [MOSIGO 서비스 데모](https://mosigo-nine.vercel.app/) 링크 1개만 있습니다. 데모 페이지와 임베드는 이 보고서에 포함하지 않습니다.
+- **데모·구현 원본:** [MOSIGO 서비스 데모](https://mosigo-nine.vercel.app/) 링크 1개만 포트폴리오에 표시합니다. [MOSIGO 앱 소스 저장소](https://github.com/dohyunkimmm/mosigo)는 시연 UI·예약 API를, 이 저장소는 서비스기획·PRD·사업성 문서를 별도로 관리합니다. 데모 페이지와 임베드는 이 보고서에 포함하지 않습니다.
 - **자료 바로보기:** 사업기획서 PDF 19쪽, 기존 발표자료 11장, 실무형 IR Deck 12장을 탭으로 전환해 읽을 수 있습니다. PPTX·PDF 내려받기도 제공합니다.
 - **IR 예산 가정:** 8주 제한 검증의 현금 집행 상한은 기존 월 현금 고정비 200만 원 × 2개월 = 400만 원으로 단순 산정했습니다. P0 80만·P1 120만·P2 200만 원은 신규 단계별 배분 가정이며, 인력 기회비용 400만 원은 별도입니다. 일회성 구축·보험·법무·추가 판촉·환불비와 외부 투자유치 금액·기업가치는 포함하지 않았습니다. 실제 투자유치·고객 실적을 의미하지 않습니다.
 - **채용공고:** 사람인 IT기획·전략기획·PM 공고의 담당업무·자격요건·우대사항은 작성·품질 검토 과정에서만 참고합니다. 포트폴리오 사이트에는 회사명·채용공고 링크·역량 대조표를 노출하지 않습니다.
@@ -58,9 +59,10 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 
 ## 공개 저장소 운영 및 브랜치 보호 (2026-11-08)
 
-- **운영 기준:** 저장소는 **공개(Public)** 상태입니다. 현재 `main`은 `protected=false`이며 브랜치 규칙이 설정되지 않아, 직접 푸시·검사 실패 상태의 병합을 GitHub가 자동 차단하지 않습니다.
-- **보완 절차:** 모든 변경은 작업 브랜치에서 PR 생성 → `Site QA / browser-and-lighthouse` 성공 확인 → 검토 후 squash merge 순서로 처리합니다. `main` 직접 푸시·강제 푸시·이력 삭제는 운영 절차상 금지하고, PR의 Site QA 성공 기록을 확인합니다. 이 절차를 거치지 않는 직접 변경은 서버에서 자동 차단되지 않으므로 남은 위험을 명시합니다.
-- **후속 설정:** [#15](https://github.com/dohyunkimmm/mosigo-case-study/issues/15)는 비공개 저장소 당시의 기록입니다. 공개 전환 후에도 보호 규칙은 아직 적용되지 않았으므로 GitHub 설정에서 PR·필수 상태 검사를 강제하는 브랜치 보호 구성을 검토해야 합니다.
+- **운영 기준:** 저장소는 **공개(Public)** 상태이며 `main`은 **`protected=true`**입니다. [Ruleset `Protect main`](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)이 `Active`로 적용되어 브랜치 **삭제·강제 푸시를 차단**합니다.
+- **적용 범위:** 현재 규칙에 **PR 필수·상태 검사 필수 설정은 포함되지 않습니다.** 일반 직접 푸시는 기술적으로 허용되므로 변경은 작업 브랜치 → PR → `Site QA / browser-and-lighthouse` 성공 → 검토 후 squash merge 절차로 처리합니다.
+- **자동 생성과 동기화:** 사업기획서·발표자료·IR·미리보기·공유 이미지 생성 워크플로는 결과물을 `main`에 직접 게시할 수 있습니다. PR 필수 규칙을 켜기 전 이 작업들을 PR 기반으로 변경하거나 예외 권한을 설계해야 합니다. 사이트·PRD의 운영 HTML 및 공개 XLSX/PDF/PPTX는 [최종 운영 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42474907407)에서 검증됐습니다.
+- **과거 기록:** [#15](https://github.com/dohyunkimmm/mosigo-case-study/issues/15)의 비공개 시절 제약과 `docs/history/`의 `protected=false` 표기는 당시 상태를 설명한 것입니다. 현재 보호 상태의 근거로 사용하지 않습니다.
 
 ## 기술
 
@@ -75,4 +77,4 @@ Pretendard Variable · 정적 HTML로 독립 배포합니다. 9개 장은 요약
 - [Site QA PR #38](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42330700286) 및 [PR #39](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42331017120) 통과. [병합된 코드의 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42330886274)는 첫 실행에서 합성 Lighthouse 모바일 성능 83점(기준 90점)으로 실패한 뒤 **기준을 바꾸지 않고 재실행에 성공**함.
 - [모바일 엔진 QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42330886270) 및 [네이티브 iOS Safari 시뮬레이터 QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42330886263) 통과. 시뮬레이터 QA는 실제 iPhone 실기기 통과를 의미하지 않음.
 - 과거 일회성 브랜치 정리 워크플로는 완료로 인해 제거하며, 후속 정리용 워크플로는 본인 파일 변경이 `main`에 병합될 때만 실행되고 다른 변경에는 반응하지 않도록 제한.
-- `main`의 `protected=false` 운영 예외는 여전히 유효함. 저장소·브랜치 보존 검증은 사용자 데이터, Vercel Blob, 실제 실기기와 별개의 범위임.
+- 2026-11-07 당시에는 `protected=false`였으나, 2026-11-08부터 위 `Protect main` 규칙이 적용됨. 과거 저장소·브랜치 보존 검증은 사용자 데이터, Vercel Blob, 실제 실기기와 별개의 범위임.
