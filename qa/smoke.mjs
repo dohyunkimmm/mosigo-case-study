@@ -37,6 +37,8 @@ try {
     // Prevent repeated English report labels in the sidebar, sticky header and hero.
     assert.equal(await page.locator('aside .brand-sub, .top .top-l, .hero .tag.dark').count(), 0, width + 'px no duplicate report badges');
     assert.equal(await page.locator('.hero h1').count(), 1, width + 'px one main report heading');
+    const darkPanelColor = await page.locator('.panel.dark p').first().evaluate(node => getComputedStyle(node).color);
+    assert.equal(darkPanelColor, 'rgb(232, 243, 233)', width + 'px dark strategic card text contrast');
     const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
     assert.equal(heading, 'MOSIGO병원동행서비스신사업기획', width + 'px single new-business-planning report title');
     const visibleLabels = await page.locator('aside, .top, .hero').allTextContents();
