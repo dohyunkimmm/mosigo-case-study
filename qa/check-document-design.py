@@ -114,7 +114,7 @@ for term in legacy_terms:
     assert term not in slides_text, f'Unreviewed wording remains in presentation: {term}'
 for phrase in ('포트폴리오용 합성 데이터·가정 기반 예측입니다.','실제 고객·계약·매출·인터뷰 결과가 아닙니다.','해당 사례의 독립 분석 자료.'):
     assert phrase not in slides_text, f'Repeated long note remains in presentation: {phrase}'
-assert '시장·공급 수치는 사업기획을 위한 추정치이며, 운영 실적과 구분했습니다.' in normalized_slides, 'Presentation must distinguish planning assumptions from operational results'
+assert '시장·공급수치는사업기획을위한추정치이며,운영실적과구분했습니다.' in compact_slides, 'Presentation must distinguish planning assumptions from operational results'
 assert 'mosigo_model.xlsx' not in slides_text, 'Internal spreadsheet filename must not appear in the public deck'
 assert 'STRATEGY CASE STUDY' not in slides_text, 'Decorative English boilerplate must be replaced with meaningful product-planning context'
 assert '사업기획서3쪽' in compact_slides, 'Slide 2 source citation must point to current plan p3'
