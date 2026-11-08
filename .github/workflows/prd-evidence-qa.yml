@@ -57,6 +57,12 @@ jobs:
           cd app
           npm test 2>&1 | tee ../site/qa-artifacts/node-tests.tap
           npm run audit:source 2>&1 | tee ../site/qa-artifacts/source-audit.log
+      - name: Read-only live MOSIGO API smoke (no test data writes)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd app
+          SMOKE_ATTEMPTS=3 SMOKE_RETRY_MS=3000 npm run smoke:production 2>&1 | tee ../site/qa-artifacts/live-smoke.log
       - name: Save QA logs (not customer UAT evidence)
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

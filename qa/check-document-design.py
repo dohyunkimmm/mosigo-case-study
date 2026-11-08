@@ -40,7 +40,8 @@ for figure in ('199','1,082','3,700','400'):
 assert '\ufffd' not in ir_text, 'Invalid replacement character in IR PDF'
 plan_text=cmd('pdftotext','-layout',str(PLAN),'-')
 compact_plan=re.sub(r'\s+','',plan_text)
-assert 'MOSIGO' in compact_plan and '기획기준과참고자료' in compact_plan
+assert 'MOSIGO' in compact_plan and '사업화·PRD판단에사용한자료와근거' in compact_plan, 'PDF source-note subtitle missing'
+assert '<h1>기획 기준과 참고 자료</h1>' in Path('downloads/mosigo_business_plan_20261031.html').read_text(encoding='utf-8'), 'Business-plan source-note heading missing'
 assert '2026.10.31' not in plan_text and 'BUSINESS PLAN 2026' not in plan_text
 plan_html=(ROOT/'mosigo_business_plan_20261031.html').read_text(encoding='utf-8')
 assert '기본 동행 3만 원대(출시 가격 가설) / 손익 비교용 평균 이용가 40,000원(기본 판매가 아님)' in plan_html, 'Product price vs model-average distinction missing'
@@ -59,7 +60,8 @@ assert '팀 조사 기록을 바탕으로 작성한 개인 전략 보고서입�
 assert '개인 사업기획서 · 가정·계획과 실제 성과 구분' not in plan_html, 'Repeated defensive footer returned'
 assert plan_html.count('MOSIGO · 전략기획 보고서') >= 19, 'Neutral document footer should appear on all pages'
 assert '사업성 검토 시나리오' in plan_html, 'Scenario basis must remain explicit'
-legacy_terms = ('손익분기점점','고객지원','취소비','노동비용','노동 기회비용','획득비','지원비','수용 기준','직접 잔여액','경유율','완료 예약','병원동행','퍼널','리텐션')
+# '수용 기준' is standard PRD acceptance-criteria terminology, not an editorial defect.
+legacy_terms = ('손익분기점점','고객지원','취소비','노동비용','노동 기회비용','획득비','지원비','직접 잔여액','경유율','완료 예약','병원동행','퍼널','리텐션')
 for term in legacy_terms:
     assert term not in plan_html, f'Unreviewed wording remains in business plan: {term}'
     assert term not in site_html, f'Unreviewed wording remains on website: {term}'
@@ -167,7 +169,7 @@ with ZipFile(PPTX) as z:
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
     if has_new_prd_deck:
         assert '대리 예약·공유·복구 요구사항을 정의하고' in first, 'Slide 1 PRD focus not synchronized'
-        assert '고객 요구를 정책·기능·테스트·운영 기준으로 연결' in last, 'Slide 11 acceptance decision missing'
+        assert '요구사항 6개 · QA 케이스 11개 · UAT 5개(미실시)' in last, 'Slide 11 acceptance decision missing'
         assert '02 / PRD 설계' in last, 'Slide 11 requirements milestone missing'
         assert '04 / 운영 인계' in last, 'Slide 11 handoff milestone missing'
     else:
@@ -235,7 +237,7 @@ assert "11/31개 시·군" in plan_html, "2026 public operating-area scope must 
 assert "2024년 이용자 만족도" in plan_html and "4.98 / 5점" in plan_html, "2024 satisfaction survey label missing"
 assert "2025년 사업 참여 인원" in plan_html and "12,802명" in plan_html, "2025 participant count missing"
 assert "공공 서비스와 민간 서비스의 역할 비교" in site_html, "Public/private differentiation missing"
-assert "장기 목표와 초기 확보 가능량을 별도 검토" in site_html, "Long-term SOM vs initial capacity not separated"
+assert "장기 목표와 초기 확보량 구분" in site_html, "Long-term SOM vs initial capacity not separated"
 for uri in (
     "https://www.gg.go.kr/contents/contents.do?ciIdx=987005&amp;menuId=265914",
     "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=S017&amp;number=69199",

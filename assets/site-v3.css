@@ -230,7 +230,7 @@ html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-scenarios,html:n
 .investment-gap-label{font-size:13px;line-height:1.5;color:#446555;font-weight:700}
 .investment-gap-steps strong{font-size:clamp(22px,2.5vw,30px);font-weight:850;letter-spacing:-.055em;font-variant-numeric:tabular-nums;line-height:1.2}
 .investment-gap-steps strong small{font-size:12px;margin-left:3px;letter-spacing:0;font-weight:650}
-.investment-gap-steps li>small{font-size:12px;line-height:1.5;color:#61766a}
+.investment-gap-steps li>small{font-size:12px;line-height:1.5;color:#566e60}
 .investment-gap-track{height:8px;background:#e7eee8;border-radius:99px;overflow:hidden;margin:9px 0 1px}
 .investment-gap-track>span{display:block;height:100%;background:#7da895;border-radius:inherit}
 .investment-gap-goal{border-color:#b6d1bf!important;background:#edf5ef!important}
