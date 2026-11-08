@@ -27,7 +27,7 @@ for (const technicalTerm of ['github.com','PATCH 403','176건 통과','TC-03-04'
   assert.ok(!prd.includes(technicalTerm), 'Technical evidence leaked into product PRD: ' + technicalTerm);
 }
 
-// Internal QA evidence must not be tracked in the public Case Study repository.
+// Internal QA evidence must not be tracked in the public new-business-planning repository.
 for (const path of [
   'qa/internal/verification-appendix.html',
   'qa/evidence/2026-11-08-live-browser.json',
@@ -35,7 +35,7 @@ for (const path of [
 ]) assert.ok(!existsSync(path), 'private QA evidence must not be committed to public case study: ' + path);
 assert.ok(site.includes('고객 문제와 목표, 사용자 페르소나, 서비스 흐름, 핵심 기능 6개'));
 assert.ok(!site.includes('mosigo_qa_appendix.html') && !site.includes('QA·인수인계'), 'Public portfolio must not expose QA appendix or QA handoff claims');
-assert.ok(site.includes('핵심 사용자 페르소나') && site.includes('2유형'), 'portfolio hero must present personas, not QA counts');
+assert.ok(site.includes('추가 산출물 · 서비스기획·PRD') && site.includes('개념 시안 3종'), 'PRD must remain a clearly labeled supplementary deliverable');
 assert.ok(!site.includes('기능 검수') && !site.includes('인수인계'), 'public portfolio uses product planning vocabulary');
 assert.ok(plan.includes('사용자 경험 중심 제품 요구사항'));
 assert.ok(plan.includes('탐색부터 대리 신청·진행 공유까지'));
@@ -61,15 +61,15 @@ assert.ok(source.includes('사용자 문제에서 제품 설계까지') && deck.
   'slide 7/10/11 product journey and task summary drifted');
 assert.ok(plan.includes('대리 신청·진행 공유·변경 흐름과 사용자 과업 검증'),
   'business-plan G2 must emphasize user tasks over test code');
-assert.ok(site.includes('MOSIGO · 고객 문제에서 제품 설계까지'),
-  'portfolio intro must lead with product planning');
+assert.ok(site.includes('MOSIGO · 신사업 기획 요약') && site.includes('병원 동행 서비스 신사업 기획'),
+  'portfolio intro must lead with new-business planning');
 assert.ok(!prd.includes('완료된 결과물은 아닙니다.'),
   'remove repeated defensive phrasing from user-facing PRD');
 assert.ok(!site.includes('QA 테스트 케이스 11개'),
   'QA proof should not dominate the core deliverable');
 console.log('PASS cross-document KPI, user journey and editorial QA');
 
-console.log('PASS product-centered PRD: 13 sections, 6 requirements; internal QA evidence absent from public repository');
+console.log('PASS supplemental PRD: 13 sections, 6 requirements; private QA remains unpublished');
 
 
 // Keep the public repository index and archived audit references in sync.
