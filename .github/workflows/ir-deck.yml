@@ -11,6 +11,7 @@ on:
       - 'qa/apply-strategy-20261107.py'
       - 'qa/visual-polish-20261108.py'
       - 'qa/focus-service-pm-decks-20261108.py'
+      - 'qa/final-presentation-readability-20261108.py'
       - '.github/workflows/ir-deck.yml'
   pull_request:
     branches: [main, 'review/p0-p1-p2-*']
@@ -23,6 +24,7 @@ on:
       - 'qa/apply-strategy-20261107.py'
       - 'qa/visual-polish-20261108.py'
       - 'qa/focus-service-pm-decks-20261108.py'
+      - 'qa/final-presentation-readability-20261108.py'
       - '.github/workflows/ir-deck.yml'
   workflow_dispatch:
 
@@ -75,6 +77,8 @@ jobs:
         run: /tmp/mosigo-ir-venv/bin/python qa/visual-polish-20261108.py ir
       - name: Align IR companion with MOSIGO service PRD and implementation acceptance
         run: /tmp/mosigo-ir-venv/bin/python qa/focus-service-pm-decks-20261108.py ir
+      - name: Prevent final IR title collision and improve small supporting text
+        run: /tmp/mosigo-ir-venv/bin/python qa/final-presentation-readability-20261108.py ir
       - name: Export PDF, verify 12 slides and stage-gated funding assumptions
         run: |
           mkdir -p /tmp/ir-pdf
