@@ -346,6 +346,8 @@ section{padding-top:70px;padding-bottom:73px}
 .panel:not(.dark){background:#f8faf7;border-color:#dce7df}
 .panel h3{line-height:1.45}
 .panel p{color:#405b49}
+/* Keep paragraph contrast readable on dark decision panels. */
+.panel.dark p{color:#e8f3e9}
 .subhead{letter-spacing:-.03em}
 :where(.artifact-shortcut-links a,.business-interpretation a,.attachment-support a,.supporting-note a):focus-visible{outline:3px solid #278151;outline-offset:3px}
 
