@@ -32,7 +32,8 @@ jobs:
       - name: Open PR for regenerated tossface assets
         env:
           GH_TOKEN: ${{ github.token }}
-        run: bash .github/scripts/publish-generated-pr.sh tossface 'assets: update Tossface icon' assets/tossface-phone.png
+        run: |
+          bash .github/scripts/publish-generated-pr.sh tossface 'assets: update Tossface icon' assets/tossface-phone.png
       - name: Upload icon for visual verification
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
