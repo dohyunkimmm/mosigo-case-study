@@ -15,16 +15,18 @@ for (const id of sections) assert.ok(prd.includes('id="' + id + '"'), 'missing P
 assert.equal((prd.match(/<section\b/g) || []).length, 13, 'PRD follows 13-section product template');
 for (let i=1;i<=6;i++) assert.ok(prd.includes('<strong>R-0' + i + '</strong>'), 'missing product requirement R-0' + i);
 
-for (const term of ['사용자 페르소나','사용자 스토리','성공 지표','UX·화면 설계',
-  '추진 일정','미해결 질문·위험 요소','측정 설계 단계','페르소나 가설']) {
+for (const term of ['Overview','Objectives','Personas','Metrics','Requirements','User Stories','UX Design',
+  'Scope','Technical Requirements','Dependencies','Timeline','Open Questions','References','측정 설계 단계','페르소나 가설']) {
   assert.ok(prd.includes(term), 'PRD missing product planning element: ' + term);
 }
+assert.ok(prd.includes('<h1>MOSIGO PRD</h1>') && !prd.includes('문서 기준'), 'PRD title should stay concise');
+assert.ok(prd.includes('min-width:990px;table-layout:fixed') && (prd.match(/data-label="ID"/g) || []).length===6, 'requirements ID column stays readable');
 assert.ok(!prd.includes('mosigo_qa_appendix.html'), 'Public PRD must not link technical QA records');
 for (const technicalTerm of ['github.com','PATCH 403','176건 통과','TC-03-04']) {
   assert.ok(!prd.includes(technicalTerm), 'Technical evidence leaked into product PRD: ' + technicalTerm);
 }
 
-// Internal QA evidence is stored outside this public repository.
+// Internal QA evidence must not be tracked in the public Case Study repository.
 for (const path of [
   'qa/internal/verification-appendix.html',
   'qa/evidence/2026-11-08-live-browser.json',

@@ -57,21 +57,38 @@ section a{font-weight:600}
 @media(max-width:420px){.toc ol{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.flow article:last-child{grid-column:auto}.lead{font-size:16px}}
 @media print{body{background:#fff}main{max-width:none;padding:16px 20px}.toc{display:none}section{break-inside:auto;page-break-inside:auto}.panel,.grid article{break-inside:avoid}table{min-width:0}h2{break-after:avoid}}
 .tablewrap:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+/* Requirements: stable ID column and proportional desktop widths. */
+#prd-requirements table{min-width:990px;table-layout:fixed}
+#prd-requirements th:nth-child(1),#prd-requirements td:nth-child(1){width:10%;white-space:nowrap;word-break:normal;overflow-wrap:normal}
+#prd-requirements th:nth-child(2){width:18%}
+#prd-requirements th:nth-child(3){width:28%}
+#prd-requirements th:nth-child(4){width:29%}
+#prd-requirements th:nth-child(5){width:15%}
+#prd-requirements td:first-child strong{white-space:nowrap}
+@media(max-width:760px){
+  #prd-requirements .tablewrap{border:0;overflow:visible;background:transparent;margin:14px 0}
+  #prd-requirements table,#prd-requirements tbody{display:block;min-width:0;width:100%}
+  #prd-requirements thead{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  #prd-requirements tbody tr{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  #prd-requirements td{display:grid;grid-template-columns:94px minmax(0,1fr);gap:12px;align-items:start;width:100%;min-width:0;white-space:normal;word-break:keep-all;overflow-wrap:anywhere;line-height:1.6;padding:11px 12px;border-bottom:1px solid #e4ebe6}
+  #prd-requirements td::before{content:attr(data-label);font-size:13px;font-weight:700;color:var(--muted)}
+  #prd-requirements td:first-child{background:#edf4ef;white-space:normal;width:100%;font-weight:800}
+  #prd-requirements td:last-child{border-bottom:0}
+}
 </style>
 </head>
 <body><main>
-<p class="eyebrow">MOSIGO · PRD</p>
-<h1>병원동행 서비스 제품 요구사항 정의서</h1>
-<p class="lead">부모의 병원 방문에 직접 동행하기 어려운 자녀가 서비스를 비교하고 대신 신청하며, 진행 상황을 확인할 수 있도록 설계한 MOSIGO의 제품기획 문서입니다.</p>
-<p class="note">기획·프로토타입 범위이며, 고객 조사·실제 운영은 후속 단계입니다.</p>
-<nav class="toc" aria-label="PRD 목차"><strong>목차 · 13개 항목</strong><ol>
-<li><a href="#project-overview">프로젝트 개요</a></li><li><a href="#objective">제품 목표</a></li><li><a href="#personas">사용자 페르소나</a></li>
-<li><a href="#success-metrics">성공 지표</a></li><li><a href="#prd-requirements">핵심 기능·요구사항</a></li><li><a href="#user-stories">사용자 스토리</a></li>
-<li><a href="#ux-design">UX·화면 설계</a></li><li><a href="#prd-scope">업무 범위</a></li><li><a href="#technical">기술 요구사항</a></li>
-<li><a href="#dependencies">의존성·연계</a></li><li><a href="#timeline">추진 일정</a></li><li><a href="#risks">미해결 질문·위험</a></li><li><a href="#supporting">관련 자료</a></li>
+<h1>MOSIGO PRD</h1>
+<p class="lead">자녀의 부모 병원동행 대리 예약을 위한 비교·신청·동의·진행 확인 경험을 설계했습니다.</p>
+<p class="note">기획·프로토타입 범위 · 실제 운영은 후속 단계</p>
+<nav class="toc" aria-label="PRD 목차"><strong>Contents</strong><ol>
+<li><a href="#project-overview">Overview</a></li><li><a href="#objective">Objectives</a></li><li><a href="#personas">Personas</a></li>
+<li><a href="#success-metrics">Metrics</a></li><li><a href="#prd-requirements">Requirements</a></li><li><a href="#user-stories">User Stories</a></li>
+<li><a href="#ux-design">UX Design</a></li><li><a href="#prd-scope">Scope</a></li><li><a href="#technical">Technical Requirements</a></li>
+<li><a href="#dependencies">Dependencies</a></li><li><a href="#timeline">Timeline</a></li><li><a href="#risks">Open Questions</a></li><li><a href="#supporting">References</a></li>
 </ol></nav>
 
-<section id="project-overview"><span class="snum">01</span><h2>프로젝트 개요</h2>
+<section id="project-overview"><span class="snum">01</span><h2>Overview</h2>
 <p><strong>MOSIGO</strong>는 병원동행이 필요한 부모와 직접 동행하기 어려운 자녀 사이의 정보 확인·서비스 신청·진행 공유 과정을 하나의 흐름으로 묶는 서비스 기획안입니다.</p>
 <div class="grid">
 <article><h3>해결할 문제</h3><p>자녀는 부모의 진료를 대신 준비해야 하지만, 서비스 조건과 이용자 동의, 진행 상황을 각각 확인해야 합니다.</p></article>
@@ -80,7 +97,7 @@ section a{font-weight:600}
 <p class="small">시장·비용 분석은 사업기획서에서, 사용자 경험과 기능은 이 문서에서 다룹니다.</p>
 </section>
 
-<section id="objective"><span class="snum">02</span><h2>제품 목표</h2>
+<section id="objective"><span class="snum">02</span><h2>Objectives</h2>
 <p class="desc">누구에게 어떤 가치를 제공하며, 무엇을 먼저 검증할지 정합니다.</p>
 <div class="panel soft"><h3>핵심 목표</h3><p class="example">“자녀가 부모의 병원동행을 안심하고 준비하고, 신청 이후의 진행 상태를 쉽게 확인할 수 있는 경험을 제공한다.”</p></div>
 <ol>
@@ -91,7 +108,7 @@ section a{font-weight:600}
 <p class="small">우선순위는 제품기획 가설이며, 실제 고객 선호에 따라 조정합니다.</p>
 </section>
 
-<section id="personas"><span class="snum">03</span><h2>사용자 페르소나</h2>
+<section id="personas"><span class="snum">03</span><h2>Personas</h2>
 <p class="desc">사용자 조사에서 검증할 핵심 페르소나 가설입니다.</p>
 <div class="grid">
 <article><span class="tag">핵심 사용자 · 예약자</span><h3>부모의 진료를 준비하는 자녀</h3><p><strong>상황:</strong> 근무나 거주지 문제로 부모와 매번 동행하기 어렵습니다.</p><p><strong>필요:</strong> 믿을 만한 조건 비교, 대리 신청, 일정·진행 확인, 변경 안내</p><p><strong>주요 과업:</strong> 탐색 → 비교 → 동의 요청 → 신청 → 진행 확인</p></article>
@@ -99,7 +116,7 @@ section a{font-weight:600}
 </div>
 </section>
 
-<section id="success-metrics"><span class="snum">04</span><h2>성공 지표</h2>
+<section id="success-metrics"><span class="snum">04</span><h2>Metrics</h2>
 <p class="desc">제품 경험을 평가할 지표를 정의하고, 목표값은 조사 결과로 설정합니다.</p>
 <div class="tablewrap" role="region" tabindex="0" aria-label="성공 지표 표"><table><thead><tr><th>지표</th><th>측정 방법</th><th>기획 의도</th><th>현재 상태</th></tr></thead><tbody>
 <tr><td>예약 확정률</td><td>예약 시작 세션 중 예약 확정 세션 비율(중복·테스트 제외)</td><td>신청·동의 과정의 이탈 확인</td><td>측정 설계 단계</td></tr>
@@ -110,20 +127,19 @@ section a{font-weight:600}
 <p class="small">목표값은 사용자 조사·시범 운영 후 설정합니다. 사업기획서의 월 199건은 운영 산정 가정입니다.</p>
 </section>
 
-<section id="prd-requirements"><span class="snum">05</span><h2>핵심 기능·요구사항</h2>
+<section id="prd-requirements"><span class="snum">05</span><h2>Requirements</h2>
 <p class="desc">사용자가 할 일, 화면에서 제공할 정보, 예외 처리 원칙을 기준으로 정리했습니다.</p>
-<div class="tablewrap" role="region" tabindex="0" aria-label="핵심 기능 요구사항 표"><table><thead><tr><th>ID</th><th>기능</th><th>사용자 관점 요구사항</th><th>중요한 화면·정책</th><th>우선순위</th></tr></thead><tbody>
-<tr><td><strong>R-01</strong></td><td>예약자·이용자 구분</td><td>자녀가 부모를 대신 신청할 때 두 사람의 정보를 혼동하지 않아야 합니다.</td><td>예약자/이용자 입력 구분, 이용자 동의 안내, 동의 누락 시 진행 제한</td><td>우선</td></tr>
-<tr><td><strong>R-02</strong></td><td>내 예약 확인·복구</td><td>신청자는 본인 예약을 다시 찾고 현재 상태를 확인할 수 있어야 합니다.</td><td>내 예약 목록·상세, 본인 확인, 다른 계정 정보 접근 제한</td><td>우선</td></tr>
-<tr><td><strong>R-03</strong></td><td>진행 상황 공유</td><td>자녀가 필요한 사람에게 진행 정보를 공유하고 공유 범위를 관리할 수 있어야 합니다.</td><td>공유 대상·변경 가능 범위 안내, 링크 만료·철회, 접근 실패 시 안내</td><td>우선</td></tr>
-<tr><td><strong>R-04</strong></td><td>예약 상태·변경 안내</td><td>신청 이후의 진행 단계와 취소·변경 결과를 이해할 수 있어야 합니다.</td><td>요청/확정/동행/완료 등 상태 표시, 오래된 정보 수정 시 재확인 안내</td><td>우선</td></tr>
-<tr><td><strong>R-05</strong></td><td>매니저 정보 비교</td><td>이용 조건을 비교하고 본인 상황에 맞는 선택을 할 수 있어야 합니다.</td><td>지역·가능 시간·동행 범위 비교, 배정 확정 상태 구분</td><td>핵심 경험·운영 검증 필요</td></tr>
-<tr><td><strong>R-06</strong></td><td>진행·운영 정보 조회</td><td>문의나 변경 요청이 있을 때 필요한 정보를 확인할 수 있어야 합니다.</td><td>진행 이력·상세 조회, 개인정보 접근 범위, 운영 책임 안내</td><td>후속 운영 검증</td></tr>
+<div class="tablewrap" role="region" tabindex="0" aria-label="Requirements table"><table><thead><tr><th>ID</th><th>기능</th><th>사용자 관점 요구사항</th><th>중요한 화면·정책</th><th>우선순위</th></tr></thead><tbody>
+<tr><td data-label="ID"><strong>R-01</strong></td><td data-label="Feature">예약자·이용자 구분</td><td data-label="User need">자녀가 부모를 대신 신청할 때 두 사람의 정보를 혼동하지 않아야 합니다.</td><td data-label="Design policy">예약자/이용자 입력 구분, 이용자 동의 안내, 동의 누락 시 진행 제한</td><td data-label="Priority">우선</td></tr>
+<tr><td data-label="ID"><strong>R-02</strong></td><td data-label="Feature">내 예약 확인·복구</td><td data-label="User need">신청자는 본인 예약을 다시 찾고 현재 상태를 확인할 수 있어야 합니다.</td><td data-label="Design policy">내 예약 목록·상세, 본인 확인, 다른 계정 정보 접근 제한</td><td data-label="Priority">우선</td></tr>
+<tr><td data-label="ID"><strong>R-03</strong></td><td data-label="Feature">진행 상황 공유</td><td data-label="User need">자녀가 필요한 사람에게 진행 정보를 공유하고 공유 범위를 관리할 수 있어야 합니다.</td><td data-label="Design policy">공유 대상·변경 가능 범위 안내, 링크 만료·철회, 접근 실패 시 안내</td><td data-label="Priority">우선</td></tr>
+<tr><td data-label="ID"><strong>R-04</strong></td><td data-label="Feature">예약 상태·변경 안내</td><td data-label="User need">신청 이후의 진행 단계와 취소·변경 결과를 이해할 수 있어야 합니다.</td><td data-label="Design policy">요청/확정/동행/완료 등 상태 표시, 오래된 정보 수정 시 재확인 안내</td><td data-label="Priority">우선</td></tr>
+<tr><td data-label="ID"><strong>R-05</strong></td><td data-label="Feature">매니저 정보 비교</td><td data-label="User need">이용 조건을 비교하고 본인 상황에 맞는 선택을 할 수 있어야 합니다.</td><td data-label="Design policy">지역·가능 시간·동행 범위 비교, 배정 확정 상태 구분</td><td data-label="Priority">핵심 경험·운영 검증 필요</td></tr>
+<tr><td data-label="ID"><strong>R-06</strong></td><td data-label="Feature">진행·운영 정보 조회</td><td data-label="User need">문의나 변경 요청이 있을 때 필요한 정보를 확인할 수 있어야 합니다.</td><td data-label="Design policy">진행 이력·상세 조회, 개인정보 접근 범위, 운영 책임 안내</td><td data-label="Priority">후속 운영 검증</td></tr>
 </tbody></table></div>
-<div class="note"><strong>요구사항 해석</strong> · ID는 기능을 추적하기 위한 번호입니다. 예컨대 R-03의 핵심은 서버 요청 방식이 아니라, 사용자가 무엇을 공유할 수 있고 언제 접근이 끝나는지 이해하는 것입니다.</div>
 </section>
 
-<section id="user-stories"><span class="snum">06</span><h2>사용자 스토리</h2>
+<section id="user-stories"><span class="snum">06</span><h2>User Stories</h2>
 <div class="tablewrap" role="region" tabindex="0" aria-label="사용자 스토리 표"><table><thead><tr><th>사용자</th><th>원하는 행동</th><th>기대 가치</th><th>연결 기능</th></tr></thead><tbody>
 <tr><td>자녀</td><td>병원동행 조건과 매니저 정보를 비교하고 싶다.</td><td>부모에게 맞는 서비스를 선택하기 위해</td><td>R-05</td></tr>
 <tr><td>자녀</td><td>부모 정보를 구분해 대신 신청하고 싶다.</td><td>부모의 동의와 신청 내역을 명확히 하기 위해</td><td>R-01·02</td></tr>
@@ -133,7 +149,7 @@ section a{font-weight:600}
 <p class="small">위 문장은 실제 인터뷰 인용이 아니라 요구사항을 정리하기 위한 사용자 스토리입니다.</p>
 </section>
 
-<section id="ux-design"><span class="snum">07</span><h2>UX·화면 설계</h2>
+<section id="ux-design"><span class="snum">07</span><h2>UX Design</h2>
 <p class="desc">사용자 여정을 5단계로 요약했습니다. <a href="../index.html#product">상세 7단계 보기</a></p>
 <div class="flow" aria-label="MOSIGO 사용자 여정">
 <article><strong>01 탐색·비교</strong><span>지역·시간·서비스 범위</span></article>
@@ -151,14 +167,14 @@ section a{font-weight:600}
 <p>관련 화면은 <a href="https://mosigo-nine.vercel.app/">MOSIGO 프로토타입</a>에서 확인할 수 있습니다. 사용 흐름을 보여주는 시연 화면이며, 현장 운영 연계는 후속 검토 대상입니다.</p>
 </section>
 
-<section id="prd-scope"><span class="snum">08</span><h2>업무 범위</h2>
+<section id="prd-scope"><span class="snum">08</span><h2>Scope</h2>
 <div class="grid">
 <article><span class="tag">이번 기획 범위</span><h3>포함</h3><ul><li>핵심 사용자와 대리 예약 과업 정의</li><li>매니저 정보 비교·신청·진행 확인 흐름</li><li>동의·공유·상태 변경 예외 정책</li><li>주요 화면과 기능별 우선순위</li></ul></article>
 <article><span class="tag">실제 운영 전 별도 검증</span><h3>제외</h3><ul><li>의료기관 진료 예약 대행</li><li>실제 결제·환불·정산</li><li>실매니저 자동 배정·계약</li><li>의료 판단·건강정보 AI 요약</li></ul></article>
 </div>
 </section>
 
-<section id="technical"><span class="snum">09</span><h2>기술 요구사항</h2>
+<section id="technical"><span class="snum">09</span><h2>Technical Requirements</h2>
 <p class="desc">기술 구현 방법보다 서비스에서 지켜야 할 기준을 명시합니다.</p>
 <ul>
 <li><strong>개인정보:</strong> 예약자·이용자 정보를 구별하고 필요한 정보만 요청합니다. 이용자 동의와 정보 접근 범위는 운영 전 검토가 필요합니다.</li>
@@ -169,7 +185,7 @@ section a{font-weight:600}
 </ul>
 </section>
 
-<section id="dependencies"><span class="snum">10</span><h2>의존성·외부 연계</h2>
+<section id="dependencies"><span class="snum">10</span><h2>Dependencies</h2>
 <div class="tablewrap" role="region" tabindex="0" aria-label="의존성 및 연계 표"><table><thead><tr><th>선행 조건</th><th>왜 필요한가</th><th>현재 판단</th></tr></thead><tbody>
 <tr><td>병원동행 공급자</td><td>실제 동행 가능 시간, 서비스 범위, 취소 조건 확인</td><td>제휴·운영 조건 검토 필요</td></tr>
 <tr><td>이용자 동의·개인정보 정책</td><td>대리 신청 및 가족 정보 공유의 법적·운영 기준 확정</td><td>별도 법률·보안 검토 필요</td></tr>
@@ -178,7 +194,7 @@ section a{font-weight:600}
 </tbody></table></div>
 </section>
 
-<section id="timeline"><span class="snum">11</span><h2>추진 일정·단계</h2>
+<section id="timeline"><span class="snum">11</span><h2>Timeline</h2>
 <p class="desc">실제 수행·승인 완료 일정이 아니라 단계별 추진 제안입니다.</p>
 <div class="tablewrap" role="region" tabindex="0" aria-label="단계별 추진 일정 표"><table><thead><tr><th>단계</th><th>주요 작업</th><th>다음 단계 판단 기준</th></tr></thead><tbody>
 <tr><td>P0 · 문제 확인</td><td>자녀·부모 과업 관찰, 동의 조건·서비스 대안 조사</td><td>주요 문제와 우선 사용자 확인</td></tr>
@@ -189,7 +205,7 @@ section a{font-weight:600}
 <p class="small">단계별 일정과 담당자는 제휴·사용자 조사 계획이 확정되면 갱신합니다.</p>
 </section>
 
-<section id="risks"><span class="snum">12</span><h2>미해결 질문·위험 요소</h2>
+<section id="risks"><span class="snum">12</span><h2>Open Questions</h2>
 <div class="tablewrap" role="region" tabindex="0" aria-label="미해결 질문과 위험 요소 표"><table><thead><tr><th>질문·위험</th><th>영향</th><th>확인 방법</th></tr></thead><tbody>
 <tr><td>자녀가 어떤 정보를 가장 중요하게 비교하는가?</td><td>매니저 비교 화면의 우선순위</td><td>과업 관찰·고객 인터뷰</td></tr>
 <tr><td>부모는 대리 신청·진행 공유에 동의하는가?</td><td>신청 완료율, 개인정보 정책</td><td>부모 참여 사용성 검증·정책 검토</td></tr>
@@ -199,7 +215,7 @@ section a{font-weight:600}
 </tbody></table></div>
 </section>
 
-<section id="supporting"><span class="snum">13</span><h2>관련 자료</h2>
+<section id="supporting"><span class="snum">13</span><h2>References</h2>
 <ul>
 <li><a href="../index.html#product">MOSIGO 제품 전략·화면 정책</a> — 서비스 기획의 핵심 판단</li>
 <li><a href="mosigo_business_plan_20261031.pdf">사업기획서</a> — 시장·고객·수익모델·실행 가정</li>
