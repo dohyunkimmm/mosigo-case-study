@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   render:
@@ -28,16 +29,10 @@ jobs:
           npx --no-install playwright install --with-deps chromium
       - name: Render official Tossface phone emoji as transparent PNG
         run: node qa/render-tossface-icon.mjs
-      - name: Save icon
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/tossface-phone.png
-          if ! git diff --cached --quiet; then
-            git commit -m "assets: use original Tossface glyph as light static icon"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
+      - name: Open PR for regenerated tossface assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash .github/scripts/publish-generated-pr.sh tossface 'assets: update Tossface icon' assets/tossface-phone.png
       - name: Upload icon for visual verification
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
