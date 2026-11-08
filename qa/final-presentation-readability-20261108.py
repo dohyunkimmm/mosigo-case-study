@@ -34,28 +34,28 @@ def apply_strategy(prs):
     table=table_shapes[0].table
     assert len(table.rows)==5 and len(table.columns)==2
     rows=[
-       ["요구사항·기능","수용 기준 · 근거/미검증 구분"],
-       ["R-02 예약 소유권","비소유자 접근 차단 / 테스트 코드 확인"],
-       ["R-03 공유·권한","만료·폐기·읽기 전용 / 테스트 코드 확인"],
-       ["R-04 예약 상태·복구","상태 전이 코드 / API 충돌 QA는 별도"],
-       ["R-01·05·06 시연","정책·개념 화면 / 고객·운영자 UAT 미실시"],
+       ["사용자 과업","핵심 기능·화면 정책"],
+       ["탐색·비교","지역·일정·매니저 정보 기준 비교"],
+       ["대리 신청","예약자·이용자 분리 / 동의 확인"],
+       ["진행 공유","상태 확인·공유 대상·유효기간 안내"],
+       ["변경·복구","취소·변경·오류 시 다시 확인 경로"],
     ]
-    updates=shape_text(slide.shapes[2],"PRD 요구사항과 검수 근거 추적")
+    updates=shape_text(slide.shapes[2],"대리 예약의 핵심 경험과 요구사항")
     for i,row in enumerate(rows):
         for j,value in enumerate(row):
             cell=table.cell(i,j)
             updates+=shape_text(cell,value)
     for idx,value in [
-       (9,"핵심 요구사항 R-01~06"),
-       (11,"제품 QA 176/176"),
-       (13,"UAT 미실시 R-01·05·06"),
-       (15,"PRD 6개 → TC 11개 → UAT 5개(계획)"),
+       (9,"주요 사용자 · 자녀/부모"),
+       (11,"핵심 여정 · 5단계"),
+       (13,"요구사항 · R-01~R-06"),
+       (15,"사용자 문제 → 기능 정의 → 화면 정책 → 후속 검증"),
     ]:
         updates+=shape_text(slide.shapes[idx],value)
     # No new numeric facts: existing economics source remains in original model,
     # main pages 8/9, the full business plan, and companion IR deck.
-    assert "예약 소유권" in table.cell(1,0).text
-    assert "검수" in slide.shapes[2].text
+    assert "탐색·비교" in table.cell(1,0).text
+    assert "핵심 경험" in slide.shapes[2].text
     return updates
 
 def apply_ir(prs):
@@ -117,7 +117,7 @@ def main(mode):
     assert len(check.slides)==len(prs.slides)
     assert before==chart_values(check)
     if mode=="strategy":
-        assert "PRD 요구사항과 검수 근거 추적" in check.slides[6].shapes[2].text
+        assert "대리 예약의 핵심 경험과 요구사항" in check.slides[6].shapes[2].text
     else:
         assert check.slides[11].shapes[5].text=="요구사항·안전 책임·제휴 확인 후 투자"
         assert check.slides[11].shapes[5].top+check.slides[11].shapes[5].height < check.slides[11].shapes[6].top
