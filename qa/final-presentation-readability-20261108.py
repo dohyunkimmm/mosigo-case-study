@@ -52,6 +52,36 @@ def apply_strategy(prs):
        (15,"사용자 문제 → 기능 정의 → 화면 정책 → 후속 검증"),
     ]:
         updates+=shape_text(slide.shapes[idx],value)
+    # Public-facing slide copy follows the user-centered PRD; QA evidence stays private.
+    wording = {
+       "STRATEGY CASE STUDY": "MOSIGO · 제품기획",
+       "정책·검수 기준": "주요 정책·설계 원칙",
+       "읽기·변경 권한, 만료·중복 요청 검수": "읽기·변경 권한과 링크 만료·중복 요청 안내",
+       "P2 UX 검증": "P2 사용성 확인",
+       "문제 확인 → 제품 설계 → UX 검증 → 운영 타당성 판단": "문제 확인 → 제품 설계 → 사용성 확인 → 운영 타당성 판단",
+       "UX 검증·공급 조건": "사용성 확인·공급 조건",
+       "사용자 니즈 · 서비스 흐름 · UX 설계 · 실행 계획": "사용자 요구 · 서비스 흐름 · UX 설계 · 실행 계획",
+       "우선 고객 문제와 니즈 가설": "우선 고객 문제와 사용자의 필요 가설",
+       "예상 시나리오 분석과 실제 운영 실적을 구분합니다. 산출 근거: mosigo_model.xlsx.": "시장·공급 수치는 사업기획을 위한 추정치이며, 운영 실적과 구분했습니다.",
+       "예상 199건  /  현금 BEP 541건  /  경제적 BEP 1,082건": "예상 199건 / 현금 손익분기 541건 / 경제적 손익분기 1,082건",
+    }
+    for sl in prs.slides:
+        for sh in sl.shapes:
+            frames = [sh.text_frame] if sh.has_text_frame else []
+            if sh.has_table:
+                frames += [c.text_frame for row in sh.table.rows for c in row.cells]
+            for tf in frames:
+                for paragraph in tf.paragraphs:
+                    for run in paragraph.runs:
+                        for before, after in wording.items():
+                            if before in run.text:
+                                run.text = run.text.replace(before, after)
+                                updates += 1
+    # The document generator must never reintroduce the old QA-focused copy.
+    assert all(
+       "STRATEGY CASE STUDY" not in sh.text and "검수" not in sh.text
+       for sl in prs.slides for sh in sl.shapes if sh.has_text_frame
+    )
     # No new numeric facts: existing economics source remains in original model,
     # main pages 8/9, the full business plan, and companion IR deck.
     assert "탐색·비교" in table.cell(1,0).text

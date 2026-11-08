@@ -1,0 +1,5 @@
+# Internal verification records; not part of the public portfolio.
+qa/**
+!qa/vercel-ignore-build.sh
+# Historical technical appendix kept in the private repository only.
+downloads/mosigo_qa_appendix.html
