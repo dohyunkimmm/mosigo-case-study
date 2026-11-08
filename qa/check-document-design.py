@@ -50,8 +50,8 @@ assert '기본동행3만원대' in compact_plan, 'Published PDF does not show th
 assert '손익비교용평균이용가' in compact_plan, 'Published PDF does not distinguish 40k model average'
 print('PASS price hypothesis/model separation in source and published PDF')
 site_html=Path('index.html').read_text(encoding='utf-8')
-assert '<h2>MOSIGO · 고객 문제에서 제품 설계까지</h2>' in site_html, 'M-01 heading drifted'
-assert '<h2>공급 규모와 단위손익으로 사업화 조건 판단</h2>' in site_html, 'M-02 heading drifted'
+assert '<h2>MOSIGO · 신사업 기획 요약</h2>' in site_html, 'M-01 planning heading drifted'
+assert '<h2>수익구조·공급 분석으로 사업화 조건 판단</h2>' in site_html, 'M-02 planning heading drifted'
 assert '월 서비스 완료 199건(산정 기준)과 손익분기점 1,082건' in site_html, 'M-03 quantitative reasoning missing'
 assert '고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단' in site_html, 'M-03 expansion criteria missing'
 assert '<h2>기존 사업자 제휴 모델 우선 검토 · 월 서비스 완료 건수 199건(산정 기준) / 손익분기점 1,082건 · 단계적 확대 기준</h2>' in plan_html, 'Decision page and website disagree'

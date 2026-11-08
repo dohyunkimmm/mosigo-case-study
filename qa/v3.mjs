@@ -15,8 +15,11 @@ try{
   assert.equal(response.status(),200);
   assert.equal(await page.locator('.v3-phase-link').count(),0,'duplicate phase shortcuts removed');
   assert.equal(await page.locator('.nav-link').count(),9,'primary contents navigation retained');
-  assert.equal(await page.locator('.hero-actions a[href="downloads/mosigo_prd_delivery.html"]').count(),1,'PRD hero shortcut is intentional');
-  assert.equal(await page.locator('.hero-actions a:not([href="downloads/mosigo_prd_delivery.html"])').count(),0,'repeated hero jump links removed');
+  assert.equal(await page.locator('.hero-actions a[href="#decision"]').count(),1,'decision is the primary hero CTA');
+  assert.equal(await page.locator('.hero-actions a[href="#attachments"]').count(),1,'business plan is a visible hero CTA');
+  assert.equal(await page.locator('.hero-actions a[href="downloads/mosigo_prd_delivery.html"]').count(),0,'PRD is not the primary hero action');
+  assert.equal(await page.locator('.business-model-choice article.is-priority').count(),1,'one conditional priority business model');
+  assert.equal(await page.locator('.decision-gates li').count(),3,'final decision has three conditional approval gates');
   assert.equal(await page.locator('.v3-hero-metric').count(),3,'hero metrics');
   assert.equal(await page.locator('.v3-product-card').count(),3,'three verified concept wireframes');
   assert.match(await page.locator('.v3-product-intro').textContent(),/개념\s*시안\s*3종/,'three concept screens are clearly labeled');

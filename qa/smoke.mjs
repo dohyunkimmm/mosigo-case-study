@@ -38,14 +38,19 @@ try {
     assert.equal(await page.locator('aside .brand-sub, .top .top-l, .hero .tag.dark').count(), 0, width + 'px no duplicate report badges');
     assert.equal(await page.locator('.hero h1').count(), 1, width + 'px one main report heading');
     const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
-    assert.equal(heading, 'MOSIGO서비스기획·PRD', width + 'px single Korean report title');
+    assert.equal(heading, 'MOSIGO병원동행서비스신사업기획', width + 'px single new-business-planning report title');
     const visibleLabels = await page.locator('aside, .top, .hero').allTextContents();
     assert.ok(!visibleLabels.join(' ').includes('STRATEGY CASE STUDY'), width + 'px no repeated case-study slogan');
     assert.ok(!visibleLabels.join(' ').includes('STRATEGY REPORT'), width + 'px no competing report slogan');
 
     assert.equal(await page.locator('.docs-note').count(), 0, width + 'px no redundant disclaimer beneath documents');
-    assert.equal(await page.locator('.hero-actions a[href="downloads/mosigo_prd_delivery.html"]').count(), 1, width + 'px single PRD hero shortcut');
-    assert.equal(await page.locator('.hero-actions a:not([href="downloads/mosigo_prd_delivery.html"]), .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
+    assert.equal(await page.locator('.hero-actions a[href="#decision"]').count(), 1, width + 'px decision CTA');
+    assert.equal(await page.locator('.hero-actions a[href="#attachments"]').count(), 1, width + 'px business-plan CTA');
+    assert.equal(await page.locator('#product .supporting-note a[href="downloads/mosigo_prd_delivery.html"]').count(), 1, width + 'px PRD is a supplementary planning output');
+    assert.equal(await page.locator('.business-model-choice article').count(), 3, width + 'px strategy alternatives');
+    assert.equal(await page.locator('.decision-gates li').count(), 3, width + 'px approval-gate strategy');
+    assert.equal(await page.evaluate(() => document.querySelector('#attachments').compareDocumentPosition(document.querySelector('#decision')) & Node.DOCUMENT_POSITION_PRECEDING), 2, width + 'px primary narrative precedes large document viewer');
+    assert.equal(await page.locator('.hero-actions a:not([href="#decision"]):not([href="#attachments"]), .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
     // Regression: switching between plan, presentation and IR must never resize the preview box.
     if (width === 390 || width === 1024 || width === 1440) {

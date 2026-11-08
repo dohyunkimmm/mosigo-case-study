@@ -249,3 +249,168 @@ html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-scenarios,html:n
 #decision .tbl th,#business .tbl th{line-height:1.55}
 #decision .tbl td,#business .tbl td{line-height:1.62}
 #decision .subhead{letter-spacing:-.025em}
+
+
+/* New-business planning P0–P2 visual hierarchy */
+/* Brand palette is retained; contrast and spacing separate evidence from the final decision. */
+.hero-inner{padding-top:clamp(65px,6.5vw,96px);padding-bottom:clamp(58px,6vw,84px)}
+.hero h1{max-width:990px;font-size:clamp(34px,4.2vw,61px);line-height:1.21}
+.v3-hero-overline{font-size:12px;letter-spacing:.065em;color:#e0ebd8}
+.v3-hero-summary{max-width:870px;margin-top:19px;font-size:clamp(24px,3vw,39px);line-height:1.33}
+.hero .intro{max-width:780px;font-size:17px;line-height:1.74;margin-top:19px}
+.hero-actions{gap:10px;margin-top:26px}
+.hero-actions .btn{min-height:48px;padding:11px 21px;transition:background .18s ease,transform .18s ease}
+.hero-actions .btn.ghost{border-color:#a7c5b1;background:#ffffff0d;color:#f6fff5}
+.hero-actions .btn.ghost:hover{background:#ffffff20}
+.v3-hero-metrics{margin-top:33px;gap:12px}
+.v3-hero-metric{padding:17px 19px;border-radius:13px;background:#ffffff0a;border-color:#6b907b}
+.v3-hero-metric small{font-size:13px;line-height:1.55;color:#e0eee4}
+.v3-hero-metric strong{font-size:clamp(25px,2.55vw,33px);font-weight:850;line-height:1.34;white-space:normal}
+.v3-hero-metric.is-text strong{font-size:clamp(23px,2.25vw,30px);color:#d6ef8a}
+.v3-hero-metric:last-child strong{color:#fff}
+.v3-hero-caveat{margin:14px 0 0;color:#d3e1d4;font-size:13px;line-height:1.65}
+
+/* A lightweight index replaces the heavy top-of-page PDF viewer. */
+.artifact-shortcuts{max-width:1058px;margin:28px auto 0;padding:20px 25px;border:1px solid #d5e3d8;border-radius:15px;background:#f7faf6;display:flex;align-items:center;justify-content:space-between;gap:18px 24px}
+.artifact-shortcuts>div:first-child{display:grid;gap:2px;min-width:0}
+.artifact-shortcuts strong{display:block;color:#193e2d;font-size:16px;line-height:1.5}
+.artifact-shortcuts span{display:block;color:#526f5e;font-size:13px;line-height:1.55}
+.artifact-shortcut-links{display:flex;flex-wrap:wrap;gap:8px}
+.artifact-shortcut-links a{display:inline-flex;align-items:center;justify-content:center;min-height:43px;padding:9px 14px;background:white;color:#1e5940;border:1px solid #bcd2c2;border-radius:9px;font-size:13px;font-weight:750;white-space:nowrap;text-decoration:none}
+.artifact-shortcut-links a:hover{background:#e8f2e9;border-color:#629b76}
+
+/* Business-model options are strategic choices, not functional UX alternatives. */
+.business-model-choice{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:25px 0 0}
+.business-model-choice article{min-width:0;display:flex;flex-direction:column;gap:10px;padding:23px 21px 20px;border:1px solid #d6e4d8;border-radius:15px;background:#fff;box-shadow:0 3px 15px #16482b08}
+.business-model-choice article>span{font-size:12px;font-weight:800;letter-spacing:.015em;color:#557766;line-height:1.5}
+.business-model-choice h3{font-size:20px;line-height:1.4;color:#234934}
+.business-model-choice p{font-size:14px;line-height:1.75;color:#456151;margin:0}
+.business-model-choice small{display:block;padding-top:10px;margin-top:auto;border-top:1px solid #e4ece5;color:#456151;font-size:12px;line-height:1.6}
+.business-model-choice .is-priority{background:#eff7ef;border:2px solid #27734d;box-shadow:0 8px 24px #16482b12;padding:22px 20px 19px}
+.business-model-choice .is-priority>span{color:#1c623e}
+.business-model-choice .is-priority h3{color:#143f2e}
+.model-choice-note{max-width:820px;font-size:13px;line-height:1.75;color:#526c5d;margin:11px 0 0}
+
+/* Product PRD is retained as an explicitly supplementary planning deliverable. */
+.supporting-note{display:flex;align-items:center;flex-wrap:wrap;gap:9px 18px;padding:16px 19px;margin:18px 0 22px;border-left:4px solid #7e9b83;border-radius:5px 12px 12px 5px;background:#f3f7f1;color:#365441}
+.supporting-note strong{font-size:14px;line-height:1.5;color:#194732}
+.supporting-note p{flex-basis:100%;font-size:14px;line-height:1.7;margin:0}
+.supporting-note a{font-size:14px;font-weight:750;color:#1e5d41;text-underline-offset:4px}
+
+/* Short financial interpretation complements, rather than repeats, the BEP chart. */
+#business .bep-visual{border-color:#cbdccf;background:#f7faf6;padding:22px 23px 20px}
+#business .bep-visual figcaption{font-size:17px;line-height:1.5}
+#business .bep-ratio strong{font-size:clamp(33px,3.2vw,43px)}
+#business .bep-track{height:13px;background:#e1ebe4}
+#business .bep-fill.current{background:#297f54}
+.business-interpretation{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:9px 20px;background:#f2f7f2;border:1px solid #d7e5d8;border-radius:13px;padding:18px 21px;margin:13px 0 28px}
+.business-interpretation .interpretation-kicker{display:block;flex-basis:100%;font-size:12px;letter-spacing:.05em;font-weight:800;color:#275e41}
+.business-interpretation p{max-width:750px;margin:0;font-size:14px;line-height:1.77;color:#345142}
+.business-interpretation p strong{color:#193f2d;font-weight:800}
+.business-interpretation a{font-size:13px;font-weight:800;color:#1a5b3d;white-space:nowrap}
+
+/* The final decision visual communicates approval gates rather than repeating chart bars. */
+#decision .decision-board{margin-top:19px;padding:28px 27px;background:#f3f8f3;border-color:#cbded0}
+#decision .decision-board figcaption{gap:8px}
+#decision .decision-board figcaption>strong{max-width:770px;font-size:clamp(22px,2.3vw,30px);line-height:1.43}
+.decision-gates{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.decision-gates li{min-width:0;display:flex;flex-direction:column;gap:10px;padding:20px 18px;border:1px solid #d8e5dc;background:white;border-radius:13px}
+.decision-gates .decision-gate-index{font-size:12px;color:#2b6e4c;font-weight:850;letter-spacing:.045em}
+.decision-gates strong{font-size:18px;line-height:1.44;color:#183f2d}
+.decision-gates p{font-size:14px;line-height:1.72;color:#395846;margin:0}
+.decision-gates small{font-size:12px;line-height:1.65;color:#526d5c;display:block;border-top:1px solid #e4eee6;padding-top:10px;margin-top:auto}
+.decision-board-verdict{display:grid;gap:7px;margin:17px 0 0;border-radius:12px;padding:19px 22px;background:#123e33;color:#ecf7ed}
+.decision-board-verdict span{font-size:12px;font-weight:750;color:#cce2cf}
+.decision-board-verdict strong{font-size:21px;line-height:1.4;color:#d6ef8a}
+.decision-board-verdict p{max-width:780px;color:#e6f1e6;font-size:14px;line-height:1.75;margin:0}
+#decision .decision-board .investment-gap-source{margin-top:13px!important;color:#415e4d}
+#decision .decision-board .investment-gap-source a{font-weight:750;color:#205d40}
+
+/* Document reading remains full-size, but appears after the strategic conclusion. */
+#attachments.quick-documents{margin:42px auto 65px;padding:25px 27px 28px;background:#f8faf8;border-color:#d1dfd4;scroll-margin-top:25px}
+.attachment-heading{margin-bottom:22px;max-width:760px}
+.attachment-heading h2{font-size:clamp(24px,2.7vw,35px);line-height:1.32;margin:6px 0 0}
+.attachment-heading p{font-size:15px;line-height:1.75;color:#496455;margin-top:10px}
+#attachments .doc-tabs{gap:9px}
+#attachments .doc-tabs button{min-height:49px;border-radius:10px;padding:8px 13px;font-size:14px}
+#attachments .doc-tabs button small{display:block;font-size:12px;line-height:1.5;margin:3px 0 0}
+#attachments .mobile-page-open{background:white;border-color:#c9dccd}
+#attachments .doc-links{margin-top:16px;gap:18px}
+.attachment-support{display:flex;flex-wrap:wrap;gap:8px 17px;align-items:center;margin:22px 0 0;padding:18px 2px 0;border-top:1px solid #d6e4d9;font-size:14px;line-height:1.6}
+.attachment-support>span{font-weight:800;color:#365d46}
+.attachment-support a{font-weight:750;color:#1c6344}
+
+section{padding-top:70px;padding-bottom:73px}
+.section-title{margin-bottom:22px}
+.section-title h2{letter-spacing:-.04em;line-height:1.35}
+.panel:not(.dark){background:#f8faf7;border-color:#dce7df}
+.panel h3{line-height:1.45}
+.panel p{color:#405b49}
+.subhead{letter-spacing:-.03em}
+:where(.artifact-shortcut-links a,.business-interpretation a,.attachment-support a,.supporting-note a):focus-visible{outline:3px solid #278151;outline-offset:3px}
+
+@media(max-width:1180px){
+ .artifact-shortcuts{margin:25px 28px 0}
+ .business-model-choice{grid-template-columns:1fr}
+ .business-model-choice article{padding:19px 21px}
+ .business-model-choice .is-priority{padding:18px 20px}
+ .decision-gates{grid-template-columns:1fr}
+ .decision-gates li{gap:7px}
+ #attachments.quick-documents{margin-left:28px;margin-right:28px}
+}
+@media(max-width:800px){
+ .hero-inner{padding:56px 22px 52px}
+ .hero h1{font-size:clamp(32px,5.5vw,44px)}
+ .v3-hero-summary{font-size:clamp(24px,4vw,32px)}
+ .artifact-shortcuts{margin:18px 17px 0;padding:16px 18px;flex-direction:column;align-items:stretch}
+ .artifact-shortcut-links{gap:7px}
+ .business-model-choice{margin-top:17px}
+ section{padding-top:49px;padding-bottom:53px}
+ #attachments.quick-documents{margin:32px 17px 56px;padding:20px 19px}
+}
+@media(max-width:560px){
+ .hero h1{font-size:35px;line-height:1.23}
+ .v3-hero-overline{font-size:11px;letter-spacing:0;line-height:1.5}
+ .v3-hero-summary{font-size:26px;line-height:1.34}
+ .hero .intro{font-size:15px;line-height:1.75}
+ .hero-actions{display:grid;grid-template-columns:1fr;gap:9px}
+ .hero-actions .btn{width:100%;min-height:48px}
+ .v3-hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .v3-hero-metric{padding:13px 12px}
+ .v3-hero-metric small{font-size:12px;line-height:1.5}
+ .v3-hero-metric strong{font-size:25px}
+ .v3-hero-metric.is-text strong{font-size:22px}
+ .v3-hero-metrics .v3-hero-ratio{display:block;grid-column:1/-1;padding:13px 14px;border:1px solid #6b907b;border-radius:12px;background:#ffffff0a}
+ .v3-hero-metrics .v3-hero-ratio strong{font-size:25px;color:white}
+ .v3-hero-caveat{font-size:12px}
+ .artifact-shortcuts strong{font-size:15px}
+ .artifact-shortcut-links a{flex:1 1 auto;font-size:12px;padding:10px 9px}
+ .business-model-choice h3{font-size:18px}
+ .business-model-choice article{padding:16px 17px}
+ .business-model-choice .is-priority{padding:15px 16px}
+ .supporting-note{padding:15px 16px}
+ #business .bep-visual{padding:14px 13px}
+ .business-interpretation{padding:15px 16px}
+ .business-interpretation a{white-space:normal}
+ #decision .decision-board{padding:19px 15px}
+ .decision-gates li{padding:16px}
+ .decision-board-verdict{padding:17px}
+ .decision-board-verdict strong{font-size:19px}
+ #attachments.quick-documents{margin:30px 12px 45px;padding:18px 14px}
+ .attachment-heading h2{font-size:25px}
+ .attachment-heading p{font-size:14px}
+ #attachments .doc-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ #attachments .doc-tabs button{font-size:13px;min-height:48px;padding:9px 8px}
+ #attachments .doc-tabs button:last-child{grid-column:1/-1}
+ #attachments .doc-links{gap:10px}
+ section{padding-top:41px;padding-bottom:46px}
+}
+@media(prefers-reduced-motion:reduce){.hero-actions .btn{transition:none}}
+@media print{.artifact-shortcuts{display:none!important}#attachments.quick-documents{display:none!important}.supporting-note{break-inside:avoid}.decision-board{break-inside:avoid}}
+
+/* Render concise mobile sections immediately: avoid blank offscreen chapters in full-page captures and print. */
+@media(max-width:800px){main>section{content-visibility:visible;contain-intrinsic-size:none}}
+@media print{main>section{content-visibility:visible!important;contain-intrinsic-size:none!important}}
+
+/* Ensure the supplementary PRD link meets mobile touch target dimensions. */
+.attachment-support a{display:inline-flex;align-items:center;min-height:44px;padding:8px 5px;border-radius:6px}

@@ -1,4 +1,4 @@
-name: Build case-study social preview
+name: Build new-business-planning social preview
 
 on:
   push:

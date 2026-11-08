@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123e33"><meta name="description" content="MOSIGO 서비스기획 포트폴리오. 자녀의 부모 병원 동행 대리 예약 문제를 분석하고, 사용자 여정·제품 요구사항·화면 정책·사업성을 설계했습니다."><title>MOSIGO 서비스기획 · PRD | 포트폴리오</title><link rel="canonical" href="https://mosigo-case-study.vercel.app/"><meta property="og:type" content="website"><meta property="og:locale" content="ko_KR"><meta property="og:title" content="MOSIGO 서비스기획 · PRD"><meta property="og:description" content="자녀의 부모 병원 동행 대리 예약 문제에서 사용자 여정·제품 요구사항·화면 정책까지 설계"><meta property="og:url" content="https://mosigo-case-study.vercel.app/"><meta property="og:image" content="https://mosigo-case-study.vercel.app/assets/mosigo-share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/png"><meta property="og:image:alt" content="MOSIGO 병원 동행 서비스 포트폴리오 공유 이미지"><meta name="twitter:image" content="https://mosigo-case-study.vercel.app/assets/mosigo-share.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" media="print" onload="this.media='all'"><style>
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123e33"><meta name="description" content="MOSIGO 병원 동행 서비스 신사업 기획. 시장 기회·고객 가치·사업모델·공급 및 손익을 분석하고, 기존 사업자 제휴와 단계별 사업화 조건을 검토했습니다."><title>MOSIGO 신사업 기획 | 병원 동행 서비스 사업화 검토</title><link rel="canonical" href="https://mosigo-case-study.vercel.app/"><meta property="og:type" content="website"><meta property="og:locale" content="ko_KR"><meta property="og:title" content="MOSIGO | 병원 동행 서비스 신사업 기획"><meta property="og:description" content="시장·고객 분석부터 사업모델·공급·수익성 검토와 사업화 의사결정까지"><meta property="og:url" content="https://mosigo-case-study.vercel.app/"><meta property="og:image" content="https://mosigo-case-study.vercel.app/assets/mosigo-share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/png"><meta property="og:image:alt" content="MOSIGO 병원 동행 서비스 신사업 기획 공유 이미지"><meta name="twitter:image" content="https://mosigo-case-study.vercel.app/assets/mosigo-share.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet" media="print" onload="this.media='all'"><style>
 :root{--ink:#192c25;--body:#34453d;--muted:#5c7064;--forest:#123e33;--dark:#0d3028;--lime:#d6ef8a;--line:#dce7df;--panel:#f5f8f4;--white:#fff;--aside:244px}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:22px}body{margin:0;background:#fff;color:var(--body);font-family:"Pretendard Variable","Pretendard",-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo",sans-serif;font-size:16px;line-height:1.78;letter-spacing:-.017em;word-break:keep-all}
 a{color:#235c48;text-underline-offset:4px}a:hover{color:#143d32}button,input{font:inherit}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #65ad7a;outline-offset:3px}h1,h2,h3,h4{margin:0;color:var(--ink);line-height:1.35;letter-spacing:-.043em}h1{font-size:clamp(35px,4.4vw,65px);line-height:1.17;letter-spacing:-.055em}h2{font-size:clamp(27px,2.8vw,39px)}h3{font-size:18px}p{margin:10px 0 0}small,.small{font-size:12px;color:var(--muted)}[hidden]{display:none!important}
@@ -398,58 +398,47 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <aside id="contents" tabindex="-1" aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a></div>
 <div class="toc-label" aria-hidden="true"><span>CONTENTS</span><small>01 — 09</small></div>
 <nav class="navigation" aria-label="목차">
-<a class="nav-link active" href="#overview" aria-current="location"><b>01</b>프로젝트 개요</a>
-<a class="nav-link" href="#market"><b>02</b>문제·시장 근거</a>
-<a class="nav-link" href="#customer"><b>03</b>고객·가치 설계</a>
-<a class="nav-link" href="#strategy"><b>04</b>전략 선택</a>
-<a class="nav-link" href="#product"><b>05</b>제품 전략·요구사항</a>
-<a class="nav-link" href="#business"><b>06</b>사업성 검토</a>
-<a class="nav-link" href="#execution"><b>07</b>우선순위·실행</a>
-<a class="nav-link" href="#measurement"><b>08</b>성과 지표·측정</a>
-<a class="nav-link" href="#decision"><b>09</b>의사결정</a>
+<a class="nav-link active" href="#overview" aria-current="location"><b>01</b>신사업 기획 요약</a>
+<a class="nav-link" href="#market"><b>02</b>시장 기회·경쟁</a>
+<a class="nav-link" href="#customer"><b>03</b>목표 고객·가치</a>
+<a class="nav-link" href="#strategy"><b>04</b>사업모델·진입 전략</a>
+<a class="nav-link" href="#product"><b>05</b>서비스 구현 구상</a>
+<a class="nav-link" href="#business"><b>06</b>수익성·공급 분석</a>
+<a class="nav-link" href="#execution"><b>07</b>단계별 사업화</a>
+<a class="nav-link" href="#measurement"><b>08</b>사업 가설 검증</a>
+<a class="nav-link" href="#decision"><b>09</b>사업화 의사결정</a>
 </nav>
 </aside>
 <main class="content" id="top">
-<header class="hero"><div class="hero-inner"><span class="v3-hero-overline">USER PROBLEM → USER JOURNEY → PRD</span><h1>MOSIGO<br><i>서비스기획 · PRD</i></h1>
-<p class="v3-hero-summary">고객의 문제를<br><em>사용자 경험과 제품 요구사항으로 연결한다.</em></p>
-<p class="intro">자녀가 부모의 병원 동행을 대신 예약하는 MOSIGO에서, 고객 문제를 사용자 여정·기능 요구사항·화면 정책으로 구체화했습니다. 사업성 분석은 제품 우선순위와 운영 방향을 판단하는 근거로 활용했습니다.</p>
-<div class="hero-actions"><a class="btn primary" href="downloads/mosigo_prd_delivery.html">제품 요구사항 정의서(PRD) 바로 보기 <span aria-hidden="true">↗</span></a></div>
-<div class="v3-hero-metrics" aria-label="제품기획 산출물 범위">
- <div class="v3-hero-metric"><small>현행 핵심 요구사항 · R-01~R-06</small><strong>6개</strong></div>
- <div class="v3-hero-metric"><small>핵심 사용자 페르소나</small><strong>2유형</strong></div>
- <div class="v3-hero-metric v3-hero-ratio"><small>가족 예약·진행 사용자 여정</small><strong>7단계</strong></div>
-</div>
+<header class="hero"><div class="hero-inner">
+<span class="v3-hero-overline">시장 기회 → 사업모델 → 사업성 검토 → 실행 전략</span>
+<h1>MOSIGO<br><i>병원 동행 서비스 신사업 기획</i></h1>
+<p class="v3-hero-summary">고객 문제를 사업 기회로 검토하고<br><em>실행 가능한 사업화 조건을 설계하다.</em></p>
+<p class="intro">자녀의 병원 동행 대리 예약 문제를 출발점으로 시장·고객·공급 여건을 분석하고, 사업모델과 수익구조를 비교했습니다. 초기 공급과 손익분기점의 격차를 근거로 기존 사업자 제휴를 우선 검증하는 방향을 제안했습니다.</p>
+<div class="hero-actions"><a class="btn primary" href="#decision">사업화 판단 보기 <span aria-hidden="true">↗</span></a><a class="btn ghost" href="#attachments">신사업 기획서 보기 <span aria-hidden="true">↘</span></a></div>
+<div class="v3-hero-metrics" aria-label="신사업 기획 핵심 판단과 산정 가정">
+<div class="v3-hero-metric is-text"><small>사업 진입 우선 검토안</small><strong>제휴 검증</strong></div>
+<div class="v3-hero-metric"><small>초기 공급 · 월 완료 추정</small><strong>199건</strong></div>
+<div class="v3-hero-metric v3-hero-ratio"><small>경제적 손익분기 · 월 완료</small><strong>1,082건</strong></div>
+</div><p class="v3-hero-caveat">※ 공급·손익 수치는 기획상 산정 가정이며, 실제 운영 실적이 아닙니다.</p>
 </div></header>
-<div id="attachments" class="quick-documents" aria-label="사업기획서·발표자료·IR Deck">
-<div class="doc-toolbar" aria-label="문서 미리보기 도구">
-<div class="doc-tabs" role="group" aria-label="문서 선택">
-<button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>19쪽</small></button>
-<button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">발표자료 <small>11장</small></button>
-<button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR Deck <small>12장</small></button></div>
-
-</div>
-<iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
-<div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="모바일 문서 페이지 보기">
-<a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 문서 쪽 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1쪽 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
-<div class="mobile-page-controls"><button id="doc-prev" type="button" disabled>이전</button><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1쪽, 전체 19쪽">1 / 19쪽</span><button id="doc-next" type="button">다음</button></div></div>
-<dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><div class="v3-zoom-viewport"><button type="button" id="v3-doc-zoom" aria-label="문서 이미지 확대" aria-pressed="false"><img id="v3-fullscreen-img" alt=""></button></div><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF를 다운로드하거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
-<div class="doc-links" aria-label="선택한 문서 다운로드">
-<a id="doc-pdf-save" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">PDF 다운로드</a>
-<a id="doc-pptx-save" hidden>PPTX 다운로드</a></div>
-</div>
-<section id="overview"><div class="section-title"><span class="eyebrow">01 / PROJECT BRIEF</span><h2>MOSIGO · 고객 문제에서 제품 설계까지</h2></div><div class="mobile-skim"><p class="skim-lead"><span class="insight-kicker">01 · 핵심 결론</span><strong>자녀 대리 예약을 중심으로<br class="desktop-break">기존 사업자와 제한된 범위에서 제휴 운영을 먼저 시험</strong></p><p>자녀가 예약하고 부모가 이용하는 병원 동행 서비스의 사업화 검토</p><ul><li>핵심 과업 · 대리 예약과 진행 확인</li><li>선택 · 기존 사업자 제휴 모델 우선 검토</li></ul></div><details class="chapter-detail" open><summary>분석 범위·근거 보기</summary><div class="chapter-content">
+<nav class="artifact-shortcuts" aria-label="신사업 기획 핵심 내용 바로가기">
+<div><strong>핵심 내용부터 살펴보기</strong><span>사업 기회 · 수익구조 · 투자 판단</span></div>
+<div class="artifact-shortcut-links"><a href="#strategy">사업모델 비교</a><a href="#business">사업성 분석</a><a href="#attachments">기획 산출물</a></div>
+</nav>
+<section id="overview"><div class="section-title"><span class="eyebrow">01 / PROJECT BRIEF</span><h2>MOSIGO · 신사업 기획 요약</h2></div><div class="mobile-skim"><p class="skim-lead"><span class="insight-kicker">01 · 핵심 결론</span><strong>자녀 대리 예약을 중심으로<br class="desktop-break">기존 사업자와 제한된 범위에서 제휴 운영을 먼저 시험</strong></p><p>자녀가 예약하고 부모가 이용하는 병원 동행 서비스의 사업화 검토</p><ul><li>핵심 과업 · 대리 예약과 진행 확인</li><li>선택 · 기존 사업자 제휴 모델 우선 검토</li></ul></div><details class="chapter-detail" open><summary>분석 범위·근거 보기</summary><div class="chapter-content">
 <div class="grid g3">
-<article class="panel"><span class="micro">문제</span><h3>예약자와 이용자 분리</h3><p>부모는 서비스를 이용하고 자녀는 검색·선택·예약·확인을 담당</p></article>
-<article class="panel"><span class="micro">전략 선택</span><h3>자녀 중심 여정</h3><p>가족 대리 예약을 중심으로 매니저 비교·진행 공유·재예약을 연결</p></article>
-<article class="panel dark"><span class="micro">판단</span><h3>단계별 사업성 검증</h3><p>수요·공급·원가·안전을 검증하고 확대 여부를 판단</p></article></div>
+<article class="panel"><span class="micro">문제</span><h3>예약자와 이용자의 역할 차이</h3><p>자녀의 정보 탐색·결제 의향과 부모의 실제 이용 조건을 구분해 사업 기회를 검토</p></article>
+<article class="panel"><span class="micro">사업모델</span><h3>기존 사업자 제휴 우선안</h3><p>직접 운영의 초기 비용을 비교하고 파트너 공급·책임 조건을 먼저 확인</p></article>
+<article class="panel dark"><span class="micro">사업화 판단</span><h3>공급·단위손익 검증 후 확대</h3><p>초기 공급 예상과 손익분기 격차를 기준으로 단계별 투자 판단</p></article></div>
 <div class="decision-chain" role="group" aria-label="전략적 의사결정 흐름">
-<article><small>01 · OBSERVE</small><strong>문제 발견</strong><p>이용자와 예약자의 역할이 다름</p></article>
-<article><small>02 · FRAME</small><strong>고객 정의</strong><p>자녀를 우선 예약 고객으로 설정</p></article>
-<article><small>03 · DESIGN</small><strong>제품 선택</strong><p>대리 예약과 동행 확인 연결</p></article>
-<article><small>04 · TEST</small><strong>사업 판단</strong><p>수요·원가·권한 검증 후 확장</p></article>
-</div><div class="callout"><strong>핵심 산출물 · 고객 과업에서 화면 정책까지</strong><p>가족 대리 예약과 진행 공유의 사용자 여정을 요구사항·동의·권한 정책으로 연결했습니다. 공급·손익은 사업성 섹션에서 별도로 판단합니다.</p></div></div></details></section>
-<section id="market"><div class="section-title"><span class="eyebrow">02 / RESEARCH &amp; PROBLEM</span><h2>경쟁 조사를 서비스 요구사항으로</h2></div><div class="mobile-skim"><p>접근성·대리 예약·매니저 정보 문제를 제품 요구사항으로 연결</p><ul><li>분석 자료 · 경쟁 앱 7종·리뷰 118건(기존 팀 조사)</li><li>확장 분석 · 지역별 수요·공급 조건과 조사 범위</li></ul></div><div class="v3-evidence-key" role="note" aria-label="자료 신뢰 수준 구분"><strong>근거 표기</strong><span><i class="v3-dot" aria-hidden="true"></i>기존 조사: 경쟁 서비스·리뷰</span><span><i class="v3-dot is-assumed" aria-hidden="true"></i>사업성 산정: 수요·비용·공급</span><span><i class="v3-dot is-unverified" aria-hidden="true"></i>현장 확인: 이용자·운영 실측</span></div><details class="chapter-detail" open><summary>시장 근거·산정 기준 보기</summary><div class="chapter-content">
-<div class="grid g3"><article class="panel white"><span class="point">7종</span><h3>경쟁 서비스</h3></article><article class="panel white"><span class="point">118건</span><h3>사용자 리뷰</h3></article><article class="panel dark"><span class="micro">핵심 관찰</span><h3>예약자 ≠ 이용자</h3><p>자녀의 검색·비교·확인 과업 중심으로 요구사항 정리</p></article></div>
+<article><small>01 · OPPORTUNITY</small><strong>사업 기회 발굴</strong><p>자녀 대리 예약의 잠재 수요와 대체재 확인</p></article>
+<article><small>02 · MARKET</small><strong>고객·시장 분석</strong><p>우선 고객과 지역·공급 조건 정의</p></article>
+<article><small>03 · BUSINESS MODEL</small><strong>운영·수익모델 설계</strong><p>직접 운영·제휴 방식과 원가 비교</p></article>
+<article><small>04 · DECISION</small><strong>사업화 조건 판단</strong><p>공급·수익성·안전 검증 후 확대 심의</p></article>
+</div><div class="callout"><strong>핵심 결론 · 조건부 기존 사업자 제휴 검토</strong><p>공급 추정치와 손익분기점의 차이를 확인했습니다. 매니저 단가·공급 가용성·운영 책임과 실제 유료 수요를 검증한 뒤 제한 운영과 확대를 판단합니다.</p></div></div></details></section>
+<section id="market"><div class="section-title"><span class="eyebrow">02 / RESEARCH &amp; PROBLEM</span><h2>시장 기회와 경쟁·대체 서비스 분석</h2></div><div class="mobile-skim"><p>예약자·이용자 분리, 공급 가능성, 대체 서비스 조건으로 시장 기회 검토</p><ul><li>분석 자료 · 경쟁 앱 7종·리뷰 118건(기존 팀 조사)</li><li>확장 분석 · 지역별 수요·공급 조건과 조사 범위</li></ul></div><div class="v3-evidence-key" role="note" aria-label="자료 신뢰 수준 구분"><strong>근거 표기</strong><span><i class="v3-dot" aria-hidden="true"></i>기존 조사: 경쟁 서비스·리뷰</span><span><i class="v3-dot is-assumed" aria-hidden="true"></i>사업성 산정: 수요·비용·공급</span><span><i class="v3-dot is-unverified" aria-hidden="true"></i>현장 확인: 이용자·운영 실측</span></div><details class="chapter-detail" open><summary>시장 근거·산정 기준 보기</summary><div class="chapter-content">
+<div class="grid g3"><article class="panel white"><span class="point">7종</span><h3>경쟁 서비스</h3></article><article class="panel white"><span class="point">118건</span><h3>사용자 리뷰</h3></article><article class="panel dark"><span class="micro">핵심 관찰</span><h3>예약자 ≠ 이용자</h3><p>우선 예약 고객의 과업과 유료 이용 가치 검증 과제 정리</p></article></div>
 <h3 class="subhead">관찰 → 요구사항 → 검증</h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>문제 관찰</th><th>제품 요구사항</th><th>다음 확인</th></tr></thead><tbody>
 <tr><th data-label="문제 관찰">접근성</th><td data-label="제품 요구사항">지역·시간 조건의 공급 가능 여부 표시</td><td data-label="다음 확인">지역별 공급 가능성과 예약 이탈 지점</td></tr>
@@ -468,7 +457,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <h3 class="subhead">시장 진입 검증 과제</h3><div class="callout"><p>기존 팀 조사(서비스 7종·리뷰 118건)를 제품 요구사항의 출발점으로 활용했습니다. 공급 가능성·가격 수용도·획득 비용은 인터뷰와 제한 운영에서 확인하고, 조사 원본·분류 기준은 별도 근거로 관리합니다.</p></div>
 
 </div></details></section>
-<section id="customer"><div class="section-title"><span class="eyebrow">03 / CUSTOMER &amp; VALUE</span><h2>누가 결정하고 누가 이용하는가</h2></div><div class="mobile-skim"><ul><li><b>자녀</b> · 비교·예약·진행 확인</li><li><b>부모</b> · 이용 동의와 안전한 동행</li><li><b>매니저·운영자</b> · 배정·변경·책임 관리</li></ul></div><details class="chapter-detail" open><summary>고객별 가치·설계 조건 보기</summary><div class="chapter-content">
+<section id="customer"><div class="section-title"><span class="eyebrow">03 / CUSTOMER &amp; VALUE</span><h2>목표 고객과 제공 가치 설정</h2></div><div class="mobile-skim"><ul><li><b>자녀</b> · 비교·예약·진행 확인</li><li><b>부모</b> · 이용 동의와 안전한 동행</li><li><b>매니저·운영자</b> · 배정·변경·책임 관리</li></ul></div><details class="chapter-detail" open><summary>고객별 가치·설계 조건 보기</summary><div class="chapter-content">
 <div class="grid g3">
 <article class="panel dark"><span class="micro">우선 고객 설정</span><h3>자녀 · 예약자</h3><p>평일 동행이 어렵거나 떨어져 사는 자녀 / 매니저 선택·진행 확인의 가치 검토</p></article>
 <article class="panel"><span class="micro">이용자</span><h3>부모 · 동행 대상자</h3><p>이용·개인정보 동의, 이동 안전, 현장 경험 중시</p></article>
@@ -478,7 +467,12 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <div class="grid g2"><div><h3>기능적 가치</h3><p>비교 → 대리 예약 → 동행 상태 → 재예약을 연결</p></div><div><h3>신뢰 조건</h3><p>대상자 동의, 정보 최소 수집, 공유 권한, 사고 대응이 전제</p></div></div></div>
 </div></details></section>
 
-<section id="strategy"><div class="section-title"><span class="eyebrow">04 / STRATEGY &amp; TRADE-OFFS</span><h2>왜 자녀 중심의 대리 예약인가</h2></div><div class="mobile-skim"><p>자녀가 비교부터 예약·진행 확인까지 관리하는 흐름 선택</p><ul><li>기대 가치 · 보호자의 정보 확인 부담 완화</li><li>선행 조건 · 부모 동의와 공유 권한 분리</li></ul></div><details class="chapter-detail" open><summary>대안 비교·선택 근거 보기</summary><div class="chapter-content">
+<section id="strategy"><div class="section-title"><span class="eyebrow">04 / STRATEGY &amp; TRADE-OFFS</span><h2>어떤 사업모델로 진입할 것인가</h2></div><div class="mobile-skim"><p>직접 운영·기존 사업자 제휴·기업 및 공공 제휴의 공급·비용·책임 구조를 비교하고 기존 사업자 제휴를 우선 검토합니다.</p><ul><li>기대 가치 · 보호자의 정보 확인 부담 완화</li><li>선행 조건 · 부모 동의와 공유 권한 분리</li></ul></div><div class="business-model-choice" role="group" aria-label="사업 진입 방식 세 가지 비교">
+<article><span>대안 01 · 직접 운영</span><h3>공급과 품질 직접 확보</h3><p>매니저 모집·배정, 사고 대응 및 운영 원가를 직접 부담</p><small>판단 · 책임·비용 구조 확인 후 비교</small></article>
+<article class="is-priority"><span>우선 검토 02 · 기존 사업자 제휴</span><h3>파트너 공급 기반 제한 검증</h3><p>가용 시간·단가·품질·계약 책임을 확인해 초기 투입 부담 비교</p><small>판단 · 공급·계약 조건 충족 시 시범 운영</small></article>
+<article><span>후속 03 · 기업·공공 제휴</span><h3>검증 이후 채널 확장</h3><p>반복 수요와 단위 경제성을 확인한 후 기관별 운영 조건 검토</p><small>판단 · 제휴형 검증 결과를 바탕으로 재심사</small></article>
+</div><p class="model-choice-note">사업모델 비교는 기획 단계의 조건부 우선순위이며, 계약 체결이나 운영 성과를 의미하지 않습니다.</p>
+<details class="chapter-detail" open><summary>고객 접점 전략·운영 설계 근거 보기</summary><div class="chapter-content">
 <div class="strategy-options" role="group" aria-label="예약 경험 설계 대안 비교">
 <article class="strategy-option"><span class="option-mark">OPTION A · SELF SERVICE</span><h3>부모 직접 신청</h3><p>이용자가 직접 병원과 매니저를 찾고 예약</p><dl><dt>장점</dt><dd>예약자·이용자 관계가 단순함</dd><dt>고려할 점</dt><dd>자녀의 원격 지원·진행 확인 과업을 별도로 해결해야 함</dd></dl></article>
 <article class="strategy-option"><span class="option-mark">OPTION B · ASSISTED</span><h3>상담 지원 중심</h3><p>상담 또는 운영 인력이 대리 신청과 변경을 지원</p><dl><dt>장점</dt><dd>복잡한 예외 상황에 대응하기 쉬움</dd><dt>고려할 점</dt><dd>운영 인력·응대 비용에 따른 확장성 검토 필요</dd></dl></article>
@@ -489,9 +483,9 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <article><strong>가치와 복잡성의 교환</strong><p>자녀의 확인 부담을 줄이되 대상자 동의·제3자 권한은 명확히 설계</p></article>
 <article><strong>제품과 운영의 경계</strong><p>예약·공유는 프로토타입으로 제시 / 매니저 배정·병원 예약은 운영 조건 검토</p></article>
 </div></div></details></section>
-<section id="product"><div class="section-title"><span class="eyebrow">05 / PRODUCT PLANNING</span><h2>요구사항을 화면과 상태로 설계</h2></div><div class="mobile-skim"><p>예약자·이용자 정보를 분리하고 동의와 진행 공유를 연결</p><ol class="skim-journey"><li>가족 등록</li><li>병원 탐색</li><li>매니저 선택</li><li>신청·동의</li><li>진행 공유</li><li>결과 요약</li><li>재예약</li></ol></div>
-<div class="v3-product-gallery" aria-label="핵심 제품 화면 개념 시안">
- <div class="v3-product-intro"><div><span class="v3-concept-label">CONCEPT WIREFRAMES</span><h3>요구사항이 화면에서 어떻게 작동하는가</h3><p>역할 구분·매니저 선택·진행 공유를 보여주는 <strong>개념 시안 3종</strong>입니다.</p></div></div>
+<section id="product"><div class="section-title"><span class="eyebrow">05 / SERVICE DESIGN · ADDITIONAL OUTPUT</span><h2>사업 전략을 서비스 요구사항으로 구체화</h2></div><div class="mobile-skim"><p>신사업 기획의 후속 산출물로 대리 예약의 사용자 여정·동의·공유 정책을 구체화했습니다.</p><ol class="skim-journey"><li>가족 등록</li><li>병원 탐색</li><li>매니저 선택</li><li>신청·동의</li><li>진행 공유</li><li>결과 요약</li><li>재예약</li></ol></div>
+<div class="supporting-note"><strong>추가 산출물 · 서비스기획·PRD</strong><p>선택한 사업모델이 서비스에서 어떻게 작동할지 설명하기 위한 보조 설계입니다. 실제 운영·상용화가 완료됐다는 의미는 아닙니다.</p><a href="downloads/mosigo_prd_delivery.html">PRD 상세 내용 보기 ↗</a></div><div class="v3-product-gallery" aria-label="추가 산출물인 제품 개념 시안">
+ <div class="v3-product-intro"><div><span class="v3-concept-label">CONCEPT WIREFRAMES</span><h3>사업 전략을 서비스 화면·운영 정책으로 구체화</h3><p>사업기획의 서비스 구현 가능성을 설명하는 <strong>개념 시안 3종</strong>입니다.</p></div></div>
  <div class="v3-product-screens">
   <article class="v3-product-card"><div class="v3-screen"><div class="v3-appbar">mosigo.<span>개념 시안</span></div><div class="v3-screen-title">누구를 위해 예약할까요?</div><div class="v3-ui-input">예약하는 사람 <strong>자녀 · 보호자</strong></div><div class="v3-ui-input">동행 대상자 <strong>부모님</strong></div><div class="v3-ui-input">이용 동의 <small>이용자 동의 확인</small></div><div class="v3-ui-cta">대상자 정보 확인</div></div><div class="v3-card-explain"><h4>① 가족 대리 예약</h4><p>예약자와 이용자를 명확하게 분리하고, 동의·권한을 필수 확인 단계로 설계합니다.</p></div></article>
   <article class="v3-product-card"><div class="v3-screen"><div class="v3-appbar">매니저 선택<span>개념 시안</span></div><div class="v3-screen-title">조건에 맞는 동행 인력 비교</div><div class="v3-profile"><span class="v3-profile-mark">A</span><div><strong>매니저 A</strong><small>지역·일정 적합 여부 확인</small></div><span class="v3-selected">비교</span></div><div class="v3-profile"><span class="v3-profile-mark">B</span><div><strong>매니저 B</strong><small>가능 시간·역할 정보</small></div><span class="v3-selected">비교</span></div><div class="v3-ui-cta">가능 조건 확인</div></div><div class="v3-card-explain"><h4>② 매니저 비교·선택</h4><p>검증 가능한 정보와 배정 조건을 먼저 보여주고, 비교 정보와 배정 확정 정보를 구분합니다.</p></div></article>
@@ -543,7 +537,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 </tbody></table></div>
 
 </div></details></section>
-<section id="business"><div class="section-title"><span class="eyebrow">06 / BUSINESS CASE</span><h2>공급 규모와 단위손익으로 사업화 조건 판단</h2></div><a class="business-model-download" href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx">손익 모델 Excel 다운로드</a><div class="mobile-skim"><p>초기 제휴 모델 산출 조건 · 매니저 20명 기준</p><dl class="skim-numbers"><div><dt>월 서비스 완료 건수</dt><dd>199건</dd></div><div><dt>건당 공헌이익</dt><dd>3,700원</dd></div><div><dt>월 손익분기점</dt><dd>1,082건</dd></div></dl><p class="skim-note">인력 투입 기회비용을 반영한 기준 / 공급 확대 전 고객 획득 비용과 운영비 개선</p></div>
+<section id="business"><div class="section-title"><span class="eyebrow">06 / BUSINESS CASE</span><h2>수익구조·공급 분석으로 사업화 조건 판단</h2></div><a class="business-model-download" href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx">손익 모델 Excel 다운로드</a><div class="mobile-skim"><p>초기 제휴 모델 산출 조건 · 매니저 20명 기준</p><dl class="skim-numbers"><div><dt>월 서비스 완료 건수</dt><dd>199건</dd></div><div><dt>건당 공헌이익</dt><dd>3,700원</dd></div><div><dt>월 손익분기점</dt><dd>1,082건</dd></div></dl><p class="skim-note">인력 투입 기회비용을 반영한 기준 / 공급 확대 전 고객 획득 비용과 운영비 개선</p></div>
 <figure class="bep-visual" aria-label="월 서비스 완료 건수 비교: 초기 공급 예상 199건, 이론상 최대 공급 433건, 현금 손익분기점 541건, 인력 투입 기회비용 반영 손익분기점 1,082건. 초기 공급은 손익분기의 약 18.4퍼센트">
 <figcaption>초기 공급 예상치와 손익분기점 비교 <small>월 서비스 완료 건수 기준</small></figcaption>
 <div class="bep-emphasis"><div class="bep-ratio"><strong>18.4%</strong><span>손익분기점 대비<br>초기 공급 비율</span></div><div class="bep-gap"><span>손익분기점까지 남은 건수</span><strong>월 883건</strong><small>현재 조건에서 추가로 필요한 월 서비스 완료 건수</small></div></div>
@@ -551,7 +545,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <div class="bep-row"><span>이론상 최대 공급</span><div class="bep-track" aria-hidden="true"><span class="bep-fill" style="width:40.02%;background:#719482"></span></div><strong>433건</strong></div>
 <div class="bep-row"><span>현금 손익분기</span><div class="bep-track" aria-hidden="true"><span class="bep-fill" style="width:50%;background:#537969"></span></div><strong>541건</strong></div>
 <div class="bep-row"><span>인력 비용 포함 손익분기</span><div class="bep-track" aria-hidden="true"><span class="bep-fill target"></span></div><strong>1,082건</strong></div>
-</figure><details class="chapter-detail" open><summary>계산기·손익 근거 보기</summary><div class="chapter-content">
+</figure><div class="business-interpretation"><span class="interpretation-kicker">사업성 해석 · 다음 결정</span><p><strong>현재 추정 공급 상한 433건은 현금 손익분기점 541건에도 미달합니다.</strong> 단순 공급 확대만으로 손익 개선을 전제하지 않고, 제휴 단가·고객 획득 비용·지원 원가·실제 유료 수요를 우선 검증합니다.</p><a href="#decision">단계별 사업화 판단 보기 ↗</a></div><details class="chapter-detail" open><summary>계산기·손익 근거 보기</summary><div class="chapter-content">
 <p id="sim-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 <div class="sim"><div class="sim-head"><h3>거래액·공헌이익 민감도</h3><p>이용자 수·빈도·가격·비용·수수료를 직접 조정</p></div><div class="sim-body"><div>
 <div class="control"><label for="users">이용 고객 수 <output id="uOut">15,000명</output></label><input id="users" type="range" min="5000" max="30000" value="15000" step="1000"><small>5,000~30,000명 · 산정 기준</small></div>
@@ -608,7 +602,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <article><span class="micro">MARKETPLACE</span><strong>중개·제휴 모델</strong><p>공급자·고객 연결 / 수수료 매출 인식, 공급 계약·고객 지원·책임 범위 검토</p><small>비교 기준 · 실수수료율, 계약 방식, 중개 관련 비용</small></article>
 </div>
 <h3 class="subhead">수요 시나리오와 초기 공급을 같은 기간 기준으로 대조</h3><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">구분</th><th scope="col">월 기준</th><th scope="col">연 기준</th><th scope="col">해석</th></tr></thead><tbody><tr><th scope="row" data-label="구분">기획서 수요 시나리오</th><td data-label="월 기준">1,875건</td><td data-label="연 기준">22,500건</td><td data-label="해석">15,000명 × 연 1.5회 / 수요 규모 비교 시나리오</td></tr><tr><th scope="row" data-label="구분">초기 공급 산정 기준</th><td data-label="월 기준">완료 199건</td><td data-label="연 기준">완료 2,388건</td><td data-label="해석">매니저 20명과 현재 가동 조건을 12개월 유지하는 조건</td></tr><tr><th scope="row" data-label="구분">인력 투입 비용 반영 손익분기점</th><td data-label="월 기준">완료 1,082건</td><td data-label="연 기준">완료 12,984건</td><td data-label="해석">월 비용 400만 원 ÷ 건당 공헌이익 3,700원, 올림</td></tr></tbody></table></div><div class="callout"><strong>사업성 분석에 따른 실행 우선순위</strong><p>공급 확대 전 고객 획득·지원 비용 측정 / 월 고정비 200만 원과 인력 기회비용 200만 원을 구분하고 비용 개선 시 손익분기점 재산정</p></div><h3 class="subhead">우선 권고안 · 기존 사업자 제휴 모델 손익</h3><p>직접 운영과 제휴 모델의 비용을 각각 계산 / 공급 단위는 계약사 수가 아닌 매니저 1명</p><div class="tablewrap"><table class="tbl"><thead><tr><th>공급 산정 기준</th><th>월 서비스 완료 건수</th><th>수수료 매출</th><th>공헌이익/건</th><th>현금 손익</th><th>인력 투입 비용 반영</th></tr></thead><tbody><tr><td data-label="공급 산정 기준">20명 × 주 20시간 ÷ 건당 4시간</td><td data-label="월 서비스 완료 건수">199</td><td data-label="수수료 매출">1,592,000원</td><td data-label="공헌이익/건">3,700원</td><td data-label="현금 손익">-1,263,700원</td><td data-label="인력 투입 비용 반영">-3,263,700원</td></tr></tbody></table></div><p>월 최대 1,732시간 ÷ 4시간/건 = 433건. 가동률 65%·플랫폼 이용 80%·취소율 10%·완료율 98%를 적용합니다. 건당 4시간은 이동·대기 포함 가정이며, 청구·실투입 시간은 계약 시 확인합니다.</p><div class="callout"><strong>월 완료 건수 비교 · 동일한 산정 기준</strong><p>월 기준: 초기 예상 199건 → 공급 상한 433건 → 현금 BEP 541건(200만 원 ÷ 3,700원, 올림) → 기회비용 포함 BEP 1,082건(400만 원 ÷ 3,700원, 올림). 계약 단가·지원 비용·제휴 조건을 먼저 검증합니다.</p></div><p class="small">기본 동행의 <strong>3만 원대</strong>는 출시 가격 구성안이며, 아래 기본 상품 행의 <strong>40,000원</strong>은 손익 계산에 적용한 평균 이용가입니다. 계약 단가·실제 청구시간·차량 원가·구독 재이용률은 별도 검증합니다.</p><div class="tablewrap"><table class="tbl"><thead><tr><th>상품</th><th>회당 가격</th><th>직접 운영 모델 변동비 산정 기준</th><th>변동비 차감 후 잔여 금액</th><th>제휴 모델 공헌이익/건</th></tr></thead><tbody><tr><td data-label="상품">기본(평균가 기준)</td><td data-label="회당 가격">40,000원</td><td data-label="직접 운영 모델 변동비 산정 기준">30,000원</td><td data-label="변동비 차감 후 잔여 금액">10,000원</td><td data-label="제휴 모델 공헌이익/건">3,700원</td></tr><tr><td data-label="상품">차량</td><td data-label="회당 가격">45,000원</td><td data-label="직접 운영 모델 변동비 산정 기준">36,000원</td><td data-label="변동비 차감 후 잔여 금액">9,000원</td><td data-label="제휴 모델 공헌이익/건">4,550원</td></tr><tr><td data-label="상품">월 3회 구독</td><td data-label="회당 가격">33,000원</td><td data-label="직접 운영 모델 변동비 산정 기준">30,000원</td><td data-label="변동비 차감 후 잔여 금액">3,000원</td><td data-label="제휴 모델 공헌이익/건">2,510원</td></tr></tbody></table></div><p>제휴 모델의 건당 공헌이익 = 이용가 × 수수료 20% − 이용가 × 결제 수수료 3% − 고객 지원 비용 1,200원 − 시스템 비용 100원 − (신규 고객 비중 60% × 고객 획득 비용 3,000원). 평균 이용가 40,000원 기준 공헌이익은 지원·획득 비용 차감 후 3,700원/건입니다. 월 고정비 200만 원·인력 기회비용 200만 원은 손익분기점에 별도 반영합니다. 차량 원가 36,000원은 직접 운영 비교용 가정이며, 구독은 월 3회 이용·기본 동행과 동일 원가를 가정합니다.</p><p><strong>의사결정 제안:</strong> 제휴 모델은 공헌이익이 양수지만 손익분기까지 월 완료 1,082건이 필요합니다. 현재 생산성 기준 매니저 약 109명 규모이므로 확대 전 획득·운영비를 개선합니다. 월 3회 구독은 재예약·획득 비용 절감 효과부터 검증합니다.</p><h3 class="subhead">투자 조건</h3><div class="callout"><p>월 완료 199건 · 손익분기점 1,082건(18.4%) · 건당 공헌이익 3,700원. 가격·제휴 단가·운영비·안전 책임을 확인한 뒤 확대 여부를 판단합니다.</p></div></div></details></section>
-<section id="execution"><div class="section-title"><span class="eyebrow">07 / PRIORITIZATION &amp; DELIVERY</span><h2>어떤 순서로 검증하고 실행할 것인가</h2></div><div class="mobile-skim"><ol><li>고객 수요·부모 동의·공급 조건 확인</li><li>예약·공유·변경 흐름과 운영 예외 설계</li><li>재예약·비용을 확인한 뒤 확대 판단</li></ol></div><details class="chapter-detail" open><summary>실행 단계·통과 기준 보기</summary><div class="chapter-content">
+<section id="execution"><div class="section-title"><span class="eyebrow">07 / PRIORITIZATION &amp; DELIVERY</span><h2>단계별 사업화·검증 로드맵</h2></div><div class="mobile-skim"><ol><li>고객 수요·부모 동의·공급 조건 확인</li><li>예약·공유·변경 흐름과 운영 예외 설계</li><li>재예약·비용을 확인한 뒤 확대 판단</li></ol></div><details class="chapter-detail" open><summary>실행 단계·통과 기준 보기</summary><div class="chapter-content">
 <div class="tablewrap"><table class="tbl"><thead><tr><th>우선순위</th><th>할 일</th><th>결정 기준</th></tr></thead><tbody>
 <tr><th data-label="우선순위">P0 · 기반 검증</th><td data-label="할 일">자녀 대리 예약 수요·부모 동의, 매니저 공급/원가, 예약·공유 권한의 필수 규칙</td><td data-label="결정 기준">과업·유료 의향·동의·공급 시간 측정 후 P1 심의</td></tr>
 <tr><th data-label="우선순위">P1 · 서비스 흐름 구체화</th><td data-label="할 일">예약 완료 과업, 공유·변경·취소 화면 설계, 배정 예외 및 고객 지원 비용 확인</td><td data-label="결정 기준">예약·수락·취소율과 지원 시간을 기록하고 운영 책임 합의 후 심의</td></tr>
@@ -629,7 +623,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <article><strong>별도 검증 · 진료 정보 자동 요약</strong><p>건강정보 동의·정확성·책임·전문가 검토 선행 / AI 요약·의료 판단·실운영 적용은 별도 검증</p></article>
 </div>
 <h3 class="subhead">조건부 중기 전략 로드맵 · 개인 후속 제안</h3><div class="tablewrap"><table class="tbl"><thead><tr><th>검토 기간</th><th>전략 과제</th><th>단계별 추진 기준</th></tr></thead><tbody><tr><th scope="row" data-label="검토 기간">0~3개월</th><td data-label="전략 과제">자녀·부모 예약 과업, 매니저 가용 시간·단가·동의·보험 조건 확인</td><td data-label="단계별 추진 기준">고객 수요·공급 가용성·안전 책임 확인 후 제한 운영</td></tr><tr><th scope="row" data-label="검토 기간">3~6개월</th><td data-label="전략 과제">제한 지역의 예약·공유·취소 절차, 고객 지원 비용·정책 예외 검증</td><td data-label="단계별 추진 기준">권한·상태 오류 또는 지원 원가 초과 시 재설계</td></tr><tr><th scope="row" data-label="검토 기간">6~12개월</th><td data-label="전략 과제">재예약·공헌이익·공급 지속성 관찰 후 지역·B2B/B2G·AI 확장 심사</td><td data-label="단계별 추진 기준">반복 수요·책임·수익성 확보 수준에 따라 확대 투자 판단</td></tr></tbody></table></div></div></details></section>
-<section id="measurement"><div class="section-title"><span class="eyebrow">08 / METRICS &amp; VALIDATION</span><h2>성과를 측정하는 기준 설계</h2></div><div class="mobile-skim"><p>예약 시작 → 매니저 선택 → 신청 제출 → 예약 확정</p><ul><li>측정 항목 · 예약 확정률·동행 완료율·상태 이해·90일 내 재예약</li><li>확인 방식 · 사용자 과업과 제한 운영</li></ul></div><details class="chapter-detail" open><summary>측정 정의·검증 계획 보기</summary><div class="chapter-content">
+<section id="measurement"><div class="section-title"><span class="eyebrow">08 / METRICS &amp; VALIDATION</span><h2>사업 가설과 검증 지표 설계</h2></div><div class="mobile-skim"><p>고객 유료 수요·매니저 공급 가용성·건당 공헌이익·반복 이용을 단계별 검증 기준으로 설정했습니다.</p><ul><li>측정 항목 · 예약 확정률·동행 완료율·상태 이해·90일 내 재예약</li><li>확인 방식 · 사용자 과업과 제한 운영</li></ul></div><details class="chapter-detail" open><summary>측정 정의·검증 계획 보기</summary><div class="chapter-content">
 <div class="grid g2">
 <div class="kpi"><span class="label">예약 전환</span><h3>예약 확정률</h3><span class="formula">예약 확정 세션 ÷ 예약 시작 세션</span><p>측정 · 시작 → 매니저 선택 → 신청 → 확정 / 취소·중복·테스트 세션은 산식에 맞춰 제외</p></div>
 <div class="kpi"><span class="label">운영</span><h3>동행 완료율</h3><span class="formula">동행 완료 건수 ÷ 예약 확정 건수</span><p>같은 예정 기간 기준 / 취소·미이행은 별도 집계, 중복·테스트 예약 제외</p></div><div class="kpi"><span class="label">사용성</span><h3>매니저 선택 성공률</h3><span class="formula">조건에 맞는 선택을 완료한 참가자 ÷ 과업 참가자</span><p>선택 근거를 설명할 수 있는지 확인하고 이탈 단계를 기록</p></div>
@@ -644,7 +638,7 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <article><span class="verification-state planned">검증 예정</span><h4>8주 파일럿</h4><p>유료 전환·완료·취소·고객 지원 비용을 기록하는 단계입니다.</p><a href="?document=ir&amp;page=9#attachments">IR Deck 9장</a></article>
 <article><span class="verification-state planned">검증 예정</span><h4>90일 재예약</h4><p>첫 동행 완료 후 90일 관찰한 고객의 재예약률 평가</p><a href="?document=plan&amp;page=15#attachments">사업기획서 15쪽</a></article>
 </div>
-<h3 class="subhead">측정 이벤트 설계 <span class="label orange">계획</span></h3>
+<h3 class="subhead">예약 전환·운영 지표의 측정 이벤트 설계 <span class="label orange">계획</span></h3>
 <div class="funnel-track" role="group" aria-label="검토 방향 기반 예약 전환">
 <span>예약 시작</span><span>매니저 선택</span><span>신청 제출</span><span>예약 확정</span>
 </div>
@@ -656,17 +650,16 @@ main>section .mobile-skim>p{margin-bottom:9px}
 </tbody></table></div>
 
 <h3 class="subhead">사업성 변수의 측정 계획</h3><p>손익 영향은 06에서 계산하고, 여기서는 파일럿에서 필요한 기록과 해석을 구분합니다.</p><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">측정 변수</th><th scope="col">기록 기준</th><th scope="col">의사결정에 활용할 질문</th></tr></thead><tbody><tr><th scope="row" data-label="측정 변수">플랫폼 이용 비율</th><td data-label="기록 기준">실제 매니저 가용 시간과 플랫폼 신청·완료 건수</td><td data-label="의사결정에 활용할 질문">지역·시간대별 공급 활용을 개선할 수 있는가</td></tr><tr><th scope="row" data-label="측정 변수">고객 획득 비용</th><td data-label="기록 기준">유입 채널별 집행액·신규 완료 고객 수</td><td data-label="의사결정에 활용할 질문">고객 지원 비용을 포함한 공헌이익이 유지되는가</td></tr><tr><th scope="row" data-label="측정 변수">취소·완료율</th><td data-label="기록 기준">신청·확정·취소·완료와 추가 지원 소요</td><td data-label="의사결정에 활용할 질문">취소·환불·지원 원가를 반영한 계약 조건은 무엇인가</td></tr></tbody></table></div></div></details></section>
-<section id="decision"><div class="section-title"><span class="eyebrow">09 / DECISION MEMO</span><h2>검증 결과에 따른 투자·확대 의사결정</h2></div><div class="mobile-skim"><p class="skim-verdict"><span class="insight-kicker">09 · 최종 권고</span><strong>기존 사업자 제휴 모델 우선 검토</strong><span class="verdict-reason">월 서비스 완료 199건(산정 기준)과 손익분기점 1,082건을 비교 · 고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단</span></p><ul><li>확대 조건 · 안전·정보 접근 규칙과 운영 책임 확인</li><li>추진 기준 · 공급 가용성과 책임 분담 합의</li></ul></div>
-<figure class="investment-gap" aria-labelledby="investment-gap-title">
- <figcaption><span class="investment-gap-kicker">INVESTMENT DECISION · SUPPLY / BREAK-EVEN</span><strong id="investment-gap-title">확대 전 확인할 공급·손익 조건</strong><span class="investment-gap-intro">동일한 월 기준으로 공급 제약과 투자 전 개선 조건을 비교했습니다.</span></figcaption>
- <ol class="investment-gap-steps">
-  <li><span class="investment-gap-label">초기 완료 전망</span><strong>199<small>건</small></strong><div class="investment-gap-track"><span style="width:18.4%"></span></div><small>수요·공급 산정값</small></li>
-  <li><span class="investment-gap-label">현재 공급 상한</span><strong>433<small>건</small></strong><div class="investment-gap-track"><span style="width:40%"></span></div><small>매니저 20명 기준</small></li>
-  <li><span class="investment-gap-label">현금 손익분기</span><strong>541<small>건</small></strong><div class="investment-gap-track"><span style="width:50%"></span></div><small>고정비 기준</small></li>
-  <li class="investment-gap-goal"><span class="investment-gap-label">경제적 손익분기</span><strong>1,082<small>건</small></strong><div class="investment-gap-track"><span style="width:100%"></span></div><small>인력 기회비용 포함</small></li>
- </ol>
- <p class="investment-gap-summary">투자 방향 · 제휴 공급 확대와 건당 공헌이익 개선을 함께 추진하고, 달성 수준에 맞춰 후속 투자를 판단합니다.</p>
- <p class="investment-gap-source">기준 시나리오 · 모두 월 완료 건수 기준. 계약·매출 실적을 의미하지 않습니다.</p>
+<section id="decision"><div class="section-title"><span class="eyebrow">09 / DECISION MEMO</span><h2>사업화 여부와 확대 조건에 대한 최종 판단</h2></div><div class="mobile-skim"><p class="skim-verdict"><span class="insight-kicker">09 · 최종 권고</span><strong>기존 사업자 제휴 모델 우선 검토</strong><span class="verdict-reason">월 서비스 완료 199건(산정 기준)과 손익분기점 1,082건을 비교 · 고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부 판단</span></p><ul><li>확대 조건 · 안전·정보 접근 규칙과 운영 책임 확인</li><li>추진 기준 · 공급 가용성과 책임 분담 합의</li></ul></div>
+<figure class="investment-gap decision-board" aria-labelledby="investment-gap-title">
+<figcaption><span class="investment-gap-kicker">사업화 의사결정 · 검증 단계</span><strong id="investment-gap-title">기존 사업자 제휴를 우선 검토하되, 통과 조건에 따라 투자·확대를 결정</strong><span class="investment-gap-intro">검증 완료 전에는 사업 성공이나 실행 확정을 전제하지 않습니다.</span></figcaption>
+<ol class="decision-gates" aria-label="사업화 판단 단계">
+<li><span class="decision-gate-index">01 · 사업 수요</span><strong>유료 이용 의향 확인</strong><p>예약자·이용자 과업과 지불 이유를 인터뷰·관찰로 확인</p><small>통과 조건 · 대체 수단·가격 수용 이유</small></li>
+<li><span class="decision-gate-index">02 · 공급·책임</span><strong>제휴 실행 조건 합의</strong><p>지역·시간별 공급 여력, 단가, 변경·취소·안전 책임 확인</p><small>통과 조건 · 공급 계약·역할 분담</small></li>
+<li><span class="decision-gate-index">03 · 수익성·확대</span><strong>실측 손익으로 재심사</strong><p>완료·취소·획득·지원 비용과 반복 이용을 기록하고 확대 여부 판단</p><small>통과 조건 · 공헌이익·현금 흐름·공급 지속성</small></li>
+</ol>
+<div class="decision-board-verdict"><span>현재 기획상 결론</span><strong>제휴 모델의 조건부 검증 우선</strong><p>초기 월 완료 199건 대비 경제적 손익분기 1,082건. 공급·단위손익 격차를 해소할 조건을 확보한 뒤 후속 투자를 검토합니다.</p></div>
+<p class="investment-gap-source">월 완료 건수는 운영 실적이 아닌 기준 가정입니다. 근거는 <a href="#business">06 · 수익성·공급 분석</a>에서 확인할 수 있습니다.</p>
 </figure>
 <details class="chapter-detail" open><summary>최종 판단·비교 근거 보기</summary><div class="chapter-content">
 <div class="memo"><span class="eyebrow">RECOMMENDATION</span><h3 class="memo-lead">우선은 기존 사업자와의 제휴 가능성을 확인합니다.<br>현재 공급 산정값과 손익분기점 사이의 격차를 고려해<br>고객 획득 비용·운영비·공급 조건을 개선한 뒤 확대 여부를 판단합니다.</h3>
@@ -683,6 +676,25 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <p>재무 가정: 월 완료 199건 · 건당 공헌이익 3,700원 · 기회비용 포함 손익분기 1,082건. 확대 규모·시점은 실제 운영 결과로 결정합니다.</p>
 </div></details></section>
 <footer class="footer"><span>MOSIGO · 전략기획 보고서</span><a href="https://mosigo-nine.vercel.app/" class="prototype-link footer-demo" target="_blank" rel="noopener noreferrer" aria-label="MOSIGO 서비스 데모 새 창에서 열기"><img class="emoji-icon" src="/assets/tossface-phone.png" alt="" aria-hidden="true" width="18" height="18"> 서비스 데모 ↗</a></footer>
+<div id="attachments" class="quick-documents" aria-label="신사업 기획 주요 산출물과 추가 자료"><div class="attachment-heading"><span class="eyebrow">기획 산출물 · 원문 열람</span><h2>신사업 기획서와 의사결정 자료</h2><p>사업기획서가 주요 산출물입니다. 발표자료와 IR은 검토 내용을 전달하기 위한 보조 자료이며, 별도의 PRD는 서비스 구현 구상에 해당합니다.</p></div>
+<div class="doc-toolbar" aria-label="문서 미리보기 도구">
+<div class="doc-tabs" role="group" aria-label="문서 선택">
+<button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>19쪽 · 주요 자료</small></button>
+<button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">발표자료 <small>11장 · 보조</small></button>
+<button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR Deck <small>12장 · 보조</small></button></div>
+
+</div>
+<iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
+<div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="모바일 문서 페이지 보기">
+<a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 문서 쪽 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1쪽 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
+<div class="mobile-page-controls"><button id="doc-prev" type="button" disabled>이전</button><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1쪽, 전체 19쪽">1 / 19쪽</span><button id="doc-next" type="button">다음</button></div></div>
+<dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><div class="v3-zoom-viewport"><button type="button" id="v3-doc-zoom" aria-label="문서 이미지 확대" aria-pressed="false"><img id="v3-fullscreen-img" alt=""></button></div><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF를 다운로드하거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
+<div class="doc-links" aria-label="선택한 문서 다운로드">
+<a id="doc-pdf-save" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">PDF 다운로드</a>
+<a id="doc-pptx-save" hidden>PPTX 다운로드</a></div>
+<p class="attachment-support"><span>추가 산출물 · 서비스기획</span><a href="downloads/mosigo_prd_delivery.html">제품 요구사항 정의서(PRD) 별도 보기 <span aria-hidden="true">↗</span></a></p>
+</div>
+
 </main><div class="bottom-progress" aria-hidden="true"><i id="progress"></i></div>
 <script>
 (function(){
