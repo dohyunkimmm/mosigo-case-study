@@ -62,10 +62,8 @@ edit_html("index.html",[
  ("<p>자녀 예약·부모 이용 흐름을 담은 <strong>개념 시안 3종</strong>입니다.</p>",
   "<p>역할 구분·매니저 선택·진행 공유를 보여주는 <strong>개념 시안 3종</strong>입니다.</p>"),
 ],patterns=[
- (r'<ol class="skim-journey"><li>가족 등록</li><li>병원 탐색</li><li>매니저 선택</li><li>신청·동의</li><li>진행 공유</li><li>결과 요약</li><li>재예약</li></ol>',
-  '<p>7단계 사용자 여정은 아래 정보구조에서 확인할 수 있습니다.</p>'),
  (r'<h3 class="subhead">주요 변수별 사업성 민감도</h3>.*?</table></div>',
-  '''<h3 class="subhead">사업성 변수의 측정 계획</h3><p>손익 영향은 06에서 계산하고, 여기서는 파일럿에서 필요한 기록과 해석을 구분합니다.</p><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">측정 변수</th><th scope="col">기록 기준</th><th scope="col">의사결정에 활용할 질문</th></tr></thead><tbody><tr><th scope="row">플랫폼 이용 비율</th><td>실제 매니저 가용 시간과 플랫폼 신청·완료 건수</td><td>지역·시간대별 공급 활용을 개선할 수 있는가</td></tr><tr><th scope="row">고객 획득 비용</th><td>유입 채널별 집행액·신규 완료 고객 수</td><td>고객 지원 비용을 포함한 공헌이익이 유지되는가</td></tr><tr><th scope="row">취소·완료율</th><td>신청·확정·취소·완료와 추가 지원 소요</td><td>취소·환불·지원 원가를 반영한 계약 조건은 무엇인가</td></tr></tbody></table></div>''')
+  '''<h3 class="subhead">사업성 변수의 측정 계획</h3><p>손익 영향은 06에서 계산하고, 여기서는 파일럿에서 필요한 기록과 해석을 구분합니다.</p><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">측정 변수</th><th scope="col">기록 기준</th><th scope="col">의사결정에 활용할 질문</th></tr></thead><tbody><tr><th scope="row" data-label="측정 변수">플랫폼 이용 비율</th><td data-label="기록 기준">실제 매니저 가용 시간과 플랫폼 신청·완료 건수</td><td data-label="의사결정에 활용할 질문">지역·시간대별 공급 활용을 개선할 수 있는가</td></tr><tr><th scope="row" data-label="측정 변수">고객 획득 비용</th><td data-label="기록 기준">유입 채널별 집행액·신규 완료 고객 수</td><td data-label="의사결정에 활용할 질문">고객 지원 비용을 포함한 공헌이익이 유지되는가</td></tr><tr><th scope="row" data-label="측정 변수">취소·완료율</th><td data-label="기록 기준">신청·확정·취소·완료와 추가 지원 소요</td><td data-label="의사결정에 활용할 질문">취소·환불·지원 원가를 반영한 계약 조건은 무엇인가</td></tr></tbody></table></div>''')
 ])
 
 edit_html("downloads/mosigo_business_plan_20261031.html",[
