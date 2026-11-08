@@ -84,9 +84,25 @@ jobs:
           node qa/check-lighthouse.mjs
       - name: Verify integrated Excel sheets, unchanged original formulas and Pretendard
         run: python3 qa/strategy_excel_sync.py mosigo
-      # Binary regeneration can occur in an earlier asset workflow; validate against the latest main checkout.
+      - name: Verify read-only private source access
+        env:
+          GH_READ_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Checkout deliberately disables persisted credentials. Use an ephemeral
+          # contents:read request to test private binary access without a git token.
+          curl --fail --silent --show-error --location --retry 3 --max-time 30 \
+            -H "Authorization: Bearer ${GH_READ_TOKEN}" \
+            -H "Accept: application/vnd.github.raw+json" \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/contents/downloads/mosigo_model.xlsx?ref=main" \
+            -o /tmp/mosigo-private-source-check.xlsx
+          cmp -s downloads/mosigo_model.xlsx /tmp/mosigo-private-source-check.xlsx
+          echo "PASS read-only private repository binary retrieval"
+      # Generator jobs can publish newer main assets after the workflow starts.
       - name: Confirm live Excel, PDF and PPTX match latest generated main branch assets
         if: github.event_name != 'pull_request'
+        env:
+          GH_READ_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           for path in \
@@ -98,11 +114,14 @@ jobs:
             downloads/MOSIGO_IR_Investment_Review_12slides.pdf; do
             ok=0
             for attempt in $(seq 1 18); do
-              # PDF/PPT generators publish their binaries in follow-up commits.
-              # Compare live bytes with the latest main, not the pre-generation
-              # workflow checkout. Leave all page and financial QA unchanged.
-              git fetch -q --no-tags origin +refs/heads/main:refs/remotes/origin/main
-              git show "origin/main:$path" > /tmp/mosigo-current-source-asset
+              # PDF/PPT generators publish in follow-up commits. Fetch
+              # the latest main binary through the authenticated Contents API.
+              # This preserves the checkout's persist-credentials:false setting.
+              curl --fail --silent --show-error --location --retry 3 --max-time 30 \
+                -H "Authorization: Bearer ${GH_READ_TOKEN}" \
+                -H "Accept: application/vnd.github.raw+json" \
+                "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/contents/${path}?ref=main" \
+                -o /tmp/mosigo-current-source-asset
               if curl --fail --silent --show-error --location --max-time 25 \
                 -H 'Cache-Control: no-cache' \
                 "https://mosigo-case-study.vercel.app/$path?qa=${GITHUB_SHA}-${attempt}" -o /tmp/mosigo-live-asset && \
