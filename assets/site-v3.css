@@ -411,3 +411,6 @@ section{padding-top:70px;padding-bottom:73px}
 /* Render concise mobile sections immediately: avoid blank offscreen chapters in full-page captures and print. */
 @media(max-width:800px){main>section{content-visibility:visible;contain-intrinsic-size:none}}
 @media print{main>section{content-visibility:visible!important;contain-intrinsic-size:none!important}}
+
+/* Ensure the supplementary PRD link meets mobile touch target dimensions. */
+.attachment-support a{display:inline-flex;align-items:center;min-height:44px;padding:8px 5px;border-radius:6px}
