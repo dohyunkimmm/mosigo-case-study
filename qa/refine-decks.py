@@ -25,7 +25,7 @@ changes = []
 # Re-running the earlier copy-refinement pass must not demand obsolete wording.
 already_aligned = (
     (MODE == "strategy" and any(
-        sh.has_text_frame and "단계별 투자 승인과 3개년 실행전략" in sh.text
+        sh.has_text_frame and ("단계별 투자 승인과 3개년 실행전략" in sh.text or "요구사항 우선순위와 검수·인계" in sh.text)
         for sh in prs.slides[9].shapes
     )) or
     (MODE == "ir" and any(
