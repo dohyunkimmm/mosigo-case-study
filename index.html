@@ -524,8 +524,8 @@ main>section .mobile-skim>p{margin-bottom:9px}
 
 
 <h3 class="subhead">PRD · 요구사항에서 인수 기준까지</h3>
-<p>기존 설계 항목을 <strong>요구사항 ID → 인수 조건 → 구현·테스트 근거 → 후속 검증</strong>으로 연결했습니다. 예약자·이용자 분리(R-01), 소유권(R-02), 공유·권한(R-03), 상태 충돌(R-04), 매니저 비교(R-05), 운영 조회(R-06)를 구분합니다.</p>
-<div class="callout"><strong>핵심 산출물</strong> · <a href="downloads/mosigo_prd_delivery.html">MOSIGO PRD·요구사항 추적·UAT·인수인계 문서 보기</a>. 구현된 서버 기능과 시연 화면, 실제 운영 전에 검증할 조건을 별도로 표시합니다.</div>
+<p>R-01~R-06을 <strong>기능·정책 → 수용 기준 → 코드 근거 → QA·UAT 상태</strong>로 추적합니다. R-02~04는 테스트 코드가 있으며, R-01·05·06의 사용자·운영 검증은 별도입니다.</p>
+<div class="callout"><strong>핵심 산출물</strong> · <a href="downloads/mosigo_prd_delivery.html">MOSIGO PRD·QA·UAT·인수인계</a>. 요구사항 R-01~06, QA 테스트 케이스 11개, 사용자 UAT 5개(미실시)를 연결했습니다. <a href="downloads/mosigo_prd_delivery.html#prd-qa">QA 근거·검증 현황 확인</a> · 제품 자동 QA 176건 통과(고정 코드) / 사용자 UAT 미실시.</div>
 <h3 class="subhead">설계 내용을 운영 정책으로 구체화</h3>
 <div class="job-proof">
 <article><b>IT SERVICE PLANNING</b><h3>역할·권한 설계</h3><p>예약자·이용자·공유자·운영자 역할 분리 / 참고 사례에서는 기본적으로 수정 권한을 부여하고, 필요에 따라 읽기 전용으로 설정할 수 있음 / 서비스 적용 전 동의·변경 권한 별도 결정</p><span class="case-label">MOSIGO 구현 근거</span></article>
@@ -618,10 +618,10 @@ main>section .mobile-skim>p{margin-bottom:9px}
 <h3 class="subhead">프로젝트 수행 관리 · 요구사항 변경과 인수</h3>
 <div class="review-examples">
 <details><summary>요구사항 기준선 · R-01~R-06</summary><p>화면·API·권한 경계를 정하고 변경 사유·범위·우선순위·인수 기준을 갱신합니다.</p></details>
-<details><summary>개발·QA 연결</summary><p>정상·권한·만료·중복·충돌 사례를 요구사항에 연결하고 재검수 범위를 기록합니다.</p></details>
-<details><summary>운영 안내·인수 준비</summary><p>사용법·미해결 이슈·미구현 범위·인수 체크리스트를 관리합니다. 기술 검수와 고객 승인은 구분합니다.</p></details>
+<details><summary>개발·QA 연결</summary><p>요구사항별 QA 케이스와 테스트 코드를 연결합니다. <a href="downloads/mosigo_prd_delivery.html#prd-qa">실행 로그·미검증 구분</a> 후 재검수합니다.</p></details>
+<details><summary>운영 안내·인수 준비</summary><p>사용법·미해결 이슈·미구현 범위·인수 기준을 정리합니다. 실제 고객 UAT·운영 인수는 아직 실시하지 않았습니다.</p></details>
 </div>
-<p>고객과 합의된 실제 일정·승인을 새로 주장하지 않습니다. <a href="downloads/mosigo_prd_delivery.html">상세 PRD·요구사항 추적 및 인수 기준</a></p>
+<p>고객 승인·실운영 검증은 미실시입니다. <a href="downloads/mosigo_prd_delivery.html#prd-uat">PRD·QA 증빙과 UAT 계획</a></p>
 <h3 class="subhead">실행할 실험과 다음 결정</h3><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">단계·대상</th><th scope="col">방법·기록</th><th scope="col">통과 기준 제안</th><th scope="col">추가 보완 계획</th></tr></thead><tbody><tr><th scope="row" data-label="단계·대상">G0 · 자녀·부모</th><td data-label="방법·기록">예약 상황·대체 수단·가격 수용 이유를 인터뷰하고 대리 예약 과업 관찰</td><td data-label="통과 기준 제안">자녀의 예약 필요·부모의 동의 조건 확인 / 가격 수용 이유 기록</td><td data-label="추가 보완 계획">고객 범위·과업·가격 검토 방향 수정 후 재확인</td></tr><tr><th scope="row" data-label="단계·대상">G1 · 제휴 후보·운영 담당</th><td data-label="방법·기록">지역·시간별 가용 인력, 건당 단가, 취소 책임과 정보 전달 방식 확인</td><td data-label="통과 기준 제안">제한 운영 지역·시간에 대한 공급 조건과 책임 주체 문서화</td><td data-label="추가 보완 계획">운영 지역·시간 축소 또는 제휴 조건 재협의</td></tr><tr><th scope="row" data-label="단계·대상">G2 · 예약자·공유자</th><td data-label="방법·기록">신청·동의·공유·복구 과업과 만료·권한 예외 점검</td><td data-label="통과 기준 제안">필수 동의, 예약 변경 권한, 공유 유효기간의 검수 기준 충족</td><td data-label="추가 보완 계획">관련 기능 수정·재검수 후 운영 진입</td></tr><tr><th scope="row" data-label="단계·대상">G3 · 제한 운영</th><td data-label="방법·기록">같은 기간의 완료·획득 비용·지원 시간·취소 비용·재예약 기록</td><td data-label="통과 기준 제안">건당 공헌이익 양수, 인력 투입 비용 반영 손익분기점과 공급 계획의 실행 가능성 확인</td><td data-label="추가 보완 계획">고객 유입 경로·상품·지원 절차 조정 후 손익 재심사</td></tr></tbody></table></div><h3 class="subhead">AI 도입의 우선순위 판단</h3>
 <div class="tradeoff-grid">
 <article><strong>후속 검토 · 매니저 비교 보조</strong><p>지역·가능 시간 등 비의료 조건으로 추천 근거 제시 / 사용자가 선택·수정</p></article>

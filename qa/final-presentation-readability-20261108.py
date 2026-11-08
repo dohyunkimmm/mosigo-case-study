@@ -34,11 +34,11 @@ def apply_strategy(prs):
     table=table_shapes[0].table
     assert len(table.rows)==5 and len(table.columns)==2
     rows=[
-       ["요구사항·기능","검수 기준 · 구현/운영 구분"],
-       ["R-02 예약 소유권","비소유자 조회·변경 거부 / 구현·자동 검증"],
-       ["R-03 공유·권한","링크 만료·폐기, 읽기 전용 처리 / 구현·자동 검증"],
-       ["R-04 예약 상태·복구","중복·오래된 변경 요청 차단 / 구현·자동 검증"],
-       ["R-01·05 역할·비교","예약자·이용자 분리, 매니저 비교 / 정책·시연; 운영 검증 전"],
+       ["요구사항·기능","수용 기준 · 근거/미검증 구분"],
+       ["R-02 예약 소유권","비소유자 접근 차단 / 테스트 코드 확인"],
+       ["R-03 공유·권한","만료·폐기·읽기 전용 / 테스트 코드 확인"],
+       ["R-04 예약 상태·복구","상태 전이 코드 / API 충돌 QA는 별도"],
+       ["R-01·05·06 시연","정책·개념 화면 / 고객·운영자 UAT 미실시"],
     ]
     updates=shape_text(slide.shapes[2],"PRD 요구사항과 검수 근거 추적")
     for i,row in enumerate(rows):
@@ -47,9 +47,9 @@ def apply_strategy(prs):
             updates+=shape_text(cell,value)
     for idx,value in [
        (9,"핵심 요구사항 R-01~06"),
-       (11,"서버 검증 R-02~04"),
-       (13,"운영 전 확인 R-01·05"),
-       (15,"요구사항 → 구현·테스트 → 인수 판단 연결"),
+       (11,"제품 QA 176/176"),
+       (13,"UAT 미실시 R-01·05·06"),
+       (15,"PRD 6개 → TC 11개 → UAT 5개(계획)"),
     ]:
         updates+=shape_text(slide.shapes[idx],value)
     # No new numeric facts: existing economics source remains in original model,
