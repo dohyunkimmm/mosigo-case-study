@@ -31,11 +31,12 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 | [`qa/`](qa/) | 현행 품질 검증·문서 생성 스크립트와 IR 원본 조각. 내부 기술 검증 부록·상세 실행 증빙은 공개 저장소에서 제외 |
 | [`docs/history/`](docs/history/) | 과거 브랜치·저장소·폰트 점검 기록 4건. 당시 기준의 스냅샷으로, 현행 운영 상태는 아래 안내를 우선 확인 |
 | [`.github/workflows/`](.github/workflows/) | 품질 검증과 문서·이미지 생성 자동화 |
+| [`.github/scripts/`](.github/scripts/) | 자동 생성 문서가 `main` 직접 푸시 대신 검토용 PR을 만들도록 하는 공용 게시 스크립트 |
 | [`decision-memos.html`](decision-memos.html) · [`forecast.html`](forecast.html) · [`materials.html`](materials.html) | 과거 링크 호환용 페이지. 현재 보고서의 의사결정·사업성·첨부 자료 위치로 연결 |
 
 **첨부 자료 원본과 게시본:** [사업기획서 HTML](downloads/mosigo_business_plan_20261031.html) · [사업기획서 PDF](downloads/mosigo_business_plan_20261031.pdf) · [발표자료 PPTX](downloads/mosigo_report.pptx) · [발표자료 미리보기 PDF](downloads/mosigo_report_preview.pdf) · [IR Deck PPTX](downloads/MOSIGO_IR_Investment_Review_12slides.pptx) · [IR Deck PDF](downloads/MOSIGO_IR_Investment_Review_12slides.pdf) · [계산 파일 XLSX](downloads/mosigo_model.xlsx).
 
-2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-08 클렌징 후 `main` 목록은 157개 파일·9개 디렉터리**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
+2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-08 최종 정리 후 `main` 목록은 158개 파일·10개 디렉터리**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
 
 ## 자료의 구분
 
@@ -65,6 +66,13 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 - **워크플로 갱신:** 생성 소스가 변경되면 자동으로 재생성하며, 워크플로 파일만 변경했다면 불필요한 동시 재생성을 피하기 위해 해당 Actions의 `Run workflow`를 `main`에서 수동 실행합니다.
 - **검증 범위:** 생성 PR은 필수 QA 검사를 통과한 후 사람이 병합합니다. 사이트·PRD 운영 HTML 및 XLSX/PDF/PPTX는 [운영 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42479802507)에서 검증했습니다. 규칙 적용은 GitHub API로 직접 확인했으며, 실제 자동 생성 PR 게시·승인은 최초 실행 시 확인해야 합니다.
 - **과거 기록:** [#15](https://github.com/dohyunkimmm/mosigo-case-study/issues/15)의 비공개 시절 제약과 `docs/history/`의 `protected=false` 표기는 당시 상태를 설명한 것입니다. 현재 보호 상태의 근거로 사용하지 않습니다.
+
+## 2026-11-08 후속 정리 검증
+
+- [PR #64](https://github.com/dohyunkimmm/mosigo-case-study/pull/64): 자동 생성 산출물 6종을 `main` 직접 푸시 대신 검토용 PR로 게시하도록 전환했습니다. 필수 검사 `browser-and-lighthouse`, `prd-trace-and-product-tests`가 모든 PR을 검사하며 [GitHub Ruleset](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)에서 강제 적용됩니다.
+- [PR #66](https://github.com/dohyunkimmm/mosigo-case-study/pull/66)과 [정리 Actions #42481462073](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42481462073): 병합 이력 및 정확한 SHA를 확인한 브랜치를 포함해 **25개를 `archive/20261108/` 태그로 먼저 보존하고 원격 브랜치 참조를 삭제**했습니다. 성공 후 일회성 정리 워크플로도 제거했습니다.
+- 현재 남은 브랜치는 `main`과 미병합 고유 커밋 9개가 있는 `chore/v03-pdf-asset-staging-20261108`입니다. 미병합 자료는 무단 삭제·병합하지 않으며 [#67](https://github.com/dohyunkimmm/mosigo-case-study/issues/67)에서 현행 게시 자료와 대조한 후 보존 여부를 결정합니다.
+- [Actions 실행기 오류 #55](https://github.com/dohyunkimmm/mosigo-case-study/issues/55)는 후속 모바일 Safari·Site QA·PRD QA의 실제 작업 실행 성공을 확인하고 종료했습니다. 원본 MOSIGO [Blob 보존 이슈 #88](https://github.com/dohyunkimmm/mosigo/issues/88)은 운영 데이터 독립 소유권·만료/복구 검증이 끝나지 않아 별개로 열려 있습니다.
 
 ## 기술
 
