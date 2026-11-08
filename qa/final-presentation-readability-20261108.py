@@ -8,7 +8,7 @@ from pptx.util import Inches, Pt
 ROOT=Path("downloads")
 
 def shape_text(shape, text):
-    assert shape.has_text_frame
+    assert hasattr(shape, 'text_frame')
     if shape.text == text:
         return 0
     frame=shape.text_frame
