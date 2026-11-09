@@ -39,6 +39,8 @@ try {
     assert.equal(await page.locator('.hero h1').count(), 1, width + 'px one main report heading');
     const darkPanelColor = await page.locator('.panel.dark p').first().evaluate(node => getComputedStyle(node).color);
     assert.equal(darkPanelColor, 'rgb(232, 243, 233)', width + 'px dark strategic card text contrast');
+    assert.equal((await page.locator('.hero .intro').textContent()).trim(), '시장·고객·공급 여건과 수익성을 분석해 기존 사업자 제휴를 우선 검토했습니다.', width + 'px concise hero summary');
+    assert.ok((await page.locator('.attachment-heading p').textContent()).includes('추가 산출물: PRD'), width + 'px concise document description');
     const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
     assert.equal(heading, 'MOSIGO병원동행서비스신사업기획', width + 'px single new-business-planning report title');
     assert.equal((await page.locator('.v3-hero-metric.is-text small').textContent()).trim(), '우선 사업화 전략', width + 'px clear strategy label');
@@ -106,9 +108,9 @@ try {
     assert.match(await page.locator('#market .chapter-content').textContent(), /15,000명.*1\.5회.*40,000원.*9억 원/, width + 'px market scenario arithmetic retained');
     assert.match(await page.locator('#customer .chapter-content h3.subhead').textContent(), /고객 이용 과업/, width + 'px duplicate customer hypothesis wording removed');
     const decisionSummary = await page.locator('#decision .skim-verdict').textContent();
-    assert.ok(decisionSummary.includes('월 서비스 완료 199건(산정 기준)'), width + 'px scenario label retained');
-    assert.ok(decisionSummary.includes('손익분기점 1,082건'), width + 'px break-even count retained');
-    assert.ok(decisionSummary.includes('확대 여부 판단'), width + 'px decision described by action criteria');
+    assert.ok(decisionSummary.includes('월 완료 199건(산정)'), width + 'px scenario label retained');
+    assert.ok(decisionSummary.includes('손익분기 1,082건'), width + 'px break-even count retained');
+    assert.ok(decisionSummary.includes('비교 후 확대 결정'), width + 'px decision described by action criteria');
 
     const demoLink = page.locator('a[href="https://mosigo-nine.vercel.app/"]');
     assert.equal(await demoLink.count(), 1, width + 'px exactly one demo link');
