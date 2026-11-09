@@ -41,6 +41,10 @@ try {
     assert.equal(darkPanelColor, 'rgb(232, 243, 233)', width + 'px dark strategic card text contrast');
     const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
     assert.equal(heading, 'MOSIGO병원동행서비스신사업기획', width + 'px single new-business-planning report title');
+    assert.equal((await page.locator('.v3-hero-metric.is-text small').textContent()).trim(), '우선 사업화 전략', width + 'px clear strategy label');
+    assert.equal((await page.locator('.v3-hero-metric.is-text strong').textContent()).trim(), '기존 사업자 제휴', width + 'px clearly named recommended model');
+    assert.ok(!(await page.locator('.hero').textContent()).includes('사업 진입 우선 검토안'), width + 'px ambiguous strategy phrase removed');
+    assert.ok(!(await page.locator('.hero').textContent()).includes('제휴 검증'), width + 'px ambiguous abbreviated strategy removed');
     const visibleLabels = await page.locator('aside, .top, .hero').allTextContents();
     assert.ok(!visibleLabels.join(' ').includes('STRATEGY CASE STUDY'), width + 'px no repeated case-study slogan');
     assert.ok(!visibleLabels.join(' ').includes('STRATEGY REPORT'), width + 'px no competing report slogan');
