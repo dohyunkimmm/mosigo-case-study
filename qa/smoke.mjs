@@ -39,7 +39,7 @@ try {
     assert.equal(await page.locator('.hero h1').count(), 1, width + 'px one main report heading');
     const darkPanelColor = await page.locator('.panel.dark p').first().evaluate(node => getComputedStyle(node).color);
     assert.equal(darkPanelColor, 'rgb(232, 243, 233)', width + 'px dark strategic card text contrast');
-    assert.equal((await page.locator('.hero .intro').textContent()).trim(), '시장·고객·공급을 분석하고, 수익성과 사업모델을 비교해 기존 사업자 제휴를 우선 검토했습니다.', width + 'px concise hero summary');
+    assert.equal((await page.locator('.hero .intro').textContent()).trim(), '시장·고객·공급 여건과 수익성을 분석해 기존 사업자 제휴를 우선 검토했습니다.', width + 'px concise hero summary');
     assert.ok((await page.locator('.attachment-heading p').textContent()).includes('추가 산출물: PRD'), width + 'px concise document description');
     const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
     assert.equal(heading, 'MOSIGO병원동행서비스신사업기획', width + 'px single new-business-planning report title');
