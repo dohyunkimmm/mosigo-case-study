@@ -1,5 +1,11 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
+## 2026-11-09 Vercel 운영 배포 기준 확인
+
+- 마지막 Vercel 운영 배포 **READY**는 [`feb114f`](https://github.com/dohyunkimmm/mosigo-case-study/commit/feb114f8a6380747fcc63ef8b539933f39b7548e)([배포 기록](https://vercel.com/dohyunkimm/mosigo-case-study/F2h3HLnYN2rv56b6p4SxjnYUjqQL)), 현행 GitHub `main`은 [`8d77935`](https://github.com/dohyunkimmm/mosigo-case-study/commit/8d77935eeae7ce7eeb8de436ba7fdd6b64f89f93)입니다. **최신 커밋의 새 운영 배포 확인은 미완료**입니다. 같은 날짜 Vercel GitHub 상태 검사에서는 미리보기 배포 횟수 제한 오류가 관측됐습니다.
+- 두 커밋의 GitHub Compare 변경 파일은 **`.github/workflows/ppt-preview.yml`, `qa/style-presentation.py`, `README.md` 3개뿐**입니다. 공개 `index.html`, `assets/`, `downloads/` 파일 변경은 **0개**이므로 현재 확인 가능한 공개 보고서·다운로드 콘텐츠 차이는 없습니다. 그렇더라도 최신 커밋 배포가 성공했다고 표시하지 않습니다.
+- 검증된 [PPT 미리보기 반복 생성 방지 #84](https://github.com/dohyunkimmm/mosigo-case-study/pull/84)의 변경은 자동 문서 생성 과정에 적용됐고, GitHub Actions [재실행 #42571940810](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42571940810)에서 원본 PPTX·동일한 11쪽 PDF 유지 및 **추가 자동 생성 PR 없음**을 확인했습니다. 새 운영 배포는 배포 제한 해제 후 `main` 커밋 일치 여부와 [Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions)를 별도로 확인해야 합니다.
+
 **포트폴리오:** https://mosigo-case-study.vercel.app/
 
 개인이 작성한 **MOSIGO 병원 동행 서비스 신사업 기획 프로젝트**입니다. 자녀 대리 예약의 사업 기회를 조사하고, 시장·고객·공급 조건, 사업모델·수익성, 단계별 검증과 투자 판단을 정리했습니다. 서비스기획·PRD는 사업 전략을 서비스 요구사항으로 구체화한 **추가 산출물**입니다.
