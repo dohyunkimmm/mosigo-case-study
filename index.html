@@ -721,9 +721,10 @@ function onScroll(){
 let scrollQueued=false;
 function queueScrollUpdate(){if(scrollQueued)return;scrollQueued=true;requestAnimationFrame(()=>{scrollQueued=false;onScroll();});}
 window.addEventListener('scroll',queueScrollUpdate,{passive:true});
-// The top of the report already has its first chapter selected in the HTML.
-// Avoid a full-document offsetTop measurement before the initial paint.
-if (window.scrollY > 0) queueScrollUpdate();
+// The first chapter is already active in the HTML. Let native scroll
+// events update navigation when the user scrolls or the browser restores position.
+// Hash navigation is also synchronized after the initial document load.
+window.addEventListener('load', () => { if (location.hash) queueScrollUpdate(); }, {once:true});
 // Table cell labels are part of the HTML for no-JavaScript mobile reading.
 const dataScrollAreas=Array.from(document.querySelectorAll('.tablewrap,.blueprint'));
 // All tables live inside closed chapters on initial render. Avoid forcing
