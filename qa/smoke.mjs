@@ -240,6 +240,22 @@ try {
   assert.ok(label && label !== 'none' && label !== '""', 'no-JS mobile table label visible');
   console.log('PASS disabled-JS mobile table label', label);
   await noJs.close();
+  // Cold mobile loads must keep critical hero rows stable if the CDN font is slow.
+  const fallbackPage = await browser.newPage({viewport:{width:390,height:844}});
+  await fallbackPage.route('https://cdn.jsdelivr.net/**', route => route.abort());
+  await fallbackPage.goto(base, {waitUntil:'load'});
+  const fallbackGeometry = await fallbackPage.evaluate(() => ({
+    pending: document.documentElement.classList.contains('mobile-font-pending'),
+    summary: document.querySelector('.v3-hero-summary').getBoundingClientRect().height,
+    strategy: document.querySelector('.v3-hero-metric.is-text strong').getBoundingClientRect().height,
+    metrics: document.querySelector('.v3-hero-metrics').getBoundingClientRect().height
+  }));
+  assert.equal(fallbackGeometry.pending, true, 'mobile webfont fallback stays active until font loads');
+  assert.ok(fallbackGeometry.summary <= 72, 'mobile strategy statement stays on two lines without remote font');
+  assert.ok(fallbackGeometry.strategy <= 32, 'mobile strategy card stays on one line without remote font');
+  assert.ok(fallbackGeometry.metrics <= 176, 'mobile metrics grid height stays stable without remote font');
+  await fallbackPage.close();
+  console.log('PASS stable mobile hero before Pretendard loads');
   assert.deepEqual(errors, [], 'browser console and JS errors');
   console.log('PASS browser QA');
 } finally {
