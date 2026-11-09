@@ -417,5 +417,11 @@ section{padding-top:70px;padding-bottom:73px}
 /* Ensure the supplementary PRD link meets mobile touch target dimensions. */
 .attachment-support a{display:inline-flex;align-items:center;min-height:44px;padding:8px 5px;border-radius:6px}
 
+/* Keep the hero summary to two lines before Korean web fonts arrive.
+   The final Pretendard size stays 26px; a fixed line-height prevents movement. */
+@media(min-width:360px) and (max-width:560px){
+ html.mobile-font-pending .v3-hero-summary{font-size:clamp(19.4px,5.38vw,21px);line-height:34.84px}
+}
+
 /* Typography QA: preserve a readable 12px minimum for the mobile hero section label. */
 @media(max-width:560px){.v3-hero-overline{font-size:12px;line-height:1.55}}
