@@ -42,11 +42,43 @@ def normalize_theme_fonts(filename):
     os.replace(tmp, filename)
     print("Normalized PPT theme and master font references:", changed)
 
+def fonts_are_normalized(filename):
+    """Avoid rewriting a fully styled PPTX for metadata-only changes."""
+    import re, zipfile
+    for slide in p.slides:
+        for sh in slide.shapes:
+            frames = ([sh.text_frame] if sh.has_text_frame else [])
+            if sh.has_table:
+                frames.extend(cell.text_frame for row in sh.table.rows for cell in row.cells)
+            for tf in frames:
+                for paragraph in tf.paragraphs:
+                    for run in paragraph.runs:
+                        if not run.text.strip():
+                            continue
+                        props = run._r.rPr
+                        if props is None or run.font.name != "Pretendard":
+                            return False
+                        for key in ("ea", "cs"):
+                            node = props.find(qn("a:" + key))
+                            if node is None or node.get("typeface") != "Pretendard":
+                                return False
+    with zipfile.ZipFile(filename) as source:
+        for name in source.namelist():
+            if not re.fullmatch(r"ppt/(?:theme|slideMasters|slideLayouts|notesMasters|notesSlides|handoutMasters)/.+\.xml", name):
+                continue
+            for match in re.finditer(rb'<a:(?:latin|ea|cs)\b[^>]*?\btypeface="([^"]*)"', source.read(name)):
+                if match.group(1) != b"Pretendard":
+                    return False
+    return True
+
 if "mosigo-design-v2" in (p.core_properties.keywords or ""):
+    if fonts_are_normalized(src):
+        print("Presentation and theme fonts already normalized; preserving original PPTX bytes")
+        sys.exit(0)
     eastern_fonts()
     p.save(src)
     normalize_theme_fonts(src)
-    print("Presentation already styled; enforced Pretendard theme defaults")
+    print("Repaired missing Pretendard font references")
     sys.exit(0)
 if "mosigo-design-v1" in (p.core_properties.keywords or ""):
     eastern_fonts()
