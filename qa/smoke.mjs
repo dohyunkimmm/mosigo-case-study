@@ -252,6 +252,17 @@ try {
       return [s,{top:Math.round(box.top),height:Math.round(box.height),font:getComputedStyle(el).fontFamily}];
     })));
     console.log('FONT-PROBE '+(blockFont?'fallback':'Pretendard')+' '+JSON.stringify(dimensions));
+    if(blockFont){
+      const lineTests=await probe.evaluate(()=>{
+        const el=document.querySelector('.v3-hero-summary');
+        return [26,25,24,23,22,21,20].map(px=>{
+          el.style.fontSize=px+'px';
+          return {px,height:Math.round(el.getBoundingClientRect().height)};
+        });
+      });
+      console.log('FONT-SIZE-PROBE '+JSON.stringify(lineTests));
+    }
+
     await probe.close();
   }
   assert.deepEqual(errors, [], 'browser console and JS errors');
