@@ -110,7 +110,7 @@ try {
     const decisionSummary = await page.locator('#decision .skim-verdict').textContent();
     assert.ok(decisionSummary.includes('월 완료 199건(산정)'), width + 'px scenario label retained');
     assert.ok(decisionSummary.includes('손익분기 1,082건'), width + 'px break-even count retained');
-    assert.ok(decisionSummary.includes('확대 여부 판단'), width + 'px decision described by action criteria');
+    assert.ok(decisionSummary.includes('비교 후 확대 결정'), width + 'px decision described by action criteria');
 
     const demoLink = page.locator('a[href="https://mosigo-nine.vercel.app/"]');
     assert.equal(await demoLink.count(), 1, width + 'px exactly one demo link');
