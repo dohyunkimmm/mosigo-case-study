@@ -240,31 +240,22 @@ try {
   assert.ok(label && label !== 'none' && label !== '""', 'no-JS mobile table label visible');
   console.log('PASS disabled-JS mobile table label', label);
   await noJs.close();
-  // Temporary diagnostics: compare font-loaded and fallback hero geometry.
-  for (const blockFont of [true,false]) {
-    const probe=await browser.newPage({viewport:{width:390,height:844}});
-    if(blockFont)await probe.route('https://cdn.jsdelivr.net/**',route=>route.abort());
-    await probe.goto(base,{waitUntil:'load'});
-    await probe.evaluate(()=>document.fonts.ready);
-    if(!blockFont)await probe.waitForTimeout(700);
-    const dimensions=await probe.evaluate(()=>Object.fromEntries(['.hero h1','.v3-hero-summary','.hero .intro','.hero-actions','.hero-actions .btn','.v3-hero-metrics','.v3-hero-metric.is-text','.v3-hero-metric.is-text strong'].map(s=>{
-      const el=document.querySelector(s),box=el.getBoundingClientRect();
-      return [s,{top:Math.round(box.top),height:Math.round(box.height),font:getComputedStyle(el).fontFamily}];
-    })));
-    console.log('FONT-PROBE '+(blockFont?'fallback':'Pretendard')+' '+JSON.stringify(dimensions));
-    if(blockFont){
-      const lineTests=await probe.evaluate(()=>{
-        const el=document.querySelector('.v3-hero-summary');
-        return [26,25,24,23,22,21,20].map(px=>{
-          el.style.fontSize=px+'px';
-          return {px,height:Math.round(el.getBoundingClientRect().height)};
-        });
-      });
-      console.log('FONT-SIZE-PROBE '+JSON.stringify(lineTests));
-    }
-
-    await probe.close();
-  }
+  // Cold mobile loads must keep critical hero rows stable if the CDN font is slow.
+  const fallbackPage = await browser.newPage({viewport:{width:390,height:844}});
+  await fallbackPage.route('https://cdn.jsdelivr.net/**', route => route.abort());
+  await fallbackPage.goto(base, {waitUntil:'load'});
+  const fallbackGeometry = await fallbackPage.evaluate(() => ({
+    pending: document.documentElement.classList.contains('mobile-font-pending'),
+    summary: document.querySelector('.v3-hero-summary').getBoundingClientRect().height,
+    strategy: document.querySelector('.v3-hero-metric.is-text strong').getBoundingClientRect().height,
+    metrics: document.querySelector('.v3-hero-metrics').getBoundingClientRect().height
+  }));
+  assert.equal(fallbackGeometry.pending, true, 'mobile webfont fallback stays active until font loads');
+  assert.ok(fallbackGeometry.summary <= 72, 'mobile strategy statement stays on two lines without remote font');
+  assert.ok(fallbackGeometry.strategy <= 32, 'mobile strategy card stays on one line without remote font');
+  assert.ok(fallbackGeometry.metrics <= 176, 'mobile metrics grid height stays stable without remote font');
+  await fallbackPage.close();
+  console.log('PASS stable mobile hero before Pretendard loads');
   assert.deepEqual(errors, [], 'browser console and JS errors');
   console.log('PASS browser QA');
 } finally {
