@@ -393,7 +393,15 @@ main>section .mobile-skim>p{margin-bottom:9px}
  .chapter-content>.subhead{margin-top:26px;margin-bottom:13px}
 }
 @media print{.bep-emphasis,.skim-verdict,.skim-lead{break-inside:avoid}}
-</style><link rel="stylesheet" href="/assets/site-v3.css?v=zoom-20261106"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}</script></head>
+</style><link rel="stylesheet" href="/assets/site-v3.css?v=zoom-20261106"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}
+if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'fonts' in document){
+ document.documentElement.classList.add('mobile-font-pending');
+ window.addEventListener('load',()=>{
+   document.fonts.load('26px "Pretendard Variable"','고객의 불편에서 사업 기회를 찾고 실행 가능한 사업화 조건을 설계하다.').then(faces=>{
+     if(faces.length)document.documentElement.classList.remove('mobile-font-pending');
+   }).catch(()=>{});
+ },{once:true});
+}</script></head>
 <body><a class="skip" href="#overview">본문으로 건너뛰기</a>
 <aside id="contents" tabindex="-1" aria-label="케이스 스터디 목차"><div class="brand"><a class="logo" href="#top">mosigo<span>.</span></a></div>
 <div class="toc-label" aria-hidden="true"><span>CONTENTS</span><small>01 — 09</small></div>
