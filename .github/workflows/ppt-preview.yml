@@ -98,6 +98,9 @@ jobs:
           mkdir -p /tmp/mosigo-slides
           libreoffice -env:UserInstallation=file:///tmp/lo-mosigo-ppt-preview --headless --convert-to pdf --outdir /tmp/mosigo-slides downloads/mosigo_report.pptx
           test -s /tmp/mosigo-slides/mosigo_report.pdf
+          if [[ -s downloads/mosigo_report_preview.pdf ]]; then
+            cp downloads/mosigo_report_preview.pdf /tmp/mosigo-preview-before.pdf
+          fi
           pages="$(pdfinfo /tmp/mosigo-slides/mosigo_report.pdf | awk '/^Pages:/ {print $2}')"
           test "$pages" -gt 0
           cp /tmp/mosigo-slides/mosigo_report.pdf downloads/mosigo_report_preview.pdf
@@ -124,6 +127,21 @@ jobs:
           fi
           if grep -q '11~12쪽' /tmp/mosigo-ppt-text.txt; then echo "::error::Stale PPT source citation"; exit 1; fi
           grep -Eq '사업기획서[[:space:]]*3[[:space:]]*쪽' /tmp/mosigo-ppt-text.txt
+      - name: Preserve equivalent PDF when only renderer metadata changed
+        run: |
+          set -euo pipefail
+          previous=/tmp/mosigo-preview-before.pdf
+          current=downloads/mosigo_report_preview.pdf
+          # Require identical rendered WebP images and extracted text, not merely matching page counts.
+          if [[ -s "$previous" ]] &&
+             [[ "$(pdfinfo "$previous" | awk '/^Pages:/ {print $2}')" = "11" ]] &&
+             git diff --quiet -- downloads/previews/slides-*.webp &&
+             cmp -s <(pdftotext -layout "$previous" -) <(pdftotext -layout "$current" -); then
+            cp "$previous" "$current"
+            echo "PDF pages and rendered slide previews unchanged; preserving original PDF bytes."
+          else
+            echo "Content or visual differences found; retaining regenerated PDF for review."
+          fi
       - name: Open PR for regenerated ppt-preview assets
         if: github.event_name != 'pull_request'
         env:
