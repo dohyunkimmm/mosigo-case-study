@@ -247,7 +247,7 @@ try {
     await probe.goto(base,{waitUntil:'load'});
     await probe.evaluate(()=>document.fonts.ready);
     if(!blockFont)await probe.waitForTimeout(700);
-    const dimensions=await probe.evaluate(()=>Object.fromEntries(['.hero h1','.v3-hero-summary','.hero .intro','.hero-actions'].map(s=>{
+    const dimensions=await probe.evaluate(()=>Object.fromEntries(['.hero h1','.v3-hero-summary','.hero .intro','.hero-actions','.hero-actions .btn','.v3-hero-metrics','.v3-hero-metric.is-text','.v3-hero-metric.is-text strong'].map(s=>{
       const el=document.querySelector(s),box=el.getBoundingClientRect();
       return [s,{top:Math.round(box.top),height:Math.round(box.height),font:getComputedStyle(el).fontFamily}];
     })));
