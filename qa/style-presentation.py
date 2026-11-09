@@ -64,9 +64,9 @@ def fonts_are_normalized(filename):
                                 return False
     with zipfile.ZipFile(filename) as source:
         for name in source.namelist():
-            if not re.fullmatch(r"ppt/(?:theme|slideMasters|slideLayouts|notesMasters|notesSlides|handoutMasters)/.+\\.xml", name):
+            if not re.fullmatch(r"ppt/(?:theme|slideMasters|slideLayouts|notesMasters|notesSlides|handoutMasters)/.+\.xml", name):
                 continue
-            for match in re.finditer(rb'<a:(?:latin|ea|cs)\\b[^>]*?\\btypeface="([^"]*)"', source.read(name)):
+            for match in re.finditer(rb'<a:(?:latin|ea|cs)\b[^>]*?\btypeface="([^"]*)"', source.read(name)):
                 if match.group(1) != b"Pretendard":
                     return False
     return True
