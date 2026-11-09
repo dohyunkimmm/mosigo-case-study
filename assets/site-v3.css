@@ -421,6 +421,7 @@ section{padding-top:70px;padding-bottom:73px}
    The final Pretendard size stays 26px; a fixed line-height prevents movement. */
 @media(min-width:360px) and (max-width:560px){
  html.mobile-font-pending .v3-hero-summary{font-size:clamp(19.4px,5.38vw,21px);line-height:34.84px}
+ html.mobile-font-pending .v3-hero-metric.is-text strong{font-size:clamp(17px,4.62vw,18px);line-height:29.48px}
 }
 
 /* Typography QA: preserve a readable 12px minimum for the mobile hero section label. */
