@@ -36,7 +36,14 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 
 **첨부 자료 원본과 게시본:** [사업기획서 HTML](downloads/mosigo_business_plan_20261031.html) · [사업기획서 PDF](downloads/mosigo_business_plan_20261031.pdf) · [발표자료 PPTX](downloads/mosigo_report.pptx) · [발표자료 미리보기 PDF](downloads/mosigo_report_preview.pdf) · [IR Deck PPTX](downloads/MOSIGO_IR_Investment_Review_12slides.pptx) · [IR Deck PDF](downloads/MOSIGO_IR_Investment_Review_12slides.pdf) · [계산 파일 XLSX](downloads/mosigo_model.xlsx).
 
-2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-08 최종 자동화 정리 기준 `main` 목록은 159개 파일·10개 디렉터리**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
+2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-09 GitHub `main` 재귀 트리 기준 파일 160개·디렉터리 10개**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
+
+## 2026-11-09 `main` 목록 및 생성 산출물 동기화
+
+- 최신 [`main` `5409063`](https://github.com/dohyunkimmm/mosigo-case-study/commit/54090635c2068c6dbf9c4c408b146f0009acc3e0)의 잘리지 않은 재귀 트리는 **160개 파일·10개 디렉터리**(루트 파일 9개·최상위 폴더 5개)입니다. 앞선 159개 파일 수는 11월 8일 당시 스냅샷입니다. 동일 Git blob SHA 중복은 발견하지 못했으며, 정적 진입점과 호환용 HTML, 원본 PPTX/PDF/XLSX, 84개 미리보기 및 `qa/` 생성 도구는 참조 확인 전 제거하지 않습니다.
+- 현재 열린 PR은 [#72 사업기획서 PDF 재생성](https://github.com/dohyunkimmm/mosigo-case-study/pull/72)(`downloads/mosigo_business_plan_20261031.pdf`)과 [#73 발표자료/미리보기](https://github.com/dohyunkimmm/mosigo-case-study/pull/73)(`downloads/mosigo_report.pptx`, `downloads/mosigo_report_preview.pdf`) **2건**입니다. GitHub에서는 두 PR 모두 병합 가능 상태이지만 **필수 검사 기록 0건으로 병합 차단** 상태입니다. 원본 파일을 현재 `main`에 직접 덮어쓰거나 승인 없는 병합을 하지 않습니다.
+- 최신 `main`의 Site QA·PRD Evidence QA·모바일 Safari 엔진 QA·네이티브 iOS Safari 시뮬레이터 QA는 성공 기록이 있습니다. 이는 **현재 두 생성 PR의 산출물 검사 완료**를 의미하지 않습니다. 생성 PR의 최신 검사와 PDF/PPT 문서 일치 결과를 확인한 다음 별도로 반영해야 합니다.
+- 연계 [mosigo 앱 저장소](https://github.com/dohyunkimmm/mosigo)의 열린 [#88 Blob 보존/복구 이슈](https://github.com/dohyunkimmm/mosigo/issues/88)는 본 보고서의 완료 항목이 아닙니다. 로컬 폴더의 명백한 임시/동일 파일은 검출되지 않았으므로 기존 공개 경로와 다운로드 파일은 그대로 보존합니다.
 
 ## 자료의 구분
 
@@ -62,7 +69,7 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 
 - **운영 기준:** 저장소는 **공개(Public)** 상태이며 `main`은 **`protected=true`**입니다. [Ruleset `Protect main`](https://github.com/dohyunkimmm/mosigo-case-study/settings/rules/26795565)이 `Active`로 적용되어 브랜치 **삭제·강제 푸시를 차단**하고, **PR을 통한 병합과 두 필수 QA 검사**를 요구합니다.
 - **PR 필수 설정 완료:** 문서 생성 작업 6개는 `main`에 직접 푸시하지 않고, 변경된 산출물이 있을 때 `automation/*` 작업 브랜치와 검토용 PR을 생성하도록 전환했습니다. `browser-and-lighthouse`, `prd-trace-and-product-tests`는 **모든 PR에서 실행되는 필수 GitHub Actions 검사**로 지정됐습니다. 서버 측 Ruleset에서 PR 필수·필수 검사 설정을 확인했습니다.
-- **자동 생성 PR 운영:** 사용자는 [Actions → General](https://github.com/dohyunkimmm/mosigo-case-study/settings/actions)에서 GitHub Actions의 PR 생성 허용 옵션을 활성화했다고 확인했습니다. 이 토글과 실제 봇 생성 PR의 성공 여부는 연결된 API로 독립 조회하지 못했습니다. `GITHUB_TOKEN`이 생성한 PR은 검사를 실행하려면 관리자의 **Approve workflows to run** 승인이 필요할 수 있으며, 자동 승인·자동 병합은 사용하지 않습니다.
+- **자동 생성 PR 운영:** 사용자는 [Actions → General](https://github.com/dohyunkimmm/mosigo-case-study/settings/actions)에서 GitHub Actions의 PR 생성 허용 옵션을 활성화했다고 확인했습니다. 이후 GitHub에서 자동 생성 PR [#72](https://github.com/dohyunkimmm/mosigo-case-study/pull/72)와 [#73](https://github.com/dohyunkimmm/mosigo-case-study/pull/73)의 생성은 직접 확인했습니다. 다만 두 PR의 필수 QA 검사 기록은 확인되지 않아 병합이 차단되어 있으며, 자동 생성 산출물이 `main`에 반영되었다고 표시하지 않습니다. `GITHUB_TOKEN`이 생성한 PR은 검사를 실행하려면 관리자의 **Approve workflows to run** 승인이 필요할 수 있으며, 자동 승인·자동 병합은 사용하지 않습니다.
 - **워크플로 갱신:** 생성 소스가 변경되면 자동으로 재생성하며, 워크플로 파일만 변경했다면 불필요한 동시 재생성을 피하기 위해 해당 Actions의 `Run workflow`를 `main`에서 수동 실행합니다.
 - **검증 범위:** 생성 PR은 필수 QA 검사를 통과한 후 사람이 병합합니다. 사이트·PRD 운영 HTML 및 XLSX/PDF/PPTX는 [운영 Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/42479802507)에서 검증했습니다. 규칙 적용은 GitHub API로 직접 확인했으며, 실제 자동 생성 PR 게시·승인은 최초 실행 시 확인해야 합니다.
 - **과거 기록:** [#15](https://github.com/dohyunkimmm/mosigo-case-study/issues/15)의 비공개 시절 제약과 `docs/history/`의 `protected=false` 표기는 당시 상태를 설명한 것입니다. 현재 보호 상태의 근거로 사용하지 않습니다.
