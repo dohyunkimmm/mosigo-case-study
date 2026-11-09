@@ -240,6 +240,20 @@ try {
   assert.ok(label && label !== 'none' && label !== '""', 'no-JS mobile table label visible');
   console.log('PASS disabled-JS mobile table label', label);
   await noJs.close();
+  // Temporary diagnostics: compare font-loaded and fallback hero geometry.
+  for (const blockFont of [true,false]) {
+    const probe=await browser.newPage({viewport:{width:390,height:844}});
+    if(blockFont)await probe.route('https://cdn.jsdelivr.net/**',route=>route.abort());
+    await probe.goto(base,{waitUntil:'load'});
+    await probe.evaluate(()=>document.fonts.ready);
+    if(!blockFont)await probe.waitForTimeout(700);
+    const dimensions=await probe.evaluate(()=>Object.fromEntries(['.hero h1','.v3-hero-summary','.hero .intro','.hero-actions'].map(s=>{
+      const el=document.querySelector(s),box=el.getBoundingClientRect();
+      return [s,{top:Math.round(box.top),height:Math.round(box.height),font:getComputedStyle(el).fontFamily}];
+    })));
+    console.log('FONT-PROBE '+(blockFont?'fallback':'Pretendard')+' '+JSON.stringify(dimensions));
+    await probe.close();
+  }
   assert.deepEqual(errors, [], 'browser console and JS errors');
   console.log('PASS browser QA');
 } finally {
