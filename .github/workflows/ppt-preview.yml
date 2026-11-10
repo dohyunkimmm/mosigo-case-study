@@ -13,6 +13,7 @@ on:
       - 'qa/visual-polish-20261108.py'
       - 'qa/focus-service-pm-decks-20261108.py'
       - 'qa/final-presentation-readability-20261108.py'
+      - 'qa/apply-editorial-visual-20261110.py'
       - 'downloads/mosigo_model.xlsx'
   pull_request:
     branches: [main, 'review/p0-p1-p2-*']
@@ -26,6 +27,7 @@ on:
       - 'qa/visual-polish-20261108.py'
       - 'qa/focus-service-pm-decks-20261108.py'
       - 'qa/final-presentation-readability-20261108.py'
+      - 'qa/apply-editorial-visual-20261110.py'
       - 'downloads/mosigo_model.xlsx'
       - '.github/workflows/ppt-preview.yml'
   workflow_dispatch:
@@ -92,6 +94,8 @@ jobs:
       - name: Replace repeated finance page with PRD evidence and acceptance trace
         if: steps.current-deck.outputs.ready != 'true'
         run: /tmp/mosigo-ppt-venv/bin/python qa/final-presentation-readability-20261108.py strategy
+      - name: Reapply editable slide visual system without changing content
+        run: /tmp/mosigo-ppt-venv/bin/python qa/apply-editorial-visual-20261110.py downloads/mosigo_report.pptx
       - name: Convert existing presentation for inline viewing
         run: |
           set -euo pipefail
