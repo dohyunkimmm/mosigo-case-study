@@ -5,12 +5,16 @@ editable PPT shapes, and product functionality. Changes are wording-only.
 """
 from pathlib import Path
 import re
+import sys
 from pptx import Presentation
 
+IR_ONLY = "--ir-only" in sys.argv
 ROOT=Path(".")
 summary=[]
 
 def edit_html(name, exact, patterns=()):
+    if IR_ONLY:
+        return  # Review-only regeneration must never rewrite the current portfolio or plan.
     path=Path(name)
     src=path.read_text(encoding="utf-8")
     text=src
@@ -205,6 +209,8 @@ deck_edits={
 }
 
 for filename,changes in deck_edits.items():
+    if IR_ONLY and "IR_Investment_" not in filename:
+        continue
     prs=Presentation(filename)
     expected=11 if "mosigo_report" in filename else 12
     assert len(prs.slides)==expected,(filename,len(prs.slides))

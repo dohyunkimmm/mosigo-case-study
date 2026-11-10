@@ -393,6 +393,41 @@ main>section .mobile-skim>p{margin-bottom:9px}
  .chapter-content>.subhead{margin-top:26px;margin-bottom:13px}
 }
 @media print{.bep-emphasis,.skim-verdict,.skim-lead{break-inside:avoid}}
+
+/* VISUAL_REFRESH_20261110 | shared editorial hierarchy — preserve all findings and interactions */
+:root{--design-canvas:#fbfcf8;--design-forest:#123e33;--design-ink:#192c25;--design-lime:#d6ef8a;--design-paper:#fff;--design-sage:#e9f4eb;--design-border:#dce7df;--design-elevation:0 8px 26px rgba(18,62,51,.045)}
+body{background:var(--design-canvas);font-synthesis:none}
+.content{background:var(--design-paper)}
+.hero{background:radial-gradient(circle at 93% 12%,rgba(154,198,143,.13),transparent 39%),linear-gradient(140deg,#0d3028,#123e33 70%);isolation:isolate}
+.hero-inner{max-width:1130px}
+.hero h1{letter-spacing:-.058em}
+.hero .intro{max-width:740px}
+section:not(#overview){position:relative}
+.section-title{margin-bottom:27px}
+.section-title .eyebrow{color:#286546;letter-spacing:.105em}
+.section-title h2{font-weight:820;letter-spacing:-.047em;text-wrap:balance}
+.lead,.section-title .lead{color:#4b6254}
+.panel:not(.dark),.strategy-option,.evidence-item,.market-steps article,.model-grid article,.kpi,.before-after article,.timeline article{border-color:#dce7df;box-shadow:var(--design-elevation)}
+.panel h3,.strategy-option h3,.evidence-item h3{letter-spacing:-.034em}
+.panel:not(.dark){background:#fbfcf9}
+.panel .micro,.num{letter-spacing:.025em}
+.panel.dark{background:linear-gradient(145deg,#123e33,#174936)}
+.callout{background:#f1f7ef}
+.tablewrap{border-color:#d7e5db}
+.tbl thead th{background:#e8f1e8;color:#183f2e}
+.tbl tbody tr:hover{background:#f7faf6}
+.strategy-option.recommended,.business-model-choice .is-priority{background:#edf5ea;border-color:#639f78;box-shadow:0 8px 25px rgba(28,100,66,.09)}
+.memo{background:linear-gradient(130deg,#0d3028,#174734)}
+.memo .verdict{border-top-color:#668472}
+.btn,.source-grid a{transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.btn.primary{background:#d6ef8a;color:#193e2d;border-color:#d6ef8a}
+.btn.primary:hover{background:#e4f7af;box-shadow:0 6px 20px rgba(12,40,25,.16)}
+.nav-link:focus-visible{outline-offset:0}
+@media(min-width:801px){section{padding-top:77px;padding-bottom:80px}.hero-inner{padding-top:70px;padding-bottom:72px}}
+@media(max-width:800px){section{padding-top:52px;padding-bottom:57px}.section-title{margin-bottom:18px}.panel:not(.dark),.strategy-option,.evidence-item{box-shadow:none}}
+@media(max-width:600px){section{padding-top:40px;padding-bottom:44px}.section-title h2{font-size:clamp(24px,6.5vw,28px)}.hero-inner{padding-top:39px;padding-bottom:41px}}
+@media(prefers-reduced-motion:reduce){.btn,.source-grid a{transition:none}}
+
 </style><link rel="stylesheet" href="/assets/site-v3.css?v=zoom-20261106"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}
 if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'fonts' in document){
  document.documentElement.classList.add('mobile-font-pending');
