@@ -426,3 +426,23 @@ section{padding-top:70px;padding-bottom:73px}
 
 /* Typography QA: preserve a readable 12px minimum for the mobile hero section label. */
 @media(max-width:560px){.v3-hero-overline{font-size:12px;line-height:1.55}}
+
+
+/* VISUAL_REFRESH_20261110 | supporting components follow the same brand roles */
+.v3-hero-metric{border-color:#658777;background:rgba(255,255,255,.055);box-shadow:inset 0 1px 0 rgba(255,255,255,.045)}
+.v3-hero-metric strong{letter-spacing:-.052em}
+.v3-phase-link,.artifact-shortcuts{border-color:#d7e6db;background:#fbfcf8}
+.v3-phase-link:hover{background:#edf5eb;border-color:#8ab798}
+.v3-product-gallery{background:linear-gradient(145deg,#f9fcf7,#ecf5ea)}
+.v3-product-card{box-shadow:0 9px 28px rgba(18,62,51,.055)}
+.v3-product-card .v3-card-explain{background:#fff}
+.v3-scenarios{border-color:#d5e4da;box-shadow:0 6px 20px rgba(18,62,51,.035)}
+.v3-bar-col.is-live b{color:#155a3b}
+#decision .decision-board{background:#f4f8f3}
+#decision .decision-gates li{box-shadow:0 6px 19px rgba(18,62,51,.04)}
+#attachments.quick-documents{background:#f8faf7;border-color:#d4e4d8}
+#attachments .doc-tab[aria-pressed="true"]{box-shadow:inset 0 -3px 0 #26754f;background:#e8f2e8}
+#attachments .mobile-page-open{box-shadow:0 7px 25px rgba(20,52,34,.045)}
+.v3-fullscreen{background:#fafcf8}
+@media(max-width:600px){.v3-product-card,#decision .decision-gates li{box-shadow:none}}
+
