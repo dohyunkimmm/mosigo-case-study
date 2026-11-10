@@ -82,7 +82,7 @@ jobs:
       - name: Prevent final IR title collision and improve small supporting text
         run: /tmp/mosigo-ir-venv/bin/python qa/final-presentation-readability-20261108.py ir
       - name: Apply final concise editorial review to regenerated IR slides
-        run: /tmp/mosigo-ir-venv/bin/python qa/apply-editorial-review-20261108.py
+        run: /tmp/mosigo-ir-venv/bin/python qa/apply-editorial-review-20261108.py --ir-only
       - name: Reapply IR visual hierarchy without changing business figures
         run: /tmp/mosigo-ir-venv/bin/python qa/apply-editorial-visual-20261110.py downloads/MOSIGO_IR_Investment_Review_12slides.pptx
       - name: Export PDF, verify 12 slides and stage-gated funding assumptions
