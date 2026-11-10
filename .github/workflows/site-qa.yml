@@ -41,7 +41,7 @@ jobs:
         run: bash qa/test-vercel-ignore-build.sh
       - name: Install browser and Lighthouse
         run: |
-          npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1 lighthouse@13.6.0
+          npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1 lighthouse@13.6.0 puppeteer-core@25.16.0
           npx --no-install playwright install --with-deps chromium
       - name: Test exact repository build
         run: |
