@@ -26,6 +26,8 @@ def snapshot(prs):
     for slide in prs.slides:
         current = []
         for shape in slide.shapes:
+            if shape.name.startswith(MARKER):
+                continue
             if shape.has_text_frame:
                 current.append(('text', shape.text))
             if shape.has_table:
