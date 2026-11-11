@@ -39,10 +39,21 @@ jobs:
           node-version: '22'
       - name: Verify Vercel ignore-build behavior
         run: bash qa/test-vercel-ignore-build.sh
+      # GitHub's Azure Ubuntu mirror had repeated DNS failures on 2026-11-11.
+      # Keep the same dependencies and QA thresholds; change only mirror routing.
+      - name: Use official Ubuntu mirrors when Azure mirror DNS is unavailable
+        run: |
+          set -euo pipefail
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf 'https://archive.ubuntu.com/ubuntu/\tpriority:1\nhttps://security.ubuntu.com/ubuntu/\tpriority:2\n' | sudo tee /etc/apt/apt-mirrors.txt
+          fi
+          printf '%s\n' 'Acquire::Retries "1";' 'Acquire::http::Timeout "20";' 'Acquire::https::Timeout "20";' | sudo tee /etc/apt/apt.conf.d/99mosigo-ci-network
       - name: Install browser and Lighthouse
         run: |
           npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1 lighthouse@13.6.0 puppeteer-core@25.16.0
-          npx --no-install playwright install --with-deps chromium
+          # GitHub-hosted Ubuntu already includes Chrome runtime libraries; avoid flaky apt mirrors.
+          # Still download and run the pinned Playwright Chromium browser for every QA check.
+          npx --no-install playwright install chromium
       - name: Test exact repository build
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/mosigo-qa-http.log 2>&1 &
@@ -141,17 +152,23 @@ jobs:
               exit 1
             fi
           done
+      - name: Install Poppler PDF utilities from conda-forge
+        run: |
+          set -euo pipefail
+          prefix="$RUNNER_TEMP/mosigo-poppler"
+          /usr/share/miniconda/bin/conda create --yes --prefix "$prefix" --override-channels --channel conda-forge 'poppler=26.09.0'
+          "$prefix/bin/pdfinfo" -v
+          "$prefix/bin/pdftotext" -v
+          echo "$prefix/bin" >> "$GITHUB_PATH"
       - name: Extract final document text for editorial QA
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq poppler-utils
+          command -v pdfinfo && command -v pdftotext
           python3 -m venv /tmp/mosigo-editorial-venv
           /tmp/mosigo-editorial-venv/bin/pip install --quiet python-pptx openpyxl
           /tmp/mosigo-editorial-venv/bin/python qa/extract-editorial-text.py
       - name: Verify PDF, PPTX, embedded fonts and color contrast
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq poppler-utils
+          command -v pdfinfo && command -v pdftotext
           python3 qa/check-document-design.py
       - name: Save QA reports
         if: always()
