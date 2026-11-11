@@ -65,7 +65,8 @@ legacy_terms = ('손익분기점점','고객지원','취소비','노동비용','
 for term in legacy_terms:
     assert term not in plan_html, f'Unreviewed wording remains in business plan: {term}'
     assert term not in site_html, f'Unreviewed wording remains on website: {term}'
-# Only flag a duplicated word on the same line; independent titles and labels may share an ending.\nduplicate_word = re.compile(r'([가-힣]{2,})[ \t]+\1(?=[ \t·,./)]|$)')
+# Only flag a duplicated word on the same line; independent titles and labels may share an ending.
+duplicate_word = re.compile(r'([가-힣]{2,})[ \t]+\1(?=[ \t·,./)]|$)')
 
 def assert_no_repeated_sentences(text, label):
     normalized = re.sub(r'\s+', ' ', text).strip()
