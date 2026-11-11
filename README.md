@@ -1,13 +1,21 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
-## 2026-11-11 `main` 파일·문서 동기화
+## 2026-11-11 저장소 클렌징 완료
+
+- [정리 PR #100](https://github.com/dohyunkimmm/mosigo-case-study/pull/100)을 **필수 Site QA와 PRD Evidence QA 통과 후** [`b0769d3`](https://github.com/dohyunkimmm/mosigo-case-study/commit/b0769d371ceddb646d56ed9fdb3b2d53c9bffc0c)으로 병합했습니다. PR 검사 [Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43044653761)·[PRD QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43044653757)가 모두 성공했습니다.
+- [일회성 정리 실행 #43045002028](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43045002028) **성공**. 종료된 자동 생성 PR #72·#73·#75·#83·#89·#91·#95·#96·#97의 원본 HEAD SHA **9개**를 `archive/20261111/reviewed/pr-*/` 태그로 각각 보존·재조회한 다음 브랜치 참조를 삭제했습니다. **태그 9개 모두 원본 SHA 일치**, 작업 직후 원격 브랜치는 `main` **1개**입니다.
+- 11월 11일 정리 완료 시 기존 공개 자료는 **최상위 다운로드 8개·WebP 미리보기 84개**를 유지합니다. 본 최종 정리 PR에서 완료된 일회성 워크플로만 제거하면 `main`은 **파일 163개·디렉터리 10개**(루트 파일 9개·최상위 폴더 5개)입니다. 같은 내용의 Git blob 중복은 점검 시 없었으며, `index.html`, 호환용 HTML, 원본 PDF/PPTX/XLSX, PRD·미리보기 및 `qa/` 생성기는 삭제하지 않았습니다.
+- 사용 완료된 `.github/workflows/retire-legacy-branches-20261111.yml`과 과거 일회성 `retire-net-zero-staging` 작업만 정리합니다. **병합 PR의 SHA 태그 선보존·브랜치 회수 자동화**는 `.github/workflows/archive-merged-pr-branches.yml`에 계속 유지합니다.
+- GitHub 실행기의 Ubuntu 패키지 서버 DNS 오류를 피하기 위해 Site QA가 Playwright Chromium을 직접 설치하고 PDF 검사에는 conda-forge Poppler 도구를 사용하게 했습니다. **사이트 브라우저·Lighthouse·문서 텍스트/서체·재무자료 QA 기준은 유지**했습니다. 이 기록은 운영 Vercel 배포의 최신 커밋 일치를 별도로 입증하지 않습니다.
+
+## 2026-11-11 `main` 파일·문서 동기화 (초기 점검 기록)
 
 - 기준 커밋: [`12549ad`](https://github.com/dohyunkimmm/mosigo-case-study/commit/12549ad9e2f535808342d6a8cd6939ce1dbf4c7b). 재귀 트리 **파일 163개·디렉터리 10개**(루트 파일 9개·최상위 폴더 5개). 동일 Git blob SHA인 파일 **0쌍**. 기존 기록의 **160개 파일**은 2026-11-09의 스냅샷으로 현행 수량이 아닙니다.
 - `downloads/`에는 최상위 원본·게시 파일 **8개**와 `previews/`의 **WebP 84개**가 유지됩니다. 19쪽 사업기획서, 11장 발표자료, 12장 IR 및 XLSX·PRD의 공개 경로는 변경하지 않습니다.
 - [#93](https://github.com/dohyunkimmm/mosigo-case-study/pull/93)(상단 소개 정리), [#94](https://github.com/dohyunkimmm/mosigo-case-study/pull/94)(웹·문서 중복 문구 정리), [#98](https://github.com/dohyunkimmm/mosigo-case-study/pull/98)(재생성 PDF/PPTX·미리보기 반영)은 모두 `main`에 병합됐습니다.
 - 미병합 종료된 자동 생성 [#95](https://github.com/dohyunkimmm/mosigo-case-study/pull/95)·[#96](https://github.com/dohyunkimmm/mosigo-case-study/pull/96)·[#97](https://github.com/dohyunkimmm/mosigo-case-study/pull/97)의 변경 파일 **10·11·8개, 총 29개**는 각각 [#98](https://github.com/dohyunkimmm/mosigo-case-study/pull/98) 및 현재 `main`의 **같은 경로·Git blob SHA와 전부 일치**합니다. 따라서 이 3건의 산출물은 추가 병합할 필요가 없습니다. 점검 시 열린 PR은 **0건**입니다.
 - [`main` Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43025171713)와 [모바일 Safari 엔진 QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43025171640)가 성공했습니다. 운영 Vercel 배포가 `12549ad`와 정확히 일치하는지는 **별도 미확인**이며, 아래 11월 9일 배포 기록을 현재 상태로 해석하지 않습니다.
-- `main` 외 `automation/*` 브랜치 **9개**가 남아 있습니다. #95~#97의 산출물은 중복 확인됐지만, 과거 6개 브랜치까지 내용·보관 태그·SHA를 모두 검증한 것은 아닙니다. 기존 보존 절차에 따라 **원본 HEAD 태그 보존과 참조 대조 전에는 삭제하지 않습니다**. 폴더 역시 원본 다운로드·84개 미리보기·`qa/` 생성기·호환 리디렉션을 임의 삭제하지 않습니다.
+- **초기 점검 당시** `main` 외 `automation/*` 브랜치 9개가 남아 있었고, 보존·정리 전에는 삭제하지 않았습니다. 이후 원본 HEAD와 보관 태그 9개를 전부 대조하고 정리했으므로 **현재 상태는 상단 클렌징 완료 기록**을 우선합니다. 원본 다운로드·84개 미리보기·`qa/` 생성기·호환 리디렉션은 유지했습니다.
 
 
 ## 2026-11-09 Vercel 운영 배포 기준 확인 (과거 스냅샷)
