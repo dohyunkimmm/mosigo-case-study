@@ -1,4 +1,4 @@
-# One-time audit. Archive exact unmerged automation heads before retiring stale refs.
+# One-time audit. Archive reviewed unmerged automation refs before retirement.
 name: Retire reviewed MOSIGO historical automation branches
 on:
   push:
@@ -53,7 +53,13 @@ jobs:
               [[ "$(gh api "$api/pulls/$replacement" --jq .merged)" == true ]] || { echo "::error::Replacement PR not merged: $replacement"; exit 1; }
               files="$(gh api "$api/pulls/$number/files?per_page=100")"
               jq -e '(length > 0 and length < 100) and all(.[]; .status == "modified" and ((.filename | startswith("downloads/")) or .filename == "assets/mosigo-share.png"))' <<< "$files" >/dev/null || exit 1
-              while IFS=
+              while IFS=$'\t' read -r path old_blob; do
+                git cat-file -e "HEAD:$path" || { echo "::error::Main missing $path"; exit 1; }
+                if [[ "$mode" == reconciled ]]; then
+                  [[ "$(git rev-parse "HEAD:$path")" == "$old_blob" ]] || { echo "::error::Unreconciled asset $path"; exit 1; }
+                fi
+              done < <(jq -r '.[] | [.filename,.sha] | @tsv' <<< "$files")
+            fi
             if jq -e --arg b "$name" 'any(.[]; .head.ref==$b)' <<< "$open" >/dev/null; then
               echo "::error::Open PR still uses $name"; exit 1
             fi
@@ -91,44 +97,3 @@ jobs:
             echo "RETIRED #$number $name (tag preserved)"
           done
           echo "PASS: all 9 reviewed automation branches archived before removal; main untouched"
-\t' read -r path old_blob; do
-                git cat-file -e "HEAD:$path" || { echo "::error::Main missing $path"; exit 1; }
-                if [[ "$mode" == reconciled ]]; then
-                  [[ "$(git rev-parse "HEAD:$path")" == "$old_blob" ]] || { echo "::error::Unreconciled asset $path"; exit 1; }
-                fi
-              done < <(jq -r '.[] | [.filename,.sha] | @tsv' <<< "$files")
-            fi
-            if jq -e --arg b "$name" 'any(.[]; .head.ref==$b)' <<< "$open" >/dev/null; then
-              echo "::error::Open PR still uses $name"; exit 1
-            fi
-            tag="archive/20261111/reviewed/pr-$number/$name"
-            tagged="$(gh api "$api/git/ref/tags/$tag" --jq .object.sha 2>/dev/null || true)"
-            [[ -z "$tagged" || "$tagged" == "$sha" ]] || { echo "::error::Conflicting archive $tag"; exit 1; }
-            branchsha="$(gh api "$api/git/ref/heads/$name" --jq .object.sha 2>/dev/null || true)"
-            [[ "$branchsha" == "$sha" || ( -z "$branchsha" && "$tagged" == "$sha" ) ]] || { echo "::error::Branch SHA mismatch $name"; exit 1; }
-            echo "VERIFIED PR #$number $name"
-          done
-          # Create and verify ALL immutable recovery pointers first.
-          for row in "${rows[@]}"; do
-            IFS='|' read -r number name sha mode replacement <<< "$row"
-            tag="archive/20261111/reviewed/pr-$number/$name"
-            if ! gh api "$api/git/ref/tags/$tag" >/dev/null 2>&1; then
-              gh api -X POST "$api/git/refs" -f ref="refs/tags/$tag" -f sha="$sha" >/dev/null
-            fi
-            [[ "$(gh api "$api/git/ref/tags/$tag" --jq .object.sha)" == "$sha" ]] || exit 1
-          done
-          # Exact-SHA lease and open-PR check immediately precede deletion.
-          for row in "${rows[@]}"; do
-            IFS='|' read -r number name sha mode replacement <<< "$row"
-            actual="$(gh api "$api/git/ref/heads/$name" --jq .object.sha 2>/dev/null || true)"
-            if [[ -n "$actual" ]]; then
-              [[ "$actual" == "$sha" ]] || exit 1
-              now_open="$(gh api "$api/pulls?state=open&per_page=100")"
-              [[ "$(jq length <<< "$now_open")" -lt 100 ]] || exit 1
-              if jq -e --arg b "$name" 'any(.[]; .head.ref==$b)' <<< "$now_open" >/dev/null; then exit 1; fi
-              gh api -X DELETE "$api/git/refs/heads/$name" >/dev/null
-            fi
-            if gh api "$api/git/ref/heads/$name" >/dev/null 2>&1; then exit 1; fi
-            echo "RETIRED #$number $name (tag preserved)"
-          done
-          echo "PASS: all 13 reviewed branches archived before removal; main untouched"
