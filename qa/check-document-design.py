@@ -55,7 +55,7 @@ assert '<h2>수익구조·공급 분석으로 사업화 조건 판단</h2>' in s
 assert '월 완료 199건(산정)·손익분기 1,082건 비교 후 확대 결정' in site_html, 'M-03 quantitative reasoning missing'
 assert '공급·고객 획득·운영 비용을 검증하고' in site_html, 'M-03 expansion criteria missing'
 assert '<h2>제휴 공급·계약 책임 확인 후 제한 운영, 실측 수익성으로 확대 심의</h2>' in plan_html, 'Decision page and website disagree'
-assert '월서비스완료' in compact_plan and ('199건(가정)' in compact_plan or '199건(산정기준)' in compact_plan) and '손익분기점1,082건' in compact_plan, 'Published plan PDF decision does not contain scenario comparison'
+assert '199건' in compact_plan and '1,082건' in compact_plan and '제휴공급·계약책임확인후제한운영' in compact_plan, 'Published plan PDF does not retain assumptions and revised decision'
 assert '팀 조사 기록을 바탕으로 작성한 개인 전략 보고서입니다.' not in site_html, 'Duplicated homepage disclaimer returned'
 assert '개인 사업기획서 · 가정·계획과 실제 성과 구분' not in plan_html, 'Repeated defensive footer returned'
 assert plan_html.count('MOSIGO · 전략기획 보고서') >= 19, 'Neutral document footer should appear on all pages'
@@ -65,7 +65,8 @@ legacy_terms = ('손익분기점점','고객지원','취소비','노동비용','
 for term in legacy_terms:
     assert term not in plan_html, f'Unreviewed wording remains in business plan: {term}'
     assert term not in site_html, f'Unreviewed wording remains on website: {term}'
-duplicate_word = re.compile(r'([가-힣]{2,})\s+\1(?=[\s·,./)]|$)')
+# Only flag a duplicated word on the same line; independent titles and labels may share an ending.
+duplicate_word = re.compile(r'([가-힣]{2,})[ \t]+\1(?=[ \t·,./)]|$)')
 
 def assert_no_repeated_sentences(text, label):
     normalized = re.sub(r'\s+', ' ', text).strip()
