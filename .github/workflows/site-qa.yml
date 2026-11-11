@@ -152,17 +152,23 @@ jobs:
               exit 1
             fi
           done
+      - name: Install Poppler PDF utilities from conda-forge
+        run: |
+          set -euo pipefail
+          prefix="$RUNNER_TEMP/mosigo-poppler"
+          /usr/share/miniconda/bin/conda create --yes --prefix "$prefix" --override-channels --channel conda-forge 'poppler=26.09.0'
+          "$prefix/bin/pdfinfo" -v
+          "$prefix/bin/pdftotext" -v
+          echo "$prefix/bin" >> "$GITHUB_PATH"
       - name: Extract final document text for editorial QA
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq poppler-utils
+          command -v pdfinfo && command -v pdftotext
           python3 -m venv /tmp/mosigo-editorial-venv
           /tmp/mosigo-editorial-venv/bin/pip install --quiet python-pptx openpyxl
           /tmp/mosigo-editorial-venv/bin/python qa/extract-editorial-text.py
       - name: Verify PDF, PPTX, embedded fonts and color contrast
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq poppler-utils
+          command -v pdfinfo && command -v pdftotext
           python3 qa/check-document-design.py
       - name: Save QA reports
         if: always()
