@@ -51,7 +51,9 @@ jobs:
       - name: Install browser and Lighthouse
         run: |
           npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1 lighthouse@13.6.0 puppeteer-core@25.16.0
-          npx --no-install playwright install --with-deps chromium
+          # GitHub-hosted Ubuntu already includes Chrome runtime libraries; avoid flaky apt mirrors.
+          # Still download and run the pinned Playwright Chromium browser for every QA check.
+          npx --no-install playwright install chromium
       - name: Test exact repository build
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/mosigo-qa-http.log 2>&1 &
