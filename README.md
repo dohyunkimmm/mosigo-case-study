@@ -1,6 +1,16 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
-## 2026-11-09 Vercel 운영 배포 기준 확인
+## 2026-11-11 `main` 파일·문서 동기화
+
+- 기준 커밋: [`12549ad`](https://github.com/dohyunkimmm/mosigo-case-study/commit/12549ad9e2f535808342d6a8cd6939ce1dbf4c7b). 재귀 트리 **파일 163개·디렉터리 10개**(루트 파일 9개·최상위 폴더 5개). 동일 Git blob SHA인 파일 **0쌍**. 기존 기록의 **160개 파일**은 2026-11-09의 스냅샷으로 현행 수량이 아닙니다.
+- `downloads/`에는 최상위 원본·게시 파일 **8개**와 `previews/`의 **WebP 84개**가 유지됩니다. 19쪽 사업기획서, 11장 발표자료, 12장 IR 및 XLSX·PRD의 공개 경로는 변경하지 않습니다.
+- [#93](https://github.com/dohyunkimmm/mosigo-case-study/pull/93)(상단 소개 정리), [#94](https://github.com/dohyunkimmm/mosigo-case-study/pull/94)(웹·문서 중복 문구 정리), [#98](https://github.com/dohyunkimmm/mosigo-case-study/pull/98)(재생성 PDF/PPTX·미리보기 반영)은 모두 `main`에 병합됐습니다.
+- 미병합 종료된 자동 생성 [#95](https://github.com/dohyunkimmm/mosigo-case-study/pull/95)·[#96](https://github.com/dohyunkimmm/mosigo-case-study/pull/96)·[#97](https://github.com/dohyunkimmm/mosigo-case-study/pull/97)의 변경 파일 **10·11·8개, 총 29개**는 각각 [#98](https://github.com/dohyunkimmm/mosigo-case-study/pull/98) 및 현재 `main`의 **같은 경로·Git blob SHA와 전부 일치**합니다. 따라서 이 3건의 산출물은 추가 병합할 필요가 없습니다. 점검 시 열린 PR은 **0건**입니다.
+- [`main` Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43025171713)와 [모바일 Safari 엔진 QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43025171640)가 성공했습니다. 운영 Vercel 배포가 `12549ad`와 정확히 일치하는지는 **별도 미확인**이며, 아래 11월 9일 배포 기록을 현재 상태로 해석하지 않습니다.
+- `main` 외 `automation/*` 브랜치 **9개**가 남아 있습니다. #95~#97의 산출물은 중복 확인됐지만, 과거 6개 브랜치까지 내용·보관 태그·SHA를 모두 검증한 것은 아닙니다. 기존 보존 절차에 따라 **원본 HEAD 태그 보존과 참조 대조 전에는 삭제하지 않습니다**. 폴더 역시 원본 다운로드·84개 미리보기·`qa/` 생성기·호환 리디렉션을 임의 삭제하지 않습니다.
+
+
+## 2026-11-09 Vercel 운영 배포 기준 확인 (과거 스냅샷)
 
 - 2026-11-09 조회 시점의 마지막 Vercel 운영 배포 **READY**는 [`feb114f`](https://github.com/dohyunkimmm/mosigo-case-study/commit/feb114f8a6380747fcc63ef8b539933f39b7548e)([배포 기록](https://vercel.com/dohyunkimm/mosigo-case-study/F2h3HLnYN2rv56b6p4SxjnYUjqQL)), 같은 조회 시점 GitHub `main`은 [`8d77935`](https://github.com/dohyunkimmm/mosigo-case-study/commit/8d77935eeae7ce7eeb8de436ba7fdd6b64f89f93)입니다. **당시 `main` SHA의 새 운영 배포 확인은 미완료**입니다. 같은 날짜 Vercel GitHub 상태 검사에서는 미리보기 배포 횟수 제한 오류가 관측됐습니다.
 - 두 커밋의 GitHub Compare 변경 파일은 **`.github/workflows/ppt-preview.yml`, `qa/style-presentation.py`, `README.md` 3개뿐**입니다. 공개 `index.html`, `assets/`, `downloads/` 파일 변경은 **0개**이므로 현재 확인 가능한 공개 보고서·다운로드 콘텐츠 차이는 없습니다. 그렇더라도 점검 시점의 `main` 배포가 성공했다고 표시하지 않습니다.
@@ -44,12 +54,12 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 
 2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-09 GitHub `main` 재귀 트리 기준 파일 160개·디렉터리 10개**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
 
-## 2026-11-09 `main` 목록 및 생성 산출물 동기화
+## 2026-11-09 `main` 목록 및 생성 산출물 동기화 (과거 기록)
 
 - 최신 [`main` `5409063`](https://github.com/dohyunkimmm/mosigo-case-study/commit/54090635c2068c6dbf9c4c408b146f0009acc3e0)의 잘리지 않은 재귀 트리는 **160개 파일·10개 디렉터리**(루트 파일 9개·최상위 폴더 5개)입니다. 앞선 159개 파일 수는 11월 8일 당시 스냅샷입니다. 동일 Git blob SHA 중복은 발견하지 못했으며, 정적 진입점과 호환용 HTML, 원본 PPTX/PDF/XLSX, 84개 미리보기 및 `qa/` 생성 도구는 참조 확인 전 제거하지 않습니다.
 - **산출물 반영 완료:** 자동 생성 [#72](https://github.com/dohyunkimmm/mosigo-case-study/pull/72)·[#73](https://github.com/dohyunkimmm/mosigo-case-study/pull/73)의 원본 Git blob SHA 그대로 PDF 2개·PPTX 1개를 새 검토용 [#82](https://github.com/dohyunkimmm/mosigo-case-study/pull/82)로 통합했습니다. 보호된 `main`의 필수 QA 및 문서 변환 검사 통과 후 [`feb114f`](https://github.com/dohyunkimmm/mosigo-case-study/commit/feb114f8a6380747fcc63ef8b539933f39b7548e)로 병합됐으며 원본 PR 2건은 중복 방지를 위해 미병합 종료했습니다. 공개 경로 및 기존 WebP 미리보기는 유지했습니다.
 - **반복 생성 방지:** 재생성 PR [#83](https://github.com/dohyunkimmm/mosigo-case-study/pull/83)은 동일 화면·본문의 바이너리 재저장 문제로 미병합 종료하고, [#84](https://github.com/dohyunkimmm/mosigo-case-study/pull/84)([`e3f5277`](https://github.com/dohyunkimmm/mosigo-case-study/commit/e3f527780259f36292196e0ad231ca496e692df5))에서 이미 정규화된 PPTX 바이트 유지와 11쪽 PDF 추출 텍스트·22개 WebP 동일성 확인 시 기존 PDF를 보존하도록 개선했습니다. 해당 PR의 필수 QA·문서 변환은 성공했습니다. Vercel 미리보기는 **무료 배포 횟수 제한**으로 실패했으며 이를 사이트 QA 통과와 혼동하지 않습니다.
-- 최신 `main`의 Site QA·PRD Evidence QA·모바일 Safari 엔진 QA·네이티브 iOS Safari 시뮬레이터 QA는 성공 기록이 있습니다. 이는 **현재 두 생성 PR의 산출물 검사 완료**를 의미하지 않습니다. 생성 PR의 최신 검사와 PDF/PPT 문서 일치 결과를 확인한 다음 별도로 반영해야 합니다.
+- 해당 시점 `main`의 Site QA·PRD Evidence QA·모바일 Safari 엔진 QA·네이티브 iOS Safari 시뮬레이터 QA는 성공 기록이 있었습니다. 이는 **당시 두 생성 PR의 산출물 검사 완료**를 의미하지 않았으며, 이후 변경 반영은 위 2026-11-11 현황을 우선합니다. 생성 PR의 최신 검사와 PDF/PPT 문서 일치 결과를 확인한 다음 별도로 반영해야 합니다.
 - 연계 [mosigo 앱 저장소](https://github.com/dohyunkimmm/mosigo)의 열린 [#88 Blob 보존/복구 이슈](https://github.com/dohyunkimmm/mosigo/issues/88)는 본 보고서의 완료 항목이 아닙니다. 로컬 폴더의 명백한 임시/동일 파일은 검출되지 않았으므로 기존 공개 경로와 다운로드 파일은 그대로 보존합니다.
 
 ## 자료의 구분
