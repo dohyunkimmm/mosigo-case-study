@@ -9,6 +9,14 @@ if [ "${VERCEL_ENV:-}" != "production" ]; then
   exit 1
 fi
 
+# Explicit, reviewed production resynchronization only. Do not disable the
+# ordinary docs-only skip policy for other commits. Read the local git message
+# because Vercel Git system environment variables may be disabled.
+if git log -1 --format=%B 2>/dev/null | grep -Fq '[force deploy]'; then
+  echo "Build: explicit [force deploy] commit marker."
+  exit 1
+fi
+
 # Vercel's Git clone may be shallow. Never skip if the diff is unavailable.
 if ! git rev-parse --verify 'HEAD^' >/dev/null 2>&1; then
   echo "Build: parent commit unavailable (fail open)."
