@@ -1,13 +1,9 @@
 # Read-only checks precede tag creation and any unprotected branch deletion.
-# Merge cleanup prevents historical branches accumulating again.
-name: Archive merged PR branches and retire reviewed staging
+# Preserve merged PR SHA before retiring reviewed branch references.
+name: Archive merged PR branches
 on:
   pull_request:
     types: [closed]
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/archive-merged-pr-branches.yml'
 
 permissions:
   contents: write
@@ -73,40 +69,3 @@ jobs:
             fi
           fi
           echo "PASS archived merged PR #$PR_NUMBER as $tag"
-
-  retire-net-zero-staging:
-    # One-time migration, triggered only by introducing this workflow on main.
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    env:
-      GH_TOKEN: ${{ github.token }}
-    steps:
-      - name: Retire exact staging HEAD only if all its committed files match a main ancestor
-        shell: bash
-        run: |
-          set -euo pipefail
-          api="repos/${GITHUB_REPOSITORY}"
-          name="chore/v03-pdf-asset-staging-20261108"
-          expected="63250e36eeb65e5a9191dc628150196fa3032612"
-          baseline="c56de1c9cc6c099e5bc0a048ee24e905d77aef4b"
-          tag="archive/20261108/$name"
-          [[ "$(gh api "$api/git/ref/heads/main" --jq .object.sha)" == "$GITHUB_SHA" ]] || exit 1
-          [[ "$(gh api "$api/git/ref/heads/$name" --jq .object.sha)" == "$expected" ]] || exit 1
-          before="$(gh api "$api/git/commits/$baseline" --jq .tree.sha)"
-          after="$(gh api "$api/git/commits/$expected" --jq .tree.sha)"
-          [[ "$after" == "$before" ]] || { echo "::error::Staging has unique file changes"; exit 1; }
-          [[ "$(gh api "$api/compare/main...$baseline" --jq .ahead_by)" == 0 ]] || exit 1
-          open_prs="$(gh api "$api/pulls?state=open&per_page=100")"
-          [[ "$(jq length <<< "$open_prs")" -lt 100 ]] || exit 1
-          if jq -e --arg b "$name" 'any(.[]; .head.ref==$b)' <<< "$open_prs" >/dev/null; then exit 1; fi
-          if actual="$(gh api "$api/git/ref/tags/$tag" --jq .object.sha 2>/dev/null)"; then
-            [[ "$actual" == "$expected" ]] || exit 1
-          else
-            gh api -X POST "$api/git/refs" -f ref="refs/tags/$tag" -f sha="$expected" >/dev/null
-          fi
-          [[ "$(gh api "$api/git/ref/tags/$tag" --jq .object.sha)" == "$expected" ]] || exit 1
-          [[ "$(gh api "$api/git/ref/heads/$name" --jq .object.sha)" == "$expected" ]] || exit 1
-          gh api -X DELETE "$api/git/refs/heads/$name" >/dev/null
-          if gh api "$api/git/ref/heads/$name" >/dev/null 2>&1; then exit 1; fi
-          echo "PASS nine staging-only commits have no net file changes; original SHA archived under $tag"
