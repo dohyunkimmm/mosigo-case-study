@@ -39,6 +39,15 @@ jobs:
           node-version: '22'
       - name: Verify Vercel ignore-build behavior
         run: bash qa/test-vercel-ignore-build.sh
+      # GitHub's Azure Ubuntu mirror had repeated DNS failures on 2026-11-11.
+      # Keep the same dependencies and QA thresholds; change only mirror routing.
+      - name: Use official Ubuntu mirrors when Azure mirror DNS is unavailable
+        run: |
+          set -euo pipefail
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf 'https://archive.ubuntu.com/ubuntu/\tpriority:1\nhttps://security.ubuntu.com/ubuntu/\tpriority:2\n' | sudo tee /etc/apt/apt-mirrors.txt
+          fi
+          printf '%s\n' 'Acquire::Retries "1";' 'Acquire::http::Timeout "20";' 'Acquire::https::Timeout "20";' | sudo tee /etc/apt/apt.conf.d/99mosigo-ci-network
       - name: Install browser and Lighthouse
         run: |
           npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1 lighthouse@13.6.0 puppeteer-core@25.16.0
