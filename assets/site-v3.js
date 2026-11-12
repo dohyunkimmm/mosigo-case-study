@@ -200,7 +200,7 @@ function setupDocuments(){
    if(fullImage && $("#v3-fullscreen").open) {
       resetZoom();
       fullImage.src="/downloads/previews/"+doc.prefix+"-"+String(page).padStart(2,"0")+".webp";
-      fullImage.alt=doc.label+" "+page+(key==="plan"?"쪽":"장")+" 전체화면 미리보기";
+      fullImage.alt=doc.label+" "+page+"페이지"+" 전체화면 미리보기";
    }
    const count=$("#v3-thumb-count");if(count)count.textContent=doc.label+" "+page+" / "+doc.total;
  }

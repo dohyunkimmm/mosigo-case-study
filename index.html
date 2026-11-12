@@ -707,9 +707,9 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <div id="attachments" class="quick-documents" aria-label="모시고 자료"><div class="attachment-heading"><h2>자료</h2></div>
 <div class="doc-toolbar" aria-label="문서 미리보기 도구">
 <div class="doc-tabs" role="group" aria-label="문서 선택">
-<button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>19쪽</small></button>
-<button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">발표자료 <small>11장</small></button>
-<button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR 자료 <small>12장</small></button></div>
+<button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>19페이지</small></button>
+<button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">발표자료 <small>11페이지</small></button>
+<button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR 자료 <small>12페이지</small></button></div>
 
 </div>
 <iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
@@ -718,9 +718,9 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <button id="doc-prev" type="button" disabled>이전</button>
 <div id="slide-tools" class="slide-tools"><label class="sr-only" for="slide-jump">페이지 선택</label><select id="slide-jump"></select></div>
 <button id="doc-next" type="button">다음</button>
-<div class="doc-page-actions"><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1쪽, 전체 19쪽">1 / 19쪽</span><button id="doc-expand" type="button">크게 보기</button></div>
+<div class="doc-page-actions"><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1페이지, 전체 19페이지">1 / 19페이지</span><button id="doc-expand" type="button">크게 보기</button></div>
 </div>
-<a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 문서 쪽 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1쪽 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
+<a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 페이지 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1페이지 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
 </div>
 <dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><div class="v3-zoom-viewport"><button type="button" id="v3-doc-zoom" aria-label="문서 이미지 확대" aria-pressed="false"><img id="v3-fullscreen-img" alt=""></button></div><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF를 다운로드하거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
 <div class="doc-links" aria-label="선택한 문서 다운로드">
@@ -807,16 +807,15 @@ const docFrame=document.getElementById('doc-frame'),docPdfSave=document.getEleme
 const docImage=document.getElementById('doc-page-img'),docImageLink=document.getElementById('doc-page-open');
 const docPrev=document.getElementById('doc-prev'),docNext=document.getElementById('doc-next'),docPageCount=document.getElementById('doc-page-count');
 const docConfigs={
- plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:19,images:'plan',unit:'쪽',file:'mosigo_business_plan_20261031.pdf'},
- presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 11장 미리보기',label:'발표자료',pages:11,images:'slides',unit:'장',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
- ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO IR 자료 12장',label:'IR 자료',pages:12,images:'ir',unit:'장',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
+ plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:19,images:'plan',file:'mosigo_business_plan_20261031.pdf'},
+ presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 미리보기',label:'발표자료',pages:11,images:'slides',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
+ ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO IR 자료',label:'IR 자료',pages:12,images:'ir',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
 };
 let currentDocument='plan',currentDocumentPage=1;
 const savedPages = {};
 try { Object.assign(savedPages, JSON.parse(localStorage.getItem('mosigo-document-pages') || '{}')); } catch {}
 const slideJump=document.getElementById('slide-jump');
 let jumpDocument;
-const slideTitles=['서비스기획·PRD','사용자 문제와 요구사항의 근거','고객별 가치와 전환 장벽','예약자와 이용자 요구사항 정의','서비스 제공 방식과 운영 전제','서비스 요구사항과 운영 정책','대리 예약의 핵심 경험과 요구사항','공급 상한과 월 손익분기점','상품별 이용 조건과 수익성 비교','제품기획 단계와 실행 우선순위','시범 운영 전 확인할 것'];
 
 slideJump.addEventListener('change',()=>window.MOSIGO_DOC.setPage(slideJump.value));
 const rememberedPage = key => Math.max(1, Math.min(docConfigs[key].pages, Math.trunc(Number(savedPages[key])) || 1));
@@ -829,15 +828,14 @@ function renderMobileDocumentPage(){
  const fullPath=path.replace('-sm.webp','.webp');
  docImage.srcset=path+' 800w, '+fullPath+' 1400w';
  docImage.sizes='(max-width:800px) 100vw, 1000px';
- if(docImage.getAttribute('src')!==path)docImage.src=path;docImage.alt=doc.label+' '+currentDocumentPage+doc.unit+' 미리보기';
+ if(docImage.getAttribute('src')!==path)docImage.src=path;docImage.alt=doc.label+' '+currentDocumentPage+'페이지'+' 미리보기';
  docImageLink.href=fullPath;
- docPageCount.textContent=currentDocumentPage+' / '+doc.pages+doc.unit;
-  docPageCount.setAttribute('aria-label','현재 '+currentDocumentPage+doc.unit+', 전체 '+doc.pages+doc.unit);
+ docPageCount.textContent=currentDocumentPage+' / '+doc.pages+'페이지';
+  docPageCount.setAttribute('aria-label','현재 '+currentDocumentPage+'페이지'+', 전체 '+doc.pages+'페이지');
  if(jumpDocument!==currentDocument){
    const options=Array.from({length:doc.pages},(_,index)=>{
      const number=index+1;
-     const title=currentDocument==='presentation'?' · '+slideTitles[index]:'';
-     return new Option(number+doc.unit+title,number);
+     return new Option(number+'페이지',number);
    });
    slideJump.replaceChildren(...options);
    jumpDocument=currentDocument;
@@ -879,4 +877,4 @@ ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>update(
 document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update(true);});
 update();
 })();
-</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=document-controls"></script></body></html>
+</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=page-labels"></script></body></html>
