@@ -39,7 +39,7 @@ try {
     assert.equal(await page.locator('.hero h1').count(), 1, width + 'px one main report heading');
     const darkPanelColor = await page.locator('.panel.dark p').first().evaluate(node => getComputedStyle(node).color);
     assert.equal(darkPanelColor, 'rgb(232, 243, 233)', width + 'px dark strategic card text contrast');
-    assert.equal(await page.locator('.hero .intro').count(), 0, width + 'px redundant hero summary removed');
+    assert.equal(await page.locator('.hero .intro, .v3-hero-summary, .hero-evidence, .artifact-shortcuts').count(), 0, width + 'px redundant hero summary removed');
     assert.ok((await page.locator('.attachment-heading p').textContent()).includes('추가 산출물: PRD'), width + 'px concise document description');
     const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
     assert.equal(heading, 'MOSIGO병원동행서비스신사업기획', width + 'px single new-business-planning report title');
@@ -52,7 +52,7 @@ try {
     assert.ok(!visibleLabels.join(' ').includes('STRATEGY REPORT'), width + 'px no competing report slogan');
 
     assert.equal(await page.locator('.docs-note').count(), 0, width + 'px no redundant disclaimer beneath documents');
-    assert.equal(await page.locator('.hero-actions a[href="#decision"]').count(), 1, width + 'px decision CTA');
+    assert.equal(await page.locator('.hero-actions a[href="#decision"]').count(), 0, width + 'px decision remains in the contents');
     assert.equal(await page.locator('.hero-actions a[href="#attachments"]').count(), 1, width + 'px business-plan CTA');
     assert.equal(await page.locator('#product .supporting-note a[href="downloads/mosigo_prd_delivery.html"]').count(), 1, width + 'px PRD is a supplementary planning output');
     assert.equal(await page.locator('.business-model-choice article').count(), 3, width + 'px strategy alternatives');
@@ -246,12 +246,10 @@ try {
   await fallbackPage.goto(base, {waitUntil:'load'});
   const fallbackGeometry = await fallbackPage.evaluate(() => ({
     pending: document.documentElement.classList.contains('mobile-font-pending'),
-    summary: document.querySelector('.v3-hero-summary').getBoundingClientRect().height,
     strategy: document.querySelector('.v3-hero-metric.is-text strong').getBoundingClientRect().height,
     metrics: document.querySelector('.v3-hero-metrics').getBoundingClientRect().height
   }));
   assert.equal(fallbackGeometry.pending, true, 'mobile webfont fallback stays active until font loads');
-  assert.ok(fallbackGeometry.summary <= 72, 'mobile strategy statement stays on two lines without remote font');
   assert.ok(fallbackGeometry.strategy <= 32, 'mobile strategy card stays on one line without remote font');
   assert.ok(fallbackGeometry.metrics <= 176, 'mobile metrics grid height stays stable without remote font');
   await fallbackPage.close();

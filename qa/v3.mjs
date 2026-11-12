@@ -15,7 +15,7 @@ try{
   assert.equal(response.status(),200);
   assert.equal(await page.locator('.v3-phase-link').count(),0,'duplicate phase shortcuts removed');
   assert.equal(await page.locator('.nav-link').count(),9,'primary contents navigation retained');
-  assert.equal(await page.locator('.hero-actions a[href="#decision"]').count(),1,'decision is the primary hero CTA');
+  assert.equal(await page.locator('.hero-actions a[href="#decision"]').count(),0,'decision shortcut is provided in the contents');
   assert.equal(await page.locator('.hero-actions a[href="#attachments"]').count(),1,'business plan is a visible hero CTA');
   assert.equal(await page.locator('.hero-actions a[href="downloads/mosigo_prd_delivery.html"]').count(),0,'PRD is not the primary hero action');
   assert.equal(await page.locator('.business-model-choice article.is-priority').count(),1,'one conditional priority business model');
