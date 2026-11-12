@@ -35,7 +35,7 @@ for (const path of [
 ]) assert.ok(!existsSync(path), 'private QA evidence must not be committed to public case study: ' + path);
 assert.ok(site.includes('핵심 기능 6개와 사용자 흐름·화면·예외 정책을 정의했습니다.'));
 assert.ok(!site.includes('mosigo_qa_appendix.html') && !site.includes('QA·인수인계'), 'Public portfolio must not expose QA appendix or QA handoff claims');
-assert.ok(site.includes('추가 산출물 · 서비스기획·PRD') && site.includes('개념 시안 3종'), 'PRD must remain a clearly labeled supplementary deliverable');
+assert.ok(site.includes('제품 요구사항 정의서 보기') && site.includes('개념 시안 3종'), 'PRD must remain a clearly labeled supplementary deliverable');
 assert.ok(!site.includes('기능 검수') && !site.includes('인수인계'), 'public portfolio uses product planning vocabulary');
 assert.ok(plan.includes('사용자 경험 중심 제품 요구사항'));
 assert.ok(plan.includes('탐색부터 대리 신청·진행 공유까지'));
