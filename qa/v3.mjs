@@ -46,10 +46,12 @@ try{
   await page.locator('#reset').click();
   assert.equal(await page.locator('#users').inputValue(),'15000');
   assert.equal(new URL(page.url()).searchParams.has('v_users'),false,'reset removes nondefault query');
+  assert.equal(await page.locator('#slide-jump option').count(),19,'plan page selection');
   await page.locator('#doc-next').click();
   await page.locator('#doc-next').click();
   assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('plan-03-sm.webp'));
   await page.locator('[data-doc-preview="presentation"]').click();
+  assert.equal(await page.locator('#slide-jump option').count(),11,'presentation page selection');
   assert.match(await page.locator('#doc-pptx-save').getAttribute('href'),/mosigo_report\.pptx$/);
 
   assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('slides-01-sm.webp'));
@@ -62,6 +64,7 @@ try{
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),false,'dialog closes');
   await page.waitForFunction(()=>document.activeElement?.id==='doc-expand');
   await page.locator('[data-doc-preview="ir"]').click();
+  assert.equal(await page.locator('#slide-jump option').count(),12,'IR page selection');
   assert.match(await page.locator('#doc-pptx-save').getAttribute('href'),/MOSIGO_IR_Investment_Review_12slides\.pptx$/);
   await page.waitForFunction(() => document.querySelector('#doc-page-img')?.getAttribute('src')?.endsWith('ir-01-sm.webp'));
   await page.locator('#doc-next').click();

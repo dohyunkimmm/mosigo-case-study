@@ -455,7 +455,7 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <main class="content" id="top">
 <header class="hero"><div class="hero-inner">
 <h1>MOSIGO<br><i>병원 동행 서비스 신사업 기획</i></h1>
-<div class="hero-actions"><a class="btn ghost" href="#attachments">기획 자료 보기 <span aria-hidden="true">↘</span></a></div>
+<div class="hero-actions"><a class="btn ghost" href="#attachments">자료 보기 <span aria-hidden="true">↘</span></a></div>
 <div class="v3-hero-metrics" aria-label="신사업 기획 핵심 판단과 산정 가정">
 <div class="v3-hero-metric is-text"><small>우선 사업화 전략</small><strong>기존 사업자 제휴</strong></div>
 <div class="v3-hero-metric"><small>초기 월 완료 추정</small><strong>199건</strong></div>
@@ -704,19 +704,19 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <p>재무 가정: 월 완료 199건 · 공헌이익 3,700원/건 · 손익분기 1,082건(기회비용 포함)</p>
 </div></details></section>
 <footer class="footer"><span>MOSIGO · 전략기획 보고서</span><a href="https://mosigo-nine.vercel.app/" class="prototype-link footer-demo" target="_blank" rel="noopener noreferrer" aria-label="MOSIGO 서비스 데모 새 창에서 열기"><img class="emoji-icon" src="/assets/tossface-phone.png" alt="" aria-hidden="true" width="18" height="18"> 서비스 데모 ↗</a></footer>
-<div id="attachments" class="quick-documents" aria-label="신사업 기획 주요 산출물과 추가 자료"><div class="attachment-heading"><h2>기획 자료</h2></div>
+<div id="attachments" class="quick-documents" aria-label="모시고 자료"><div class="attachment-heading"><h2>자료</h2></div>
 <div class="doc-toolbar" aria-label="문서 미리보기 도구">
 <div class="doc-tabs" role="group" aria-label="문서 선택">
 <button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>19쪽</small></button>
-<button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">서비스기획 발표자료 <small>11장</small></button>
-<button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR Deck <small>12장</small></button></div>
+<button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">발표자료 <small>11장</small></button>
+<button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR 자료 <small>12장</small></button></div>
 
 </div>
 <iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
 <div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="문서 페이지 보기">
 <div class="mobile-page-controls">
 <button id="doc-prev" type="button" disabled>이전</button>
-<div id="slide-tools" class="slide-tools" hidden><label class="sr-only" for="slide-jump">슬라이드</label><select id="slide-jump"></select></div>
+<div id="slide-tools" class="slide-tools"><label class="sr-only" for="slide-jump">페이지 선택</label><select id="slide-jump"></select></div>
 <button id="doc-next" type="button">다음</button>
 <div class="doc-page-actions"><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1쪽, 전체 19쪽">1 / 19쪽</span><button id="doc-expand" type="button">크게 보기</button></div>
 </div>
@@ -809,14 +809,15 @@ const docPrev=document.getElementById('doc-prev'),docNext=document.getElementByI
 const docConfigs={
  plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:19,images:'plan',unit:'쪽',file:'mosigo_business_plan_20261031.pdf'},
  presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 11장 미리보기',label:'발표자료',pages:11,images:'slides',unit:'장',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
- ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO 실무형 IR Deck 12장',label:'IR Deck',pages:12,images:'ir',unit:'장',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
+ ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO IR 자료 12장',label:'IR 자료',pages:12,images:'ir',unit:'장',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
 };
 let currentDocument='plan',currentDocumentPage=1;
 const savedPages = {};
 try { Object.assign(savedPages, JSON.parse(localStorage.getItem('mosigo-document-pages') || '{}')); } catch {}
-const slideTools=document.getElementById('slide-tools'),slideJump=document.getElementById('slide-jump');
+const slideJump=document.getElementById('slide-jump');
+let jumpDocument;
 const slideTitles=['서비스기획·PRD','사용자 문제와 요구사항의 근거','고객별 가치와 전환 장벽','예약자와 이용자 요구사항 정의','서비스 제공 방식과 운영 전제','서비스 요구사항과 운영 정책','대리 예약의 핵심 경험과 요구사항','공급 상한과 월 손익분기점','상품별 이용 조건과 수익성 비교','제품기획 단계와 실행 우선순위','시범 운영 전 확인할 것'];
-slideTitles.forEach((title,index)=>slideJump.add(new Option((index+1)+'장 · '+title,index+1)));
+
 slideJump.addEventListener('change',()=>window.MOSIGO_DOC.setPage(slideJump.value));
 const rememberedPage = key => Math.max(1, Math.min(docConfigs[key].pages, Math.trunc(Number(savedPages[key])) || 1));
 currentDocumentPage = rememberedPage(currentDocument);
@@ -832,8 +833,16 @@ function renderMobileDocumentPage(){
  docImageLink.href=fullPath;
  docPageCount.textContent=currentDocumentPage+' / '+doc.pages+doc.unit;
   docPageCount.setAttribute('aria-label','현재 '+currentDocumentPage+doc.unit+', 전체 '+doc.pages+doc.unit);
- slideTools.hidden=currentDocument!=='presentation';
- if(!slideTools.hidden)slideJump.value=String(currentDocumentPage);
+ if(jumpDocument!==currentDocument){
+   const options=Array.from({length:doc.pages},(_,index)=>{
+     const number=index+1;
+     const title=currentDocument==='presentation'?' · '+slideTitles[index]:'';
+     return new Option(number+doc.unit+title,number);
+   });
+   slideJump.replaceChildren(...options);
+   jumpDocument=currentDocument;
+ }
+ slideJump.value=String(currentDocumentPage);
  docPrev.disabled=currentDocumentPage<=1;docNext.disabled=currentDocumentPage>=doc.pages;
 }
 window.MOSIGO_DOC={setPage(page){const n=Math.floor(Number(page));if(!Number.isFinite(n))return;currentDocumentPage=Math.max(1,Math.min(docConfigs[currentDocument].pages,n));renderMobileDocumentPage();},get(){return {document:currentDocument,page:currentDocumentPage};}};
@@ -870,4 +879,4 @@ ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>update(
 document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update(true);});
 update();
 })();
-</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=visual-review"></script></body></html>
+</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=document-controls"></script></body></html>
