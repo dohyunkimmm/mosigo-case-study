@@ -243,7 +243,7 @@ function setupDocuments(){
  },{passive:true});
  swipeTarget?.addEventListener("keydown",event=>{
    if(event.key!=="ArrowLeft"&&event.key!=="ArrowRight")return;
-   if(event.target.closest("button,a"))return;
+   if(event.target.closest("button,a,select"))return;
    const button=$(event.key==="ArrowRight"?"#doc-next":"#doc-prev");
    if(button&&!button.disabled){event.preventDefault();button.click();}
  });
