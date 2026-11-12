@@ -718,7 +718,7 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <button id="doc-prev" type="button" disabled>이전</button>
 <div id="slide-tools" class="slide-tools" hidden><label class="sr-only" for="slide-jump">슬라이드</label><select id="slide-jump"></select></div>
 <button id="doc-next" type="button">다음</button>
-<div class="doc-page-actions"><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1쪽, 전체 19쪽">1 / 19쪽</span><button id="doc-expand" type="button">크게 보기</button><a id="slide-permalink" href="?document=presentation&amp;page=1#attachments" hidden>현재 장 링크</a></div>
+<div class="doc-page-actions"><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1쪽, 전체 19쪽">1 / 19쪽</span><button id="doc-expand" type="button">크게 보기</button></div>
 </div>
 <a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 문서 쪽 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1쪽 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
 </div>
@@ -814,7 +814,7 @@ const docConfigs={
 let currentDocument='plan',currentDocumentPage=1;
 const savedPages = {};
 try { Object.assign(savedPages, JSON.parse(localStorage.getItem('mosigo-document-pages') || '{}')); } catch {}
-const slideTools=document.getElementById('slide-tools'),slideJump=document.getElementById('slide-jump'),slidePermalink=document.getElementById('slide-permalink');
+const slideTools=document.getElementById('slide-tools'),slideJump=document.getElementById('slide-jump');
 const slideTitles=['서비스기획·PRD','사용자 문제와 요구사항의 근거','고객별 가치와 전환 장벽','예약자와 이용자 요구사항 정의','서비스 제공 방식과 운영 전제','서비스 요구사항과 운영 정책','대리 예약의 핵심 경험과 요구사항','공급 상한과 월 손익분기점','상품별 이용 조건과 수익성 비교','제품기획 단계와 실행 우선순위','시범 운영 전 확인할 것'];
 slideTitles.forEach((title,index)=>slideJump.add(new Option((index+1)+'장 · '+title,index+1)));
 slideJump.addEventListener('change',()=>window.MOSIGO_DOC.setPage(slideJump.value));
@@ -833,15 +833,7 @@ function renderMobileDocumentPage(){
  docPageCount.textContent=currentDocumentPage+' / '+doc.pages+doc.unit;
   docPageCount.setAttribute('aria-label','현재 '+currentDocumentPage+doc.unit+', 전체 '+doc.pages+doc.unit);
  slideTools.hidden=currentDocument!=='presentation';
- slidePermalink.hidden=slideTools.hidden;
- if(!slideTools.hidden){
-   slideJump.value=String(currentDocumentPage);
-   const url=new URL(location.href);
-   url.searchParams.set('document','presentation');
-   url.searchParams.set('page',currentDocumentPage);
-   url.hash='attachments';
-   slidePermalink.href=url.href;
- }
+ if(!slideTools.hidden)slideJump.value=String(currentDocumentPage);
  docPrev.disabled=currentDocumentPage<=1;docNext.disabled=currentDocumentPage>=doc.pages;
 }
 window.MOSIGO_DOC={setPage(page){const n=Math.floor(Number(page));if(!Number.isFinite(n))return;currentDocumentPage=Math.max(1,Math.min(docConfigs[currentDocument].pages,n));renderMobileDocumentPage();},get(){return {document:currentDocument,page:currentDocumentPage};}};
