@@ -51,7 +51,7 @@ assert '손익비교용평균이용가' in compact_plan, 'Published PDF does not
 print('PASS price hypothesis/model separation in source and published PDF')
 site_html=Path('index.html').read_text(encoding='utf-8')
 assert '<h2>MOSIGO · 신사업 기획 요약</h2>' in site_html, 'M-01 planning heading drifted'
-assert '<h2>수익구조·공급 분석으로 사업화 조건 판단</h2>' in site_html, 'M-02 planning heading drifted'
+assert '<h2>공급 규모와 손익분기점</h2>' in site_html, 'M-02 planning heading drifted'
 assert '월 완료 199건(산정)·손익분기 1,082건 비교 후 확대 결정' in site_html, 'M-03 quantitative reasoning missing'
 assert '공급 시간·단가·취소 및 안전 책임 합의' in site_html, 'M-03 expansion criteria missing'
 assert '<h2>제휴 공급·계약 책임 확인 후 제한 운영, 실측 수익성으로 확대 심의</h2>' in plan_html, 'Decision page and website disagree'
@@ -108,7 +108,7 @@ for figure in ('199', '433', '541', '1,082'):
 assert '3,700' in compact_slides and '3,700' in ir_text, 'Slide/IR unit margin mismatch'
 assert '400만원' in re.sub(r'\s+', '', ir_text), 'IR pilot budget missing'
 assert '서비스기획' in compact_slides and 'PRD' in compact_slides, 'Supplemental PRD deck identity missing'
-assert '신사업 기획' in site_html and '추가 산출물 · 서비스기획·PRD' in site_html, 'Site/PRD document roles mismatched'
+assert '신사업 기획' in site_html and '제품 요구사항 정의서 보기' in site_html, 'Site/PRD document roles mismatched'
 for phrase in ('※ 공급·손익 수치는 기획상 산정 가정이며', '운영 성과를 의미하지 않습니다', '실제 운영·상용화가 완료됐다는 의미는 아닙니다'):
     assert phrase not in site_html, f'Redundant negative copy reintroduced: {phrase}'
 print('PASS website / planning deck / IR cross-document role and financial consistency')
@@ -181,7 +181,7 @@ with ZipFile(PPTX) as z:
     first=''.join((t.text or '') for t in title.findall('.//a:t',ns))
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
     if has_product_prd_deck:
-        assert '자녀의 대리 예약 문제를 정의하고' in first, 'Slide 1 product goal missing'
+        assert '자녀가 부모님의 병원 동행을 예약하고 진행 상황을 확인하는 흐름을 설계했습니다.' in first, 'Slide 1 product goal missing'
         assert '시범 운영 전 확인할 것' in last, 'Slide 11 decision heading missing'
         assert '부모 동의·대리 예약' in last, 'Slide 11 booking check missing'
         assert '제휴 공급·운영 책임' in last, 'Slide 11 partner check missing'
