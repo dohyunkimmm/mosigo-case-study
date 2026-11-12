@@ -276,3 +276,8 @@ for label, source, forbidden in (
     for phrase in forbidden:
         assert phrase not in source, f"{label}: legacy wording remains: {phrase}"
 print("PASS editorial regression checks: website and business plan")
+
+# Public-facing documents spell out requirement and review-stage shorthand.
+for public_doc in (PLAN, SLIDES, IR_PDF):
+    public_text = cmd('pdftotext', str(public_doc), '-')
+    assert not re.search(r'R\s*-\s*0[1-6]|\b[GP][0-3]\b|\b(?:BEP|CAC)\b', public_text), f'Unexpanded shorthand in {public_doc}'
