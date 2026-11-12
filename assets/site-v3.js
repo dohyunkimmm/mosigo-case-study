@@ -209,7 +209,9 @@ function setupDocuments(){
  for(const tab of tabs)tab.addEventListener("click",()=>requestAnimationFrame(refresh));
  const open=$("#doc-page-open"),dialog=$("#v3-fullscreen"),close=$("#v3-full-close");
  if(open&&dialog&&close){
-   open.addEventListener("click",event=>{
+   let opener=open;
+   function showPreview(event){
+     opener=event.currentTarget;
      event.preventDefault();
      if(typeof dialog.showModal==="function"){
        dialog.showModal();
@@ -217,9 +219,11 @@ function setupDocuments(){
        refresh();
      }
      else window.open($("#doc-page-open").href,"_blank","noopener");
-   });
+   }
+   open.addEventListener("click",showPreview);
+   $("#doc-expand").addEventListener("click",showPreview);
    close.addEventListener("click",()=>dialog.close());
-   dialog.addEventListener("close",()=>{resetZoom();open.focus();});
+   dialog.addEventListener("close",()=>{resetZoom();opener.focus();});
    dialog.addEventListener("keydown",event=>{
      if((event.key==="ArrowLeft" || event.key==="ArrowRight") && zoom.getAttribute("aria-pressed")!=="true"){
        event.preventDefault();

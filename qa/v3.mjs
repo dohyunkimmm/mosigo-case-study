@@ -22,7 +22,7 @@ try{
   assert.equal(await page.locator('.decision-gates li').count(),3,'final decision has three conditional approval gates');
   assert.equal(await page.locator('.v3-hero-metric').count(),3,'hero metrics');
   assert.equal(await page.locator('.v3-product-card').count(),3,'three verified concept wireframes');
-  assert.match(await page.locator('.v3-product-intro').textContent(),/개념\s*시안\s*3종/,'three concept screens are clearly labeled');
+  assert.equal((await page.locator('.product-gallery-title').textContent()).trim(),'대리 예약 화면 시안','concept screens are clearly labeled');
   assert.equal(await page.locator('.v3-scenario-picks button').count(),3);
   assert.equal(await page.locator('.v3-bar-col').count(),4,'three presets plus current assumptions');
   assert.equal(await page.locator('#v3-doc-thumbs,#v3-doc-page,#v3-view-full').count(),0);
@@ -53,13 +53,14 @@ try{
   assert.match(await page.locator('#doc-pptx-save').getAttribute('href'),/mosigo_report\.pptx$/);
 
   assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('slides-01-sm.webp'));
-  await page.locator('#doc-page-open').click();
+  await page.locator('#doc-expand').click();
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),true,'full-screen dialog opens');
   await page.locator('#v3-doc-zoom').click();
   assert.equal(await page.locator('#v3-doc-zoom').getAttribute('aria-pressed'),'true','expanded preview supports zoom');
   assert.equal(await page.locator('.v3-zoom-viewport').evaluate(e=>e.scrollWidth>e.clientWidth),true,'zoom supports horizontal reading');
   await page.locator('#v3-full-close').click();
   assert.equal(await page.locator('#v3-fullscreen').evaluate(x=>x.open),false,'dialog closes');
+  await page.waitForFunction(()=>document.activeElement?.id==='doc-expand');
   await page.locator('[data-doc-preview="ir"]').click();
   assert.match(await page.locator('#doc-pptx-save').getAttribute('href'),/MOSIGO_IR_Investment_Review_12slides\.pptx$/);
   await page.waitForFunction(() => document.querySelector('#doc-page-img')?.getAttribute('src')?.endsWith('ir-01-sm.webp'));
