@@ -29,7 +29,7 @@ try {
     assert.equal(check.overflow, false, width + 'px horizontal overflow');
     assert.equal(check.sections, 9, 'section count');
     assert.equal(check.details, 9, 'details count');
-    assert.equal(check.tables, 13, 'table count after removing repeated comparison tables');
+    assert.equal(check.tables, 10, 'table count after consolidating execution and decision tables');
     assert.ok(check.labels > 0 && check.unlabeled === 0, 'static table labels');
     assert.equal(check.open, 0, width + 'px concise chapter mode');
     assert.equal(check.mobileSummary, true, 'summary shown at every width');
@@ -40,7 +40,7 @@ try {
     const darkPanelColor = await page.locator('.panel.dark p').first().evaluate(node => getComputedStyle(node).color);
     assert.equal(darkPanelColor, 'rgb(232, 243, 233)', width + 'px dark strategic card text contrast');
     assert.equal(await page.locator('.hero .intro, .v3-hero-summary, .hero-evidence, .artifact-shortcuts').count(), 0, width + 'px redundant hero summary removed');
-    assert.ok((await page.locator('.attachment-heading p').textContent()).includes('추가 산출물: PRD'), width + 'px concise document description');
+    assert.equal((await page.locator('.attachment-heading').textContent()).trim(), '기획 자료', width + 'px concise document heading');
     const heading = (await page.locator('.hero h1').textContent()).replace(/\s+/g, '');
     assert.equal(heading, 'MOSIGO병원동행서비스신사업기획', width + 'px single new-business-planning report title');
     assert.equal((await page.locator('.v3-hero-metric.is-text small').textContent()).trim(), '우선 사업화 전략', width + 'px clear strategy label');
