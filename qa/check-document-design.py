@@ -52,7 +52,7 @@ print('PASS price hypothesis/model separation in source and published PDF')
 site_html=Path('index.html').read_text(encoding='utf-8')
 assert '<h2>MOSIGO · 신사업 기획 요약</h2>' in site_html, 'M-01 planning heading drifted'
 assert '<h2>공급 규모와 손익분기점</h2>' in site_html, 'M-02 planning heading drifted'
-assert '월 완료 199건(산정)·손익분기 1,082건 비교 후 확대 결정' in site_html, 'M-03 quantitative reasoning missing'
+assert '손익과 공급 여력을 확인한 뒤 확대 여부 결정' in site_html, 'M-03 quantitative reasoning missing'
 assert '공급 시간·단가·취소 및 안전 책임 합의' in site_html, 'M-03 expansion criteria missing'
 assert '<h2>제휴 공급·계약 책임 확인 후 제한 운영, 실측 수익성으로 확대 심의</h2>' in plan_html, 'Decision page and website disagree'
 assert '199건' in compact_plan and '1,082건' in compact_plan and '제휴공급·계약책임확인후제한운영' in compact_plan, 'Published plan PDF does not retain assumptions and revised decision'

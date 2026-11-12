@@ -107,10 +107,9 @@ try {
     assert.equal(await page.locator('#business a[download$=".xlsx"]').count(), 1, width + 'px calculation file in business section');
     assert.match(await page.locator('#market .chapter-content').textContent(), /15,000명.*1\.5회.*40,000원.*9억 원/, width + 'px market scenario arithmetic retained');
     assert.match(await page.locator('#customer .chapter-content h3.subhead').textContent(), /고객 이용 과업/, width + 'px duplicate customer hypothesis wording removed');
-    const decisionSummary = await page.locator('#decision .skim-verdict').textContent();
-    assert.ok(decisionSummary.includes('월 완료 199건(산정)'), width + 'px scenario label retained');
-    assert.ok(decisionSummary.includes('손익분기 1,082건'), width + 'px break-even count retained');
-    assert.ok(decisionSummary.includes('비교 후 확대 결정'), width + 'px decision described by action criteria');
+    const decisionSummary = await page.locator('#decision .decision-board').textContent();
+    assert.ok(decisionSummary.includes('시범 운영 여부를 결정'), width + 'px pilot decision retained');
+    assert.ok(decisionSummary.includes('손익과 공급 여력을 확인한 뒤 확대 여부 결정'), width + 'px expansion decision criteria retained');
 
     const demoLink = page.locator('a[href="https://mosigo-nine.vercel.app/"]');
     assert.equal(await demoLink.count(), 1, width + 'px exactly one demo link');
