@@ -140,7 +140,7 @@ try {
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/ir-01-sm.webp'), 'mobile IR preview');
       await page.locator('#doc-next').click();
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/ir-02-sm.webp'), 'mobile IR next slide');
-      assert.ok((await page.locator('#doc-page-count').innerText()).includes('12장'), 'IR slide count');
+      assert.ok((await page.locator('#doc-page-count').innerText()).includes('12페이지'), 'IR slide count');
       await page.locator('[data-doc-preview="plan"]').click();
       await page.waitForFunction(() => {const img=document.getElementById('doc-page-img');return img.complete&&img.naturalWidth>0;});
       const details = page.locator('details.chapter-detail').first();
