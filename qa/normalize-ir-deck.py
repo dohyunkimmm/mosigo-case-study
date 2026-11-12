@@ -1,4 +1,4 @@
-"""Apply MOSIGO IR visual identity without altering any slide copy or numbers.
+"""Apply MOSIGO IR visual identity while preserving business figures.
 
 Fonts: Pretendard across editable runs and the inherited PowerPoint theme.
 Pictogram: the existing unmodified Tossface phone PNG used on the MOSIGO website.
@@ -50,7 +50,8 @@ for slide in prs.slides:
                 if not run.text:
                     continue
                 run.text = (
-                    run.text.replace("20개 시·군 대상 지역을 가정한 규모", "20개 시·군 대상 지역 인구를 기준으로 산출한 규모")
+                    run.text.replace("⌈4,000,000÷3,700⌉", "4,000,000÷3,700 올림")
+                    .replace("20개 시·군 대상 지역을 가정한 규모", "20개 시·군 대상 지역 인구를 기준으로 산출한 규모")
                     .replace("20개 시·군 대상 지역을 산정 기준한 규모", "20개 시·군 대상 지역 인구를 기준으로 산출한 규모")
                     .replace("산정 기준: 고령 인구 대용 지표 · 지역별 실제 수요·통계 확인", "고령 인구는 시장 참고 지표 · 실제 이용 수요는 별도 확인")
                     .replace("미검증", "현장 확인 항목")
@@ -65,8 +66,6 @@ for slide in prs.slides:
     for frame in frames(slide.shapes):
         for paragraph in frame.paragraphs:
             for run in paragraph.runs:
-                if not run.text:
-                    continue
                 run.font.name = "Pretendard"
                 props = run._r.get_or_add_rPr()
                 for key in ("ea", "cs"):
