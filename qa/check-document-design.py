@@ -107,7 +107,7 @@ for figure in ('199', '433', '541', '1,082'):
     assert figure in re.sub(r'\s+', '', ir_text), f'IR financial quantity missing: {figure}'
 assert '3,700' in compact_slides and '3,700' in ir_text, 'Slide/IR unit margin mismatch'
 assert '400만원' in re.sub(r'\s+', '', ir_text), 'IR pilot budget missing'
-assert '서비스기획' in compact_slides and 'PRD' in compact_slides, 'Supplemental PRD deck identity missing'
+assert 'MOSIGO서비스기획' in compact_slides, 'Supplemental PRD deck identity missing'
 assert '신사업 기획' in site_html and '제품 요구사항 정의서 보기' in site_html, 'Site/PRD document roles mismatched'
 for phrase in ('※ 공급·손익 수치는 기획상 산정 가정이며', '운영 성과를 의미하지 않습니다', '실제 운영·상용화가 완료됐다는 의미는 아닙니다'):
     assert phrase not in site_html, f'Redundant negative copy reintroduced: {phrase}'
@@ -243,7 +243,7 @@ assert re.search(r'<div class="bep-row"><span>이론상 최대 공급</span>[^\n
 assert "인구 기반 참고 범위" in site_html and "장기 고객 목표 가설" in site_html, "Market population and goal labels should be clear"
 assert '2,578,873명' in site_html and '2,578,873명' in plan_html, 'Official 2026-10 population missing'
 assert '약 258만 명' in plan_html and '약 154만 명' in plan_html, 'TAM update or historical SAM label missing'
-assert 'SAM·기존 추정' in plan_html and '종전 약 154만 명 · 대상 시군·기준월 미확인' in plan_html, 'Historical SAM scenario must be labelled'
+assert '서비스 가능 범위' in plan_html and '종전 약 154만 명 · 대상 시군·기준월 미확인' in plan_html, 'Historical SAM scenario must be labelled'
 assert 'jumin.mois.go.kr/etcStatOldAge.do' in site_html and 'jumin.mois.go.kr/etcStatOldAge.do' in plan_html, 'Official population citation missing'
 assert '기본 판매가 아님' in plan_html and '손익 계산에 적용한 평균 이용가' in site_html, 'Product/average-price clarification missing'
 assert '플랫폼 이용 비율·획득 비용·취소율 변동에 따른 월 손익' in Path('qa/refine-decks.py').read_text(encoding='utf-8'), 'IR sensitivity variable must be specified in generator'
