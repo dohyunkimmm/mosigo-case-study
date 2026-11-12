@@ -68,7 +68,7 @@ jobs:
       - name: Detect already synchronized product-planning deck
         id: current-deck
         run: |
-          if /tmp/mosigo-ppt-venv/bin/python -c 'from pptx import Presentation; p=Presentation("downloads/mosigo_report.pptx"); text=" ".join(s.text for slide in p.slides for s in slide.shapes if s.has_text_frame); assert len(p.slides)==11 and "제품기획 산출물과 후속 검증" in text and "대리 예약의 핵심 경험과 요구사항" in text'; then
+          if /tmp/mosigo-ppt-venv/bin/python -c 'from pptx import Presentation; p=Presentation("downloads/mosigo_report.pptx"); text=" ".join(s.text for slide in p.slides for s in slide.shapes if s.has_text_frame); assert len(p.slides)==11 and "시범 운영 전 확인할 것" in text and "대리 예약의 핵심 경험과 요구사항" in text'; then
             echo "ready=true" >> "$GITHUB_OUTPUT"
             echo "Current product-planning copy already synchronized; preserve editable source."
           else

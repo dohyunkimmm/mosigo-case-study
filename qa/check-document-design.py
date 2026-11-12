@@ -53,7 +53,7 @@ site_html=Path('index.html').read_text(encoding='utf-8')
 assert '<h2>MOSIGO · 신사업 기획 요약</h2>' in site_html, 'M-01 planning heading drifted'
 assert '<h2>수익구조·공급 분석으로 사업화 조건 판단</h2>' in site_html, 'M-02 planning heading drifted'
 assert '월 완료 199건(산정)·손익분기 1,082건 비교 후 확대 결정' in site_html, 'M-03 quantitative reasoning missing'
-assert '공급·고객 획득·운영 비용을 검증하고' in site_html, 'M-03 expansion criteria missing'
+assert '공급 시간·단가·취소 및 안전 책임 합의' in site_html, 'M-03 expansion criteria missing'
 assert '<h2>제휴 공급·계약 책임 확인 후 제한 운영, 실측 수익성으로 확대 심의</h2>' in plan_html, 'Decision page and website disagree'
 assert '199건' in compact_plan and '1,082건' in compact_plan and '제휴공급·계약책임확인후제한운영' in compact_plan, 'Published plan PDF does not retain assumptions and revised decision'
 assert '팀 조사 기록을 바탕으로 작성한 개인 전략 보고서입니다.' not in site_html, 'Duplicated homepage disclaimer returned'
@@ -112,7 +112,7 @@ assert '신사업 기획' in site_html and '추가 산출물 · 서비스기획�
 for phrase in ('※ 공급·손익 수치는 기획상 산정 가정이며', '운영 성과를 의미하지 않습니다', '실제 운영·상용화가 완료됐다는 의미는 아닙니다'):
     assert phrase not in site_html, f'Redundant negative copy reintroduced: {phrase}'
 print('PASS website / planning deck / IR cross-document role and financial consistency')
-has_product_prd_deck=('사용자문제에서제품설계까지' in compact_slides or '제품기획산출물과후속검증' in compact_slides)
+has_product_prd_deck=('사용자문제에서제품설계까지' in compact_slides or '시범운영전확인할것' in compact_slides)
 has_legacy_prd_deck='PRD에서기능검수·인계까지' in compact_slides
 has_new_prd_deck=has_product_prd_deck or has_legacy_prd_deck
 if not has_new_prd_deck:
@@ -182,9 +182,9 @@ with ZipFile(PPTX) as z:
     last=''.join((t.text or '') for t in decision.findall('.//a:t',ns))
     if has_product_prd_deck:
         assert '자녀의 대리 예약 문제를 정의하고' in first, 'Slide 1 product goal missing'
-        assert '역할·동의 정책 · 기능 요구사항 6개 · 예외 대응' in last, 'Slide 11 product summary missing'
-        assert '02 / 사용자 정의' in last, 'Slide 11 persona milestone missing'
-        assert '04 / 실행 계획' in last, 'Slide 11 roadmap milestone missing'
+        assert '시범 운영 전 확인할 것' in last, 'Slide 11 decision heading missing'
+        assert '부모 동의·대리 예약' in last, 'Slide 11 booking check missing'
+        assert '제휴 공급·운영 책임' in last, 'Slide 11 partner check missing'
     elif has_legacy_prd_deck:
         # The existing editable source may precede the presentation generator.
         assert '대리 예약·공유·복구 요구사항을 정의하고' in first, 'Legacy slide 1 PRD copy missing'
