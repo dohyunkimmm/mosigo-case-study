@@ -430,6 +430,8 @@ section:not(#overview){position:relative}
 @media(prefers-reduced-motion:reduce){.btn,.source-grid a{transition:none}}
 
 .hero-decision{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .8rem;color:#e4f2e7;margin:1rem 0}.hero-decision a{color:inherit;text-underline-offset:.24em}.v3-card-explain details{margin-top:.65rem}.v3-card-explain summary{cursor:pointer}
+.hero .hero-primary{background:#dcf7a1;color:#123e33;border-color:#dcf7a1;font-weight:800}.hero .hero-primary:hover{background:#edfbd0;color:#123e33}
+.doc-current{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1rem;padding:.55rem .8rem;margin-bottom:.5rem;background:#edf4ef;border:1px solid #d1e1d6;border-radius:10px}.doc-current-label,.doc-current .doc-links{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .8rem}.doc-current .doc-links{margin:0}.doc-current .doc-links a{display:inline-flex;align-items:center;min-height:44px;text-underline-offset:.2em}.doc-current .doc-links a[hidden]{display:none}
 </style><link rel="stylesheet" href="/assets/site-v3.css?v=visual-review"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}
 if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'fonts' in document){
  document.documentElement.classList.add('mobile-font-pending');
@@ -457,7 +459,7 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <main class="content" id="top">
 <header class="hero"><div class="hero-inner">
 <h1>MOSIGO<br><i>병원 동행 서비스 신사업 기획</i></h1>
-<div class="hero-actions"><a class="btn ghost" href="#attachments">자료 보기 <span aria-hidden="true">↘</span></a></div>
+<div class="hero-actions"><a class="btn ghost hero-primary" href="#attachments">자료 보기 <span aria-hidden="true">↘</span></a></div>
 <p class="hero-decision"><a href="#strategy">기존 사업자 제휴 우선 검증</a> <span aria-hidden="true">→</span> <a href="#business">현금 손익분기까지 월 108건 부족</a> <span aria-hidden="true">→</span> <a href="#decision">4주차 제한 거래 승인·보류</a></p>
 <div class="v3-hero-metrics" aria-label="신사업 기획 핵심 판단과 산정 가정">
 <div class="v3-hero-metric is-text"><small>우선 사업화 전략</small><strong>기존 사업자 제휴</strong></div>
@@ -718,18 +720,19 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 </div>
 <iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
 <div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="문서 페이지 보기">
+<div class="doc-current"><div class="doc-current-label"><strong id="doc-current-name">사업기획서</strong><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1페이지, 전체 19페이지">1 / 19페이지</span></div><div class="doc-links" aria-label="선택한 문서 다운로드">
+<a id="doc-pdf-save" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">PDF 다운로드</a>
+<a id="doc-pptx-save" hidden>PPTX 다운로드</a></div></div>
 <div class="mobile-page-controls">
 <button id="doc-prev" type="button" disabled>이전</button>
 <div id="slide-tools" class="slide-tools"><label class="sr-only" for="slide-jump">페이지 선택</label><select id="slide-jump"></select></div>
 <button id="doc-next" type="button">다음</button>
-<div class="doc-page-actions"><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1페이지, 전체 19페이지">1 / 19페이지</span><button id="doc-expand" type="button">크게 보기</button></div>
+<div class="doc-page-actions"><button id="doc-expand" type="button">크게 보기</button></div>
 </div>
 <a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 페이지 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1페이지 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
 </div>
 <dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><div class="v3-zoom-viewport"><button type="button" id="v3-doc-zoom" aria-label="문서 이미지 확대" aria-pressed="false"><img id="v3-fullscreen-img" alt=""></button></div><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF를 다운로드하거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
-<div class="doc-links" aria-label="선택한 문서 다운로드">
-<a id="doc-pdf-save" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">PDF 다운로드</a>
-<a id="doc-pptx-save" hidden>PPTX 다운로드</a></div>
+
 <p class="attachment-support"><span>추가 산출물 · 서비스기획</span><a href="downloads/mosigo_prd_delivery.html">제품 요구사항 정의서(PRD) 별도 보기 <span aria-hidden="true">↗</span></a></p>
 </div>
 
@@ -813,7 +816,7 @@ const docImage=document.getElementById('doc-page-img'),docImageLink=document.get
 const docPrev=document.getElementById('doc-prev'),docNext=document.getElementById('doc-next'),docPageCount=document.getElementById('doc-page-count');
 const docConfigs={
  plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:19,images:'plan',file:'mosigo_business_plan_20261031.pdf'},
- presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 미리보기',label:'발표자료',pages:11,images:'slides',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
+ presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 미리보기',label:'서비스기획',pages:11,images:'slides',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
  ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO IR 자료',label:'IR 자료',pages:12,images:'ir',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
 };
 let currentDocument='plan',currentDocumentPage=1;
@@ -835,6 +838,7 @@ function renderMobileDocumentPage(){
  docImage.sizes='(max-width:800px) 100vw, 1000px';
  if(docImage.getAttribute('src')!==path)docImage.src=path;docImage.alt=doc.label+' '+currentDocumentPage+'페이지'+' 미리보기';
  docImageLink.href=fullPath;
+ document.getElementById('doc-current-name').textContent=doc.label;
  docPageCount.textContent=currentDocumentPage+' / '+doc.pages+'페이지';
   docPageCount.setAttribute('aria-label','현재 '+currentDocumentPage+'페이지'+', 전체 '+doc.pages+'페이지');
  if(jumpDocument!==currentDocument){
