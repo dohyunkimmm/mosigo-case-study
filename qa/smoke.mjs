@@ -124,7 +124,9 @@ try {
         { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pptx', kind: 'zip', minBytes: 200 },
       ];
       for (const { path, kind, minBytes } of assets) {
-        if (path.startsWith('/downloads/') && !path.endsWith('.pptx') && !path.endsWith('/mosigo_report_preview.pdf') && !path.endsWith('/MOSIGO_IR_Investment_Review_12slides.pdf')) {
+        if (path.endsWith('.pdf')) {
+          assert.ok(await page.locator('iframe[src^="' + path + '#"], a[href^="' + path + '#page="]').count() >= 1, path + ' preview or evidence link');
+        } else if (path.endsWith('.xlsx') || path.endsWith('.pptx')) {
           assert.ok(await page.locator('a[href$="' + path + '"]').count() >= 1, path + ' document link');
         }
         const response = await page.request.get(new URL(path, base).href);
