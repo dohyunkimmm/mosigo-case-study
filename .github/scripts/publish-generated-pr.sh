@@ -28,6 +28,32 @@ if git diff --cached --quiet; then
   exit 0
 fi
 
+# Only one outstanding review per generator. Avoid producing an unbounded queue
+# of conflicting binary PRs while keeping every new render in the workflow's
+# uploaded artifact. Do not replace an existing PR's reviewed bytes.
+open_prs="$(gh api "repos/${GITHUB_REPOSITORY}/pulls?state=open&per_page=100")"
+open_count="$(jq 'length' <<< "$open_prs")"
+if (( open_count >= 100 )); then
+  echo "::error::Cannot safely check all open PRs with a single page; manual review required."
+  exit 1
+fi
+existing="$(jq -r --arg repo "$GITHUB_REPOSITORY" --arg prefix "automation/${kind}-" '
+  [.[] | select(.base.ref == "main" and .head.repo.full_name == $repo and
+       (.head.ref | startswith($prefix))) | .number] | join(", ")
+' <<< "$open_prs")"
+if [[ -n "$existing" ]]; then
+  echo "::warning::Generated ${kind} assets differ from main but PR(s) #${existing} still await review. Not opening another conflicting PR. Inspect this run's uploaded artifact; resolve previous PRs first."
+  if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
+    {
+      echo "### Generated ${kind} assets need review"
+      echo "New output differs from main, but existing PR(s) **#${existing}** for this generator are open."
+      echo "A new PR was **not** opened to avoid parallel conflicting binary reviews."
+      echo "Inspect this workflow run's generated artifact, then resolve the older PR before publishing a new candidate."
+    } >> "$GITHUB_STEP_SUMMARY"
+  fi
+  exit 0
+fi
+
 branch="automation/${kind}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
 git commit -m "$title"
 git push origin "HEAD:refs/heads/${branch}"
