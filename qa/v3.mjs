@@ -45,7 +45,7 @@ try{
   await page.locator('#reset').click();
   assert.equal(await page.locator('#users').inputValue(),'15000');
   assert.equal(new URL(page.url()).searchParams.has('v_users'),false,'reset removes nondefault query');
-  assert.equal(await page.locator('#attachments iframe, #mobile-doc-viewer, #v3-fullscreen').count(),0,'document viewer removed');
+  assert.equal(await page.locator('#attachments iframe, #mobile-doc-viewer, #v3-fullscreen').count(), 3, 'document viewer restored');
   assert.equal(await page.locator('main section a[href*=".pdf#page="]').count(),5,'body evidence links open specific PDF pages');
   const end=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
   assert.ok(end.x<=end.w+1,width+'px no horizontal overflow after interactions');

@@ -60,10 +60,14 @@ try {
     assert.equal(await page.evaluate(() => document.querySelector('#attachments').compareDocumentPosition(document.querySelector('#decision')) & Node.DOCUMENT_POSITION_PRECEDING), 2, width + 'px primary narrative precedes resources');
     assert.equal(await page.locator('.hero-actions a:not([href="#decision"]):not([href="#attachments"]), .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
-    assert.equal(await page.locator('#attachments iframe, #mobile-doc-viewer, #v3-fullscreen').count(), 0, 'embedded preview removed');
-    assert.equal(await page.locator('#attachments a[href$=".pdf"]').count(), 3, 'three direct PDF links');
+    assert.equal(await page.locator('#attachments iframe, #mobile-doc-viewer, #v3-fullscreen').count(), 3, 'embedded preview restored');
+    assert.equal(await page.locator('#attachments a[href$=".pdf"]').count(), 0, 'no PDF download links in materials');
     assert.equal(await page.locator('#attachments a[download$=".pptx"]').count(), 2, 'two PPTX downloads');
-    assert.equal(await page.locator('#attachments a[download$=".xlsx"]').count(), 1, 'Excel download');
+    assert.equal(await page.locator('#attachments .attachment-files a[download$=".xlsx"]').count(), 1, 'Excel uses the same list');
+    await page.locator('[data-doc-preview="ir"]').click();
+    await page.evaluate(() => window.MOSIGO_DOC.setPage(1));
+    await page.locator('#doc-next').click();
+    assert.deepEqual(await page.evaluate(() => window.MOSIGO_DOC.get()), { document: 'ir', page: 2 });
     const pageCopy = await page.locator('body').innerText();
     for (const removed of [
       '8주 파일럿 예산 400만 원(가정)',
@@ -120,7 +124,9 @@ try {
         { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pptx', kind: 'zip', minBytes: 200 },
       ];
       for (const { path, kind, minBytes } of assets) {
-        if (path.startsWith('/downloads/') && !path.endsWith('.pptx') && !path.endsWith('/mosigo_report_preview.pdf') && !path.endsWith('/MOSIGO_IR_Investment_Review_12slides.pdf')) {
+        if (path.endsWith('.pdf')) {
+          assert.ok(await page.locator('iframe[src^="' + path + '#"], a[href^="' + path + '#page="]').count() >= 1, path + ' preview or evidence link');
+        } else if (path.endsWith('.xlsx') || path.endsWith('.pptx')) {
           assert.ok(await page.locator('a[href$="' + path + '"]').count() >= 1, path + ' document link');
         }
         const response = await page.request.get(new URL(path, base).href);
