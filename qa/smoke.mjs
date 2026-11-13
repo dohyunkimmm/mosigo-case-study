@@ -61,13 +61,14 @@ try {
     assert.equal(await page.locator('.hero-actions a:not([href="#decision"]):not([href="#attachments"]), .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
     assert.equal(await page.locator('#attachments iframe, #mobile-doc-viewer, #v3-fullscreen').count(), 2, 'embedded preview restored');
-    assert.equal(await page.locator('#attachments a[href$=".pdf"]').count(), 1, 'one PDF download');
-    assert.equal(await page.locator('#attachments a[download$=".pptx"]').count(), 0, 'PDF actions for all documents');
+    assert.equal(await page.locator('#attachments a[href$=".pdf"]').count(), 0, 'PDF opens in a new tab');
+    assert.equal(await page.locator('#doc-pptx-download').isVisible(), false, 'business plan has no PPTX');
     assert.equal(await page.locator('#attachments .model-resource a[download$=".xlsx"]').count(), 1, 'Excel uses the same list');
     await page.locator('[data-doc-preview="ir"]').click();
     await page.evaluate(() => window.MOSIGO_DOC.setPage(1));
     await page.locator('#doc-next').click();
     assert.deepEqual(await page.evaluate(() => window.MOSIGO_DOC.get()), { document: 'ir', page: 2 });
+    assert.equal(await page.locator('#doc-pptx-download').getAttribute('href'), '/downloads/MOSIGO_IR_Investment_Review_12slides.pptx');
     assert.equal(await page.locator('#doc-expand').getAttribute('target'), '_blank');
     assert.equal(await page.locator('#doc-expand').getAttribute('href'), '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf#page=2');
     const pageCopy = await page.locator('body').innerText();
