@@ -1,0 +1,43 @@
+name: Review pending document text deltas
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/review-pending-artifacts.py'
+      - '.github/workflows/review-pending-artifacts.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'qa/review-pending-artifacts.py'
+      - '.github/workflows/review-pending-artifacts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  inspect-docs:
+    name: Read-only PDF and PPTX source comparison
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install document comparison readers
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0 pymupdf==1.26.4
+      - name: Compare selected PR deliverables with main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python qa/review-pending-artifacts.py
+      - name: Upload detailed document diff evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unresolved-deliverable-diffs
+          path: qa-artifacts/unresolved-asset-review.json
+          if-no-files-found: warn
+          retention-days: 30
