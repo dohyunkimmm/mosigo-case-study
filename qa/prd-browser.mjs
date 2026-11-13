@@ -24,7 +24,7 @@ try {
       'English TOC and section titles match');
     assert.equal(await page.locator('#prd-requirements tbody tr').count(),6,'6 product requirements');
     assert.equal(await page.locator('#user-stories tbody tr').count(),4,'4 user stories');
-    assert.equal(await page.locator('#success-metrics tbody tr').count(),4,'4 KPI definitions');
+    assert.equal(await page.locator('#success-metrics tbody tr').count(), 5,'5 KPI definitions including completion rate');
     assert.equal(await page.locator('#ux-design .flow article').count(),5,'5 journey steps');
     const copy=await page.locator('main').innerText();
     for(const phrase of ['Personas','Metrics','Requirements','UX Design','R-01','R-02','R-03',
