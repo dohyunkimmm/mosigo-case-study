@@ -2,13 +2,12 @@
 
 ## 현재 저장소 상태 · 2026-11-14
 
-- 조회 기준: `main` [`aba60ed8`](https://github.com/dohyunkimmm/mosigo-case-study/commit/aba60ed89cf3a667b64b65730e40e8df02c1a264). GitHub 재귀 트리는 **파일 164개·디렉터리 10개**(루트 파일 9개, 최상위 폴더 5개)이며 Git blob SHA가 같은 파일은 **0쌍**입니다. `downloads/` 직접 파일 **9개**(사업기획서 PDF·HTML·PPTX, 서비스기획 PDF·PPTX, IR PDF·PPTX, PRD HTML, 재무 XLSX), `downloads/previews/` WebP **84개**를 확인했습니다.
-- [PR #164](https://github.com/dohyunkimmm/mosigo-case-study/pull/164)의 19장 사업기획서 PPTX와 자료 탭 다운로드 연결을 필수 Site QA·PRD Evidence QA 통과 후 병합했습니다. 원본 PDF·HTML과 기존 미리보기 경로는 유지합니다. **PPTX는 PDF 페이지를 슬라이드로 변환한 배포본**이며, 도형·문장별 편집 가능 원본이라는 뜻은 아닙니다.
-- 조회 시 열린 PR은 **31건**(자동 생성 PR 29건 + 수동 검토 PR 2건)입니다. 자동 생성 PR 29건(발표자료 11·모바일 미리보기 13·사업기획서 3·IR 2)의 변경 파일 SHA를 전부 현재 `main`과 대조했고 동일 SHA 변경 경로는 없었습니다. **바이너리 산출물의 시각·본문 동등성은 아직 미검증**이므로 [정리 이슈 #166](https://github.com/dohyunkimmm/mosigo-case-study/issues/166)에서 확인 후 병합/종료합니다. 브랜치만 존재하는 것으로 처리하거나 일괄 삭제하지 않습니다. 수동 검토 [#142](https://github.com/dohyunkimmm/mosigo-case-study/pull/142)는 초안으로 `main`과 충돌하고 이전 Site QA·PPT 미리보기 생성 검사가 실패했습니다. PRD의 측정 정의 등 일부 내용은 후속 `main`에 반영되어 있어 전체 바이너리를 재병합하지 않습니다. [#106](https://github.com/dohyunkimmm/mosigo-case-study/pull/106)은 이전 소개 문구가 최신 화면 구조와 충돌합니다. 두 PR은 재검토 전 미병합 상태로 보존합니다.
-- 점검 시 원격 브랜치 **32개**(`main` 1, 열린 PR 브랜치 2, `automation/*` 29)입니다. 이 문서 갱신용 브랜치와 후속 Actions 실행으로 개수는 바뀔 수 있습니다. 자동 생성 브랜치는 PR 처리 여부·원본 HEAD·보존 태그 검증 없이 일괄 삭제하지 않습니다.
-- 최신 `main` (`aba60ed8`)의 [Site QA #43450033674](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43450033674)와 [PRD Evidence QA #43450033468](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43450033468)는 성공했습니다. [모바일 엔진 QA #43450033867](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43450033867)는 과거 뷰어 선택자 `#doc-pdf-save`의 표시 기대 검사(41행)에서 실패했습니다. 현행 `#doc-expand`·PDF 페이지 링크·페이지 라벨을 검사하도록 [`qa/mobile-browser.mjs`](qa/mobile-browser.mjs)를 동기화하며, **변경 이후 모바일 QA 성공과 최신 운영 배포 SHA 일치는 별도 확인 대상**입니다.
-- 명백한 임시 확장자 파일·SHA 중복은 발견하지 못했습니다. 호환 페이지, 84개 미리보기, 문서 생성 스크립트, `qa/ir-deck-source/` 및 다운로드 원본은 참조·복원 경로를 보호하기 위해 삭제하지 않습니다. 아래 11월 3~11일 기록은 **당시의 점검 이력**이며 현행 수량은 이 절을 우선합니다.
-
+- 최신 GitHub `main` [`189a130`](https://github.com/dohyunkimmm/mosigo-case-study/commit/189a130231b1f1cd5582c5117d624ac142786460)의 재귀 트리: **파일 167개·디렉터리 10개**, 동일 Git blob SHA 중복 파일 **0개**. `downloads/` 최상위 파일 **9개**와 모바일 WebP **84개**를 유지합니다.
+- [PR #164](https://github.com/dohyunkimmm/mosigo-case-study/pull/164) 사업기획서 PDF 페이지 기반 PPTX 배포본 및 다운로드 링크, [PR #165](https://github.com/dohyunkimmm/mosigo-case-study/pull/165) README·모바일 QA 목록 정합성, [PR #167](https://github.com/dohyunkimmm/mosigo-case-study/pull/167) 실제 반응형 WebP 해상도 검사·PR 모바일 CI, [PR #168](https://github.com/dohyunkimmm/mosigo-case-study/pull/168) 생성물 내용 감사·닫힌 PR 보존형 브랜치 정리를 각각 반영했습니다. #167의 Site QA, PRD QA, 모바일 WebKit/Chromium QA는 PR 기준 성공했습니다. 최신 `main` 운영 배포 SHA의 일치는 별도 검증 대상입니다.
+- **미반영 생성물 판단:** 2026-11-14 읽기 전용 [생성 PR 감사 #43456604329](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43456604329)가 자동 생성 PR **29건**의 변경 파일 **546개**를 최신 `main`과 비교했습니다. WebP 픽셀·PDF 텍스트 및 렌더·PPTX 내부 OOXML(휘발성 문서 속성 제외) 기준 **동등 파일 0개**, 전체가 동일한 PR **0건**, 감사 오류 **0건**이었습니다. 따라서 **자동 병합이나 중복으로 간주한 일괄 종료를 하지 않습니다**. 각 변경의 업무상 최신성·디자인 적합성은 별도 심사합니다([이슈 #166](https://github.com/dohyunkimmm/mosigo-case-study/issues/166)).
+- 수동 PR [#142](https://github.com/dohyunkimmm/mosigo-case-study/pull/142)는 초안·충돌 상태이며 KPI/PRD 정의 상당 부분이 현행 본문에 이미 반영됐지만, 제안 PDF/PPTX/WebP 전체가 동등하다고 확인되지 않았습니다. [#106](https://github.com/dohyunkimmm/mosigo-case-study/pull/106)의 쉬운 손익 설명은 최신 화면에 맞는 새로운 상단 문구로 별도 반영합니다. 옛 브랜치의 바이너리를 충돌 해소 없이 재병합하지 않습니다.
+- 브랜치·PR 개수는 자동화 실행으로 변합니다. 닫힌 자동 생성 PR은 원본 HEAD SHA·다른 열린 PR의 참조 여부·보존 태그를 확인한 뒤 브랜치 참조만 제거하는 워크플로를 마련했습니다. 참조용 호환 HTML·문서 원본·WebP 84개·`qa/ir-deck-source/`·재생성 스크립트는 삭제하지 않습니다.
+- 아래 2026-11-03~11 기록은 당시 스냅샷으로 남겨 두며, 현행 수량과 품질 상태는 이 절을 우선합니다.
 
 ## 2026-11-11 저장소 클렌징 완료
 
