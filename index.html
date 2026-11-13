@@ -658,8 +658,8 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 </div></details></section>
 <section id="measurement"><div class="section-title"><span class="eyebrow">08 / METRICS &amp; VALIDATION</span><h2>사업 가설과 검증 지표 설계</h2></div><div class="mobile-skim"><p>유료 수요·공급·건당 수익성·재예약 검증</p><ul><li>측정 항목 · 예약 확정률·동행 완료율·상태 이해·90일 내 재예약</li><li>확인 방법 · 사용자 과업 테스트와 제한 운영</li></ul></div><details class="chapter-detail" open><summary>측정 정의·검증 계획 보기</summary><div class="chapter-content">
 <div class="grid g2">
-<div class="kpi"><span class="label">예약 전환</span><h3>예약 확정률</h3><span class="formula">예약 확정 세션 ÷ 예약 시작 세션</span><p>예약 시작~확정 측정. 취소·중복·테스트 세션 제외</p></div>
-<div class="kpi"><span class="label">운영</span><h3>동행 완료율</h3><span class="formula">동행 완료 건수 ÷ 예약 확정 건수</span><p>동행 예정일이 집계 기간에 속한 확정 예약을 기준으로 해당 예약의 완료 여부를 집계합니다. 취소·미이행은 별도 집계하고 중복·테스트 예약은 제외합니다.</p></div><div class="kpi"><span class="label">사용성</span><h3>매니저 선택 성공률</h3><span class="formula">조건에 맞는 선택을 완료한 참가자 ÷ 과업 참가자</span><p>선택 근거를 설명할 수 있는지 확인하고 이탈 단계를 기록</p></div>
+<div class="kpi"><span class="label">예약 전환</span><h3>예약 확정률</h3><span class="formula">예약 확정 세션 ÷ 예약 시작 세션</span><p>확정 도달 기준. 중복·테스트 세션 제외, 확정 후 취소는 별도 집계</p></div>
+<div class="kpi"><span class="label">운영</span><h3>동행 완료율</h3><span class="formula">동행 완료 건수 ÷ 예약 확정 건수</span><p>동행 예정일이 집계 기간에 속한 확정 예약을 기준으로 해당 예약의 완료 여부를 집계합니다. 확정 후 취소·미이행은 분모에 포함해 별도 집계하고, 중복·테스트 예약은 제외합니다.</p></div><div class="kpi"><span class="label">사용성</span><h3>매니저 선택 성공률</h3><span class="formula">조건에 맞는 선택을 완료한 참가자 ÷ 과업 참가자</span><p>선택 근거를 설명할 수 있는지 확인하고 이탈 단계를 기록</p></div>
 <div class="kpi"><span class="label">정보 이해</span><h3>상태 이해도</h3><span class="formula">현재·다음 단계를 정확히 설명한 참가자 ÷ 응답자</span><p>보호자의 진행 화면 과업을 통해 측정</p></div>
 <div class="kpi"><span class="label">재예약</span><h3>90일 내 재예약률</h3><span class="formula">90일 내 재예약 고객 ÷ 90일 관찰을 마친 첫 이용 완료 고객</span><p>8주 후 유료 전환·완료·지원 비용 평가. 재예약은 첫 이용 완료 후 90일 기준</p></div></div>
 
@@ -692,14 +692,14 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <li><span class="decision-gate-index">03 · 수익성·확대</span><strong>손익과 공급 여력을 확인한 뒤 확대 여부 결정</strong><small>통과 조건 · 시범 운영 결과가 사전에 정한 공헌이익·현금 흐름·공급 지속성 기준을 충족</small></li>
 </ol>
 
-<p>유료 이용 의향과 운영 지표의 통과 기준은 시범 운영 전에 확정합니다. 수요·공급·책임 조건이 충족되면 시범 운영을 승인하고, 미충족 시 보류합니다.</p>
+<p>8주 검증에 착수한 뒤 4주차에 수요·공급·책임 조건과 사전 확정한 유료 이용 의향 기준을 검토해 5~8주차 제한 거래를 승인하거나 보류합니다. 8주차에는 후속 투자를 심의하고, 재예약은 첫 동행 완료 후 90일에 별도로 평가합니다.</p>
 <p class="investment-gap-source">월 완료 건수 산정 근거: <a href="#business">06 · 수익성·공급 분석</a></p>
 </figure>
 <details class="chapter-detail" open><summary>투자 계획 보기</summary><div class="chapter-content">
 <h3 class="subhead">신사업 투자·3개년 성장 로드맵</h3>
 
 <div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">단계</th><th scope="col">성장 전략과제</th><th scope="col">자원 배분·투자 판단</th></tr></thead><tbody>
-<tr><th scope="row" data-label="단계">1년 차 · 모델 정교화</th><td data-label="성장 전략과제">핵심 생활권의 제휴 공급·예약자 과업·운영 책임 체계 확립</td><td data-label="자원 배분·투자 판단">8주 운영비 상한 400만 원을 단계별 승인 · 공급 계약과 비용 구조 평가</td></tr>
+<tr><th scope="row" data-label="단계">1년 차 · 모델 정교화</th><td data-label="성장 전략과제">핵심 생활권의 제휴 공급·예약자 과업·운영 책임 체계 확립</td><td data-label="자원 배분·투자 판단">8주 현금 운영비 상한 400만 원을 단계별 승인(인력 기회비용 별도) · 공급 계약과 비용 구조 평가</td></tr>
 <tr><th scope="row" data-label="단계">2년 차 · 지역 확대</th><td data-label="성장 전략과제">제휴 공급과 반복 이용을 기준으로 인접 생활권 확대</td><td data-label="자원 배분·투자 판단">지역별 공헌이익·가용 시간·지원 비용으로 투자 순위 결정</td></tr>
 <tr><th scope="row" data-label="단계">3년 차 · 채널 다각화</th><td data-label="성장 전략과제">기업·공공 협력 및 재예약 기반 수익모델 확장 검토</td><td data-label="자원 배분·투자 판단">채널별 획득 효율·운영 책임·현금 소요로 확대 판단</td></tr>
 </tbody></table></div>
