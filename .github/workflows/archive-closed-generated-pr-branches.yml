@@ -1,0 +1,74 @@
+# Retire only closed, unmerged generated-asset branches after exact SHA preservation.
+# A closed PR is NOT evidence of semantic equivalence; close decisions are separate.
+name: Archive closed generated PR branches
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: archive-closed-generated-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    if: >-
+      github.event.pull_request.merged == false &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'automation/')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
+      BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Preserve exact closed PR head before branch cleanup
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="repos/${GITHUB_REPOSITORY}"
+          name="${BRANCH_NAME}"
+          sha="${EXPECTED_SHA}"
+          [[ "$name" =~ ^automation/[A-Za-z0-9._/-]+$ && "$name" != *..* ]] || exit 1
+          [[ "$sha" =~ ^[0-9a-f]{40}$ && "$PR_NUMBER" =~ ^[0-9]+$ ]] || exit 1
+          info="$(gh api "$api/pulls/$PR_NUMBER")"
+          jq -e --arg b "$name" --arg s "$sha" --arg r "$GITHUB_REPOSITORY" '
+            .state == "closed" and .merged == false and .base.ref == "main"
+            and .head.ref == $b and .head.sha == $s and .head.repo.full_name == $r
+          ' <<< "$info" >/dev/null || exit 1
+
+          open_prs="$(gh api "$api/pulls?state=open&per_page=100")"
+          [[ "$(jq length <<< "$open_prs")" -lt 100 ]] || exit 1
+          if jq -e --arg b "$name" 'any(.[]; .head.ref == $b)' <<< "$open_prs" >/dev/null; then
+            echo "::error::Branch belongs to an open PR"; exit 1
+          fi
+
+          current="$(gh api "$api/git/ref/heads/$name" --jq .object.sha 2>/dev/null || true)"
+          if [[ -n "$current" && "$current" != "$sha" ]]; then
+            echo "::error::Branch moved since PR closed"; exit 1
+          fi
+
+          tag="archive/closed/$(date -u +%Y%m%d)/pr-$PR_NUMBER/$name"
+          existing="$(gh api "$api/git/ref/tags/$tag" --jq .object.sha 2>/dev/null || true)"
+          if [[ -n "$existing" ]]; then
+            [[ "$existing" == "$sha" ]] || { echo "::error::Conflicting archive tag"; exit 1; }
+          else
+            gh api -X POST "$api/git/refs" -f ref="refs/tags/$tag" -f sha="$sha" >/dev/null
+          fi
+          [[ "$(gh api "$api/git/ref/tags/$tag" --jq .object.sha)" == "$sha" ]] || exit 1
+
+          if [[ -n "$current" ]]; then
+            [[ "$(gh api "$api/git/ref/heads/$name" --jq .object.sha)" == "$sha" ]] || exit 1
+            gh api -X DELETE "$api/git/refs/heads/$name" >/dev/null
+            if gh api "$api/git/ref/heads/$name" >/dev/null 2>&1; then
+              echo "::error::Branch still present after delete"; exit 1
+            fi
+          fi
+          echo "PASS archived unmerged PR #$PR_NUMBER at $sha as $tag"
