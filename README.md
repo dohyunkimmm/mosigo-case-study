@@ -1,6 +1,13 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
-## 현재 저장소 상태 · 2026-11-14
+## 2026-11-14 후속 정리 · 최신 검증 상태
+
+- `main` [`631041d`](https://github.com/dohyunkimmm/mosigo-case-study/commit/631041d9422f1ff82aa4bf5b141c3ff35c9aa9c4) 기준 Site QA [#43459007239](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43459007239), PRD Evidence QA [#43459007080](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43459007080), 모바일 WebKit/Chromium [#43459007069](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43459007069) **모두 성공**했습니다.
+- [PR #169](https://github.com/dohyunkimmm/mosigo-case-study/pull/169)에서 최신 페이지 첫 화면의 월 최대 433건과 현금 손익분기 541건 설명을 반영했고, 이를 제안하던 낡은 마크업의 [#106](https://github.com/dohyunkimmm/mosigo-case-study/pull/106)은 사유를 기록하고 미병합 종료했습니다. 원본 브랜치는 유지합니다.
+- 생성 PR끼리 변경 파일 경로와 SHA를 대조해, [#125](https://github.com/dohyunkimmm/mosigo-case-study/pull/125)의 모바일 WebP 변경 **22개 전부**가 [#129](https://github.com/dohyunkimmm/mosigo-case-study/pull/129)에 동일 바이트로 유지됨을 확인했습니다. #125는 미병합 종료했고, **보존 태그 생성은 아직 확인되지 않아 #125 원본 브랜치와 SHA를 삭제하지 않고 유지**합니다.
+- 최신 열린 PR은 자동 생성 **28건**, 수동 검토 초안 [#142](https://github.com/dohyunkimmm/mosigo-case-study/pull/142) **1건**, 합계 **29건**입니다. `main`과 내용이 다른 28개 자동 PR은 각각 평가 전 강제 병합·삭제하지 않습니다. [이슈 #166](https://github.com/dohyunkimmm/mosigo-case-study/issues/166)의 감사와 보존 기준을 따릅니다.
+
+## 현재 저장소 상태 · 2026-11-14 (후속 조치 전 기준)
 
 - 최신 GitHub `main` [`189a130`](https://github.com/dohyunkimmm/mosigo-case-study/commit/189a130231b1f1cd5582c5117d624ac142786460)의 재귀 트리: **파일 167개·디렉터리 10개**, 동일 Git blob SHA 중복 파일 **0개**. `downloads/` 최상위 파일 **9개**와 모바일 WebP **84개**를 유지합니다.
 - [PR #164](https://github.com/dohyunkimmm/mosigo-case-study/pull/164) 사업기획서 PDF 페이지 기반 PPTX 배포본 및 다운로드 링크, [PR #165](https://github.com/dohyunkimmm/mosigo-case-study/pull/165) README·모바일 QA 목록 정합성, [PR #167](https://github.com/dohyunkimmm/mosigo-case-study/pull/167) 실제 반응형 WebP 해상도 검사·PR 모바일 CI, [PR #168](https://github.com/dohyunkimmm/mosigo-case-study/pull/168) 생성물 내용 감사·닫힌 PR 보존형 브랜치 정리를 각각 반영했습니다. #167의 Site QA, PRD QA, 모바일 WebKit/Chromium QA는 PR 기준 성공했습니다. 최신 `main` 운영 배포 SHA의 일치는 별도 검증 대상입니다.
