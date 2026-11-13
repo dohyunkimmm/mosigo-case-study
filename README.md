@@ -2,6 +2,10 @@
 
 ## 2026-11-14 후속 정리 · 최신 검증 상태
 
+- **정리 최종 확인:** GitHub `main` [`7e7bb3b`](https://github.com/dohyunkimmm/mosigo-case-study/commit/7e7bb3bf45fa1b8355e39d851212cfb810a537cf)은 **파일 174개·디렉터리 10개**입니다. 열린 PR은 각 생성 종류별 최신 후보 **4건**(#154·#153·#139·#135), 원격 브랜치 **7개**(`main` 1·열린 생성 후보 4·종료된 수동 PR의 보존 브랜치 2)입니다.
+- **원본 보존 검증:** [PR #174](https://github.com/dohyunkimmm/mosigo-case-study/pull/174)의 [Actions 실행 #43530312637](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43530312637)이 **성공**했습니다. 종료된 구버전 생성 PR **25건**의 커밋 SHA를 Git 태그로 생성·재조회한 뒤 해당 브랜치 **24개를 추가 정리**했습니다(기존 #125 브랜치는 앞선 실행에서 정리). 복구 참조 형식은 `archive/closed/20261114/pr-번호/automation/브랜치명`입니다.
+- **공개 파일 보존:** 이 작업은 생성물 검토 PR을 정리한 것으로, 사이트 HTML·사업 수치·PDF·PPTX·WebP·Excel의 게시 파일을 덮어쓰거나 삭제하지 않았습니다. [최신 `main` Site QA #43530312630](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43530312630)는 성공했습니다. 남은 최신 4개 바이너리 후보는 본문/품질 차이가 있어 [이슈 #166](https://github.com/dohyunkimmm/mosigo-case-study/issues/166)에서 별도로 검증합니다.
+
 - `main` [`631041d`](https://github.com/dohyunkimmm/mosigo-case-study/commit/631041d9422f1ff82aa4bf5b141c3ff35c9aa9c4) 기준 Site QA [#43459007239](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43459007239), PRD Evidence QA [#43459007080](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43459007080), 모바일 WebKit/Chromium [#43459007069](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43459007069) **모두 성공**했습니다.
 - [PR #169](https://github.com/dohyunkimmm/mosigo-case-study/pull/169)에서 최신 페이지 첫 화면의 월 최대 433건과 현금 손익분기 541건 설명을 반영했고, 이를 제안하던 낡은 마크업의 [#106](https://github.com/dohyunkimmm/mosigo-case-study/pull/106)은 사유를 기록하고 미병합 종료했습니다. 원본 브랜치는 유지합니다.
 - 생성 PR끼리 변경 파일 경로와 SHA를 대조해, [#125](https://github.com/dohyunkimmm/mosigo-case-study/pull/125)의 모바일 WebP 변경 **22개 전부**가 [#129](https://github.com/dohyunkimmm/mosigo-case-study/pull/129)에 동일 바이트로 유지됨을 확인했습니다. #125는 미병합 종료했고, **보존 태그 생성은 아직 확인되지 않아 #125 원본 브랜치와 SHA를 삭제하지 않고 유지**합니다.
