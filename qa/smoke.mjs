@@ -57,39 +57,13 @@ try {
     assert.equal(await page.locator('#product .supporting-note a[href="downloads/mosigo_prd_delivery.html"]').count(), 1, width + 'px PRD is a supplementary planning output');
     assert.equal(await page.locator('.business-model-choice article').count(), 3, width + 'px strategy alternatives');
     assert.equal(await page.locator('.decision-gates li').count(), 3, width + 'px approval-gate strategy');
-    assert.equal(await page.evaluate(() => document.querySelector('#attachments').compareDocumentPosition(document.querySelector('#decision')) & Node.DOCUMENT_POSITION_PRECEDING), 2, width + 'px primary narrative precedes large document viewer');
+    assert.equal(await page.evaluate(() => document.querySelector('#attachments').compareDocumentPosition(document.querySelector('#decision')) & Node.DOCUMENT_POSITION_PRECEDING), 2, width + 'px primary narrative precedes resources');
     assert.equal(await page.locator('.hero-actions a:not([href="#decision"]):not([href="#attachments"]), .v3-phase-link, .top-r, .mobile-toc, #v3-page-share').count(), 0, width + 'px no duplicate section-jump shortcuts');
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
-    // Regression: switching between plan, presentation and IR must never resize the preview box.
-    if (width === 390 || width === 1024 || width === 1440) {
-      const previewSelector = '#doc-page-open';
-      const boxes = [];
-      for (const tab of ['plan', 'presentation', 'ir']) {
-        await page.locator('[data-doc-preview="' + tab + '"]').click();
-        const img = page.locator('#doc-page-img');
-        const prefix = tab === 'plan' ? 'plan' : tab === 'presentation' ? 'slides' : 'ir';
-        await img.evaluate(element => element.decode());
-        assert.ok((await img.getAttribute('src')).endsWith(prefix + '-01-sm.webp'), width + 'px ' + tab + ' preview source');
-        const rendered = await img.evaluate(element => ({ready:element.complete,w:element.naturalWidth,h:element.naturalHeight}));
-        assert.ok(rendered.ready && rendered.w >= 200 && rendered.h >= 110, width + 'px ' + tab + ' actual preview image loaded: ' + JSON.stringify(rendered));
-        assert.ok((await page.locator(previewSelector).getAttribute('href')).endsWith(prefix + '-01.webp'), 'enlargement tracks the selected document');
-        const rect = await page.locator(previewSelector).boundingBox();
-        assert.ok(rect && rect.width > 200 && rect.height > 120, width + 'px ' + tab + ' preview renders');
-        if (width === 1440) {
-          const screenshot = await page.locator(previewSelector).screenshot({path:'qa-artifacts/'+reportPrefix+'preview-'+tab+'-1440.png'});
-          assert.ok(screenshot.length > 10000, width + 'px ' + tab + ' preview has visible page content');
-        }
-        boxes.push({ tab, width: rect.width, height: rect.height });
-      }
-      for (const rect of boxes.slice(1)) {
-        assert.ok(Math.abs(rect.width - boxes[0].width) <= 1, width + 'px preview width matches plan for ' + rect.tab);
-        assert.ok(Math.abs(rect.height - boxes[0].height) <= 1, width + 'px preview height matches plan for ' + rect.tab);
-      }
-      if (width > 800) assert.ok(boxes[0].height >= 565, width + 'px consistent readable desktop preview height');
-      await page.locator('[data-doc-preview="plan"]').click();
-      console.log('PASS equal plan/presentation/IR viewer geometry', width, JSON.stringify(boxes));
-    }
-
+    assert.equal(await page.locator('#attachments iframe, #mobile-doc-viewer, #v3-fullscreen').count(), 0, 'embedded preview removed');
+    assert.equal(await page.locator('#attachments a[href$=".pdf"]').count(), 3, 'three direct PDF links');
+    assert.equal(await page.locator('#attachments a[download$=".pptx"]').count(), 2, 'two PPTX downloads');
+    assert.equal(await page.locator('#attachments a[download$=".xlsx"]').count(), 1, 'Excel download');
     const pageCopy = await page.locator('body').innerText();
     for (const removed of [
       '8주 파일럿 예산 400만 원(가정)',
@@ -101,9 +75,6 @@ try {
     ]) {
       assert.ok(!pageCopy.includes(removed), width + 'px removed duplicate/caveat: ' + removed);
     }
-    assert.equal(await page.locator('#doc-pdf-save').count(), 1, width + 'px one current-document PDF download');
-    assert.equal(await page.locator('.doc-links a[download$=".pdf"]').count(), 1, width + 'px no duplicate IR PDF download');
-    assert.equal(await page.locator('#doc-pptx-save').isHidden(), true, width + 'px plan only offers PDF');
     assert.equal(await page.locator('#business a[download$=".xlsx"]').count(), 1, width + 'px calculation file in business section');
     assert.match(await page.locator('#market .chapter-content').textContent(), /15,000명.*1\.5회.*40,000원.*9억 원/, width + 'px market scenario arithmetic retained');
     assert.match(await page.locator('#customer .chapter-content h3.subhead').textContent(), /고객 이용 과업/, width + 'px duplicate customer hypothesis wording removed');
@@ -127,21 +98,6 @@ try {
       await page.screenshot({ path: 'qa-artifacts/' + reportPrefix + 'site-' + width + '.png', fullPage: false });
     }
     if (width === 390) {
-      assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), true, 'mobile static preview visible');
-      assert.equal(await page.locator('#doc-frame').isVisible(), false, 'mobile blank PDF iframe hidden');
-      await page.locator('#doc-next').click();
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-02-sm.webp'), 'mobile next page');
-      await page.locator('#doc-prev').click();
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/plan-01-sm.webp'), 'mobile previous page');
-      await page.locator('[data-doc-preview="ir"]').click();
-      assert.equal(await page.locator('#doc-pdf-save').getAttribute('href'), '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf', 'selected IR PDF download points to IR deck');
-      assert.equal(await page.locator('.doc-links a[download$=".pdf"]').count(), 1, 'IR view has one PDF save action');
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/ir-01-sm.webp'), 'mobile IR preview');
-      await page.locator('#doc-next').click();
-      assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/ir-02-sm.webp'), 'mobile IR next slide');
-      assert.ok((await page.locator('#doc-page-count').innerText()).includes('12페이지'), 'IR slide count');
-      await page.locator('[data-doc-preview="plan"]').click();
-      await page.waitForFunction(() => {const img=document.getElementById('doc-page-img');return img.complete&&img.naturalWidth>0;});
       const details = page.locator('details.chapter-detail').first();
       await details.locator('summary').click();
       assert.equal(await details.evaluate(el => el.open), true, 'mobile detail opens');
@@ -154,18 +110,6 @@ try {
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.23억 원', 'rounding');
       await page.locator('#reset').click();
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.00억 원', 'reset');
-      assert.equal(await page.locator('#doc-frame').isVisible(), false, 'browser-native PDF iframe hidden on desktop');
-      assert.equal(await page.locator('#mobile-doc-viewer').isVisible(), true, 'same decoded page preview used on desktop');
-      assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_business_plan_20261031.pdf#'), 'PDF initial tab');
-      await page.locator('[data-doc-preview="presentation"]').click();
-      assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_report_preview.pdf#'), 'PPT tab changes viewer');
-      assert.equal(await page.locator('[data-doc-preview="presentation"]').getAttribute('aria-pressed'), 'true', 'PPT selected');
-      await page.locator('[data-doc-preview="ir"]').click();
-      assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/MOSIGO_IR_Investment_Review_12slides.pdf#'), 'IR tab changes viewer');
-      assert.equal(await page.locator('[data-doc-preview="ir"]').getAttribute('aria-pressed'), 'true', 'IR selected');
-      assert.equal(await page.locator('#doc-pdf-save').getAttribute('href'), '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf', 'selected IR document download');
-      await page.locator('[data-doc-preview="plan"]').click();
-      assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith('/downloads/mosigo_business_plan_20261031.pdf#'), 'PDF tab restored');
       const assets = [
         { path: '/favicon.svg', kind: 'svg', minBytes: 200 },
         { path: '/downloads/mosigo_business_plan_20261031.pdf', kind: 'pdf', minBytes: 1000 },
@@ -206,24 +150,6 @@ try {
         assert.match(redirectHtml, /<meta\s+http-equiv="refresh"/i, legacyPath + ' meta refresh');
         assert.ok(redirectHtml.includes('content="0;url=/' + anchor + '"'), legacyPath + ' target');
         assert.ok(redirectHtml.includes('href="/' + anchor + '"'), legacyPath + ' fallback link');
-      }
-      for(const [kind,count] of [['plan',19],['slides',11]]){
-        for(let i=1;i<=count;i++){
-          const imagePath='/downloads/previews/'+kind+'-'+String(i).padStart(2,'0')+'.webp';
-          const response=await page.request.get(new URL(imagePath,base).href);
-          assert.equal(response.status(),200,imagePath+' HTTP');
-          const bytes=await response.body();
-          assert.ok(bytes.length>1000,imagePath+' size');
-          assert.equal(bytes.subarray(0,4).toString('ascii'),'RIFF',imagePath+' header');
-          assert.equal(bytes.subarray(8,12).toString('ascii'),'WEBP',imagePath+' format');
-          const smallPath=imagePath.replace('.webp','-sm.webp');
-          const small=await page.request.get(new URL(smallPath,base).href);
-          assert.equal(small.status(),200,smallPath+' HTTP');
-          const smallBytes=await small.body();
-          assert.equal(smallBytes.subarray(8,12).toString('ascii'),'WEBP',smallPath+' format');
-          assert.ok(smallBytes.length<bytes.length,smallPath+' optimized size');
-        }
-        console.log('PASS static document preview pages',kind,count);
       }
       await page.locator('a[href="#decision"]').first().click();
       assert.equal(new URL(page.url()).hash, '#decision', 'decision anchor');
