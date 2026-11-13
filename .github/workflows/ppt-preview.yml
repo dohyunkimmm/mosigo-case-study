@@ -99,6 +99,7 @@ jobs:
       - name: Reapply editable slide visual system without changing content
         run: /tmp/mosigo-ppt-venv/bin/python qa/apply-editorial-visual-20261110.py downloads/mosigo_report.pptx
       - name: Remove repeated wording in editable service deck
+        if: steps.current-deck.outputs.ready != 'true'
         run: /tmp/mosigo-ppt-venv/bin/python qa/apply-concise-deck-20261111.py strategy
       - name: Convert existing presentation for inline viewing
         run: |
