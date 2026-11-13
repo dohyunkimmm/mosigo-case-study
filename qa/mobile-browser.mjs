@@ -83,8 +83,18 @@ for (const { name, engine, device } of cases) {
         try {
           await page.waitForFunction(() => {
             const image = document.querySelector('#doc-page-img');
-            return image.complete && image.naturalWidth >= 200 && image.naturalHeight >= 110;
+            // With responsive width descriptors, naturalWidth is density-corrected
+          // and can be below the underlying WebP's real pixel dimensions.
+          return image.complete && image.naturalWidth > 0 && image.naturalHeight > 0;
           }, null, { timeout: 20000 });
+          const source = await page.locator('#doc-page-img').evaluate(async el => {
+            const probe = new Image();
+            probe.src = el.currentSrc || el.src;
+            await probe.decode();
+            return { width: probe.naturalWidth, height: probe.naturalHeight, url: probe.src };
+          });
+          assert.ok(source.width >= 200 && source.height >= 110,
+            name + ' ' + tab + ' page ' + number + ' actual WebP pixel resolution ' + JSON.stringify(source));
         } catch (error) {
           const image = await page.locator('#doc-page-img').evaluate(el => ({
             src: el.getAttribute('src'), srcset: el.getAttribute('srcset'),
@@ -133,8 +143,11 @@ for (const { name, engine, device } of cases) {
     assert.ok(layout.iconWidth>=100,name+' Tossface visual asset');
     assert.equal(await page.locator('.mobile-toc').count(),0,name + ' duplicate floating toc removed');
     assert.equal(await page.locator('.nav-link').count(),9,name + ' original chapter navigation retained');
-    const imageInfo=await page.locator('#doc-page-img').evaluate(el=>({ready:el.complete,w:el.naturalWidth,h:el.naturalHeight}));
-    assert.ok(imageInfo.ready&&imageInfo.w>=200&&imageInfo.h>=110,name+' decoded responsive WebP preview '+JSON.stringify(imageInfo));
+    const imageInfo=await page.locator('#doc-page-img').evaluate(async el=>{
+      const probe=new Image();probe.src=el.currentSrc||el.src;await probe.decode();
+      return {ready:el.complete,selectedWidth:el.naturalWidth,w:probe.naturalWidth,h:probe.naturalHeight};
+    });
+    assert.ok(imageInfo.ready&&imageInfo.w>=200&&imageInfo.h>=110,name+' decoded source WebP resolution '+JSON.stringify(imageInfo));
     console.log('PASS visible mobile PDF preview',name,imageInfo);
     const icon=page.locator('img.emoji-icon');
     assert.equal(await icon.count(),1,name+' renders original Tossface icon');
