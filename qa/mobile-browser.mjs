@@ -78,10 +78,24 @@ for (const { name, engine, device } of cases) {
         assert.equal(await page.locator('#doc-page-count').getAttribute('aria-label'),
           '현재 ' + number + '페이지, 전체 ' + total + '페이지',
           name + ' page ' + number + ' accessible page counter');
-        await page.waitForFunction(() => {
-          const image = document.querySelector('#doc-page-img');
-          return image.complete && image.naturalWidth >= 200 && image.naturalHeight >= 110;
-        }, { timeout: 20000 });
+        // Wait for the selected source (srcset may choose the full-width WebP).
+        // Surface the exact failing document/page and HTTP status when it fails.
+        try {
+          await page.waitForFunction(() => {
+            const image = document.querySelector('#doc-page-img');
+            return image.complete && image.naturalWidth >= 200 && image.naturalHeight >= 110;
+          }, null, { timeout: 20000 });
+        } catch (error) {
+          const image = await page.locator('#doc-page-img').evaluate(el => ({
+            src: el.getAttribute('src'), srcset: el.getAttribute('srcset'),
+            currentSrc: el.currentSrc, complete: el.complete,
+            naturalWidth: el.naturalWidth, naturalHeight: el.naturalHeight
+          }));
+          const uri = image.currentSrc || new URL(preview, base).href;
+          const response = await context.request.get(uri, { timeout: 20000 }).catch(() => null);
+          throw new Error(name + ' ' + tab + ' page ' + number +
+            ' failed to decode: ' + JSON.stringify({ image, status: response?.status() ?? 'request failed' }), { cause: error });
+        }
       }
       assert.equal(await page.locator('#doc-next').isDisabled(), true, name + ' last-page boundary');
       assert.equal(await page.locator('#doc-prev').isEnabled(), true, name + ' previous-page control');
