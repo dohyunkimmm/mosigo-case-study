@@ -197,7 +197,6 @@ a:focus-visible,button:focus-visible,input[type="range"]:focus-visible{outline:3
 .document-preview>summary:focus-visible{outline:3px solid #65ad7a;outline-offset:-3px}
 .document-preview>summary:hover{background:#eef6ed}
 .document-preview>summary small{display:block;font-size:12px;font-weight:600;letter-spacing:0;line-height:1.6;color:var(--muted);margin-top:4px}
-.document-preview>summary::after{content:"바로보기 ＋";font-size:13px;white-space:nowrap;color:#276b4a}
 .document-preview[open]{grid-column:1/-1;background:#fff}
 .document-preview[open]>summary{border-bottom:1px solid var(--line)}
 .document-preview[open]>summary::after{content:"닫기 −"}
@@ -432,6 +431,9 @@ section:not(#overview){position:relative}
 .hero h1 i{display:inline-block;text-wrap:balance;word-break:keep-all}@media(max-width:600px){.decision-timeline{padding-inline-start:1.3rem}.decision-timeline li+li{margin-top:.5rem}}.v3-card-explain details{margin-top:.65rem}.v3-card-explain summary{cursor:pointer}
 .hero .hero-primary{background:#dcf7a1;color:#123e33;border-color:#dcf7a1;font-weight:800}.hero .hero-primary:hover{background:#edfbd0;color:#123e33}
 .doc-current{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1rem;padding:.55rem .8rem;margin-bottom:.5rem;background:#edf4ef;border:1px solid #d1e1d6;border-radius:10px}.doc-current-label,.doc-current .doc-links{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .8rem}.doc-current .doc-links{margin:0}.doc-current .doc-links a{display:inline-flex;align-items:center;min-height:44px;text-underline-offset:.2em}.doc-current .doc-links a[hidden]{display:none}
+.attachment-files{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.attachment-files li{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 14px}
+.attachment-files a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-underline-offset:.2em}
 </style><link rel="stylesheet" href="/assets/site-v3.css?v=visual-review"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}
 if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'fonts' in document){
  document.documentElement.classList.add('mobile-font-pending');
@@ -583,7 +585,7 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <div class="bep-row"><span>현금 손익분기</span><div class="bep-track" aria-hidden="true"><span class="bep-marker" style="--position:50%"></span></div><strong>541건</strong></div>
 <div class="bep-row"><span>인력 비용 포함 손익분기</span><div class="bep-track" aria-hidden="true"><span class="bep-marker" style="--position:100%"></span></div><strong>1,082건</strong></div>
 <p class="bep-secondary">예상 완료는 인력 기회비용 포함 손익분기의 18.4% · 월 883건 차이</p>
-</figure><div class="business-interpretation"><span class="interpretation-kicker">사업성 해석 · 다음 결정</span><p>제휴 단가·고객 획득 비용·지원 비용·유료 수요 검증</p><a href="#decision">단계별 사업화 판단 보기 ↗</a> <a href="?document=presentation&amp;page=8#attachments">발표 8장 · 공급·손익 비교</a></div><details class="chapter-detail" open><summary>계산기·손익 근거 보기</summary><div class="chapter-content">
+</figure><div class="business-interpretation"><span class="interpretation-kicker">사업성 해석 · 다음 결정</span><p>제휴 단가·고객 획득 비용·지원 비용·유료 수요 검증</p><a href="#decision">단계별 사업화 판단 보기 ↗</a> <a href="/downloads/mosigo_report_preview.pdf#page=8">발표 8장 · 공급·손익 비교</a></div><details class="chapter-detail" open><summary>계산기·손익 근거 보기</summary><div class="chapter-content">
 <p id="sim-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 <div class="sim"><div class="sim-head"><h3>연간 시나리오 · 직접 운영 공헌이익</h3><p>직접 운영의 공헌이익과 제휴 수수료 매출을 연간 기준으로 계산</p></div><div class="sim-body"><div>
 <div class="control"><label for="users">이용 고객 수 <output id="uOut">15,000명</output></label><input id="users" type="range" min="5000" max="30000" value="15000" step="1000"><small>5,000~30,000명 · 산정 기준</small></div>
@@ -601,7 +603,7 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 
 
 <div id="partner-model" class="review-model" role="region" aria-labelledby="partner-title">
-<h3 id="partner-title">제휴 모델 월 손익 계산기 · 공급·비용 가정</h3><a href="?document=plan&amp;page=11#attachments">사업기획서 11쪽 · 공급 산정 근거</a>
+<h3 id="partner-title">제휴 모델 월 손익 계산기 · 공급·비용 가정</h3><a href="/downloads/mosigo_business_plan_20261031.pdf#page=11">사업기획서 11쪽 · 공급 산정 근거</a>
 <p>가동률·이용률·취소율·완료율 기준</p>
 <div id="partner-inputs" class="review-inputs"></div>
 <dl id="partner-results" class="review-results" aria-live="polite"></dl>
@@ -665,10 +667,10 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <h3 class="subhead">기획 근거와 다음 확인 사항</h3>
 
 <div class="review-verification">
-<article><span class="verification-state evidence">자료 확보</span><h4>경쟁 서비스 조사</h4><p>기존 팀 조사 7종·118건. 세부 근거는 02 참고</p><a href="?document=plan&amp;page=3#attachments">사업기획서 3쪽</a></article>
+<article><span class="verification-state evidence">자료 확보</span><h4>경쟁 서비스 조사</h4><p>기존 팀 조사 7종·118건. 세부 근거는 02 참고</p><a href="/downloads/mosigo_business_plan_20261031.pdf#page=3">사업기획서 3쪽</a></article>
 <article><span class="verification-state assumption">산정 가정</span><h4>공급과 월 손익</h4><p>Excel 제휴 모델 기준 월 손익 산정</p><a href="#partner-model">제휴 모델 계산 근거</a></article>
-<article><span class="verification-state planned">검증 예정</span><h4>8주 파일럿</h4><p>전환·완료·취소·지원 비용 기록</p><a href="?document=ir&amp;page=9#attachments">IR Deck 9장</a></article>
-<article><span class="verification-state planned">검증 예정</span><h4>90일 재예약</h4><p>첫 동행 완료 후 90일 관찰한 고객의 재예약률 평가</p><a href="?document=plan&amp;page=15#attachments">사업기획서 15쪽</a></article>
+<article><span class="verification-state planned">검증 예정</span><h4>8주 파일럿</h4><p>전환·완료·취소·지원 비용 기록</p><a href="/downloads/MOSIGO_IR_Investment_Review_12slides.pdf#page=9">IR Deck 9장</a></article>
+<article><span class="verification-state planned">검증 예정</span><h4>90일 재예약</h4><p>첫 동행 완료 후 90일 관찰한 고객의 재예약률 평가</p><a href="/downloads/mosigo_business_plan_20261031.pdf#page=15">사업기획서 15쪽</a></article>
 </div>
 <h3 class="subhead">예약 전환·운영 지표의 측정 항목 <span class="label orange">계획</span></h3>
 <div class="funnel-track" role="group" aria-label="검토 방향 기반 예약 전환">
@@ -705,32 +707,16 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <p>재무 가정: 월 완료 199건 · 공헌이익 3,700원/건 · 손익분기 1,082건(기회비용 포함)</p>
 </div></details></section>
 <footer class="footer"><span>MOSIGO · 전략기획 보고서</span><a href="https://mosigo-nine.vercel.app/" class="prototype-link footer-demo" target="_blank" rel="noopener noreferrer" aria-label="MOSIGO 서비스 데모 새 창에서 열기"><img class="emoji-icon" src="/assets/tossface-phone.png" alt="" aria-hidden="true" width="18" height="18"> 서비스 데모 ↗</a></footer>
-<div id="attachments" class="quick-documents" aria-label="모시고 자료"><div class="attachment-heading"><h2>자료</h2></div>
-<div class="doc-toolbar" aria-label="문서 미리보기 도구">
-<div class="doc-tabs" role="group" aria-label="문서 선택">
-<button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서 <small>19페이지</small></button>
-<button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">서비스기획 <small>11페이지</small></button>
-<button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR <small>12페이지</small></button></div>
-
+<div id="attachments" role="region" class="quick-documents" aria-labelledby="attachments-title">
+<div class="attachment-heading"><h2 id="attachments-title">자료</h2></div>
+<ul class="attachment-files">
+<li><strong>사업기획서</strong> <a href="/downloads/mosigo_business_plan_20261031.pdf">PDF</a></li>
+<li><strong>서비스기획</strong> <a href="/downloads/mosigo_report_preview.pdf">PDF</a> <a href="/downloads/mosigo_report.pptx" download="mosigo_report.pptx">PPTX</a></li>
+<li><strong>IR 자료</strong> <a href="/downloads/MOSIGO_IR_Investment_Review_12slides.pdf">PDF</a> <a href="/downloads/MOSIGO_IR_Investment_Review_12slides.pptx" download="MOSIGO_IR_Investment_Review_12slides.pptx">PPTX</a></li>
+<li><p class="attachment-support"><span>추가 산출물 · 서비스기획</span><a href="downloads/mosigo_prd_delivery.html">제품 요구사항 정의서(PRD) 별도 보기 <span aria-hidden="true">↗</span></a></p></li>
+<li><a href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx">손익 모델 Excel</a></li>
+</ul>
 </div>
-<iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
-<div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="문서 페이지 보기">
-<div class="doc-current"><div class="doc-current-label"><strong id="doc-current-name">사업기획서</strong><span id="doc-page-count" aria-live="polite" aria-atomic="true" aria-label="현재 1페이지, 전체 19페이지">1 / 19페이지</span></div><div class="doc-links" aria-label="선택한 문서 다운로드">
-<a id="doc-pdf-save" href="/downloads/mosigo_business_plan_20261031.pdf" download="mosigo_business_plan_20261031.pdf">PDF 다운로드</a>
-<a id="doc-pptx-save" hidden>PPTX 다운로드</a></div></div>
-<div class="mobile-page-controls">
-<button id="doc-prev" type="button" disabled>이전</button>
-<div id="slide-tools" class="slide-tools"><label class="sr-only" for="slide-jump">페이지 선택</label><select id="slide-jump"></select></div>
-<button id="doc-next" type="button">다음</button>
-<div class="doc-page-actions"><button id="doc-expand" type="button">크게 보기</button></div>
-</div>
-<a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 페이지 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1페이지 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
-</div>
-<dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><div class="v3-zoom-viewport"><button type="button" id="v3-doc-zoom" aria-label="문서 이미지 확대" aria-pressed="false"><img id="v3-fullscreen-img" alt=""></button></div><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>PDF를 다운로드하거나 미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
-
-<p class="attachment-support"><span>추가 산출물 · 서비스기획</span><a href="downloads/mosigo_prd_delivery.html">제품 요구사항 정의서(PRD) 별도 보기 <span aria-hidden="true">↗</span></a></p>
-</div>
-
 </main><div class="bottom-progress" aria-hidden="true"><i id="progress"></i></div>
 <script>
 (function(){
@@ -805,63 +791,14 @@ window.addEventListener('afterprint', () => {
  setChapterMode();
 });
 
-const docFrame=document.getElementById('doc-frame'),docPdfSave=document.getElementById('doc-pdf-save'),docPptxSave=document.getElementById('doc-pptx-save');
-const docImage=document.getElementById('doc-page-img'),docImageLink=document.getElementById('doc-page-open');
-const docPrev=document.getElementById('doc-prev'),docNext=document.getElementById('doc-next'),docPageCount=document.getElementById('doc-page-count');
-const docConfigs={
- plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:19,images:'plan',file:'mosigo_business_plan_20261031.pdf'},
- presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 미리보기',label:'서비스기획',pages:11,images:'slides',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
- ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO IR 자료',label:'IR 자료',pages:12,images:'ir',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
-};
-let currentDocument='plan',currentDocumentPage=1;
-const savedPages = {};
-try { Object.assign(savedPages, JSON.parse(localStorage.getItem('mosigo-document-pages') || '{}')); } catch {}
-const slideJump=document.getElementById('slide-jump');
-let jumpDocument;
-
-slideJump.addEventListener('change',()=>window.MOSIGO_DOC.setPage(slideJump.value));
-const rememberedPage = key => Math.max(1, Math.min(docConfigs[key].pages, Math.trunc(Number(savedPages[key])) || 1));
-currentDocumentPage = rememberedPage(currentDocument);
-function renderMobileDocumentPage(){
- savedPages[currentDocument] = currentDocumentPage;
- try { localStorage.setItem('mosigo-document-pages', JSON.stringify(savedPages)); } catch {}
- const doc=docConfigs[currentDocument],number=String(currentDocumentPage).padStart(2,'0');
- const path='/downloads/previews/'+doc.images+'-'+number+'-sm.webp';
- const fullPath=path.replace('-sm.webp','.webp');
- docImage.srcset=path+' 800w, '+fullPath+' 1400w';
- docImage.sizes='(max-width:800px) 100vw, 1000px';
- if(docImage.getAttribute('src')!==path)docImage.src=path;docImage.alt=doc.label+' '+currentDocumentPage+'페이지'+' 미리보기';
- docImageLink.href=fullPath;
- document.getElementById('doc-current-name').textContent=doc.label;
- docPageCount.textContent=currentDocumentPage+' / '+doc.pages+'페이지';
-  docPageCount.setAttribute('aria-label','현재 '+currentDocumentPage+'페이지'+', 전체 '+doc.pages+'페이지');
- if(jumpDocument!==currentDocument){
-   const options=Array.from({length:doc.pages},(_,index)=>{
-     const number=index+1;
-     return new Option(number+'페이지',number);
-   });
-   slideJump.replaceChildren(...options);
-   jumpDocument=currentDocument;
- }
- slideJump.value=String(currentDocumentPage);
- docPrev.disabled=currentDocumentPage<=1;docNext.disabled=currentDocumentPage>=doc.pages;
+// Keep previously shared document-page links working.
+const legacyDocument=visibleUrl.searchParams.get('document');
+const legacyPage=Number(visibleUrl.searchParams.get('page'));
+const documentFiles={"plan":"mosigo_business_plan_20261031.pdf","presentation":"mosigo_report_preview.pdf","ir":"MOSIGO_IR_Investment_Review_12slides.pdf"};
+if(Object.hasOwn(documentFiles,legacyDocument)&&visibleUrl.hash==='#attachments'){
+ const page=Number.isSafeInteger(legacyPage)&&legacyPage>0?'#page='+legacyPage:'';
+ window.location.replace('/downloads/'+documentFiles[legacyDocument]+page);
 }
-window.MOSIGO_DOC={setPage(page){const n=Math.floor(Number(page));if(!Number.isFinite(n))return;currentDocumentPage=Math.max(1,Math.min(docConfigs[currentDocument].pages,n));renderMobileDocumentPage();},get(){return {document:currentDocument,page:currentDocumentPage};}};
-docPrev.addEventListener('click',()=>{if(currentDocumentPage>1){currentDocumentPage--;renderMobileDocumentPage();}});
-docNext.addEventListener('click',()=>{if(currentDocumentPage<docConfigs[currentDocument].pages){currentDocumentPage++;renderMobileDocumentPage();}});
-const docButtons=Array.from(document.querySelectorAll('[data-doc-preview]'));
-docButtons.forEach(button=>button.addEventListener('click',()=>{
- const key=button.getAttribute('data-doc-preview'),doc=docConfigs[key];if(!doc)return;
- const next=doc.path+'#toolbar=1&view=FitH';if(docFrame.getAttribute('src')!==next)docFrame.src=next;
- docFrame.title=doc.title;
- docPdfSave.href=doc.path;docPdfSave.download=doc.file;
- docPptxSave.hidden=!doc.pptx;
- if(doc.pptx){docPptxSave.href='/downloads/'+doc.pptx;docPptxSave.download=doc.pptx;}
- else{docPptxSave.removeAttribute('href');docPptxSave.removeAttribute('download');}
- currentDocument=key;currentDocumentPage=rememberedPage(key);renderMobileDocumentPage();
- docButtons.forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
-}));
-renderMobileDocumentPage();
 
 const ids=['users','freq','price','cost','rate'];const defaults=[15000,1.5,40000,30000,20];const fmt=new Intl.NumberFormat('ko-KR');
 function fixedAmount(v,unit){const scaled=Math.abs(v)*100/unit;const rounded=Math.floor(scaled+0.5+Number.EPSILON*scaled*4);return (Math.sign(v)*rounded/100).toFixed(2);}function won(v){if(Math.abs(v)>=100000000)return fixedAmount(v,100000000)+'억 원';if(Math.abs(v)>=10000)return fixedAmount(v,10000)+'만 원';return fmt.format(v)+'원';}
