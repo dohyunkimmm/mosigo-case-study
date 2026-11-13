@@ -6,6 +6,7 @@
 - [PR #169](https://github.com/dohyunkimmm/mosigo-case-study/pull/169)에서 최신 페이지 첫 화면의 월 최대 433건과 현금 손익분기 541건 설명을 반영했고, 이를 제안하던 낡은 마크업의 [#106](https://github.com/dohyunkimmm/mosigo-case-study/pull/106)은 사유를 기록하고 미병합 종료했습니다. 원본 브랜치는 유지합니다.
 - 생성 PR끼리 변경 파일 경로와 SHA를 대조해, [#125](https://github.com/dohyunkimmm/mosigo-case-study/pull/125)의 모바일 WebP 변경 **22개 전부**가 [#129](https://github.com/dohyunkimmm/mosigo-case-study/pull/129)에 동일 바이트로 유지됨을 확인했습니다. #125는 미병합 종료했고, **보존 태그 생성은 아직 확인되지 않아 #125 원본 브랜치와 SHA를 삭제하지 않고 유지**합니다.
 - 최신 열린 PR은 자동 생성 **28건**, 수동 검토 초안 [#142](https://github.com/dohyunkimmm/mosigo-case-study/pull/142) **1건**, 합계 **29건**입니다. `main`과 내용이 다른 28개 자동 PR은 각각 평가 전 강제 병합·삭제하지 않습니다. [이슈 #166](https://github.com/dohyunkimmm/mosigo-case-study/issues/166)의 감사와 보존 기준을 따릅니다.
+- **추가 자동 PR 적체 방지:** 동일 생성기(`ppt-preview`, `mobile-previews`, `business-plan`, `ir-deck`)의 미처리 PR이 있으면, 새 생성 파일이 `main`과 달라도 **새 PR을 만들지 않습니다**. 해당 실행의 파일은 GitHub Actions 첨부 산출물에서 확인하고, 기존 PR을 검토·종료한 뒤 다음 생성 후보를 발행합니다. 이 제어는 **새 출력이 기존 PR과 같다는 뜻이 아니며**, 작업 로그에 보류 사유를 표시합니다. `qa/test-publish-generated-pr.py`의 독립 5가지 테스트로 안전 조건을 검사합니다.
 
 ## 현재 저장소 상태 · 2026-11-14 (후속 조치 전 기준)
 
