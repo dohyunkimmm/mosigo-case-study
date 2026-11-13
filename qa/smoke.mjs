@@ -62,7 +62,7 @@ try {
     assert.equal(await page.locator('.nav-link').count(), 9, width + 'px original primary contents navigation');
     assert.equal(await page.locator('#attachments iframe, #mobile-doc-viewer, #v3-fullscreen').count(), 2, 'embedded preview restored');
     assert.equal(await page.locator('#attachments a[href$=".pdf"]').count(), 0, 'PDF opens in a new tab');
-    assert.equal(await page.locator('#doc-pptx-download').isVisible(), false, 'business plan has no PPTX');
+    assert.equal(await page.locator('#doc-pptx-download').getAttribute('href'), '/downloads/mosigo_business_plan.pptx');
     assert.equal(await page.locator('#attachments .model-resource a[download$=".xlsx"]').count(), 1, 'Excel uses the same list');
     await page.locator('[data-doc-preview="ir"]').click();
     await page.evaluate(() => window.MOSIGO_DOC.setPage(1));
@@ -123,6 +123,7 @@ try {
         { path: '/downloads/mosigo_report_preview.pdf', kind: 'pdf', minBytes: 1000 },
         { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pdf', kind: 'pdf', minBytes: 1000 },
         { path: '/downloads/mosigo_model.xlsx', kind: 'zip', minBytes: 200 },
+        { path: '/downloads/mosigo_business_plan.pptx', kind: 'zip', minBytes: 200 },
         { path: '/downloads/mosigo_report.pptx', kind: 'zip', minBytes: 200 },
         { path: '/downloads/MOSIGO_IR_Investment_Review_12slides.pptx', kind: 'zip', minBytes: 200 },
       ];
