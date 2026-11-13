@@ -431,13 +431,10 @@ section:not(#overview){position:relative}
 .hero h1 i{display:inline-block;text-wrap:balance;word-break:keep-all}@media(max-width:600px){.decision-timeline{padding-inline-start:1.3rem}.decision-timeline li+li{margin-top:.5rem}}.v3-card-explain details{margin-top:.65rem}.v3-card-explain summary{cursor:pointer}
 .hero .hero-primary{background:#dcf7a1;color:#123e33;border-color:#dcf7a1;font-weight:800}.hero .hero-primary:hover{background:#edfbd0;color:#123e33}
 .doc-current{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1rem;padding:.55rem .8rem;margin-bottom:.5rem;background:#edf4ef;border:1px solid #d1e1d6;border-radius:10px}.doc-current-label,.doc-current .doc-links{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .8rem}.doc-current .doc-links{margin:0}.doc-current .doc-links a{display:inline-flex;align-items:center;min-height:44px;text-underline-offset:.2em}.doc-current .doc-links a[hidden]{display:none}
-.doc-downloads a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-underline-offset:.2em}.doc-downloads a[hidden]{display:none}
-.attachment-files{list-style:none;margin:16px 0;padding:0;display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
-.attachment-files li{display:grid;grid-template-rows:auto 1fr;overflow:hidden;border:1px solid rgba(127,127,127,.35);border-radius:12px}
-.attachment-card-heading,.attachment-card-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;padding:8px 12px}
-.attachment-card-heading span{font-size:.85em}
-.attachment-card-actions{justify-content:flex-start;border-top:1px solid rgba(127,127,127,.25)}
-.attachment-files a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-underline-offset:.2em}
+.model-resource,.doc-page-actions{display:flex;flex-wrap:wrap;gap:4px 12px}
+.model-resource{margin-top:10px}
+.model-resource a,.doc-page-actions a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-underline-offset:.2em}
+.quick-documents .doc-toolbar .doc-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
 </style><link rel="stylesheet" href="/assets/site-v3.css?v=visual-review"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}
 if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'fonts' in document){
  document.documentElement.classList.add('mobile-font-pending');
@@ -712,15 +709,13 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 </div></details></section>
 <footer class="footer"><span>MOSIGO · 전략기획 보고서</span><a href="https://mosigo-nine.vercel.app/" class="prototype-link footer-demo" target="_blank" rel="noopener noreferrer" aria-label="MOSIGO 서비스 데모 새 창에서 열기"><img class="emoji-icon" src="/assets/tossface-phone.png" alt="" aria-hidden="true" width="18" height="18"> 서비스 데모 ↗</a></footer>
 <div id="attachments" class="quick-documents" aria-label="모시고 자료"><div class="attachment-heading"><h2>자료</h2></div>
-<ul class="attachment-files">
-<li><div class="attachment-card-heading"><strong>손익 모델</strong></div><div class="attachment-card-actions"><a href="#partner-model" aria-label="손익 모델 계산기 보기">계산기 보기</a><a href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx" aria-label="손익 모델 XLSX 받기">XLSX 받기</a></div></li>
-</ul>
+
 <div class="doc-toolbar" aria-label="문서 미리보기 도구">
 <div class="doc-tabs" role="group" aria-label="문서 선택">
 <button class="doc-tab active" type="button" data-doc-preview="plan" aria-pressed="true">사업기획서</button>
 <button class="doc-tab" type="button" data-doc-preview="presentation" aria-pressed="false">서비스기획</button>
 <button class="doc-tab" type="button" data-doc-preview="ir" aria-pressed="false">IR</button></div>
-<div class="doc-downloads"><a data-download-document="presentation" hidden href="/downloads/mosigo_report.pptx" download="mosigo_report.pptx" aria-label="서비스기획 PPTX 받기">PPTX 받기</a><a data-download-document="ir" hidden href="/downloads/MOSIGO_IR_Investment_Review_12slides.pptx" download="MOSIGO_IR_Investment_Review_12slides.pptx" aria-label="IR 자료 PPTX 받기">PPTX 받기</a></div>
+
 </div>
 <iframe id="doc-frame" class="document-preview-frame" title="MOSIGO 신규 사업기획서 PDF" src="/downloads/mosigo_business_plan_20261031.pdf#toolbar=1&amp;view=FitH" loading="lazy"></iframe>
 <div id="mobile-doc-viewer" class="mobile-document-viewer" aria-label="문서 페이지 보기">
@@ -729,11 +724,12 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <button id="doc-prev" type="button" disabled>이전</button>
 <div id="slide-tools" class="slide-tools"><label class="sr-only" for="slide-jump">페이지 선택</label><select id="slide-jump"></select></div>
 <button id="doc-next" type="button">다음</button>
-<div class="doc-page-actions"><button id="doc-expand" type="button">크게 보기</button></div>
+<div class="doc-page-actions"><a id="doc-expand" href="/downloads/mosigo_business_plan_20261031.pdf#page=1" target="_blank" rel="noopener">크게 보기 ↗</a><a id="doc-pdf-download" href="/downloads/mosigo_business_plan_20261031.pdf" download>PDF 받기</a></div>
 </div>
-<a id="doc-page-open" class="mobile-page-open" href="/downloads/previews/plan-01.webp" target="_blank" rel="noopener noreferrer" aria-label="현재 페이지 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1페이지 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
+<a id="doc-page-open" class="mobile-page-open" href="/downloads/mosigo_business_plan_20261031.pdf#page=1" target="_blank" rel="noopener noreferrer" aria-label="현재 페이지 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1페이지 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
 </div>
-<dialog id="v3-fullscreen" class="v3-fullscreen" aria-label="문서 페이지 전체화면 미리보기"><div class="v3-fullscreen-header"><span>문서 페이지 크게 보기</span><button type="button" id="v3-full-close">닫기 ✕</button></div><div class="v3-zoom-viewport"><button type="button" id="v3-doc-zoom" aria-label="문서 이미지 확대" aria-pressed="false"><img id="v3-fullscreen-img" alt=""></button></div><div class="review-dialog-nav"><button id="v3-full-prev" type="button">이전 페이지</button><span id="v3-full-count" aria-live="polite"></span><button id="v3-full-next" type="button">다음 페이지</button></div></dialog><p id="doc-preview-error" role="status" hidden>미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
+<p id="doc-preview-error" role="status" hidden>미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
+<div class="model-resource"><a href="#partner-model">손익 모델 계산기</a><a href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx" aria-label="손익 모델 XLSX 받기">XLSX 받기</a></div>
 
 
 </div>
@@ -838,7 +834,10 @@ function renderMobileDocumentPage(){
  docImage.srcset=path+' 800w, '+fullPath+' 1400w';
  docImage.sizes='(max-width:800px) 100vw, 1000px';
  if(docImage.getAttribute('src')!==path)docImage.src=path;docImage.alt=doc.label+' '+currentDocumentPage+'페이지'+' 미리보기';
- docImageLink.href=fullPath;
+ const pageUrl=doc.path+'#page='+currentDocumentPage;
+ docImageLink.href=pageUrl;
+ document.getElementById('doc-expand').href=pageUrl;
+ document.getElementById('doc-pdf-download').href=doc.path;
 
  docPageCount.textContent=currentDocumentPage+' / '+doc.pages+'페이지';
   docPageCount.setAttribute('aria-label','현재 '+currentDocumentPage+'페이지'+', 전체 '+doc.pages+'페이지');
@@ -862,7 +861,7 @@ docButtons.forEach(button=>button.addEventListener('click',()=>{
  const next=doc.path+'#toolbar=1&view=FitH';if(docFrame.getAttribute('src')!==next)docFrame.src=next;
  docFrame.title=doc.title;
  currentDocument=key;currentDocumentPage=rememberedPage(key);renderMobileDocumentPage();
- document.querySelectorAll('[data-download-document]').forEach(link=>{link.hidden=link.dataset.downloadDocument!==key;});
+
  docButtons.forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
 }));
 renderMobileDocumentPage();
@@ -884,4 +883,4 @@ ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>update(
 document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update(true);});
 update();
 })();
-</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=enlarge-preview"></script></body></html>
+</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=pdf-preview"></script></body></html>

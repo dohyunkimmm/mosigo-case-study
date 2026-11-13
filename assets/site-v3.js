@@ -156,19 +156,8 @@ function setupDocuments(){
  if(!image)return;
  const details={plan:{prefix:"plan",total:19,label:"사업기획서"},presentation:{prefix:"slides",total:11,label:"발표자료"},ir:{prefix:"ir",total:12,label:"IR 자료"}};
  const tabs=[...document.querySelectorAll("[data-doc-preview]")];
- const currentDoc=()=>tabs.find(x=>x.getAttribute("aria-pressed")==="true")?.dataset.docPreview||"plan";
- const fullPrev=$("#v3-full-prev"), fullNext=$("#v3-full-next");
+
  const previewError=$("#doc-preview-error");
- const zoom=$("#v3-doc-zoom"), zoomViewport=zoom.parentElement;
- function resetZoom(){
-   zoom.setAttribute("aria-pressed","false");
-   zoomViewport.scrollTo(0,0);
- }
- zoom.addEventListener("click",()=>{
-   if(zoom.getAttribute("aria-pressed")==="true"){resetZoom();return;}
-   zoom.setAttribute("aria-pressed","true");
-   zoomViewport.scrollLeft=(zoomViewport.scrollWidth-zoomViewport.clientWidth)/2;
- });
  const imageStatus=()=>{ previewError.hidden = !image.complete || image.naturalWidth > 0; };
  image.addEventListener("load", imageStatus);
  image.addEventListener("error", imageStatus);
@@ -178,60 +167,7 @@ function setupDocuments(){
    image.srcset=url.href+" 800w, "+url.href+" 1400w";
    previewError.hidden=true;
  });
- fullPrev.addEventListener("click",()=>window.MOSIGO_DOC.setPage(currentPage()-1));
- fullNext.addEventListener("click",()=>window.MOSIGO_DOC.setPage(currentPage()+1));
-
- let cached="";
- const currentPage=()=>{
-  const found=(image.getAttribute("src")||"").match(/-(\d{2})-sm\.webp/);
-  return found?Number(found[1]):1;
- };
- function refresh(){
-   const key=currentDoc(),doc=details[key],page=currentPage();
-   if(!doc)return;
-   const next=key+":"+page;
-   if(cached===next)return;
-   cached=next;
-   imageStatus();
-   fullPrev.disabled=page===1;
-   fullNext.disabled=page===doc.total;
-   $("#v3-full-count").textContent=page+" / "+doc.total;
-   const fullImage=$("#v3-fullscreen-img");
-   if(fullImage && $("#v3-fullscreen").open) {
-      resetZoom();
-      fullImage.src="/downloads/previews/"+doc.prefix+"-"+String(page).padStart(2,"0")+".webp";
-      fullImage.alt=doc.label+" "+page+"페이지"+" 전체화면 미리보기";
-   }
-   const count=$("#v3-thumb-count");if(count)count.textContent=doc.label+" "+page+" / "+doc.total;
- }
- const observer=new MutationObserver(refresh);
- observer.observe(image,{attributes:true,attributeFilter:["src"]});
- for(const tab of tabs)tab.addEventListener("click",()=>requestAnimationFrame(refresh));
- const open=$("#doc-page-open"),dialog=$("#v3-fullscreen"),close=$("#v3-full-close");
- if(open&&dialog&&close){
-   let opener=open;
-   function showPreview(event){
-     opener=event.currentTarget;
-     event.preventDefault();
-     if(typeof dialog.showModal==="function"){
-       dialog.showModal();
-       cached="";
-       refresh();
-     }
-     else window.open($("#doc-page-open").href,"_blank","noopener");
-   }
-   open.addEventListener("click",showPreview);
-   $("#doc-expand").addEventListener("click",showPreview);
-   close.addEventListener("click",()=>dialog.close());
-   dialog.addEventListener("close",()=>{resetZoom();opener.focus();});
-   dialog.addEventListener("keydown",event=>{
-     if((event.key==="ArrowLeft" || event.key==="ArrowRight") && zoom.getAttribute("aria-pressed")!=="true"){
-       event.preventDefault();
-       window.MOSIGO_DOC.setPage(currentPage()+(event.key==="ArrowRight"?1:-1));
-     }
-   });
-   dialog.addEventListener("click",event=>{if(event.target===dialog)dialog.close();});
- }
+ imageStatus();
  const swipeTarget=$("#mobile-doc-viewer");
  let startX=0,startY=0;
  swipeTarget?.addEventListener("touchstart",event=>{
@@ -257,7 +193,7 @@ function setupDocuments(){
    tabs.find(tab=>tab.dataset.docPreview===requestedDoc)?.click();
    if(Number.isInteger(requestedPage) && requestedPage>0) window.MOSIGO_DOC.setPage(requestedPage);
  }
- refresh();
+
 }
 setupScenario();
 setupDocuments();
