@@ -1,0 +1,61 @@
+name: Archive reviewed closed generated branches
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/archive-closed-generated-prs.py'
+      - 'qa/closed-generated-prs-manifest.json'
+      - '.github/workflows/archive-reviewed-generated-prs.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'qa/archive-closed-generated-prs.py'
+      - 'qa/closed-generated-prs-manifest.json'
+      - '.github/workflows/archive-reviewed-generated-prs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: archive-reviewed-generated-prs-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify closed PR archive manifest read-only
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate script and manifest syntax
+        run: |
+          python -m py_compile qa/archive-closed-generated-prs.py
+          python -m json.tool qa/closed-generated-prs-manifest.json >/dev/null
+      - name: Confirm exact heads and newer PR path coverage
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python qa/archive-closed-generated-prs.py --verify-only
+  archive:
+    name: Archive exact SHAs before retiring closed refs
+    needs: verify
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preserve tags and remove only verified closed heads
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python qa/archive-closed-generated-prs.py --archive
