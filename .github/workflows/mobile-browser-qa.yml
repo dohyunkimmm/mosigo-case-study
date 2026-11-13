@@ -1,6 +1,14 @@
 name: Mobile Safari engine and font QA
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'downloads/**'
+      - 'assets/tossface-phone.png'
+      - 'qa/mobile-browser.mjs'
+      - '.github/workflows/mobile-browser-qa.yml'
   push:
     branches: [main]
     paths:
@@ -15,7 +23,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: mosigo-mobile-browser-main
+  group: mosigo-mobile-browser-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
