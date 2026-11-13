@@ -38,7 +38,7 @@ for (const { name, engine, device } of cases) {
     assert.match(bodyFont, /Pretendard/, name + ' site typography must declare Pretendard');
 
     await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
-    assert.equal(await page.locator('#doc-pdf-save').isVisible(), true);
+    assert.equal(await page.locator('#doc-expand').isVisible(), true);
 
     for (const { path, label } of assetTests) {
       const response = await context.request.get(new URL(path, base).href, { timeout: 25000 });
@@ -55,10 +55,11 @@ for (const { name, engine, device } of cases) {
     ]) {
       await page.locator('[data-doc-preview="' + tab + '"]').click();
       assert.ok((await page.locator('#doc-frame').getAttribute('src')).startsWith(path + '#'), name + ' frame switches');
-      assert.ok(new URL(await page.locator('#doc-pdf-save').getAttribute('href'), base).pathname === path, name + ' open link updates');
+      assert.ok(new URL(await page.locator('#doc-expand').getAttribute('href'), base).pathname === path, name + ' open link updates');
       assert.equal(await page.locator('[data-doc-preview="' + tab + '"]').getAttribute('aria-pressed'), 'true', name + ' accessible selected state');
       const prefix=tab==='plan'?'plan':tab==='ir'?'ir':'slides';
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-01-sm.webp'), name + ' initial preview image');
+      assert.equal(await page.locator('#doc-pptx-download').getAttribute('href'), '/downloads/' + ({plan:'mosigo_business_plan.pptx',presentation:'mosigo_report.pptx',ir:'MOSIGO_IR_Investment_Review_12slides.pptx'})[tab], name + ' PPTX download target');
       await page.waitForFunction(() => {const im=document.querySelector('#doc-page-img');return im.complete&&im.naturalWidth>0;});
       await page.locator('#doc-next').click();
       assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith('/'+prefix+'-02-sm.webp'), name + ' next page');
@@ -72,9 +73,10 @@ for (const { name, engine, device } of cases) {
         const padded = String(number).padStart(2, '0');
         const preview = '/downloads/previews/' + prefix + '-' + padded + '-sm.webp';
         assert.ok((await page.locator('#doc-page-img').getAttribute('src')).endsWith(preview), name + ' page ' + number + ' preview URL');
-        assert.ok((await page.locator('#doc-page-open').getAttribute('href')).endsWith('/' + prefix + '-' + padded + '.webp'), name + ' page ' + number + ' full-resolution link');
+        assert.equal(await page.locator('#doc-expand').getAttribute('href'), path + '#page=' + number, name + ' page ' + number + ' full-size action');
+        assert.ok((await page.locator('#doc-page-open').getAttribute('href')).endsWith(path + '#page=' + number), name + ' page ' + number + ' original PDF page link');
         assert.equal(await page.locator('#doc-page-count').getAttribute('aria-label'),
-          '현재 ' + number + (tab === 'plan' ? '쪽' : '장') + ', 전체 ' + total + (tab === 'plan' ? '쪽' : '장'),
+          '현재 ' + number + '페이지, 전체 ' + total + '페이지',
           name + ' page ' + number + ' accessible page counter');
         await page.waitForFunction(() => {
           const image = document.querySelector('#doc-page-img');
@@ -96,7 +98,7 @@ for (const { name, engine, device } of cases) {
     await page.locator('#mobile-doc-viewer').scrollIntoViewIfNeeded();
     const layout = await page.evaluate(() => {
       const tabs = [...document.querySelectorAll('.doc-tab')];
-      const fallback = document.querySelector('#doc-pdf-save');
+      const fallback = document.querySelector('#doc-expand');
       const image = document.querySelector('#doc-page-img');
       const doc = document.querySelector('#attachments');
       const r = element => {

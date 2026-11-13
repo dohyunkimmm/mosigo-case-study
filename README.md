@@ -1,5 +1,15 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
+## 현재 저장소 상태 · 2026-11-14
+
+- 조회 기준: `main` [`aba60ed8`](https://github.com/dohyunkimmm/mosigo-case-study/commit/aba60ed89cf3a667b64b65730e40e8df02c1a264). GitHub 재귀 트리는 **파일 164개·디렉터리 10개**(루트 파일 9개, 최상위 폴더 5개)이며 Git blob SHA가 같은 파일은 **0쌍**입니다. `downloads/` 직접 파일 **9개**(사업기획서 PDF·HTML·PPTX, 서비스기획 PDF·PPTX, IR PDF·PPTX, PRD HTML, 재무 XLSX), `downloads/previews/` WebP **84개**를 확인했습니다.
+- [PR #164](https://github.com/dohyunkimmm/mosigo-case-study/pull/164)의 19장 사업기획서 PPTX와 자료 탭 다운로드 연결을 필수 Site QA·PRD Evidence QA 통과 후 병합했습니다. 원본 PDF·HTML과 기존 미리보기 경로는 유지합니다. **PPTX는 PDF 페이지를 슬라이드로 변환한 배포본**이며, 도형·문장별 편집 가능 원본이라는 뜻은 아닙니다.
+- 조회 시 열린 PR은 **31건**(자동 생성 PR 29건 + 수동 검토 PR 2건)입니다. 자동 생성 PR 29건(발표자료 11·모바일 미리보기 13·사업기획서 3·IR 2)의 변경 파일 SHA를 전부 현재 `main`과 대조했고 동일 SHA 변경 경로는 없었습니다. **바이너리 산출물의 시각·본문 동등성은 아직 미검증**이므로 [정리 이슈 #166](https://github.com/dohyunkimmm/mosigo-case-study/issues/166)에서 확인 후 병합/종료합니다. 브랜치만 존재하는 것으로 처리하거나 일괄 삭제하지 않습니다. 수동 검토 [#142](https://github.com/dohyunkimmm/mosigo-case-study/pull/142)는 초안으로 `main`과 충돌하고 이전 Site QA·PPT 미리보기 생성 검사가 실패했습니다. PRD의 측정 정의 등 일부 내용은 후속 `main`에 반영되어 있어 전체 바이너리를 재병합하지 않습니다. [#106](https://github.com/dohyunkimmm/mosigo-case-study/pull/106)은 이전 소개 문구가 최신 화면 구조와 충돌합니다. 두 PR은 재검토 전 미병합 상태로 보존합니다.
+- 점검 시 원격 브랜치 **32개**(`main` 1, 열린 PR 브랜치 2, `automation/*` 29)입니다. 이 문서 갱신용 브랜치와 후속 Actions 실행으로 개수는 바뀔 수 있습니다. 자동 생성 브랜치는 PR 처리 여부·원본 HEAD·보존 태그 검증 없이 일괄 삭제하지 않습니다.
+- 최신 `main` (`aba60ed8`)의 [Site QA #43450033674](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43450033674)와 [PRD Evidence QA #43450033468](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43450033468)는 성공했습니다. [모바일 엔진 QA #43450033867](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43450033867)는 과거 뷰어 선택자 `#doc-pdf-save`의 표시 기대 검사(41행)에서 실패했습니다. 현행 `#doc-expand`·PDF 페이지 링크·페이지 라벨을 검사하도록 [`qa/mobile-browser.mjs`](qa/mobile-browser.mjs)를 동기화하며, **변경 이후 모바일 QA 성공과 최신 운영 배포 SHA 일치는 별도 확인 대상**입니다.
+- 명백한 임시 확장자 파일·SHA 중복은 발견하지 못했습니다. 호환 페이지, 84개 미리보기, 문서 생성 스크립트, `qa/ir-deck-source/` 및 다운로드 원본은 참조·복원 경로를 보호하기 위해 삭제하지 않습니다. 아래 11월 3~11일 기록은 **당시의 점검 이력**이며 현행 수량은 이 절을 우선합니다.
+
+
 ## 2026-11-11 저장소 클렌징 완료
 
 - [정리 PR #100](https://github.com/dohyunkimmm/mosigo-case-study/pull/100)을 **필수 Site QA와 PRD Evidence QA 통과 후** [`b0769d3`](https://github.com/dohyunkimmm/mosigo-case-study/commit/b0769d371ceddb646d56ed9fdb3b2d53c9bffc0c)으로 병합했습니다. PR 검사 [Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43044653761)·[PRD QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43044653757)가 모두 성공했습니다.
@@ -50,7 +60,7 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 | --- | --- |
 | [`index.html`](index.html) | 공개 보고서 메인 페이지(9개 장), 문서 탭·사업성 계산기 |
 | [`assets/`](assets/) | 페이지 스타일·스크립트·공유 이미지·스마트폰 아이콘 |
-| [`downloads/`](downloads/) | 사업기획서·발표자료·IR Deck·계산 파일(최상위 8개) |
+| [`downloads/`](downloads/) | 사업기획서·발표자료·IR Deck·계산 파일(현재 최상위 9개) |
 | [`downloads/previews/`](downloads/previews/) | 사업기획서 19쪽·발표자료 11장·IR Deck 12장의 일반/소형 WebP(총 84개) |
 | [`qa/`](qa/) | 현행 품질 검증·문서 생성 스크립트와 IR 원본 조각. 내부 기술 검증 부록·상세 실행 증빙은 공개 저장소에서 제외 |
 | [`docs/history/`](docs/history/) | 과거 브랜치·저장소·폰트 점검 기록 4건. 당시 기준의 스냅샷으로, 현행 운영 상태는 아래 안내를 우선 확인 |
@@ -58,9 +68,9 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 | [`.github/scripts/`](.github/scripts/) | 자동 생성 문서가 `main` 직접 푸시 대신 검토용 PR을 만들도록 하는 공용 게시 스크립트 |
 | [`decision-memos.html`](decision-memos.html) · [`forecast.html`](forecast.html) · [`materials.html`](materials.html) | 과거 링크 호환용 페이지. 현재 보고서의 의사결정·사업성·첨부 자료 위치로 연결 |
 
-**첨부 자료 원본과 게시본:** [사업기획서 HTML](downloads/mosigo_business_plan_20261031.html) · [사업기획서 PDF](downloads/mosigo_business_plan_20261031.pdf) · [발표자료 PPTX](downloads/mosigo_report.pptx) · [발표자료 미리보기 PDF](downloads/mosigo_report_preview.pdf) · [IR Deck PPTX](downloads/MOSIGO_IR_Investment_Review_12slides.pptx) · [IR Deck PDF](downloads/MOSIGO_IR_Investment_Review_12slides.pdf) · [계산 파일 XLSX](downloads/mosigo_model.xlsx).
+**첨부 자료 원본과 게시본:** [사업기획서 HTML](downloads/mosigo_business_plan_20261031.html) · [사업기획서 PDF](downloads/mosigo_business_plan_20261031.pdf) · [사업기획서 PPTX](downloads/mosigo_business_plan.pptx) · [발표자료 PPTX](downloads/mosigo_report.pptx) · [발표자료 미리보기 PDF](downloads/mosigo_report_preview.pdf) · [IR Deck PPTX](downloads/MOSIGO_IR_Investment_Review_12slides.pptx) · [IR Deck PDF](downloads/MOSIGO_IR_Investment_Review_12slides.pdf) · [계산 파일 XLSX](downloads/mosigo_model.xlsx).
 
-2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-09 GitHub `main` 재귀 트리 기준 파일 160개·디렉터리 10개**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
+2026-11-03 당시의 파일 정합성 점검 기록은 [과거 점검 문서](docs/history/repository-audit-20261103.md)에 보존합니다. **2026-11-09 당시 GitHub `main` 재귀 트리 기준 파일 160개·디렉터리 10개**(루트 파일 9개·최상위 폴더 5개)입니다. 위 문서·미리보기 수량은 이 정리 시점 기준이며, 이후 변경 때 재검증해야 합니다.
 
 ## 2026-11-09 `main` 목록 및 생성 산출물 동기화 (과거 기록)
 
