@@ -1,0 +1,44 @@
+name: Archive final four reviewed generated PRs
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/archive-final-four-generated-prs.py'
+      - '.github/workflows/archive-final-four-generated-prs.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'qa/archive-final-four-generated-prs.py'
+      - '.github/workflows/archive-final-four-generated-prs.yml'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m py_compile qa/archive-final-four-generated-prs.py
+      - name: Verify four closed PRs, exact SHAs, and merged replacements
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 qa/archive-final-four-generated-prs.py --verify-only
+
+  preserve-and-retire:
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preserve four exact SHA tags before retiring closed branches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 qa/archive-final-four-generated-prs.py --archive
