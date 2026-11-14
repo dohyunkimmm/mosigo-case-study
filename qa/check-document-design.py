@@ -40,7 +40,15 @@ for figure in ('199','1,082','3,700','400'):
 assert '\ufffd' not in ir_text, 'Invalid replacement character in IR PDF'
 plan_text=cmd('pdftotext','-layout',str(PLAN),'-')
 compact_plan=re.sub(r'\s+','',plan_text)
-assert 'MOSIGO' in compact_plan and '기획기준과참고자료' in compact_plan, 'PDF source notes missing'
+# PDF text extractors may interleave the final word of a visually intact
+# source-note title with the subtitle; check all components on the SAME page.
+source_note_page = re.sub(r'\s+', '', plan_text.split('\f')[16])
+assert (
+    'MOSIGO' in compact_plan
+    and '기획기준과참고' in source_note_page
+    and '사업화·PRD판단에사용한자료와근거' in source_note_page
+    and '참고자료' in source_note_page
+), 'PDF page 17 source heading, subtitle or reference table missing'
 assert '<h1>기획 기준과 참고 자료</h1>' in Path('downloads/mosigo_business_plan_20261031.html').read_text(encoding='utf-8'), 'Business-plan source-note heading missing'
 assert '2026.10.31' not in plan_text and 'BUSINESS PLAN 2026' not in plan_text
 plan_html=(ROOT/'mosigo_business_plan_20261031.html').read_text(encoding='utf-8')

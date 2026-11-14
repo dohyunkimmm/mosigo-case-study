@@ -1,0 +1,100 @@
+name: Normalize staged investor labels and matching IR previews
+
+on:
+  push:
+    branches: ['review/synchronized-mosigo-documents-20261114']
+    paths:
+      - 'qa/expand-ir-investor-shorthand.py'
+      - '.github/workflows/normalize-staged-ir.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  normalize-and-render:
+    if: github.repository == 'dohyunkimmm/mosigo-case-study'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    concurrency:
+      group: mosigo-ir-normalization-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Install slide renderer, PDF and WebP tools
+        run: |
+          set -euo pipefail
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf 'https://archive.ubuntu.com/ubuntu/\tpriority:1\nhttps://security.ubuntu.com/ubuntu/\tpriority:2\n' | sudo tee /etc/apt/apt-mirrors.txt
+          fi
+          for attempt in 1 2 3; do
+            if timeout --signal=TERM --kill-after=10s 180s sudo apt-get update -qq; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep 5
+          done
+          sudo apt-get install -y -qq libreoffice-impress poppler-utils webp fonts-noto-cjk python3-venv
+          python3 -m venv /tmp/mosigo-labels-venv
+          /tmp/mosigo-labels-venv/bin/python -m pip install --quiet python-pptx==1.0.2
+          mkdir -p "$HOME/.local/share/fonts/mosigo"
+          curl -fSL --retry 3 https://raw.githubusercontent.com/orioncactus/pretendard/main/packages/pretendard/dist/public/static/Pretendard-Regular.otf -o "$HOME/.local/share/fonts/mosigo/Pretendard-Regular.otf"
+          curl -fSL --retry 3 https://raw.githubusercontent.com/orioncactus/pretendard/main/packages/pretendard/dist/public/static/Pretendard-Bold.otf -o "$HOME/.local/share/fonts/mosigo/Pretendard-Bold.otf"
+          fc-cache -f
+          fc-match Pretendard | grep -qi Pretendard
+      - name: Expand investor shorthand while preserving editable shapes
+        run: |
+          set -euo pipefail
+          /tmp/mosigo-labels-venv/bin/python qa/expand-ir-investor-shorthand.py
+          /tmp/mosigo-labels-venv/bin/python qa/expand-ir-investor-shorthand.py --check
+          mkdir -p /tmp/mosigo-normalized-ir
+          libreoffice -env:UserInstallation=file:///tmp/lo-mosigo-labels --headless --convert-to pdf --outdir /tmp/mosigo-normalized-ir downloads/MOSIGO_IR_Investment_Review_12slides.pptx
+          cp /tmp/mosigo-normalized-ir/MOSIGO_IR_Investment_Review_12slides.pdf downloads/
+          test "$(pdfinfo downloads/MOSIGO_IR_Investment_Review_12slides.pdf | awk '/^Pages:/ {print $2}')" = 12
+          pdffonts downloads/MOSIGO_IR_Investment_Review_12slides.pdf | grep -qi Pretendard
+          pdftotext -layout downloads/MOSIGO_IR_Investment_Review_12slides.pdf /tmp/mosigo-ir-expanded.txt
+          if grep -Eq '\b(BEP|CAC|P[0-3]|G[0-3])\b|R[[:space:]]*-[[:space:]]*0[1-6]' /tmp/mosigo-ir-expanded.txt; then
+            echo "::error::Unexplained shorthand remains in public IR PDF"
+            exit 1
+          fi
+          for expected in 199 433 541 1082 3700 400; do
+            case "$expected" in
+              1082) grep -q '1,082' /tmp/mosigo-ir-expanded.txt ;;
+              3700) grep -q '3,700' /tmp/mosigo-ir-expanded.txt ;;
+              *) grep -q "$expected" /tmp/mosigo-ir-expanded.txt ;;
+            esac
+          done
+          echo "PASS source and PDF: all 12 slides retain financial metrics and descriptive labels"
+      - name: Regenerate all 24 IR previews from normalized PDF
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/mosigo-ir-render downloads/previews qa-artifacts/normalized-ir
+          for number in $(seq 1 12); do
+            padded="$(printf '%02d' "$number")"
+            pdftoppm -f "$number" -l "$number" -scale-to 1400 -png -singlefile downloads/MOSIGO_IR_Investment_Review_12slides.pdf /tmp/mosigo-ir-render/page
+            cwebp -quiet -q 84 -m 6 /tmp/mosigo-ir-render/page.png -o "downloads/previews/ir-$padded.webp"
+            cwebp -quiet -q 82 -m 6 -resize 800 0 /tmp/mosigo-ir-render/page.png -o "downloads/previews/ir-$padded-sm.webp"
+          done
+          test "$(find downloads/previews -maxdepth 1 -name 'ir-*.webp' | wc -l)" -eq 24
+          cp downloads/previews/ir-07.webp qa-artifacts/normalized-ir/
+          cp downloads/previews/ir-09.webp qa-artifacts/normalized-ir/
+          cp downloads/previews/ir-10.webp qa-artifacts/normalized-ir/
+      - name: Commit only normalized IR and exact PDF-matched previews
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/review/synchronized-mosigo-documents-20261114"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- downloads/MOSIGO_IR_Investment_Review_12slides.pptx downloads/MOSIGO_IR_Investment_Review_12slides.pdf downloads/previews/ir-*.webp
+          git diff --cached --quiet && { echo "::error::No changes after normalization"; exit 1; }
+          git diff --cached --name-only | grep -q 'MOSIGO_IR_Investment_Review_12slides.pptx'
+          git commit -m 'docs: expand investor labels in editable IR and 24 synchronized previews'
+          git push origin "HEAD:$GITHUB_REF"
+      - name: Save visual acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mosigo-normalized-ir-pages
+          path: qa-artifacts/normalized-ir/
+          if-no-files-found: warn
+          retention-days: 14
