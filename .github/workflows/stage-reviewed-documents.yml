@@ -1,0 +1,172 @@
+name: Stage reviewed MOSIGO documents and aligned previews
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/fix-presentation-card-overlaps.py'
+      - 'qa/test-presentation-card-overlaps.py'
+      - '.github/workflows/stage-reviewed-documents.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/stage-reviewed-documents.yml'
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  test-source:
+    name: Verify no service-slide text lost
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install editable slide reader
+        run: python3 -m pip install --break-system-packages --quiet python-pptx==1.0.2
+      - name: Validate unchanged text and fixed card coordinates
+        run: |
+          python3 -m py_compile qa/fix-presentation-card-overlaps.py
+          python3 qa/test-presentation-card-overlaps.py
+
+  stage:
+    name: Stage pinned reviewed PDFs PPTXs and all 84 matching WebP pages
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 1
+      - name: Install PDF, slide and WebP tools
+        run: |
+          set -euo pipefail
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf 'https://archive.ubuntu.com/ubuntu/\tpriority:1\nhttps://security.ubuntu.com/ubuntu/\tpriority:2\n' | sudo tee /etc/apt/apt-mirrors.txt
+          fi
+          for attempt in 1 2 3; do
+            if timeout --signal=TERM --kill-after=10s 180s sudo apt-get update -qq; then break; fi
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep 5
+          done
+          sudo apt-get install -y -qq libreoffice-impress poppler-utils webp fonts-noto-cjk python3-venv
+          python3 -m venv /tmp/mosigo-stage-venv
+          /tmp/mosigo-stage-venv/bin/python -m pip install --quiet python-pptx==1.0.2
+          mkdir -p "$HOME/.local/share/fonts/mosigo"
+          curl -fSL --retry 3 https://raw.githubusercontent.com/orioncactus/pretendard/main/packages/pretendard/dist/public/static/Pretendard-Regular.otf -o "$HOME/.local/share/fonts/mosigo/Pretendard-Regular.otf"
+          curl -fSL --retry 3 https://raw.githubusercontent.com/orioncactus/pretendard/main/packages/pretendard/dist/public/static/Pretendard-Bold.otf -o "$HOME/.local/share/fonts/mosigo/Pretendard-Bold.otf"
+          fc-cache -f
+          fc-match Pretendard | grep -qi Pretendard
+      - name: Copy only exact reviewed binary source files from still-open PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          for pair in "139:7938a929a3a4aa0f0ec7480999d28dc35e82bcce" "135:e4bd40e710c114a68fd24b8e3f84c3a9fe04efba"; do
+            number="${pair%%:*}"
+            expected="${pair#*:}"
+            actual="$(gh api "repos/$GITHUB_REPOSITORY/pulls/$number" --jq .head.sha)"
+            test "$actual" = "$expected"
+            git fetch --no-tags origin "refs/pull/$number/head"
+            test "$(git rev-parse FETCH_HEAD)" = "$expected"
+          done
+          git show 7938a929a3a4aa0f0ec7480999d28dc35e82bcce:downloads/mosigo_business_plan_20261031.pdf > downloads/mosigo_business_plan_20261031.pdf.tmp
+          mv downloads/mosigo_business_plan_20261031.pdf.tmp downloads/mosigo_business_plan_20261031.pdf
+          for name in MOSIGO_IR_Investment_Review_12slides.pdf MOSIGO_IR_Investment_Review_12slides.pptx; do
+            git show "e4bd40e710c114a68fd24b8e3f84c3a9fe04efba:downloads/$name" > "downloads/$name.tmp"
+            mv "downloads/$name.tmp" "downloads/$name"
+          done
+          echo "PASS exact source blobs: business plan PR #139, IR PR #135"
+      - name: Fix hidden service deck text and regenerate synchronized PDF
+        run: |
+          set -euo pipefail
+          /tmp/mosigo-stage-venv/bin/python qa/test-presentation-card-overlaps.py
+          /tmp/mosigo-stage-venv/bin/python qa/fix-presentation-card-overlaps.py
+          /tmp/mosigo-stage-venv/bin/python qa/fix-presentation-card-overlaps.py --check
+          mkdir -p /tmp/mosigo-service-render
+          libreoffice -env:UserInstallation=file:///tmp/lo-stage-mosigo-20261114 --headless --convert-to pdf --outdir /tmp/mosigo-service-render downloads/mosigo_report.pptx
+          test -s /tmp/mosigo-service-render/mosigo_report.pdf
+          cp /tmp/mosigo-service-render/mosigo_report.pdf downloads/mosigo_report_preview.pdf
+      - name: Verify source slides, PDF pages, fonts and financial evidence
+        run: |
+          set -euo pipefail
+          for entry in "downloads/mosigo_business_plan_20261031.pdf:19" "downloads/mosigo_report_preview.pdf:11" "downloads/MOSIGO_IR_Investment_Review_12slides.pdf:12"; do
+            path="${entry%:*}"; expected="${entry##*:}"
+            test "$(pdfinfo "$path" | awk '/^Pages:/ {print $2}')" = "$expected"
+            pdffonts "$path" | grep -qi Pretendard
+            pdftotext -layout "$path" - | grep -q 'MOSIGO'
+          done
+          pdftotext downloads/mosigo_report_preview.pdf /tmp/mosigo-stage-service.txt
+          for number in 199 433 541 1082 3700; do
+            case "$number" in
+              1082) grep -q '1,082' /tmp/mosigo-stage-service.txt ;;
+              3700) grep -q '3,700' /tmp/mosigo-stage-service.txt ;;
+              *) grep -q "$number" /tmp/mosigo-stage-service.txt ;;
+            esac
+          done
+          pdftotext downloads/mosigo_business_plan_20261031.pdf /tmp/mosigo-stage-plan.txt
+          grep -q '541' /tmp/mosigo-stage-plan.txt
+          pdftotext downloads/MOSIGO_IR_Investment_Review_12slides.pdf /tmp/mosigo-stage-ir.txt
+          grep -q '433' /tmp/mosigo-stage-ir.txt
+          grep -q '541' /tmp/mosigo-stage-ir.txt
+          echo 'PASS original assumptions 199, 433, 541, 1,082, 3,700 and page counts'
+      - name: Re-render every mobile and desktop preview from its exact PDF
+        run: |
+          set -euo pipefail
+          mkdir -p downloads/previews /tmp/mosigo-staged-previews qa-artifacts/staged-documents
+          for spec in "plan:downloads/mosigo_business_plan_20261031.pdf:19" "slides:downloads/mosigo_report_preview.pdf:11" "ir:downloads/MOSIGO_IR_Investment_Review_12slides.pdf:12"; do
+            kind="${spec%%:*}"
+            rest="${spec#*:}"
+            pdf="${rest%:*}"
+            pages="${rest##*:}"
+            for number in $(seq 1 "$pages"); do
+              padded="$(printf '%02d' "$number")"
+              pdftoppm -f "$number" -l "$number" -scale-to 1400 -png -singlefile "$pdf" /tmp/mosigo-staged-previews/page
+              cwebp -quiet -q 84 -m 6 /tmp/mosigo-staged-previews/page.png -o "downloads/previews/$kind-$padded.webp"
+              cwebp -quiet -q 82 -m 6 -resize 800 0 /tmp/mosigo-staged-previews/page.png -o "downloads/previews/$kind-$padded-sm.webp"
+              test "$(stat -c%s "downloads/previews/$kind-$padded.webp")" -gt 1000
+              test "$(stat -c%s "downloads/previews/$kind-$padded-sm.webp")" -gt 1000
+            done
+            test "$(find downloads/previews -maxdepth 1 -name "$kind-*.webp" | wc -l)" -eq "$((pages * 2))"
+          done
+          test "$(find downloads/previews -maxdepth 1 -name '*.webp' | wc -l)" -eq 84
+          for item in "slides:05" "slides:10" "ir:07" "ir:12" "plan:11" "plan:15"; do
+            kind="${item%%:*}"; page="${item##*:}"
+            cp "downloads/previews/$kind-$page.webp" "qa-artifacts/staged-documents/$kind-$page.webp"
+          done
+          echo 'PASS 84 preview pages regenerated from the three reviewed PDFs'
+      - name: Push single reviewed source-and-preview branch, never main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          new_branch='review/synchronized-mosigo-documents-20261114'
+          if git ls-remote --exit-code --heads origin "$new_branch"; then
+            echo "::error::Refusing to overwrite an existing reviewed branch"
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- downloads/mosigo_business_plan_20261031.pdf downloads/MOSIGO_IR_Investment_Review_12slides.pdf downloads/MOSIGO_IR_Investment_Review_12slides.pptx downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf downloads/previews/*.webp
+          if git diff --cached --quiet; then
+            echo "::error::Expected reviewed PDF/PPTX and preview improvements"
+            exit 1
+          fi
+          git diff --cached --name-only | grep -q '^downloads/mosigo_report.pptx$'
+          git diff --cached --name-only | grep -q '^downloads/mosigo_business_plan_20261031.pdf$'
+          git diff --cached --name-only | grep -q '^downloads/MOSIGO_IR_Investment_Review_12slides.pptx$'
+          git checkout -b "$new_branch"
+          git commit -m 'docs: sync reviewed PDFs PPTXs and all 84 WebP previews after card fix'
+          git push origin "HEAD:refs/heads/$new_branch"
+          echo "PASS staged reviewed assets on $new_branch"
+      - name: Upload representative page renders for independent visual QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mosigo-reviewed-staged-page-previews
+          path: qa-artifacts/staged-documents/
+          if-no-files-found: warn
+          retention-days: 14
