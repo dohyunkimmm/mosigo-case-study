@@ -42,7 +42,7 @@ plan_text=cmd('pdftotext','-layout',str(PLAN),'-')
 compact_plan=re.sub(r'\s+','',plan_text)
 # PDF text extractors may interleave the final word of a visually intact
 # source-note title with the subtitle; check all components on the SAME page.
-source_note_page = re.sub(r'\\s+', '', plan_text.split('\\f')[16])
+source_note_page = re.sub(r'\s+', '', plan_text.split('\f')[16])
 assert (
     'MOSIGO' in compact_plan
     and '기획기준과참고' in source_note_page
