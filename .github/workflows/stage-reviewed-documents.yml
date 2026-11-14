@@ -97,7 +97,8 @@ jobs:
             path="${entry%:*}"; expected="${entry##*:}"
             test "$(pdfinfo "$path" | awk '/^Pages:/ {print $2}')" = "$expected"
             pdffonts "$path" | grep -qi Pretendard
-            pdftotext -layout "$path" - | grep -q 'MOSIGO'
+            pdftotext -layout "$path" /tmp/mosigo-stage-document.txt
+            grep -q 'MOSIGO' /tmp/mosigo-stage-document.txt
           done
           pdftotext downloads/mosigo_report_preview.pdf /tmp/mosigo-stage-service.txt
           for number in 199 433 541 1082 3700; do
