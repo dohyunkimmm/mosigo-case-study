@@ -1,6 +1,13 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
-## 2026-11-14 후속 정리 · 최신 검증 상태
+## 2026-11-14 · 생성 문서 검토 및 PR 정리 완료
+
+- **최종 공개 자료:** [통합 #178](https://github.com/dohyunkimmm/mosigo-case-study/pull/178)을 [`2144de6`](https://github.com/dohyunkimmm/mosigo-case-study/commit/2144de61b578d769102798d85dd220dee4ffe5df)에 병합했습니다. 기존 사업기획서 **19쪽**, 편집 가능한 서비스 발표자료 **11쪽**, IR **12쪽**과 각 PDF에서 렌더링한 WebP **총 84개**를 동일 버전으로 맞췄습니다. 5·10쪽 발표 카드의 글자 가림을 수정했고 IR의 손익분기점·투자 단계 표현을 풀어 썼으며 원래 재무 수치와 PPTX 편집 가능성을 유지했습니다.
+- **검증:** #178의 Site QA·PRD Evidence QA·모바일 WebKit/Chromium·PPT 변환 검사 **모두 성공**했고 병합된 `main`의 [Site QA #43539446376](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43539446376) 및 [모바일 QA #43539446354](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43539446354)도 성공했습니다. **운영 Vercel 배포가 해당 `main` SHA와 동일한지는 별도로 확인해야 합니다.**
+- **구버전 정리:** 통합본에서 대체한 생성 PR #135·#139·#153·#154는 미병합 종료했습니다. [보존 PR #179](https://github.com/dohyunkimmm/mosigo-case-study/pull/179) 및 [실행 #43540009376](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43540009376)에서 원본 4개 HEAD SHA를 `archive/closed/20261114/pr-*/automation/*` 태그로 검증한 뒤 4개 브랜치를 안전하게 제거했습니다. 이전 25개를 포함해 **원본 자동 생성 PR 29건의 SHA 보존 정리 완료**입니다. 구버전과 통합본의 바이트 동등성을 주장하지 않습니다.
+- **최종 점검:** 정리 커밋 [`db2a0b6`](https://github.com/dohyunkimmm/mosigo-case-study/commit/db2a0b6bac5f58d2caa58d59d3c2531dfcf4994f) 기준 **파일 184개·디렉터리 10개**, **열린 PR 0건**, 태그로 보존된 산출물과 무관한 보관용 수동 브랜치 2개를 유지합니다. 기존 공개 문서 경로와 계산 모델은 유지하며, 후속 현황은 [이슈 #166](https://github.com/dohyunkimmm/mosigo-case-study/issues/166)에 기록합니다.
+
+## 2026-11-14 후속 정리 · 이전 중간 점검 기록
 
 - **정리 최종 확인:** GitHub `main` [`7e7bb3b`](https://github.com/dohyunkimmm/mosigo-case-study/commit/7e7bb3bf45fa1b8355e39d851212cfb810a537cf)은 **파일 174개·디렉터리 10개**입니다. 열린 PR은 각 생성 종류별 최신 후보 **4건**(#154·#153·#139·#135), 원격 브랜치 **7개**(`main` 1·열린 생성 후보 4·종료된 수동 PR의 보존 브랜치 2)입니다.
 - **원본 보존 검증:** [PR #174](https://github.com/dohyunkimmm/mosigo-case-study/pull/174)의 [Actions 실행 #43530312637](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43530312637)이 **성공**했습니다. 종료된 구버전 생성 PR **25건**의 커밋 SHA를 Git 태그로 생성·재조회한 뒤 해당 브랜치 **24개를 추가 정리**했습니다(기존 #125 브랜치는 앞선 실행에서 정리). 복구 참조 형식은 `archive/closed/20261114/pr-번호/automation/브랜치명`입니다.
