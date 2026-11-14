@@ -1,0 +1,45 @@
+name: Visual review of final four generated PRs
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qa/compare-final-four-visual.py'
+      - '.github/workflows/visual-review-final-four.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'qa/compare-final-four-visual.py'
+      - '.github/workflows/visual-review-final-four.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  document-visual-audit:
+    name: Read-only PDF, PPTX and WebP visual review
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deterministic document and image readers
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0 pymupdf==1.26.4 python-pptx==1.0.2
+      - name: Verify source syntax and inspect exact GitHub blob heads
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m py_compile qa/compare-final-four-visual.py
+          python qa/compare-final-four-visual.py
+      - name: Retain labeled before-and-after visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-four-visual-audit
+          path: qa-artifacts/final-four-visual-audit/
+          if-no-files-found: warn
+          retention-days: 30
