@@ -13,7 +13,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y poppler-utils
+          sudo apt-get install -y poppler-utils python3-pil
           python3 - <<'PY'
           from pathlib import Path
           from zipfile import ZipFile
@@ -43,6 +43,23 @@ jobs:
                       whole = norm(page)
                       missing = [x for x in targets if x not in whole]
                       print(f'{i:02}: {len(targets)-len(missing)}/{len(targets)} matched; unmatched: {missing}',flush=True)
+          from PIL import Image, ImageChops, ImageStat
+          from io import BytesIO
+          from tempfile import TemporaryDirectory
+          with TemporaryDirectory() as tmp, ZipFile(root/'mosigo_business_plan.pptx') as z:
+              check_output(['pdftoppm','-r','72','-png',str(root/'mosigo_business_plan_20261031.pdf'),tmp+'/plan'])
+              renders = sorted(Path(tmp).glob('plan-*.png'))
+              assert len(renders) == 19
+              for i, render in enumerate(renders,1):
+                  rels = ET.fromstring(z.read(f'ppt/slides/_rels/slide{i}.xml.rels'))
+                  imgs = [x.get('Target') for x in rels if x.get('Type','').endswith('/image')]
+                  assert len(imgs) == 1, (i,imgs)
+                  embedded = Image.open(BytesIO(z.read('ppt/'+imgs[0].removeprefix('../')))).convert('RGB')
+                  pdf = Image.open(render).convert('RGB')
+                  diff = ImageChops.difference(embedded.resize((320,180)),pdf.resize((320,180)))
+                  mae = sum(ImageStat.Stat(diff).mean)/3
+                  print(f'Plan page {i:02}: embedded {embedded.size}, PDF {pdf.size}; RGB mean difference {mae:.2f}/255',flush=True)
+                  assert mae < 12, (i,mae)
           for file in sorted(root.iterdir()):
               if not file.is_file():
                   continue
