@@ -1,0 +1,55 @@
+name: Review published documents
+on:
+  push:
+    branches: [review/document-audit-20261117]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Compare presentation files and published downloads
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          from xml.etree import ElementTree as ET
+          from urllib.request import urlopen
+          from hashlib import sha256
+          from subprocess import check_output
+          import re, unicodedata
+          root = Path('downloads')
+          def norm(s):
+              return ''.join(c for c in unicodedata.normalize('NFKC', s) if c.isalnum())
+          pairs = [
+              ('mosigo_business_plan.pptx', 'mosigo_business_plan_20261031.pdf'),
+              ('mosigo_report.pptx','mosigo_report_preview.pdf'),
+              ('MOSIGO_IR_Investment_Review_12slides.pptx','MOSIGO_IR_Investment_Review_12slides.pdf'),
+          ]
+          for ppt, pdf in pairs:
+              pages = check_output(['pdftotext','-layout',str(root/pdf),'-']).decode().split('\f')[:-1]
+              with ZipFile(root/ppt) as z:
+                  assert z.testzip() is None
+                  slides = sorted((f for f in z.namelist() if re.fullmatch(r'ppt/slides/slide\d+\.xml',f)), key=lambda f:int(re.search(r'(\d+)\.xml',f)[1]))
+                  print(f'{ppt}: {len(slides)} slides; PDF: {len(pages)} pages',flush=True)
+                  assert len(slides) == len(pages)
+                  for i, (slide,page) in enumerate(zip(slides,pages),1):
+                      runs = [x.text or '' for x in ET.fromstring(z.read(slide)).iter() if x.tag.endswith('}t')]
+                      targets = [norm(x) for x in runs if len(norm(x)) >= 5]
+                      whole = norm(page)
+                      missing = [x for x in targets if x not in whole]
+                      print(f'{i:02}: {len(targets)-len(missing)}/{len(targets)} matched; unmatched: {missing}',flush=True)
+          for file in sorted(root.iterdir()):
+              if not file.is_file():
+                  continue
+              try:
+                  with urlopen('https://mosigo-case-study.vercel.app/downloads/'+file.name,timeout=30) as response:
+                      body=response.read()
+                      print(f'Live {file.name}: {response.status}, {len(body)} bytes, SHA256 match: {sha256(body).digest()==sha256(file.read_bytes()).digest()}',flush=True)
+              except Exception as error:
+                  print(f'Live {file.name}: {error}',flush=True)
+          PY
