@@ -140,8 +140,11 @@ function setupPartnerModel() {
    const maxOrders = Math.floor(capacity);
    const expected = capacity*utilization/100*platform/100*(1-cancel/100)*completion/100;
    const orders = Math.min(maxOrders, Math.round(expected));
-   const margin = price*(rate-fee)/100-support-system-newShare*cac/100;
-   const breakeven = cost => margin > 0 ? Math.ceil(cost/margin).toLocaleString("ko-KR")+"건" : "건당 공헌이익 개선 후 산정";
+   // Keep thousandths of a won until display. Fee rates accept 0.1 percentage points.
+   const marginMilliwon = price * (rate * 10 - Math.round(fee * 10))
+     - (support + system) * 1000 - newShare * cac * 10;
+   const margin = marginMilliwon / 1000;
+   const breakeven = cost => marginMilliwon > 0 ? Math.ceil(cost * 1000 / marginMilliwon).toLocaleString("ko-KR")+"건" : "건당 공헌이익 개선 후 산정";
    const rows = [
      ["월 이론상 최대 처리", maxOrders.toLocaleString("ko-KR")+"건"],
      ["월 예상 완료", orders.toLocaleString("ko-KR")+"건"],

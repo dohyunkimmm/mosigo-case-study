@@ -4,6 +4,7 @@ on:
   push:
     branches: [main, 'review/p0-p1-p2-*']
     paths:
+      - 'qa/render-korean-slides.py'
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
       - 'qa/sync-strategy-copy.py'
@@ -20,6 +21,7 @@ on:
   pull_request:
     branches: [main, 'review/p0-p1-p2-*']
     paths:
+      - 'qa/render-korean-slides.py'
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
       - 'qa/sync-strategy-copy.py'
@@ -52,6 +54,13 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: true
+      - name: Use official Ubuntu mirrors when Azure mirror DNS is unavailable
+        run: |
+          set -euo pipefail
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf 'https://archive.ubuntu.com/ubuntu/\tpriority:1\nhttps://security.ubuntu.com/ubuntu/\tpriority:2\n' | sudo tee /etc/apt/apt-mirrors.txt
+          fi
+          printf '%s\n' 'Acquire::Retries "1";' 'Acquire::http::Timeout "20";' 'Acquire::https::Timeout "20";' | sudo tee /etc/apt/apt.conf.d/99mosigo-ci-network
       - name: Install document renderer
         run: |
           sudo apt-get update -qq
@@ -112,7 +121,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/mosigo-slides
-          libreoffice -env:UserInstallation=file:///tmp/lo-mosigo-ppt-preview --headless --convert-to pdf --outdir /tmp/mosigo-slides downloads/mosigo_report.pptx
+          python3 qa/render-korean-slides.py downloads/mosigo_report.pptx /tmp/mosigo-slides
           test -s /tmp/mosigo-slides/mosigo_report.pdf
           if [[ -s downloads/mosigo_report_preview.pdf ]]; then
             cp downloads/mosigo_report_preview.pdf /tmp/mosigo-preview-before.pdf
