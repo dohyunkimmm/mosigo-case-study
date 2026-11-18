@@ -90,11 +90,19 @@ try{
  assert.equal(await model.locator('#partner-inputs small:visible').count(),0);
  assert.deepEqual((await results.allTextContents()).slice(0,2),['433건','199건']);
  assert.equal(await model.locator('#v3-share-scenario').textContent(),'연간 시나리오 링크 복사');
+ const costDetails = model.locator('#partner-costs');
+ assert.equal(await fields.nth(14).isVisible(),false);
+ await costDetails.locator('summary').click();
  await fields.nth(7).fill('30007');
  await fields.nth(14).fill('200119');
  assert.equal(await results.nth(6).textContent(),'100건');
  await fields.nth(14).fill('200120');
  assert.equal(await results.nth(6).textContent(),'101건');
+ await costDetails.locator('summary').click();
+ assert.equal(await fields.nth(14).isVisible(),false);
+ assert.equal(await results.nth(6).textContent(),'101건');
+ await model.locator('#partner-reset').click();
+ assert.equal(await results.nth(6).textContent(),'541건');
  await model.close();
  console.log('PASS v3 share safety and controls');
 }finally{await browser.close();}
