@@ -616,7 +616,10 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <div id="partner-model" class="review-model" role="region" aria-labelledby="partner-title">
 <h3 id="partner-title">제휴 모델 월 손익 계산기 · 공급·비용 가정</h3><a href="/downloads/mosigo_business_plan_20261031.pdf#page=11">사업기획서 11쪽 · 공급 산정 근거</a>
 <p>가동률·이용률·취소율·완료율 기준</p>
-<div id="partner-inputs" class="review-inputs"></div>
+<div id="partner-inputs">
+<div id="partner-core-inputs" class="review-inputs"></div>
+<details id="partner-costs" hidden><summary>세부 비용 가정</summary><div id="partner-cost-inputs" class="review-inputs"></div></details>
+</div>
 <dl id="partner-results" class="review-results" aria-live="polite"></dl>
 <button type="button" id="partner-reset">제휴 기준값 복원</button>
 </div>
@@ -896,4 +899,4 @@ ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>update(
 document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update(true);});
 update();
 })();
-</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=completion-base"></script></body></html>
+</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=partner-costs"></script></body></html>
