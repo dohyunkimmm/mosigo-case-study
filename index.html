@@ -825,9 +825,9 @@ const docFrame=document.getElementById('doc-frame');
 const docImage=document.getElementById('doc-page-img'),docImageLink=document.getElementById('doc-page-open');
 const docPrev=document.getElementById('doc-prev'),docNext=document.getElementById('doc-next'),docPageCount=document.getElementById('doc-page-count');
 const docConfigs={
- plan:{path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:19,images:'plan',pptx:'mosigo_business_plan.pptx',file:'mosigo_business_plan_20261031.pdf'},
- presentation:{path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 미리보기',label:'서비스기획',pages:11,images:'slides',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
- ir:{path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO IR 자료',label:'IR 자료',pages:12,images:'ir',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
+ plan:{titles:["표지","사업화 제안 요약","조사·분석 출처","시장 근거","고객과 이용자 역할","시장 규모와 거래액","고객 여정과 운영 경계","제품 요구사항","상품·사업모델","손익분기점","공급 산정","민감도 분석","제휴 검증","중기 로드맵","성과 지표","사업화 판단","참고 자료","3개년 성장계획","투자 심의"],path:'/downloads/mosigo_business_plan_20261031.pdf',title:'MOSIGO 신규 사업기획서 PDF',label:'사업기획서',pages:19,images:'plan',pptx:'mosigo_business_plan.pptx',file:'mosigo_business_plan_20261031.pdf'},
+ presentation:{titles:["표지","문제와 요구사항","고객별 가치","대리 예약 선택 근거","병원 동행 예약 여정","정상 흐름","예외 흐름","공급·손익 비교","사용자 과업 검증","운영 지표 평가 시점","시범 운영 승인 조건"],path:'/downloads/mosigo_report_preview.pdf',title:'MOSIGO 발표자료 미리보기',label:'서비스기획',pages:11,images:'slides',pptx:'mosigo_report.pptx',file:'mosigo_report_preview.pdf'},
+ ir:{titles:["표지","투자 판단 요약","예약자·이용자","시장 기회","제휴 운영모델","건당 수익성","공급·손익분기점","손익 민감도","단계별 승인","8주 예산","3개년 투자 로드맵","투자 승인 조건"],path:'/downloads/MOSIGO_IR_Investment_Review_12slides.pdf',title:'MOSIGO IR 자료',label:'IR 자료',pages:12,images:'ir',pptx:'MOSIGO_IR_Investment_Review_12slides.pptx',file:'MOSIGO_IR_Investment_Review_12slides.pdf'}
 };
 let currentDocument='plan',currentDocumentPage=1;
 const savedPages = {};
@@ -860,7 +860,7 @@ function renderMobileDocumentPage(){
  if(jumpDocument!==currentDocument){
    const options=Array.from({length:doc.pages},(_,index)=>{
      const number=index+1;
-     return new Option(number+'페이지',number);
+     return new Option(number+'쪽 · '+doc.titles[index],number);
    });
    slideJump.replaceChildren(...options);
    jumpDocument=currentDocument;
