@@ -590,7 +590,7 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <section id="business"><div class="section-title"><h2>공급 규모와 손익분기점</h2></div><a class="business-model-download" href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx">손익 모델 Excel 다운로드</a><div class="mobile-skim"><p>초기 공급 추정 · 매니저 20명 기준</p><dl class="skim-numbers"><div><dt>월 서비스 완료 건수</dt><dd>199건</dd></div><div><dt>건당 공헌이익</dt><dd>3,700원</dd></div><div><dt>월 손익분기점</dt><dd>1,082건</dd></div></dl><p class="skim-note">손익분기점에는 인력 기회비용을 포함했습니다. 확대 전에는 고객 확보 비용과 운영비를 줄일 수 있는지 확인합니다.</p></div>
 <figure class="bep-visual" aria-label="월 서비스 완료 건수 비교: 초기 공급 예상 199건, 이론상 최대 공급 433건, 현금 손익분기점 541건, 인력 투입 기회비용 반영 손익분기점 1,082건. 초기 공급은 손익분기의 약 18.4퍼센트">
 <figcaption>초기 공급 예상치와 손익분기점 비교 <small>월 서비스 완료 건수 기준</small></figcaption>
-<p class="bep-takeaway"><strong>공급 상한 433건 · 현금 손익분기 541건</strong><span>현금 손익분기까지 월 108건 부족</span></p>
+<p class="bep-takeaway"><strong>공급 상한 433건 · 현금 손익분기 541건</strong><span>최대 공급 시에도 현금 손익분기까지 월 108건 부족</span></p>
 <div class="bep-row"><span>초기 공급 산정 기준</span><div class="bep-track" aria-hidden="true"><span class="bep-fill current"></span></div><strong>199건</strong></div>
 <div class="bep-row"><span>이론상 최대 공급</span><div class="bep-track" aria-hidden="true"><span class="bep-fill" style="width:40.02%;background:#719482"></span></div><strong>433건</strong></div>
 <div class="bep-row"><span>현금 손익분기</span><div class="bep-track" aria-hidden="true"><span class="bep-marker" style="--position:50%"></span></div><strong>541건</strong></div>
@@ -896,4 +896,4 @@ ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>update(
 document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update(true);});
 update();
 })();
-</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=partner-validation"></script></body></html>
+</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=partner-margin"></script></body></html>

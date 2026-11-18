@@ -107,7 +107,7 @@ jobs:
           curl --fail --silent --show-error --location --retry 3 --max-time 30 \
             -H "Authorization: Bearer ${GH_READ_TOKEN}" \
             -H "Accept: application/vnd.github.raw+json" \
-            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/contents/downloads/mosigo_model.xlsx?ref=main" \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/contents/downloads/mosigo_model.xlsx?ref=${GITHUB_SHA}" \
             -o /tmp/mosigo-private-source-check.xlsx
           cmp -s downloads/mosigo_model.xlsx /tmp/mosigo-private-source-check.xlsx
           echo "PASS read-only GitHub binary retrieval"

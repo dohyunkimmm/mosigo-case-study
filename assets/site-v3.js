@@ -140,7 +140,7 @@ function setupPartnerModel() {
    const maxOrders = Math.floor(capacity);
    const expected = capacity*utilization/100*platform/100*(1-cancel/100)*completion/100;
    const orders = Math.min(maxOrders, Math.round(expected));
-   const margin = Math.round(price*(rate-fee)/100-support-system-newShare*cac/100);
+   const margin = price*(rate-fee)/100-support-system-newShare*cac/100;
    const breakeven = cost => margin > 0 ? Math.ceil(cost/margin).toLocaleString("ko-KR")+"건" : "건당 공헌이익 개선 후 산정";
    const rows = [
      ["월 이론상 최대 처리", maxOrders.toLocaleString("ko-KR")+"건"],
