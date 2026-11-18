@@ -74,5 +74,22 @@ try{
  assert.equal(await bad.locator('#users').inputValue(),'15000','invalid shared values ignored');
  assert.equal(await bad.locator('#price').inputValue(),'40000');
  await bad.close();
+ const model = await browser.newPage();
+ await model.goto(new URL('#partner-model',base).href,{waitUntil:'load'});
+ const fields = model.locator('#partner-inputs input');
+ const results = model.locator('#partner-results dd');
+ for (const [index,value] of ['1','1','2.5','100','100','0','100'].entries()) {
+   await fields.nth(index).fill(value);
+ }
+ assert.deepEqual((await results.allTextContents()).slice(0,2),['1건','1건']);
+ await fields.nth(2).fill('0');
+ assert.equal(await fields.nth(2).getAttribute('aria-invalid'),'true');
+ assert.equal(await model.locator('#partner-inputs small:visible').count(),1);
+ assert.match(await model.locator('#partner-field-2-hint').innerText(),/건당 투입 시간.*0\.1.*168/);
+ await model.locator('#partner-reset').click();
+ assert.equal(await model.locator('#partner-inputs small:visible').count(),0);
+ assert.deepEqual((await results.allTextContents()).slice(0,2),['433건','199건']);
+ assert.equal(await model.locator('#v3-share-scenario').textContent(),'연간 시나리오 링크 복사');
+ await model.close();
  console.log('PASS v3 share safety and controls');
 }finally{await browser.close();}
