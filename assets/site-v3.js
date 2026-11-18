@@ -114,22 +114,36 @@ function setupPartnerModel() {
    const label = document.createElement("label"), input = document.createElement("input");
    label.textContent = name;
    Object.assign(input, {type:"number", min, max, step, value:baseline[index], required:true});
-   label.append(input);
+   input.id = `partner-field-${index}`;
+   input.setAttribute("aria-label", name);
+   const hint = document.createElement("small");
+   hint.id = `${input.id}-hint`;
+   hint.textContent = `${name}: ${min.toLocaleString("ko-KR")}~${max.toLocaleString("ko-KR")} 범위에서 ${step} 단위로 입력하세요.`;
+   hint.hidden = true;
+   input.setAttribute("aria-describedby", hint.id);
+   label.append(input, hint);
    inputs.append(label);
    return input;
  });
  function render() {
+   for (const input of controls) {
+     const invalid = !input.validity.valid;
+     input.setAttribute("aria-invalid", String(invalid));
+     document.getElementById(`${input.id}-hint`).hidden = !invalid;
+   }
    if (controls.some(input => !input.validity.valid)) {
      results.textContent = "각 입력란에 표시된 범위와 단위를 확인해 주세요.";
      return;
    }
    const [staff,hours,time,utilization,platform,cancel,completion,price,rate,fee,support,system,newShare,cac,fixed,labor] = controls.map(input => input.valueAsNumber);
    const capacity = staff*hours*4.33/time;
-   const orders = Math.round(capacity*utilization/100*platform/100*(1-cancel/100)*completion/100);
+   const maxOrders = Math.floor(capacity);
+   const expected = capacity*utilization/100*platform/100*(1-cancel/100)*completion/100;
+   const orders = Math.min(maxOrders, Math.round(expected));
    const margin = Math.round(price*(rate-fee)/100-support-system-newShare*cac/100);
    const breakeven = cost => margin > 0 ? Math.ceil(cost/margin).toLocaleString("ko-KR")+"건" : "건당 공헌이익 개선 후 산정";
    const rows = [
-     ["월 이론상 최대 처리", Math.floor(capacity).toLocaleString("ko-KR")+"건"],
+     ["월 이론상 최대 처리", maxOrders.toLocaleString("ko-KR")+"건"],
      ["월 예상 완료", orders.toLocaleString("ko-KR")+"건"],
      ["건당 공헌이익", money(margin)], ["월 수수료 매출", money(orders*price*rate/100)],
      ["월 현금 손익", money(orders*margin-fixed)], ["월 인력 비용 포함 손익", money(orders*margin-fixed-labor)],
