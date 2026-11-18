@@ -28,7 +28,7 @@ try{
   assert.equal(await page.locator('#v3-doc-thumbs,#v3-doc-page,#v3-view-full').count(),0);
   const start=await page.evaluate(()=>({x:document.documentElement.scrollWidth,w:document.documentElement.clientWidth}));
   assert.ok(start.x<=start.w+1,width+'px document fits viewport');
-  await page.locator('#business .chapter-detail summary').click();
+  await page.locator('#business .chapter-detail > summary').click();
   await page.locator('[data-v3-scenario="conservative"]').click();
   assert.equal(await page.locator('#users').inputValue(),'8000');
   assert.equal(await page.locator('#freq').inputValue(),'1');
@@ -41,7 +41,7 @@ try{
   assert.equal(await page.locator('[data-v3-scenario="growth"]').getAttribute('aria-pressed'),'true');
   await page.reload({waitUntil:'domcontentloaded'});
   assert.equal(await page.locator('#users').inputValue(),'20000','shared URL restores slider state');
-  await page.locator('#business .chapter-detail summary').click();
+  await page.locator('#business .chapter-detail > summary').click();
   await page.locator('#reset').click();
   assert.equal(await page.locator('#users').inputValue(),'15000');
   assert.equal(new URL(page.url()).searchParams.has('v_users'),false,'reset removes nondefault query');
