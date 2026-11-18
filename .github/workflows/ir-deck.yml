@@ -5,6 +5,7 @@ on:
     paths:
       - 'qa/render-korean-slides.py'
       - 'qa/ir-deck-source/**'
+      - 'qa/expand-ir-investor-shorthand.py'
       - 'qa/normalize-ir-deck.py'
       - 'qa/apply-concise-ir-copy.py'
       - 'qa/concise-ir-copy.json'
@@ -21,6 +22,7 @@ on:
     paths:
       - 'qa/render-korean-slides.py'
       - 'qa/ir-deck-source/**'
+      - 'qa/expand-ir-investor-shorthand.py'
       - 'qa/normalize-ir-deck.py'
       - 'qa/apply-concise-ir-copy.py'
       - 'qa/concise-ir-copy.json'
@@ -106,6 +108,8 @@ jobs:
         run: /tmp/mosigo-ir-venv/bin/python qa/apply-editorial-visual-20261110.py downloads/MOSIGO_IR_Investment_Review_12slides.pptx
       - name: Remove repeated wording in editable IR deck
         run: /tmp/mosigo-ir-venv/bin/python qa/apply-concise-deck-20261111.py ir
+      - name: Restore reviewed break-even and stage labels
+        run: /tmp/mosigo-ir-venv/bin/python qa/expand-ir-investor-shorthand.py
       - name: Export PDF, verify 12 slides and stage-gated funding assumptions
         run: |
           mkdir -p /tmp/ir-pdf
