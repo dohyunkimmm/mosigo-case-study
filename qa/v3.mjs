@@ -9,6 +9,11 @@ const browser=await chromium.launch({headless:true});
 try{
  for(const width of [390,1440]){
   const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {configurable:true, value:{
+      writeText:async text => { window.copiedForTest = text; }
+    }});
+  });
   const failures=[];
   page.on('pageerror',error=>failures.push(error.message));
   const response=await page.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
@@ -39,6 +44,32 @@ try{
   assert.equal(await page.locator('#price').inputValue(),'45000');
   assert.equal((await page.locator('#margin').textContent()).trim(),'6.00억 원');
   assert.equal(await page.locator('[data-v3-scenario="growth"]').getAttribute('aria-pressed'),'true');
+  await page.locator('#v3-share-scenario').click();
+  const annualUrl=new URL(await page.evaluate(()=>window.copiedForTest));
+  assert.equal(annualUrl.hash,'#annual-model');
+  assert.equal(annualUrl.searchParams.get('v_users'),'20000');
+  const shared=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
+  await shared.goto(annualUrl.href);
+  assert.equal(await shared.locator('#users').inputValue(),'20000');
+  assert.equal(await shared.locator('#annual-model').isVisible(),true);
+  assert.equal(await shared.locator('#business .chapter-detail').getAttribute('open'),'');
+  await page.locator('[data-doc-preview="presentation"]').click();
+  await page.locator('#slide-jump').selectOption('9');
+  await page.locator('#doc-page-open').press('ArrowRight');
+  assert.equal(await page.locator('#slide-jump').inputValue(),'10');
+  await page.locator('#doc-page-open').press('ArrowLeft');
+  await page.locator('#doc-copy-page').click();
+  const pageUrl=new URL(await page.evaluate(()=>window.copiedForTest));
+  assert.deepEqual([...pageUrl.searchParams],[['document','presentation'],['page','9']]);
+  assert.equal(pageUrl.hash,'#attachments');
+  await shared.goto(pageUrl.href);
+  assert.equal(await shared.locator('#slide-jump').inputValue(),'9');
+  assert.match(await shared.locator('#doc-expand').getAttribute('href'),/mosigo_report_preview\.pdf#page=9$/);
+  if(width===390){
+    const tops=await shared.locator('.doc-tab').evaluateAll(tabs=>tabs.map(tab=>tab.offsetTop));
+    assert.equal(new Set(tops).size,1,'three document tabs fit on one row');
+  }
+  await shared.close();
   await page.reload({waitUntil:'domcontentloaded'});
   assert.equal(await page.locator('#users').inputValue(),'20000','shared URL restores slider state');
   await page.locator('#business .chapter-detail > summary').click();
@@ -77,6 +108,10 @@ try{
  const model = await browser.newPage();
  await model.goto(new URL('#partner-model',base).href,{waitUntil:'load'});
  const fields = model.locator('#partner-inputs input');
+ assert.equal(await model.locator('#partner-gap-value').innerText(),'342건 부족');
+ await fields.nth(0).fill('100');
+ assert.match(await model.locator('#partner-gap-value').innerText(),/건 초과$/);
+ await model.locator('#partner-reset').click();
  const results = model.locator('#partner-results dd');
  for (const [index,value] of ['1','1','2.5','100','100','0','100'].entries()) {
    await fields.nth(index).fill(value);
@@ -84,6 +119,7 @@ try{
  assert.deepEqual((await results.allTextContents()).slice(0,2),['1건','1건']);
  await fields.nth(2).fill('0');
  assert.equal(await fields.nth(2).getAttribute('aria-invalid'),'true');
+ assert.equal(await model.locator('#partner-gap').isVisible(),false);
  assert.equal(await model.locator('#partner-inputs small:visible').count(),1);
  assert.match(await model.locator('#partner-field-2-hint').innerText(),/건당 투입 시간.*0\.1.*168/);
  await model.locator('#partner-reset').click();
@@ -103,6 +139,25 @@ try{
  assert.equal(await results.nth(6).textContent(),'101건');
  await model.locator('#partner-reset').click();
  assert.equal(await results.nth(6).textContent(),'541건');
+ await fields.nth(8).fill('0');
+ assert.equal(await model.locator('#partner-gap-value').innerText(),'건당 공헌이익 개선 필요');
+ assert.equal(await model.locator('.partner-gap-track').isVisible(),false);
+ await model.locator('#partner-reset').click();
+ await costDetails.locator('summary').click();
+ await fields.nth(14).fill('736300');
+ assert.equal(await model.locator('#partner-gap-value').innerText(),'손익분기 도달');
+ await fields.nth(14).fill('0');
+ assert.equal(await model.locator('.partner-gap-track').isVisible(),false);
+ await model.locator('#partner-reset').click();
+ assert.equal(await model.locator('#partner-gap-value').innerText(),'342건 부족');
+ await model.evaluate(()=>Object.defineProperty(navigator,'clipboard',{
+   configurable:true,value:{writeText:async()=>{throw new Error('clipboard unavailable')}}
+ }));
+ await model.locator('#doc-copy-page').click();
+ const fallback=model.locator('#doc-copy-status input');
+ assert.match(await fallback.inputValue(),/document=plan&page=1#attachments$/);
+ await model.locator('#doc-next').click();
+ assert.equal(await fallback.count(),0);
  await model.close();
  console.log('PASS v3 share safety and controls');
 }finally{await browser.close();}

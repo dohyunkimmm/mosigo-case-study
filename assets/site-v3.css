@@ -7,7 +7,7 @@
  html.v3-active .mobile-document-viewer{display:block;width:100%}
  html.v3-active .mobile-page-open{
   display:flex;align-items:center;justify-content:center;
-  width:100%;height:min(78vh,640px);min-height:565px;
+  width:100%;aspect-ratio:16/9;
   border:1px solid #d6e5da;border-radius:10px;background:white;overflow:hidden
  }
  html.v3-active .mobile-page-image{display:block;width:100%;height:100%;object-fit:contain;aspect-ratio:auto}
@@ -331,8 +331,9 @@ html:not(.v3-active) .v3-preview-tools,html:not(.v3-active) .v3-scenarios,html:n
 .attachment-heading{margin-bottom:22px;max-width:760px}
 .attachment-heading h2{font-size:clamp(24px,2.7vw,35px);line-height:1.32;margin:6px 0 0}
 .attachment-heading p{font-size:15px;line-height:1.75;color:#496455;margin-top:10px}
-#attachments .doc-tabs{gap:9px}
-#attachments .doc-tabs button{min-height:49px;border-radius:10px;padding:8px 13px;font-size:14px}
+#attachments .doc-tabs{gap:5px;padding:4px;border:1px solid #d4e3d8;border-radius:13px;background:#f0f5ef}
+#attachments .doc-tabs button{min-height:46px;border:1px solid transparent;border-radius:9px;padding:8px 12px;background:transparent;font-size:14px}
+#attachments .doc-tab:not([aria-pressed="true"]):hover{background:#e2ece2}
 #attachments .doc-tabs button small{display:block;font-size:12px;line-height:1.5;margin:3px 0 0}
 #attachments .mobile-page-open{background:white;border-color:#c9dccd}
 #attachments .doc-links{margin-top:16px;gap:18px}
@@ -401,9 +402,8 @@ section{padding-top:70px;padding-bottom:73px}
  #attachments.quick-documents{margin:30px 12px 45px;padding:18px 14px}
  .attachment-heading h2{font-size:25px}
  .attachment-heading p{font-size:14px}
- #attachments .doc-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ #attachments .doc-tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
  #attachments .doc-tabs button{font-size:13px;min-height:48px;padding:9px 8px}
- #attachments .doc-tabs button:last-child{grid-column:1/-1}
  #attachments .doc-links{gap:10px}
  section{padding-top:41px;padding-bottom:46px}
 }
@@ -471,4 +471,22 @@ html.v3-active #attachments .mobile-page-controls{display:flex;justify-content:f
  #attachments .mobile-page-controls>button{min-width:56px;padding-inline:8px}
  #attachments .slide-tools{flex-basis:125px}
  #attachments .doc-page-actions{flex-basis:100%}
+}
+
+#annual-model,#partner-model{scroll-margin-top:24px}
+.partner-gap{margin:18px 0 12px;padding:16px 20px;background:#123e33;color:white;border-radius:12px}
+.partner-gap-copy{display:flex;align-items:baseline;justify-content:space-between;gap:6px 18px;flex-wrap:wrap}
+.partner-gap h4{margin:0;color:#fff;font-size:16px}
+.partner-gap strong{font-size:clamp(22px,3vw,30px);line-height:1.25;color:#d6ef8a;font-variant-numeric:tabular-nums}
+.partner-gap-track{margin-top:12px;height:7px;border-radius:4px;background:#446958;overflow:hidden}
+.partner-gap-track span{display:block;height:100%;background:#d6ef8a}
+.review-model .partner-gap p{margin:8px 0 0;color:#e0efe5;font-size:14px}
+.copy-feedback{margin:0;color:#21543b;font-size:14px}
+.copy-feedback:not(:empty){margin:6px 0 12px}
+.copy-feedback input{display:block;width:100%;min-height:44px;margin-top:4px;padding:6px 10px;border:1px solid #708e7a;border-radius:7px;font:inherit}
+#attachments #doc-copy-page{min-width:0;min-height:44px;padding:0 6px;border:0;background:transparent;color:#21543b;font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
+@media(max-width:600px){
+ #annual-model,#partner-model{scroll-margin-top:56px}
+ #attachments .doc-page-actions{gap:4px 12px}
+ .partner-gap{padding:14px 15px}
 }

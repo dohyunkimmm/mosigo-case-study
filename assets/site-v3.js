@@ -30,16 +30,21 @@ function restoreFromUrl(){
  }
  if(restored)document.getElementById("users").dispatchEvent(new Event("input",{bubbles:true}));
 }
-function updateLink(){
- const url=new URL(location.href), current=state();
+function setScenarioParams(url){
+ const current=state();
  for(const id of values){
    if(current[id]===base[id])url.searchParams.delete("v_"+id);
    else url.searchParams.set("v_"+id,String(current[id]));
  }
+}
+function updateLink(){
+ const url=new URL(location.href);
+ setScenarioParams(url);
  history.replaceState(history.state,"",url.pathname+url.search+url.hash);
 }
 function renderScenario(){
  const region=$("#v3-scenario-graph"); if(!region)return;
+ $("#v3-scenario-copy-status").replaceChildren();
  const current=state(),list=[...presets,{key:"custom",label:"내 입력",...current}];
  const cap=Math.max(1,...list.map(entry => Math.abs(annualContribution(entry))));
  region.replaceChildren();
@@ -66,18 +71,29 @@ function renderScenario(){
  const subtitle=$("#v3-scenario-live");
  if(subtitle)subtitle.textContent="내 입력: 연간 "+new Intl.NumberFormat("ko-KR").format(current.users*current.freq)+"건 예상 · 고정비 차감 전 "+formatHundredMillion(annualContribution(current));
 }
-async function copyUrl(button,source){
- const text=location.href;
+async function copyLink(url, label, feedback){
+ feedback.replaceChildren();
  try{
-   if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);
-   else if(navigator.share){await navigator.share({title:document.title,url:text});return;}
-   else {button.textContent="주소창의 링크를 복사해 주세요";return;}
-   button.textContent="링크 복사 완료";
-   const message=$("#v3-scenario-copy-status");if(message)message.textContent="현재 입력 조건이 포함된 링크를 복사했습니다.";
- }catch(err){
-   if(err?.name==="AbortError")return;
-   button.textContent="주소창에서 링크 복사";
+   if(navigator.clipboard?.writeText){
+     await navigator.clipboard.writeText(url.href);
+     feedback.textContent=label+" 링크를 복사했습니다.";
+     return;
+   }
+   if(navigator.share){
+     await navigator.share({title:label,url:url.href});
+     return;
+   }
+ }catch(error){
+   if(error.name==="AbortError")return;
  }
+ const field=document.createElement("input");
+ field.type="url";
+ field.readOnly=true;
+ field.value=url.href;
+ field.setAttribute("aria-label",label+" 공유 주소");
+ feedback.replaceChildren("아래 주소를 복사하세요.",field);
+ field.focus();
+ field.select();
 }
 function setupScenario(){
  const graph=$("#v3-scenario-graph");if(!graph)return;
@@ -93,7 +109,12 @@ function setupScenario(){
    document.getElementById("users").dispatchEvent(new Event("input",{bubbles:true}));
  }));
  const share=$("#v3-share-scenario");
- if(share)share.addEventListener("click",()=>copyUrl(share,"scenario"));
+ if(share)share.addEventListener("click",()=>{
+   const url=new URL(location.pathname,location.origin);
+   setScenarioParams(url);
+   url.hash="annual-model";
+   copyLink(url,"연간 시나리오",$("#v3-scenario-copy-status"));
+ });
  renderScenario();
 }
 function setupPartnerModel() {
@@ -110,7 +131,7 @@ function setupPartnerModel() {
    ["월 인력 기회비용 (원)", 2000000, 1000000000]
  ];
  const coreInputs = $("#partner-core-inputs"), costInputs = $("#partner-cost-inputs");
- const costDetails = $("#partner-costs");
+ const costDetails = $("#partner-costs"), gap = $("#partner-gap");
  const baseline = window.MOSIGO_PARTNER_BASELINE ?? fields.map(field => field[1]);
  const controls = fields.map(([name, , max, min=0, step=1], index) => {
    const label = document.createElement("label"), input = document.createElement("input");
@@ -135,6 +156,7 @@ function setupPartnerModel() {
      document.getElementById(`${input.id}-hint`).hidden = !invalid;
    }
    if (controls.some(input => !input.validity.valid)) {
+     gap.hidden = true;
      results.textContent = "각 입력란에 표시된 범위와 단위를 확인해 주세요.";
      return;
    }
@@ -147,13 +169,29 @@ function setupPartnerModel() {
    const marginMilliwon = price * (rate * 10 - Math.round(fee * 10))
      - (support + system) * 1000 - newShare * cac * 10;
    const margin = marginMilliwon / 1000;
-   const breakeven = cost => marginMilliwon > 0 ? Math.ceil(cost * 1000 / marginMilliwon).toLocaleString("ko-KR")+"건" : "건당 공헌이익 개선 후 산정";
+   const breakeven = cost => marginMilliwon > 0 ? Math.ceil(cost * 1000 / marginMilliwon) : null;
+   const formatOrders = count => count.toLocaleString("ko-KR")+"건";
+   const formatTarget = count => count === null ? "건당 공헌이익 개선 후 산정" : formatOrders(count);
+   const cashTarget = breakeven(fixed);
+   const track = gap.querySelector(".partner-gap-track");
+   gap.hidden = false;
+   track.hidden = cashTarget === null || cashTarget === 0;
+   let headline = "건당 공헌이익 개선 필요";
+   let detail = "건당 공헌이익이 0원 이하여서 손익분기 건수를 산정할 수 없습니다.";
+   if (cashTarget !== null) {
+     const difference = orders - cashTarget;
+     headline = difference === 0 ? "손익분기 도달" : formatOrders(Math.abs(difference)) + (difference < 0 ? " 부족" : " 초과");
+     detail = "월 예상 완료 " + formatOrders(orders) + " / 현금 손익분기 " + formatOrders(cashTarget);
+     if (cashTarget > 0) track.firstElementChild.style.width = Math.min(100, orders / cashTarget * 100) + "%";
+   }
+   $("#partner-gap-value").textContent = headline;
+   $("#partner-gap-detail").textContent = detail;
    const rows = [
      ["월 이론상 최대 처리", maxOrders.toLocaleString("ko-KR")+"건"],
      ["월 예상 완료", orders.toLocaleString("ko-KR")+"건"],
      ["건당 공헌이익", money(margin)], ["월 수수료 매출", money(orders*price*rate/100)],
      ["월 현금 손익", money(orders*margin-fixed)], ["월 인력 비용 포함 손익", money(orders*margin-fixed-labor)],
-     ["현금 손익분기", breakeven(fixed)], ["인력 비용 포함 손익분기", breakeven(fixed+labor)]
+     ["현금 손익분기", formatTarget(cashTarget)], ["인력 비용 포함 손익분기", formatTarget(breakeven(fixed+labor))]
    ];
    results.replaceChildren(...rows.map(([name,value]) => {
      const row=document.createElement("div"), title=document.createElement("dt"), data=document.createElement("dd");
@@ -175,9 +213,19 @@ function setupPartnerModel() {
 function setupDocuments(){
  const image=$("#doc-page-img");
  if(!image)return;
- const details={plan:{prefix:"plan",total:19,label:"사업기획서"},presentation:{prefix:"slides",total:11,label:"발표자료"},ir:{prefix:"ir",total:12,label:"IR 자료"}};
  const tabs=[...document.querySelectorAll("[data-doc-preview]")];
 
+ const sharePage=$("#doc-copy-page");
+ sharePage.hidden=false;
+ sharePage.addEventListener("click",()=>{
+   const selected=window.MOSIGO_DOC.get();
+   const url=new URL(location.pathname,location.origin);
+   url.searchParams.set("document",selected.document);
+   url.searchParams.set("page",selected.page);
+   url.hash="attachments";
+   const label=tabs.find(tab=>tab.dataset.docPreview===selected.document).textContent.trim();
+   copyLink(url,label+" "+selected.page+"쪽",$("#doc-copy-status"));
+ });
  const previewError=$("#doc-preview-error");
  const imageStatus=()=>{ previewError.hidden = !image.complete || image.naturalWidth > 0; };
  image.addEventListener("load", imageStatus);
@@ -189,29 +237,33 @@ function setupDocuments(){
    previewError.hidden=true;
  });
  imageStatus();
- const swipeTarget=$("#mobile-doc-viewer");
- let startX=0,startY=0;
- swipeTarget?.addEventListener("touchstart",event=>{
-   if(event.touches.length!==1)return;
-   startX=event.touches[0].clientX;startY=event.touches[0].clientY;
+ const previewLink=$("#doc-page-open");
+ let touchStart=null;
+ previewLink.addEventListener("touchstart",event=>{
+   touchStart=event.touches.length===1 ? event.touches[0] : null;
  },{passive:true});
- swipeTarget?.addEventListener("touchend",event=>{
-   if(event.changedTouches.length!==1)return;
-   const dx=event.changedTouches[0].clientX-startX,dy=event.changedTouches[0].clientY-startY;
-   if(Math.abs(dx)<55||Math.abs(dx)<Math.abs(dy)*1.45)return;
-   const button=$(dx<0?"#doc-next":"#doc-prev");
-   if(button&&!button.disabled)button.click();
- },{passive:true});
- swipeTarget?.addEventListener("keydown",event=>{
-   if(event.key!=="ArrowLeft"&&event.key!=="ArrowRight")return;
-   if(event.target.closest("button,a,select"))return;
-   const button=$(event.key==="ArrowRight"?"#doc-next":"#doc-prev");
-   if(button&&!button.disabled){event.preventDefault();button.click();}
+ previewLink.addEventListener("touchcancel",()=>{touchStart=null;},{passive:true});
+ previewLink.addEventListener("touchend",event=>{
+   const start=touchStart;
+   touchStart=null;
+   if(!start || event.changedTouches.length!==1 || event.touches.length)return;
+   const end=event.changedTouches[0];
+   const dx=end.clientX-start.clientX,dy=end.clientY-start.clientY;
+   if(Math.abs(dx)<55 || Math.abs(dx)<Math.abs(dy)*1.45)return;
+   event.preventDefault();
+   $(dx<0?"#doc-next":"#doc-prev").click();
+ },{passive:false});
+ previewLink.addEventListener("keydown",event=>{
+   if(event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)return;
+   if(event.key!=="ArrowLeft" && event.key!=="ArrowRight")return;
+   event.preventDefault();
+   $(event.key==="ArrowRight"?"#doc-next":"#doc-prev").click();
  });
  const params=new URLSearchParams(location.search);
  const requestedDoc=params.get("document"), requestedPage=Number(params.get("page"));
- if(Object.hasOwn(details,requestedDoc)){
-   tabs.find(tab=>tab.dataset.docPreview===requestedDoc)?.click();
+ const requestedTab=tabs.find(tab=>tab.dataset.docPreview===requestedDoc);
+ if(requestedTab){
+   requestedTab.click();
    if(Number.isInteger(requestedPage) && requestedPage>0) window.MOSIGO_DOC.setPage(requestedPage);
  }
 
@@ -219,7 +271,16 @@ function setupDocuments(){
 setupScenario();
 setupDocuments();
 setupPartnerModel();
-if(location.hash==="#partner-model") $("#partner-model").closest("details").open=true;
+function openLinkedCalculator(){
+ const hash=location.hash;
+ if(hash==="#annual-model" || hash==="#partner-model"){
+   const model=$(hash);
+   model.closest("details").open=true;
+   model.scrollIntoView({behavior:"instant",block:"start"});
+ }
+}
+openLinkedCalculator();
+window.addEventListener("hashchange",openLinkedCalculator);
 document.querySelectorAll('a[href="#partner-model"]').forEach(link => link.addEventListener("click", () => {
  $("#partner-model").closest("details").open=true;
 }));
