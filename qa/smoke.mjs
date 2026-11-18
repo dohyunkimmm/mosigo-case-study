@@ -112,7 +112,7 @@ try {
       assert.equal(await details.evaluate(el => el.open), false, 'mobile detail closes');
     }
     if (width === 1440) {
-      await page.locator('#business .chapter-detail summary').click();
+      await page.locator('#business .chapter-detail > summary').click();
       await page.locator('#price').evaluate(el => { el.value = '41000'; el.dispatchEvent(new Event('input', { bubbles: true })); });
       assert.equal((await page.locator('#gmv').innerText()).trim(), '9.23억 원', 'rounding');
       await page.locator('#reset').click();
