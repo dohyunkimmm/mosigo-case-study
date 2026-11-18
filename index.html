@@ -444,7 +444,7 @@ section:not(#overview){position:relative}
 .model-resource a,.doc-page-actions a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-underline-offset:.2em}
 
 .hero-assumption{max-width:780px;margin:18px 0 0;color:#e6f1e7;font-size:14px;line-height:1.75}.hero-assumption strong{color:#fff;font-variant-numeric:tabular-nums}.hero-assumption a{color:inherit;text-underline-offset:3px}
-</style><link rel="stylesheet" href="/assets/site-v3.css?v=visual-review"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}
+</style><link rel="stylesheet" href="/assets/site-v3.css?v=viewer-and-model"><script>if(window.matchMedia('(max-width:600px)').matches){document.documentElement.classList.add('mobile-skim-prep');}
 if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'fonts' in document){
  document.documentElement.classList.add('mobile-font-pending');
  window.addEventListener('load',()=>{
@@ -598,7 +598,7 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <p class="bep-secondary">예상 완료는 인력 기회비용 포함 손익분기의 18.4% · 월 883건 차이</p>
 </figure><div class="business-interpretation"><span class="interpretation-kicker">사업성 해석 · 다음 결정</span><p>월 199건의 수수료 매출은 159.2만 원입니다. 건당 비용을 모두 줄여도 현금 고정비 200만 원에 40.8만 원 부족합니다. 거래량·제휴 단가·고정비를 함께 검토합니다.</p><a href="/downloads/mosigo_report_preview.pdf#page=8">발표 8장 · 공급·손익 비교</a></div><details class="chapter-detail" open><summary>계산기·손익 근거 보기</summary><div class="chapter-content">
 <p id="sim-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-<div class="sim"><div class="sim-head"><h3>연간 시나리오 · 직접 운영 공헌이익</h3><p>직접 운영의 공헌이익과 제휴 수수료 매출을 연간 기준으로 계산</p></div><div class="sim-body"><div>
+<div class="sim" id="annual-model"><div class="sim-head"><h3>연간 시나리오 · 직접 운영 공헌이익</h3><p>직접 운영의 공헌이익과 제휴 수수료 매출을 연간 기준으로 계산</p></div><div class="sim-body"><div>
 <div class="control"><label for="users">이용 고객 수 <output id="uOut">15,000명</output></label><input id="users" type="range" min="5000" max="30000" value="15000" step="1000"><small>5,000~30,000명 · 산정 기준</small></div>
 <div class="control"><label for="freq">연간 1인당 이용 횟수 <output id="fOut">1.5회</output></label><input id="freq" type="range" min="1" max="3" value="1.5" step="0.25"><small>1~3회 · 산정 기준</small></div>
 <div class="control"><label for="price">건당 평균 가격 <output id="pOut">40,000원</output></label><input id="price" type="range" min="30000" max="60000" value="40000" step="1000"><small>3만~6만 원 · 산정 기준</small></div>
@@ -620,6 +620,11 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <div id="partner-core-inputs" class="review-inputs"></div>
 <details id="partner-costs" hidden><summary>세부 비용 가정</summary><div id="partner-cost-inputs" class="review-inputs"></div></details>
 </div>
+<div id="partner-gap" class="partner-gap" hidden>
+<div class="partner-gap-copy"><h4>월 현금 손익분기</h4><strong id="partner-gap-value"></strong></div>
+<div class="partner-gap-track" aria-hidden="true"><span></span></div>
+<p id="partner-gap-detail"></p>
+</div>
 <dl id="partner-results" class="review-results" aria-live="polite"></dl>
 <button type="button" id="partner-reset">제휴 기준값 복원</button>
 </div>
@@ -627,7 +632,7 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
  <h4>직접 운영 · 연간 공헌이익 비교</h4>
  <div class="v3-scenario-picks" role="group" aria-label="시나리오 불러오기"><button type="button" data-v3-scenario="conservative" aria-pressed="false">보수</button><button type="button" data-v3-scenario="base" aria-pressed="true">기준</button><button type="button" data-v3-scenario="growth" aria-pressed="false">개선 시나리오</button></div>
  <div id="v3-scenario-graph" class="v3-chart" role="img" aria-label="연간 공헌이익 시나리오 네 가지 막대 비교"></div>
- <div class="v3-scenario-foot"><span id="v3-scenario-live">내 입력: 예상 연간 22,500건 · 고정비 차감 전 2.25억 원</span><button type="button" id="v3-share-scenario" class="v3-share-scenario">연간 시나리오 링크 복사</button></div><p id="v3-scenario-copy-status" class="sr-only" role="status" aria-live="polite"></p>
+ <div class="v3-scenario-foot"><span id="v3-scenario-live">내 입력: 예상 연간 22,500건 · 고정비 차감 전 2.25억 원</span><button type="button" id="v3-share-scenario" class="v3-share-scenario">연간 시나리오 링크 복사</button></div><p id="v3-scenario-copy-status" class="copy-feedback" role="status" aria-live="polite"></p>
  </div>
  <h3 class="subhead">시나리오별 손익 비교 <span class="label orange">가정 모델</span></h3>
 <div class="tablewrap"><table class="tbl"><thead><tr><th>예상 시나리오</th><th>인원 × 빈도 × 가격</th><th>건수</th><th>거래액</th><th>고정비 차감 전 공헌이익*</th></tr></thead><tbody><tr><th data-label="예상 시나리오">보수</th><td data-label="인원 × 빈도 × 가격">8,000명 × 1회 × 35,000원</td><td data-label="건수">8,000</td><td data-label="거래액">2.8억 원</td><td data-label="고정비 차감 전 공헌이익*">0.4억 원</td></tr><tr><th data-label="예상 시나리오">기준</th><td data-label="인원 × 빈도 × 가격">15,000명 × 1.5회 × 40,000원</td><td data-label="건수">22,500</td><td data-label="거래액">9.0억 원</td><td data-label="고정비 차감 전 공헌이익*">2.25억 원</td></tr><tr><th data-label="예상 시나리오">개선 시나리오</th><td data-label="인원 × 빈도 × 가격">20,000명 × 2회 × 45,000원</td><td data-label="건수">40,000</td><td data-label="거래액">18.0억 원</td><td data-label="고정비 차감 전 공헌이익*">6.0억 원</td></tr></tbody></table></div>
@@ -737,9 +742,10 @@ if(window.matchMedia('(min-width:360px) and (max-width:560px)').matches && 'font
 <button id="doc-prev" type="button" disabled>이전</button>
 <div id="slide-tools" class="slide-tools"><label class="sr-only" for="slide-jump">페이지 선택</label><select id="slide-jump"></select></div>
 <button id="doc-next" type="button">다음</button>
-<div class="doc-page-actions"><a id="doc-expand" href="/downloads/mosigo_business_plan_20261031.pdf#page=1" target="_blank" rel="noopener">크게 보기 ↗</a><a id="doc-pptx-download" hidden download>PPTX 받기</a></div>
+<div class="doc-page-actions"><a id="doc-expand" href="/downloads/mosigo_business_plan_20261031.pdf#page=1" target="_blank" rel="noopener">크게 보기 ↗</a><a id="doc-pptx-download" hidden download>PPTX 받기</a><button id="doc-copy-page" type="button" hidden>이 쪽 링크 복사</button></div>
 </div>
-<a id="doc-page-open" class="mobile-page-open" href="/downloads/mosigo_business_plan_20261031.pdf#page=1" target="_blank" rel="noopener noreferrer" aria-label="현재 페이지 크게 보기"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1페이지 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
+<p id="doc-copy-status" class="copy-feedback" role="status"></p>
+<a id="doc-page-open" class="mobile-page-open" href="/downloads/mosigo_business_plan_20261031.pdf#page=1" target="_blank" rel="noopener noreferrer" aria-label="현재 페이지 크게 보기" aria-keyshortcuts="ArrowLeft ArrowRight"><img id="doc-page-img" class="mobile-page-image" src="/downloads/previews/plan-01-sm.webp" alt="사업기획서 1페이지 미리보기" decoding="async" loading="eager" fetchpriority="high"></a>
 </div>
 <p id="doc-preview-error" role="status" hidden>미리보기를 다시 시도해 주세요. <button id="doc-preview-retry" type="button">다시 시도</button></p>
 <div class="model-resource"><strong>손익 모델</strong><a href="#partner-model" aria-label="손익 모델 계산기">계산기</a><a href="/downloads/mosigo_model.xlsx" download="mosigo_model.xlsx" aria-label="손익 모델 XLSX 받기">XLSX 받기</a></div>
@@ -841,6 +847,7 @@ currentDocumentPage = rememberedPage(currentDocument);
 function renderMobileDocumentPage(){
  savedPages[currentDocument] = currentDocumentPage;
  try { localStorage.setItem('mosigo-document-pages', JSON.stringify(savedPages)); } catch {}
+ document.getElementById('doc-copy-status').replaceChildren();
  const doc=docConfigs[currentDocument],number=String(currentDocumentPage).padStart(2,'0');
  const path='/downloads/previews/'+doc.images+'-'+number+'-sm.webp';
  const fullPath=path.replace('-sm.webp','.webp');
@@ -899,4 +906,4 @@ ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>update(
 document.getElementById('reset').addEventListener('click',()=>{ids.forEach((id,i)=>{document.getElementById(id).value=defaults[i];});update(true);});
 update();
 })();
-</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=partner-costs"></script></body></html>
+</script><script defer src="/assets/partner-baseline.js"></script><script defer src="/assets/site-v3.js?v=viewer-and-model"></script></body></html>
