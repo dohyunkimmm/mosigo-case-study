@@ -4,6 +4,7 @@ on:
   push:
     branches: [main, 'review/p0-p1-p2-*']
     paths:
+      - 'qa/render-korean-slides.py'
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
       - 'qa/sync-strategy-copy.py'
@@ -20,6 +21,7 @@ on:
   pull_request:
     branches: [main, 'review/p0-p1-p2-*']
     paths:
+      - 'qa/render-korean-slides.py'
       - 'downloads/mosigo_report.pptx'
       - 'qa/style-presentation.py'
       - 'qa/sync-strategy-copy.py'
@@ -112,7 +114,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/mosigo-slides
-          libreoffice -env:UserInstallation=file:///tmp/lo-mosigo-ppt-preview --headless --convert-to pdf --outdir /tmp/mosigo-slides downloads/mosigo_report.pptx
+          python3 qa/render-korean-slides.py downloads/mosigo_report.pptx /tmp/mosigo-slides
           test -s /tmp/mosigo-slides/mosigo_report.pdf
           if [[ -s downloads/mosigo_report_preview.pdf ]]; then
             cp downloads/mosigo_report_preview.pdf /tmp/mosigo-preview-before.pdf
