@@ -109,6 +109,8 @@ function setupPartnerModel() {
    ["신규 고객 획득비 (원)", 3000, 10000000], ["월 현금 고정비 (원)", 2000000, 1000000000],
    ["월 인력 기회비용 (원)", 2000000, 1000000000]
  ];
+ const coreInputs = $("#partner-core-inputs"), costInputs = $("#partner-cost-inputs");
+ const costDetails = $("#partner-costs");
  const baseline = window.MOSIGO_PARTNER_BASELINE ?? fields.map(field => field[1]);
  const controls = fields.map(([name, , max, min=0, step=1], index) => {
    const label = document.createElement("label"), input = document.createElement("input");
@@ -122,7 +124,8 @@ function setupPartnerModel() {
    hint.hidden = true;
    input.setAttribute("aria-describedby", hint.id);
    label.append(input, hint);
-   inputs.append(label);
+   const group = index < 9 ? coreInputs : costInputs;
+   group.append(label);
    return input;
  });
  function render() {
@@ -160,6 +163,7 @@ function setupPartnerModel() {
      return row;
    }));
  }
+ costDetails.hidden = false;
  inputs.addEventListener("input",render);
  $("#partner-reset").addEventListener("click",() => {
    controls.forEach((input,i) => { input.value=baseline[i]; });
