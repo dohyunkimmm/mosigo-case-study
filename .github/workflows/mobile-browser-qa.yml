@@ -29,16 +29,15 @@ concurrency:
 jobs:
   mobile-engines:
     runs-on: ubuntu-24.04
+    container: mcr.microsoft.com/playwright:v1.64.1-noble
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
-      - name: Install browser engines
-        run: |
-          npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1
-          npx --no-install playwright install --with-deps chromium webkit
+      - name: Install the Playwright client matching the browser image
+        run: npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright@1.64.1
       - name: Exercise all mobile PDF pages, Pretendard and Tossface on WebKit/Chromium
         env:
           SITE_QA_URL: https://mosigo-case-study.vercel.app/
