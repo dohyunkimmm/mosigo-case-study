@@ -145,34 +145,48 @@ jobs:
                   safari.activate()
                   let web = safari.webViews.firstMatch
                   XCTAssertTrue(web.waitForExistence(timeout: 30), "The actual iOS Safari app must expose the loaded case study")
-                  let documentTab = safari.switches.matching(NSPredicate(format: "label CONTAINS %@", "발표자료")).firstMatch
-                  guard documentTab.waitForExistence(timeout: 15) else {
-                      XCTFail("Presentation tab not found in iOS Safari accessibility tree")
-                      return
+                  continueAfterFailure = false
+                  let elements = web.descendants(matching: .any)
+                  func control(_ label: String) -> XCUIElement {
+                      elements.matching(NSPredicate(format: "label == %@", label)).firstMatch
                   }
-                  documentTab.tap()
-                  let forward = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "다음")).firstMatch
-                  XCTAssertTrue(forward.waitForExistence(timeout: 15), "Mobile document next-page control must be exposed")
-                  forward.tap()
-                  let pageCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "2 / 11")).firstMatch
-                  XCTAssertTrue(pageCounter.waitForExistence(timeout: 10), "Native Safari must update slide page number")
-                  let planTab = safari.switches.matching(NSPredicate(format: "label CONTAINS %@", "사업기획서")).firstMatch
-                  XCTAssertTrue(planTab.exists, "Business plan tab must exist")
-                  planTab.tap()
-                  let planCounter = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "1 / 19")).firstMatch
-                  XCTAssertTrue(planCounter.waitForExistence(timeout: 10), "Switching documents must reset page counter")
-                  // Exercise current previous/next controls instead of removed thumbnails.
-                  forward.tap()
-                  forward.tap()
-                  let thirdPage = safari.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "3 / 19")).firstMatch
-                  XCTAssertTrue(thirdPage.waitForExistence(timeout: 10), "Native Safari must advance to page 3")
-                  let fullScreen = safari.links.matching(NSPredicate(format: "label CONTAINS %@", "현재 문서 쪽 크게 보기")).firstMatch
-                  XCTAssertTrue(fullScreen.waitForExistence(timeout: 15), "Document full-screen link must be accessible")
-                  fullScreen.tap()
-                  let close = safari.buttons.matching(NSPredicate(format: "label CONTAINS %@", "닫기")).firstMatch
-                  XCTAssertTrue(close.waitForExistence(timeout: 10), "Full-screen dialog must expose an accessible close control")
-                  close.tap()
-                  XCTAssertTrue(fullScreen.waitForExistence(timeout: 10), "Closing the dialog must return to the page viewer")
+                  func expectPage(_ number: Int, _ title: String, _ total: Int) {
+                      let option = "\(number)쪽 · \(title)"
+                      let counter = "현재 \(number)페이지, 전체 \(total)페이지"
+                      let current = elements.matching(NSPredicate(
+                          format: "label == %@ OR value == %@ OR label == %@ OR label == %@",
+                          option, option, counter, "\(number) / \(total)페이지"
+                      )).firstMatch
+                      XCTAssertTrue(current.waitForExistence(timeout: 15), "Missing selected page: \(option)")
+                  }
+
+                  let service = control("서비스기획")
+                  XCTAssertTrue(service.waitForExistence(timeout: 20), safari.debugDescription)
+                  service.tap()
+                  expectPage(1, "표지", 11)
+                  let next = control("다음")
+                  next.tap()
+                  expectPage(2, "문제와 요구사항", 11)
+                  let plan = control("사업기획서")
+                  plan.tap()
+                  expectPage(1, "표지", 19)
+                  next.tap()
+                  next.tap()
+                  expectPage(3, "조사·분석 출처", 19)
+                  service.tap()
+                  expectPage(2, "문제와 요구사항", 11)
+                  plan.tap()
+                  expectPage(3, "조사·분석 출처", 19)
+                  XCTAssertTrue(control("이 쪽 링크 복사").exists)
+                  let expand = web.links.matching(NSPredicate(format: "label BEGINSWITH %@", "크게 보기")).firstMatch
+                  XCTAssertTrue(expand.exists)
+                  expand.tap()
+                  let address = safari.textFields.firstMatch
+                  XCTAssertTrue(address.waitForExistence(timeout: 15), safari.debugDescription)
+                  address.tap()
+                  let pdfAddress = NSPredicate(format: "value CONTAINS %@", "mosigo_business_plan_20261031.pdf#page=3")
+                  let loaded = XCTNSPredicateExpectation(predicate: pdfAddress, object: address)
+                  XCTAssertEqual(XCTWaiter.wait(for: [loaded], timeout: 15), .completed, safari.debugDescription)
               }
           }
           SWIFT
