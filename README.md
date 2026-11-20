@@ -4,7 +4,7 @@
 
 - [문서 동기화 PR #193](https://github.com/dohyunkimmm/mosigo-case-study/pull/193)은 **Site QA·PRD Evidence QA 성공** 후 `main`에 [`31d9dda`](https://github.com/dohyunkimmm/mosigo-case-study/commit/31d9ddad2a9eced2b847c0a0857ce54fcea2d5ce)로 병합됐습니다. Vercel 운영 배포 `dpl_7bmqdcSgvuvDfPJqUcSSEcWH81rE`는 **READY / production / main**이며 커밋이 `31d9dda`와 정확히 일치합니다.
 - [자동 생성 PR #185](https://github.com/dohyunkimmm/mosigo-case-study/pull/185)는 후속 [#184](https://github.com/dohyunkimmm/mosigo-case-study/pull/184)·[#188](https://github.com/dohyunkimmm/mosigo-case-study/pull/188)에서 같은 PPTX·PDF·미리보기가 더 최신 버전으로 변경되고 #188 관련 QA가 성공한 점을 확인하여 **미병합 종료**했습니다. 현재 열린 PR은 **0건**입니다. 이전 생성본과 현행 바이너리의 내용·바이트 동등성은 주장하지 않습니다.
-- 원본 PR HEAD `d9a045940bb7ce4ef8712d1c3b5add42c04f06f3`와 브랜치는 종료 직후 남아 있음을 확인했습니다. 자동 SHA 보존 태그 생성·브랜치 회수 **성공은 아직 확인되지 않아 보류**하며, 근거는 [점검 기록](docs/REPOSITORY-STATUS-20261120.md)에 남겼습니다. 아래 '열린 PR 1건'은 **종료 전 당시 점검 스냅샷**입니다.
+- **보존·클렌징 완료:** [SHA 검증 Actions #44688351175](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/44688351175) 성공. 종료된 PR #185의 원본 HEAD `d9a045940bb7ce4ef8712d1c3b5add42c04f06f3`를 태그 `archive/closed/20261120/pr-185/automation/ppt-preview-44210022466-1`로 보존하고, **태그 SHA 일치 확인 후 자동 생성 브랜치 참조를 삭제**했습니다. 이 변경에서 작업을 마친 일회성 `.github/workflows/archive-pr-185-once.yml`도 제거합니다. 아래 '열린 PR 1건'은 **정리 전 당시 점검 스냅샷**입니다.
 - 이 후속 문서 변경 자체의 배포는 별도 검증 대상으로 유지합니다.
 
 ## 현재 `main` · 2026-11-20 목록·문서 동기화
