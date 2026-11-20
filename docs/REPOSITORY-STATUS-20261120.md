@@ -1,5 +1,13 @@
 # MOSIGO `main` 목록·문서 정합성 점검 (2026-11-20)
 
+## 후속 운영 배포·미반영 후보 처리 (2026-11-20)
+
+- [문서 동기화 PR #193](https://github.com/dohyunkimmm/mosigo-case-study/pull/193)은 Site QA와 PRD Evidence QA 성공 후 `main` [`31d9dda`](https://github.com/dohyunkimmm/mosigo-case-study/commit/31d9ddad2a9eced2b847c0a0857ce54fcea2d5ce)로 병합됐습니다. Vercel 운영 배포 `dpl_7bmqdcSgvuvDfPJqUcSSEcWH81rE`의 상태는 `READY / production / main`, 연결 커밋은 정확히 `31d9dda`입니다.
+- [PR #185](https://github.com/dohyunkimmm/mosigo-case-study/pull/185)는 **2026-11-20 미병합 종료**했습니다. 구 자동 생성본 HEAD `d9a045940bb7ce4ef8712d1c3b5add42c04f06f3`, PPTX blob `c40c42a510cdb16f86395b43701befe383df2067`입니다. 생성 당시 기반 PPTX blob `b2021df0344fdd0dd1c074733b4fe0fe29519a95`와 최신 `main` blob `2fa0e3ccf953d0e6a58f956df73b044f5fa99da8`이 서로 다릅니다.
+- 후속 병합된 [#184](https://github.com/dohyunkimmm/mosigo-case-study/pull/184)에서 PPTX·PDF·미리보기 원본을 교체했으며, [#188](https://github.com/dohyunkimmm/mosigo-case-study/pull/188)에서 PPTX·PDF·미리보기를 다시 변경하고 **Site QA, PRD QA, 모바일 QA 및 문서 생성/변환 검사에 성공**했습니다. 따라서 오래된 PR의 바이너리를 현재 `main`에 덮어쓰지 않습니다. **두 바이너리의 텍스트·화면·바이트 동등성은 검증되지 않았습니다.**
+- 종료 직후 **열린 PR은 0건**입니다. `automation/ppt-preview-44210022466-1` 원본 브랜치가 남아 있음을 확인했고, 자동 태그 보존·참조 삭제 Actions는 아직 성공 확인이 되지 않았습니다. `archive/closed/YYYYMMDD/pr-185/...` 보존 태그 확인 전 브랜치 수를 정리 완료로 표기하지 않습니다.
+- 이후 이 후속 문서 수정이 `main`에 병합되면 새로운 배포 커밋의 운영 일치 여부는 다시 검증합니다. 아래의 #185 '열린 PR 1건' 문장은 **정리 전 초기 점검 기록**입니다.
+
 ## 점검 기준과 현재 목록
 
 - 점검 원본: [`main` `96ecc32d`](https://github.com/dohyunkimmm/mosigo-case-study/commit/96ecc32d87b729cffba7a2ea99ebea17c045df1e). GitHub 재귀 트리는 `truncated=false`였습니다.
