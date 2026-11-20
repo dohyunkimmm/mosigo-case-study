@@ -1,6 +1,13 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
-## 2026-11-14 · 생성 문서 검토 및 PR 정리 완료
+## 현재 `main` · 2026-11-20 목록·문서 동기화
+
+- 최신 점검 기준 [`96ecc32d`](https://github.com/dohyunkimmm/mosigo-case-study/commit/96ecc32d87b729cffba7a2ea99ebea17c045df1e)에서 **파일 185개·디렉터리 10개**, 이번 점검 문서 1개 추가 반영 후 **186개·10개**입니다. `.github/` 26 · `assets/` 5 · `docs/` 5 · `downloads/` 93 · `qa/` 48 · 루트 9개입니다.
+- 11월 17~19일 제휴 계산기의 공급 상한·손익분기, 자료 공유/쪽 복원·42쪽 탐색, 모바일 PDF 미리보기와 Safari QA 개선이 `main`에 반영됐습니다. 기존 사업기획서 19쪽·서비스 발표 11장·IR 12장·WebP 84개 및 호환 링크는 유지합니다.
+- **열린 PR 1건:** [자동 생성 PPTX #185](https://github.com/dohyunkimmm/mosigo-case-study/pull/185)는 `main` 대비 ahead 1 / behind 8인 미검증 바이너리 변경입니다. 병합 가능·필수 QA·문서 내용 동등성 확인 전에는 병합하거나 중복으로 종료하지 않습니다. 원격 브랜치 **5개** 중 나머지 검토 브랜치도 미확인 작업을 보존합니다.
+- 최신 커밋의 [모바일 QA #44498361286](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/44498361286)는 성공했습니다. 직전 커밋의 Site QA 성공과 최신 전체 검사·Vercel 운영 배포 성공을 혼동하지 않습니다. [현재 점검 기록](docs/REPOSITORY-STATUS-20261120.md)을 우선하고 아래의 2026-11-07~14 기록은 날짜별 스냅샷으로 유지합니다.
+
+## 2026-11-14 당시 · 생성 문서 검토 및 PR 정리 완료
 
 - **최종 공개 자료:** [통합 #178](https://github.com/dohyunkimmm/mosigo-case-study/pull/178)을 [`2144de6`](https://github.com/dohyunkimmm/mosigo-case-study/commit/2144de61b578d769102798d85dd220dee4ffe5df)에 병합했습니다. 기존 사업기획서 **19쪽**, 편집 가능한 서비스 발표자료 **11쪽**, IR **12쪽**과 각 PDF에서 렌더링한 WebP **총 84개**를 동일 버전으로 맞췄습니다. 5·10쪽 발표 카드의 글자 가림을 수정했고 IR의 손익분기점·투자 단계 표현을 풀어 썼으며 원래 재무 수치와 PPTX 편집 가능성을 유지했습니다.
 - **검증:** #178의 Site QA·PRD Evidence QA·모바일 WebKit/Chromium·PPT 변환 검사 **모두 성공**했고 병합된 `main`의 [Site QA #43539446376](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43539446376) 및 [모바일 QA #43539446354](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/43539446354)도 성공했습니다. **운영 Vercel 배포가 해당 `main` SHA와 동일한지는 별도로 확인해야 합니다.**
@@ -83,7 +90,8 @@ GitHub의 메인 목록은 **보고서 페이지 / 첨부 자료 / 자동 생성
 | [`downloads/`](downloads/) | 사업기획서·발표자료·IR Deck·계산 파일(현재 최상위 9개) |
 | [`downloads/previews/`](downloads/previews/) | 사업기획서 19쪽·발표자료 11장·IR Deck 12장의 일반/소형 WebP(총 84개) |
 | [`qa/`](qa/) | 현행 품질 검증·문서 생성 스크립트와 IR 원본 조각. 내부 기술 검증 부록·상세 실행 증빙은 공개 저장소에서 제외 |
-| [`docs/history/`](docs/history/) | 과거 브랜치·저장소·폰트 점검 기록 4건. 당시 기준의 스냅샷으로, 현행 운영 상태는 아래 안내를 우선 확인 |
+| [`docs/REPOSITORY-STATUS-20261120.md`](docs/REPOSITORY-STATUS-20261120.md) | 최신 `main` 목록·최근 변경·QA·미반영 PR 점검 기준 |
+| [`docs/history/`](docs/history/) | 과거 브랜치·저장소·폰트 점검 기록 4건. 2026-10~11월 당시의 스냅샷 |
 | [`.github/workflows/`](.github/workflows/) | 품질 검증과 문서·이미지 생성 자동화 |
 | [`.github/scripts/`](.github/scripts/) | 자동 생성 문서가 `main` 직접 푸시 대신 검토용 PR을 만들도록 하는 공용 게시 스크립트 |
 | [`decision-memos.html`](decision-memos.html) · [`forecast.html`](forecast.html) · [`materials.html`](materials.html) | 과거 링크 호환용 페이지. 현재 보고서의 의사결정·사업성·첨부 자료 위치로 연결 |
