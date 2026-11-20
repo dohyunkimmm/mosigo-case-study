@@ -1,0 +1,74 @@
+# One-time, SHA-locked preservation of superseded generated PR #185.
+# Remove this workflow after its successful execution and verification.
+name: Archive reviewed generated PR 185
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/archive-pr-185-once.yml'
+permissions:
+  contents: write
+  pull-requests: read
+concurrency:
+  group: archive-reviewed-generated-pr-185
+  cancel-in-progress: false
+jobs:
+  preserve:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      EXPECTED_SHA: d9a045940bb7ce4ef8712d1c3b5add42c04f06f3
+      BRANCH_NAME: automation/ppt-preview-44210022466-1
+      PR_NUMBER: '185'
+      TAG_NAME: archive/closed/20261120/pr-185/automation/ppt-preview-44210022466-1
+    steps:
+      - name: Validate closed PR, verify SHA tag, then retire branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="repos/${GITHUB_REPOSITORY}"
+          expected="${EXPECTED_SHA}"
+          branch="${BRANCH_NAME}"
+          tag="${TAG_NAME}"
+          [[ "${GITHUB_REF}" == "refs/heads/main" ]] || exit 1
+          [[ "${expected}" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          [[ "${branch}" == "automation/ppt-preview-44210022466-1" ]] || exit 1
+          pr="$(gh api "${base}/pulls/${PR_NUMBER}")"
+          jq -e --arg sha "${expected}" --arg branch "${branch}" --arg repo "${GITHUB_REPOSITORY}" '
+            .number == 185 and .state == "closed" and .merged == false and
+            .head.sha == $sha and .head.ref == $branch and
+            .head.repo.full_name == $repo and .base.ref == "main"
+          ' <<< "${pr}" > /dev/null
+          opens="$(gh api "${base}/pulls?state=open&per_page=100")"
+          [[ "$(jq length <<< "${opens}")" -lt 100 ]] || exit 1
+          if jq -e --arg branch "${branch}" 'any(.[]; .head.ref == $branch)' <<< "${opens}" > /dev/null; then
+            echo "::error::Branch belongs to an open PR"
+            exit 1
+          fi
+          current="$(gh api "${base}/git/ref/heads/${branch}" --jq .object.sha 2>/dev/null || true)"
+          [[ -z "${current}" || "${current}" == "${expected}" ]] || {
+            echo "::error::Branch moved from expected SHA"
+            exit 1
+          }
+          existing="$(gh api "${base}/git/ref/tags/${tag}" --jq .object.sha 2>/dev/null || true)"
+          if [[ -z "${existing}" ]]; then
+            gh api -X POST "${base}/git/refs" -f ref="refs/tags/${tag}" -f sha="${expected}" > /dev/null
+          else
+            [[ "${existing}" == "${expected}" ]] || exit 1
+          fi
+          verified="$(gh api "${base}/git/ref/tags/${tag}" --jq .object.sha)"
+          [[ "${verified}" == "${expected}" ]] || {
+            echo "::error::Archive tag mismatch"
+            exit 1
+          }
+          if [[ -n "${current}" ]]; then
+            last="$(gh api "${base}/git/ref/heads/${branch}" --jq .object.sha)"
+            [[ "${last}" == "${expected}" ]] || exit 1
+            gh api -X DELETE "${base}/git/refs/heads/${branch}" > /dev/null
+            if gh api "${base}/git/ref/heads/${branch}" > /dev/null 2>&1; then
+              echo "::error::Branch still exists after deletion"
+              exit 1
+            fi
+          fi
+          echo "PASS: archived PR #185 original HEAD ${expected} at refs/tags/${tag}; branch retired"
