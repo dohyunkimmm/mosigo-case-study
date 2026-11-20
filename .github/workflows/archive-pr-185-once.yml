@@ -56,7 +56,8 @@ jobs:
             echo "::error::Branch moved from expected SHA"
             exit 1
           }
-          echo "::notice::stage=read-tag"; existing="$(gh api "${base}/git/ref/tags/${tag}" --jq .object.sha 2>/dev/null || true)"
+          echo "::notice::stage=read-tag"; existing="$(gh api "${base}/git/ref/tags/${tag}" --jq 'if type == "object" then (.object.sha // empty) else empty end' 2>/dev/null || true)"
+          if [[ "${existing}" == "null" ]]; then existing=""; fi
           if [[ -z "${existing}" ]]; then
             echo "::notice::stage=create-tag"; gh api -X POST "${base}/git/refs" -f ref="refs/tags/${tag}" -f sha="${expected}" > /dev/null
           else
