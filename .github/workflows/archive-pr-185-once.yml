@@ -31,33 +31,38 @@ jobs:
           expected="${EXPECTED_SHA}"
           branch="${BRANCH_NAME}"
           tag="${TAG_NAME}"
-          [[ "${GITHUB_REF}" == "refs/heads/main" ]] || exit 1
-          [[ "${expected}" =~ ^[0-9a-f]{40}$ ]] || exit 1
-          [[ "${branch}" == "automation/ppt-preview-44210022466-1" ]] || exit 1
-          pr="$(gh api "${base}/pulls/${PR_NUMBER}")"
-          jq -e --arg sha "${expected}" --arg branch "${branch}" --arg repo "${GITHUB_REPOSITORY}" '
+          echo "::notice::stage=ref"; [[ "${GITHUB_REF}" == "refs/heads/main" ]] || { echo "::error::Unexpected ref"; exit 1; }
+          echo "::notice::stage=sha-format"; [[ "${expected}" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Invalid SHA"; exit 1; }
+          echo "::notice::stage=branch-name"; [[ "${branch}" == "automation/ppt-preview-44210022466-1" ]] || { echo "::error::Unexpected branch"; exit 1; }
+          echo "::notice::stage=fetch-pr"; pr="$(gh api "${base}/pulls/${PR_NUMBER}")"
+          echo "::notice::stage=validate-pr"
+          if ! jq -e --arg sha "${expected}" --arg branch "${branch}" --arg repo "${GITHUB_REPOSITORY}" '
             .number == 185 and .state == "closed" and .merged == false and
             .head.sha == $sha and .head.ref == $branch and
             .head.repo.full_name == $repo and .base.ref == "main"
-          ' <<< "${pr}" > /dev/null
-          opens="$(gh api "${base}/pulls?state=open&per_page=100")"
+          ' <<< "${pr}" > /dev/null; then
+            echo "::error::Closed PR metadata does not match expected immutable HEAD"
+            jq -c '{number,state,merged,head_sha:.head.sha,head_branch:.head.ref,head_repo:.head.repo.full_name,base:.base.ref}' <<< "${pr}"
+            exit 1
+          fi
+          echo "::notice::stage=fetch-open-prs"; opens="$(gh api "${base}/pulls?state=open&per_page=100")"
           [[ "$(jq length <<< "${opens}")" -lt 100 ]] || exit 1
           if jq -e --arg branch "${branch}" 'any(.[]; .head.ref == $branch)' <<< "${opens}" > /dev/null; then
             echo "::error::Branch belongs to an open PR"
             exit 1
           fi
-          current="$(gh api "${base}/git/ref/heads/${branch}" --jq .object.sha 2>/dev/null || true)"
+          echo "::notice::stage=read-current-branch"; current="$(gh api "${base}/git/ref/heads/${branch}" --jq .object.sha 2>/dev/null || true)"
           [[ -z "${current}" || "${current}" == "${expected}" ]] || {
             echo "::error::Branch moved from expected SHA"
             exit 1
           }
-          existing="$(gh api "${base}/git/ref/tags/${tag}" --jq .object.sha 2>/dev/null || true)"
+          echo "::notice::stage=read-tag"; existing="$(gh api "${base}/git/ref/tags/${tag}" --jq .object.sha 2>/dev/null || true)"
           if [[ -z "${existing}" ]]; then
-            gh api -X POST "${base}/git/refs" -f ref="refs/tags/${tag}" -f sha="${expected}" > /dev/null
+            echo "::notice::stage=create-tag"; gh api -X POST "${base}/git/refs" -f ref="refs/tags/${tag}" -f sha="${expected}" > /dev/null
           else
             [[ "${existing}" == "${expected}" ]] || exit 1
           fi
-          verified="$(gh api "${base}/git/ref/tags/${tag}" --jq .object.sha)"
+          echo "::notice::stage=verify-tag"; verified="$(gh api "${base}/git/ref/tags/${tag}" --jq .object.sha)"
           [[ "${verified}" == "${expected}" ]] || {
             echo "::error::Archive tag mismatch"
             exit 1
@@ -65,7 +70,7 @@ jobs:
           if [[ -n "${current}" ]]; then
             last="$(gh api "${base}/git/ref/heads/${branch}" --jq .object.sha)"
             [[ "${last}" == "${expected}" ]] || exit 1
-            gh api -X DELETE "${base}/git/refs/heads/${branch}" > /dev/null
+            echo "::notice::stage=delete-branch"; gh api -X DELETE "${base}/git/refs/heads/${branch}" > /dev/null
             if gh api "${base}/git/ref/heads/${branch}" > /dev/null 2>&1; then
               echo "::error::Branch still exists after deletion"
               exit 1
