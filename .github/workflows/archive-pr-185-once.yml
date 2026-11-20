@@ -56,14 +56,15 @@ jobs:
             echo "::error::Branch moved from expected SHA"
             exit 1
           }
-          echo "::notice::stage=read-tag"; existing="$(gh api "${base}/git/ref/tags/${tag}" --jq 'if type == "object" then (.object.sha // empty) else empty end' 2>/dev/null || true)"
-          if [[ "${existing}" == "null" ]]; then existing=""; fi
+          echo "::notice::stage=read-tag"; refs="$(gh api "${base}/git/matching-refs/tags/${tag}")"
+          existing="$(jq -r --arg ref "refs/tags/${tag}" '[.[] | select(.ref == $ref) | .object.sha] | first // empty' <<< "${refs}")"
           if [[ -z "${existing}" ]]; then
             echo "::notice::stage=create-tag"; gh api -X POST "${base}/git/refs" -f ref="refs/tags/${tag}" -f sha="${expected}" > /dev/null
           else
             [[ "${existing}" == "${expected}" ]] || exit 1
           fi
-          echo "::notice::stage=verify-tag"; verified="$(gh api "${base}/git/ref/tags/${tag}" --jq .object.sha)"
+          echo "::notice::stage=verify-tag"; refs="$(gh api "${base}/git/matching-refs/tags/${tag}")"
+          verified="$(jq -r --arg ref "refs/tags/${tag}" '[.[] | select(.ref == $ref) | .object.sha] | first // empty' <<< "${refs}")"
           [[ "${verified}" == "${expected}" ]] || {
             echo "::error::Archive tag mismatch"
             exit 1
