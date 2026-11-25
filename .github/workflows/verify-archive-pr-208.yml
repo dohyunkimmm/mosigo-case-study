@@ -1,0 +1,58 @@
+name: Archive exact superseded PPTX PR head
+on:
+  push:
+    branches: [verify/archive-pr-208-20261125]
+permissions:
+  contents: write
+  pull-requests: read
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify closed PR and preserve exact head
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="repos/$GITHUB_REPOSITORY"
+          branch="automation/ppt-preview-45545683277-1"
+          sha="271eb1fc2d7c4f0b1f9e8c04ce19b5b5dcd0b112"
+          tag="archive/closed/20261125/pr-208/$branch"
+          gh api "$api/pulls/208" | jq -e --arg b "$branch" --arg s "$sha" --arg r "$GITHUB_REPOSITORY" '.state == "closed" and .merged == false and .head.ref == $b and .head.sha == $s and .head.repo.full_name == $r' >/dev/null
+          gh api "$api/pulls?state=open&per_page=100" | jq -e --arg b "$branch" 'length < 100 and all(.[]; .head.ref != $b)' >/dev/null
+          current=$(gh api "$api/git/matching-refs/heads/$branch" | jq -r --arg r "refs/heads/$branch" '.[]|select(.ref==$r)|.object.sha')
+          [[ -z "$current" || "$current" == "$sha" ]]
+          existing=$(gh api "$api/git/matching-refs/tags/$tag" | jq -r --arg r "refs/tags/$tag" '.[]|select(.ref==$r)|.object.sha')
+          if [[ -z "$existing" ]]; then
+            gh api -X POST "$api/git/refs" -f ref="refs/tags/$tag" -f sha="$sha" >/dev/null
+          else
+            [[ "$existing" == "$sha" ]]
+          fi
+          [[ "$(gh api "$api/git/ref/tags/$tag" --jq .object.sha)" == "$sha" ]]
+          if [[ -n "$current" ]]; then
+            [[ "$(gh api "$api/git/ref/heads/$branch" --jq .object.sha)" == "$sha" ]]
+            gh api -X DELETE "$api/git/refs/heads/$branch"
+          fi
+          [[ -z "$(gh api "$api/git/matching-refs/heads/$branch" | jq -r --arg r "refs/heads/$branch" '.[]|select(.ref==$r)|.object.sha')" ]]
+          echo "PASS original PR #208 SHA preserved and branch retired"
+      - name: Preserve and retire this verification branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="repos/$GITHUB_REPOSITORY"
+          branch="verify/archive-pr-208-20261125"
+          tag="archive/verification/20261125/$branch"
+          [[ "$GITHUB_REF" == "refs/heads/$branch" ]]
+          [[ "$(gh api "$api/git/ref/heads/$branch" --jq .object.sha)" == "$GITHUB_SHA" ]]
+          existing=$(gh api "$api/git/matching-refs/tags/$tag" | jq -r --arg r "refs/tags/$tag" '.[]|select(.ref==$r)|.object.sha')
+          if [[ -z "$existing" ]]; then
+            gh api -X POST "$api/git/refs" -f ref="refs/tags/$tag" -f sha="$GITHUB_SHA" >/dev/null
+          else
+            [[ "$existing" == "$GITHUB_SHA" ]]
+          fi
+          [[ "$(gh api "$api/git/ref/tags/$tag" --jq .object.sha)" == "$GITHUB_SHA" ]]
+          [[ "$(gh api "$api/git/ref/heads/$branch" --jq .object.sha)" == "$GITHUB_SHA" ]]
+          gh api -X DELETE "$api/git/refs/heads/$branch"
+          echo "PASS verification branch preserved and retired"
