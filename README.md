@@ -1,18 +1,29 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
-## 2026-11-20 후속 확인 · 배포 일치 및 생성 PR 정리
+## 현재 main · 2026-11-25 목록·문서 동기화
+
+- 점검 기준: [`main` `55866a3`](https://github.com/dohyunkimmm/mosigo-case-study/commit/55866a332141dd9ce729bc9cee58b86c83aa0427), 재귀 트리 `truncated=false`. 파일 **186개·디렉터리 10개**, 루트 파일 9개·최상위 폴더 5개. 분포: `.github/` 26, `assets/` 5, `docs/` 5, `downloads/` 93(공개 파일 9 + WebP 84), `qa/` 48, 루트 9. 동일 blob SHA 중복 및 명백한 임시 확장자 파일 없음.
+- [#200](https://github.com/dohyunkimmm/mosigo-case-study/pull/200)·[#203](https://github.com/dohyunkimmm/mosigo-case-study/pull/203)·[#204](https://github.com/dohyunkimmm/mosigo-case-study/pull/204)·[#205](https://github.com/dohyunkimmm/mosigo-case-study/pull/205) 반영: 본문·발표자료 중복 표현 및 정보 밀도 개선, 사업기획서 9·10·18·19쪽 재배치, 손익 모델 안내 간결화. 기준 HEAD의 [Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45535733406), [모바일 Safari QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45535733393), [PPT 미리보기 변환](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45535733339), [문서 텍스트 추출](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45535733279) 성공. PRD QA는 직전 `6a65fed`의 [실행](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45531078125) 성공 기록으로 구분한다.
+- 열린 생성 PR 2건: [#201](https://github.com/dohyunkimmm/mosigo-case-study/pull/201) 모바일 미리보기 7개, [#202](https://github.com/dohyunkimmm/mosigo-case-study/pull/202) PPTX/PDF/미리보기 8개. 두 브랜치 모두 ahead 1 / behind 3, 각 변경 경로의 blob은 현재 main과 모두 다르다. Site/PRD QA는 `action_required`([#201 Site](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45525259659), [#202 Site](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45525270452)). 후속 #203~205에서 원본 및 일부 동일 미리보기 경로가 변경됐으므로 구 생성물을 덮어쓰지 않는다. 최신 원본 기준 재생성 결과와 내용·렌더를 대조하기 전 병합/종료하지 않는다.
+- 점검 시 원격 브랜치 6개(main, 자동 생성 2개, 수동 검토 3개), 일반 열린 이슈 0건. `fix/pilot-review-criteria`(ahead 3/behind 53), `review/document-audit-20261117`(3/22, 비교 변경 파일 없음), `review/mosigo-opening-copy`(1/67)는 고유 이력의 검토·보존 대상으로 유지한다.
+- 완료된 일회성 `.github/workflows/archive-final-four-generated-prs.yml`은 #135·139·153·154의 원본 HEAD와 `archive/closed/20261114/pr-*/automation/*` 태그 4개가 정확히 일치함을 11월 25일 재확인했고 기존 브랜치가 없으므로 제거한다. 대응 Python 스크립트와 감사 이력 및 일반 보존 자동화는 유지한다. 이 변경 반영 시 예상 파일 **185개·디렉터리 10개**(`.github/` 25, 나머지 동일).
+- 기존 다운로드·호환 경로·본문·사업 가정·원본 PPTX/PDF/XLSX·WebP 및 QA 기준을 유지한다. 문서 정리 PR의 필수 검사와 최신 Vercel 운영 배포 SHA 일치는 별도 검증한다.
+
+상세 기준 및 이전 기록: [저장소 점검 기록](docs/REPOSITORY-STATUS-20261120.md).
+
+## 2026-11-20 후속 확인 · 배포 일치 및 생성 PR 정리 (과거 기록)
 
 - [문서 동기화 PR #193](https://github.com/dohyunkimmm/mosigo-case-study/pull/193)은 **Site QA·PRD Evidence QA 성공** 후 `main`에 [`31d9dda`](https://github.com/dohyunkimmm/mosigo-case-study/commit/31d9ddad2a9eced2b847c0a0857ce54fcea2d5ce)로 병합됐습니다. Vercel 운영 배포 `dpl_7bmqdcSgvuvDfPJqUcSSEcWH81rE`는 **READY / production / main**이며 커밋이 `31d9dda`와 정확히 일치합니다.
-- [자동 생성 PR #185](https://github.com/dohyunkimmm/mosigo-case-study/pull/185)는 후속 [#184](https://github.com/dohyunkimmm/mosigo-case-study/pull/184)·[#188](https://github.com/dohyunkimmm/mosigo-case-study/pull/188)에서 같은 PPTX·PDF·미리보기가 더 최신 버전으로 변경되고 #188 관련 QA가 성공한 점을 확인하여 **미병합 종료**했습니다. 현재 열린 PR은 **0건**입니다. 이전 생성본과 현행 바이너리의 내용·바이트 동등성은 주장하지 않습니다.
-- **보존·클렌징 완료:** [SHA 검증 Actions #44688351175](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/44688351175) 성공. 종료된 PR #185의 원본 HEAD `d9a045940bb7ce4ef8712d1c3b5add42c04f06f3`를 태그 `archive/closed/20261120/pr-185/automation/ppt-preview-44210022466-1`로 보존하고, **태그 SHA 일치 확인 후 자동 생성 브랜치 참조를 삭제**했습니다. 이 변경에서 작업을 마친 일회성 `.github/workflows/archive-pr-185-once.yml`도 제거합니다. 아래 '열린 PR 1건'은 **정리 전 당시 점검 스냅샷**입니다.
+- [자동 생성 PR #185](https://github.com/dohyunkimmm/mosigo-case-study/pull/185)는 후속 [#184](https://github.com/dohyunkimmm/mosigo-case-study/pull/184)·[#188](https://github.com/dohyunkimmm/mosigo-case-study/pull/188)에서 같은 PPTX·PDF·미리보기가 더 최신 버전으로 변경되고 #188 관련 QA가 성공한 점을 확인하여 **미병합 종료**했습니다. 당시 열린 PR은 **0건**이었습니다. 이전 생성본과 현행 바이너리의 내용·바이트 동등성은 주장하지 않습니다.
+- **보존·클렌징 완료:** [SHA 검증 Actions #44688351175](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/44688351175) 성공. 종료된 PR #185의 원본 HEAD `d9a045940bb7ce4ef8712d1c3b5add42c04f06f3`를 태그 `archive/closed/20261120/pr-185/automation/ppt-preview-44210022466-1`로 보존하고, **태그 SHA 일치 확인 후 자동 생성 브랜치 참조를 삭제**했습니다. 당시 작업을 마친 일회성 `.github/workflows/archive-pr-185-once.yml`도 제거했습니다. 아래 '열린 PR 1건'은 **정리 전 당시 점검 스냅샷**입니다.
 - 이 후속 문서 변경 자체의 배포는 별도 검증 대상으로 유지합니다.
 
-## 현재 `main` · 2026-11-20 목록·문서 동기화
+## 2026-11-20 목록·문서 동기화 (과거 스냅샷)
 
 - 최신 점검 기준 [`96ecc32d`](https://github.com/dohyunkimmm/mosigo-case-study/commit/96ecc32d87b729cffba7a2ea99ebea17c045df1e)에서 **파일 185개·디렉터리 10개**, 이번 점검 문서 1개 추가 반영 후 **186개·10개**입니다. `.github/` 26 · `assets/` 5 · `docs/` 5 · `downloads/` 93 · `qa/` 48 · 루트 9개입니다.
 - 11월 17~19일 제휴 계산기의 공급 상한·손익분기, 자료 공유/쪽 복원·42쪽 탐색, 모바일 PDF 미리보기와 Safari QA 개선이 `main`에 반영됐습니다. 기존 사업기획서 19쪽·서비스 발표 11장·IR 12장·WebP 84개 및 호환 링크는 유지합니다.
 - **열린 PR 1건:** [자동 생성 PPTX #185](https://github.com/dohyunkimmm/mosigo-case-study/pull/185)는 `main` 대비 ahead 1 / behind 8인 미검증 바이너리 변경입니다. 병합 가능·필수 QA·문서 내용 동등성 확인 전에는 병합하거나 중복으로 종료하지 않습니다. 원격 브랜치 **5개** 중 나머지 검토 브랜치도 미확인 작업을 보존합니다.
-- 최신 커밋의 [모바일 QA #44498361286](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/44498361286)는 성공했습니다. 직전 커밋의 Site QA 성공과 최신 전체 검사·Vercel 운영 배포 성공을 혼동하지 않습니다. [현재 점검 기록](docs/REPOSITORY-STATUS-20261120.md)을 우선하고 아래의 2026-11-07~14 기록은 날짜별 스냅샷으로 유지합니다.
+- 최신 커밋의 [모바일 QA #44498361286](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/44498361286)는 성공했습니다. 직전 커밋의 Site QA 성공과 최신 전체 검사·Vercel 운영 배포 성공을 혼동하지 않습니다. [저장소 점검 기록](docs/REPOSITORY-STATUS-20261120.md)의 11월 20일 기록을 참조하고 아래의 2026-11-07~14 기록은 날짜별 스냅샷으로 유지합니다.
 
 ## 2026-11-14 당시 · 생성 문서 검토 및 PR 정리 완료
 
