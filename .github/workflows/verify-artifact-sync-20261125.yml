@@ -1,0 +1,66 @@
+name: Verify latest MOSIGO artifact and prepare review branch
+on:
+  push:
+    branches: [verify/artifact-sync-20261125]
+permissions:
+  actions: read
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BASE: '9d19d1971bc44579cfd150ac5b1e3be6729a9d57'
+      TARGET: 'review/current-artifacts-20261125'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Verify provenance and download exact latest artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$BASE"
+          test -z "$(git ls-remote origin "refs/heads/$TARGET")"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/45535733339" | jq -e '.head_sha == "55866a332141dd9ce729bc9cee58b86c83aa0427" and .conclusion == "success" and .head_branch == "main"'
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/14987322064" | jq -e '.name == "mosigo-ppt-preview" and .expired == false and .workflow_run.id == 45535733339'
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/14987322064/zip" > "$RUNNER_TEMP/mosigo.zip"
+          echo "8846390c072f21620d514cb3862752a497524703927075e69aae8c265be3e684  $RUNNER_TEMP/mosigo.zip" | sha256sum -c
+          git switch --detach "$BASE"
+          git switch -c "$TARGET"
+      - name: Verify editable text and allowed artifact paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import zipfile, pathlib, io, os, re, hashlib
+          from xml.etree import ElementTree as ET
+          root=pathlib.Path('downloads')
+          def slide_text(data):
+              with zipfile.ZipFile(io.BytesIO(data)) as z:
+                  files=sorted((n for n in z.namelist() if re.fullmatch(r'ppt/slides/slide[0-9]+\.xml',n)),key=lambda n:int(re.search(r'slide([0-9]+)',n)[1]))
+                  assert len(files)==11
+                  return [[e.text or '' for e in ET.fromstring(z.read(n)).iter('{http://schemas.openxmlformats.org/drawingml/2006/main}t')] for n in files]
+          expected={'mosigo_report.pptx','mosigo_report_preview.pdf'} | {f'previews/slides-{i:02}{s}.webp' for i in range(1,12) for s in ('','-sm')}
+          with zipfile.ZipFile(pathlib.Path(os.environ['RUNNER_TEMP'])/'mosigo.zip') as z:
+              assert set(z.namelist())==expected and len(z.namelist())==24
+              assert slide_text((root/'mosigo_report.pptx').read_bytes())==slide_text(z.read('mosigo_report.pptx')), 'Editable slide text changed'
+              for n in sorted(expected):
+                  data=z.read(n); p=root/n
+                  assert p.is_file()
+                  if n.endswith('.webp'): assert data[:4]==b'RIFF' and data[8:12]==b'WEBP'
+                  if n.endswith('.pdf'): assert data.startswith(b'%PDF-') and b'%%EOF' in data[-1024:]
+                  if p.read_bytes()!=data:
+                      p.write_bytes(data)
+                      print(n, hashlib.sha1(f'blob {len(data)}\0'.encode()+data).hexdigest())
+          print('PASS exact artifact digest, 11 editable slides and unchanged text, 22 WebP and PDF')
+          PY
+          git diff --stat
+          git diff --name-only | grep -q '^downloads/'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloads/mosigo_report.pptx downloads/mosigo_report_preview.pdf downloads/previews/slides-*.webp
+          git commit -m 'assets: synchronize latest verified MOSIGO presentation and previews'
+          test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$BASE"
+          git push origin "HEAD:refs/heads/$TARGET"
