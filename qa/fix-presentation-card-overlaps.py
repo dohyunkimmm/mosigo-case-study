@@ -29,9 +29,14 @@ def repair(presentation, check: bool = False):
     assert slides[9].shapes[2].text == "운영 지표를 언제 확인할 것인가"
 
     rules = []
-    for indices in (range(11, 15), range(16, 20), range(21, 25), range(26, 30)):
-        for i in indices:
-            rules.append((4, i, Inches(2.43), None if i == indices.start else Pt(12.3)))
+    # Match the journey card text by its persistent PowerPoint shape ID.
+    for i, shape in enumerate(slides[4].shapes):
+        if shape.shape_id in (24, 29, 34, 39):
+            rules.append((4, i, Inches(2.43), Pt(19)))
+        elif shape.shape_id in (25, 26, 30, 31, 35, 37, 40, 42):
+            rules.append((4, i, Inches(2.43), Pt(13)))
+    if len(rules) != 12:
+        raise AssertionError("Expected four journey cards with two actions each")
     for i in (11, 17, 23):
         rules.append((9, i, Inches(3.35), None))
     for i in list(range(14, 17)) + list(range(20, 23)) + list(range(26, 29)):
