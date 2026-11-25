@@ -86,7 +86,7 @@ try {
     assert.match(await page.locator('#market .chapter-content').textContent(), /15,000명.*1\.5회.*40,000원.*9억 원/, width + 'px market scenario arithmetic retained');
     assert.match(await page.locator('#customer .chapter-content h3.subhead').textContent(), /고객 이용 과업/, width + 'px duplicate customer hypothesis wording removed');
     const decisionSummary = await page.locator('#decision .decision-board').textContent();
-    assert.ok(decisionSummary.includes('시범 운영 여부를 결정'), width + 'px pilot decision retained');
+    assert.ok(decisionSummary.includes('수요 기준과 제휴 조건을 모두 충족하면 제한 거래 승인. 미충족 시 보류.'), width + 'px pilot decision retained');
     assert.ok(decisionSummary.includes('손익과 공급 여력을 확인한 뒤 확대 여부 결정'), width + 'px expansion decision criteria retained');
 
     const demoLink = page.locator('a[href="https://mosigo-nine.vercel.app/"]');
