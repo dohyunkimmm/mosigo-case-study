@@ -117,6 +117,32 @@ jobs:
       - name: Remove repeated wording in editable service deck
         if: steps.current-deck.outputs.ready != 'true'
         run: /tmp/mosigo-ppt-venv/bin/python qa/apply-concise-deck-20261111.py strategy
+      - name: Preserve original PPTX when all package members are identical
+        run: |
+          set -euo pipefail
+          git show HEAD:downloads/mosigo_report.pptx > /tmp/mosigo-report-original.pptx
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          from shutil import copyfile
+
+          original = Path("/tmp/mosigo-report-original.pptx")
+          current = Path("downloads/mosigo_report.pptx")
+          with ZipFile(original) as before, ZipFile(current) as after:
+              names = before.namelist()
+              new_names = after.namelist()
+              equal = (
+                  len(names) == len(set(names))
+                  and len(new_names) == len(set(new_names))
+                  and set(names) == set(new_names)
+                  and all(before.read(name) == after.read(name) for name in names)
+              )
+          if equal:
+              copyfile(original, current)
+              print("All PPTX package members identical; preserving original PPTX bytes.")
+          else:
+              print("PPTX package content changed; retaining edited source for review.")
+          PY
       - name: Convert existing presentation for inline viewing
         run: |
           set -euo pipefail
