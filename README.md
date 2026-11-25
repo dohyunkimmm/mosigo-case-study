@@ -1,5 +1,13 @@
 # MOSIGO | 병원 동행 서비스 신사업 기획
 
+## 2026-11-25 최종 배포 검증 및 재생성 중복 방지
+
+- [#207](https://github.com/dohyunkimmm/mosigo-case-study/pull/207)은 Site·PRD·모바일·PPT 변환 QA 통과 후 [`2c4711b`](https://github.com/dohyunkimmm/mosigo-case-study/commit/2c4711bc27364dba25b361e2c03af666118eed30)로 병합됐다. 병합 후 [Site QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45545683236), [모바일 QA](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45545683353), [PPT 변환](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45545683277), [모바일 미리보기](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45545683435), [문서 텍스트 추출](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45545683219)은 성공했다.
+- Vercel 운영 [배포 기록](https://vercel.com/dohyunkimm/mosigo-case-study/jVy9bBCxkJj3LEPnggvd9rS8A5mj)은 READY / production / main이며 SHA가 `2c4711b`와 정확히 일치한다. 이 기록은 해당 시점의 배포 증거다.
+- #201·#202 원본 HEAD를 보존 태그로 검증하고 구 브랜치와 임시 검증 브랜치를 [정리 실행](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45545561555)에서 제거했다.
+- [#208](https://github.com/dohyunkimmm/mosigo-case-study/pull/208)은 아티팩트 14987322064와 14990734320의 ZIP SHA-256을 대조한 뒤 비교했다. PPTX 내부 72개 경로 및 모든 압축 해제 데이터가 동일했고 72개 ZIP 저장 시각만 달랐다. PDF와 22개 WebP도 바이트가 동일하여 미병합 종료했다. 원본 HEAD는 보존 태그 확인 전 삭제하지 않는다.
+- 재발 방지: PPTX 편집 단계 직후 원본과 새 ZIP의 중복 없는 경로 집합 및 모든 내부 바이트가 정확히 일치할 때만 원본 파일 바이트를 복구한다. 실제 XML·미디어 등 변경은 그대로 검토 대상으로 유지한다. 파일 수 185개 및 공개 경로는 유지하며 이번 변경의 QA·병합·배포는 별도 검증한다.
+
 ## 2026-11-25 후속 동기화 · 최신 생성 자료 검증
 
 - 정리 [PR #206](https://github.com/dohyunkimmm/mosigo-case-study/pull/206)은 Site QA·PRD Evidence QA 통과 후 [`9d19d19`](https://github.com/dohyunkimmm/mosigo-case-study/commit/9d19d1971bc44579cfd150ac5b1e3be6729a9d57)로 병합됐다. 재귀 트리 파일 **185개·디렉터리 10개**를 재확인했다. Vercel 운영 배포 [dpl_97GkPEDKSVBTuS83BKKA2qc2ocD5](https://vercel.com/dohyunkimm/mosigo-case-study/97GkPEDKSVBTuS83BKKA2qc2ocD5)는 READY / production / main, 연결 SHA는 정확히 `9d19d19`이다.
