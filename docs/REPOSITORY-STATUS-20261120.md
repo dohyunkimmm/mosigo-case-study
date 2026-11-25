@@ -1,5 +1,12 @@
 # MOSIGO `main` 목록·문서 정합성 점검 (2026-11-20~25)
 
+## 2026-11-25 후속 동기화 · 최신 생성 자료 검증
+
+- 정리 [PR #206](https://github.com/dohyunkimmm/mosigo-case-study/pull/206)은 Site QA·PRD Evidence QA 통과 후 [`9d19d19`](https://github.com/dohyunkimmm/mosigo-case-study/commit/9d19d1971bc44579cfd150ac5b1e3be6729a9d57)로 병합됐다. 재귀 트리 파일 **185개·디렉터리 10개**를 재확인했다. Vercel 운영 배포 [dpl_97GkPEDKSVBTuS83BKKA2qc2ocD5](https://vercel.com/dohyunkimm/mosigo-case-study/97GkPEDKSVBTuS83BKKA2qc2ocD5)는 READY / production / main, 연결 SHA는 정확히 `9d19d19`이다.
+- [최신 PPT 변환 실행](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45535733339)의 55866a3 기준 아티팩트 14987322064를 내려받아 ZIP SHA-256과 24개 허용 경로를 확인했다. [검증 실행 #45545355670](https://github.com/dohyunkimmm/mosigo-case-study/actions/runs/45545355670)에서 기존 편집용 11장 슬라이드의 모든 텍스트(표 포함)와 일치함을 확인했으며, PDF·WebP 파일 형식 검증과 변경 16개 경로의 리뷰 브랜치 게시에 성공했다.
+- 최신 모바일 생성 아티팩트 14984407652의 사업기획서 WebP 38개는 현행 main과 모두 동일 blob SHA다. 이전 #201의 7개 및 #202의 8개 변경 경로는 모두 이번 최신 산출물에 포함된다. 이전 생성본과의 바이트 동등성을 주장하지 않는다.
+- 이번 변경은 서비스기획 PPTX·PDF·WebP 14개 및 현황 문서 2개만 동기화한다. 사업기획서·IR·재무 모델 및 본문은 유지하며 신규 PR의 필수 QA, 병합, 운영 배포 SHA는 별도로 확인한다. 아래 기록은 점검 시점별 스냅샷이다.
+
 ## 최신 점검 (2026-11-25)
 
 - 점검 기준: [`main` `55866a3`](https://github.com/dohyunkimmm/mosigo-case-study/commit/55866a332141dd9ce729bc9cee58b86c83aa0427), 재귀 트리 `truncated=false`. 파일 **186개·디렉터리 10개**, 루트 파일 9개·최상위 폴더 5개. 분포: `.github/` 26, `assets/` 5, `docs/` 5, `downloads/` 93(공개 파일 9 + WebP 84), `qa/` 48, 루트 9. 동일 blob SHA 중복 및 명백한 임시 확장자 파일 없음.
